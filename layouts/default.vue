@@ -1,21 +1,32 @@
 <template>
   <div>
-    <div class="header">
-        <!-- Logo: -->
-        <img src="~/assets/logo/logo_white.png" id="header-logo">
+    <!-- Header: -->
+    <div class="header"
+        :style="{top: 0 + 'px'}">
+      <!-- Logo: -->
+      <img src="~/assets/logo/logo_white.png" id="header-logo">
 
-        <!-- Searchbar and searchbar icon: -->
-        <search id="header-search-icon"> </search>
-        <input type="text" id="header-searchbar" placeholder="Search Media">
-        
-        <!-- Log In button -->
-        <div id="login-button">
-          <person id="header-person-icon"></person>
-          <span>Log In</span>
-        </div>
-
+      <!-- Searchbar and searchbar icon: -->
+      <search id="header-search-icon"> </search>
+      <input type="text" id="header-searchbar" placeholder="Search Media">
+      
+      <!-- Log In button -->
+      <div id="login-button">
+        <person id="header-person-icon"></person>
+        <span>Log In</span>
       </div>
+
+    </div>
+
+    <!-- This is where other pages get inserted: -->
     <nuxt />
+
+    <!-- Footer: -->
+    <div id="footer">
+      <div class="footer-option">
+        
+      </div>
+    </div>
   </div>
 </template>
 
@@ -25,6 +36,8 @@
 import search from '~/components/icons/search.vue';
 import person from '~/components/icons/person.vue';
 
+// let root = document.documentElement;
+
 export default {
   components: {
     search,
@@ -32,7 +45,31 @@ export default {
   },
   data() {
     return {
-      
+      scrollPos: 0
+    }
+  },
+  
+  mounted() {
+    // Initializing our scroll monitor, to hide and show the top bar
+    this.handleScroll();
+    window.addEventListener('scroll', this.handleScroll);
+
+    this.changeTheme('pink', 'tan', 'seafoam', 'white')
+  },
+  methods: {
+    
+    // This function happens when the user scrolls. 
+    handleScroll() {
+      this.scrollPos = window.scrollY;
+    },
+
+    // Changing the theme colors:
+    changeTheme(bg, bg_light, bg_lighter, fg) {
+      console.log(this);
+      // root.style.setProperty('--bg', bg);
+      // root.style.setProperty('--bg-light', bg_light);
+      // root.style.setProperty('--bg-lighter', bg_lighter);
+
     }
   }
 }
@@ -74,11 +111,7 @@ input {
   --bg-lighter: hsl(230,19%,60%);
 
   --box-shading: 0px 0px 3px rgba(0,0,0,.7);
-}
-
-
-.container {
-
+  --bp: 800px;
 }
 
 // Header:
@@ -89,6 +122,12 @@ input {
   display: flex;
   position: fixed;
   box-shadow: var(--box-shading);
+
+  // Desktop header:
+  @media only screen and (min-width: var(--bp)){
+    height: 200px;
+  }
+
   // Logo:
   #header-logo {
     height: 30px;
@@ -141,5 +180,19 @@ input {
     }
   }
   
+}
+
+// Footer: 
+#footer {
+  background: var(--bg);
+  width: 100%;
+  height: 70px;
+  position: fixed;
+  bottom: 0px;
+  box-shadow: var(--box-shading);
+  // Desktop footer:
+  @media only screen and (min-width: var(--bp)){
+    display: none;
+  }
 }
 </style>
