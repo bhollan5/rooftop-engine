@@ -2,13 +2,19 @@
   <div>
     <!-- Header: -->
     <div class="header"
-        :style="{top: 0 + 'px'}">
+        :style="{
+          background: $store.state.bg,
+          top: searchbarPos + 'px'}">
       <!-- Logo: -->
       <img src="~/assets/logo/logo_white.png" id="header-logo">
 
       <!-- Searchbar and searchbar icon: -->
       <search id="header-search-icon"> </search>
-      <input type="text" id="header-searchbar" placeholder="Search Media">
+      <input type="text" id="header-searchbar" placeholder="Search Media"
+        :style="{
+          background: $store.state.bg_light,
+          color: $store.state.bg_lighter,
+          }">
       
       <!-- Log In button -->
       <div id="login-button">
@@ -22,7 +28,8 @@
     <nuxt />
 
     <!-- Footer: -->
-    <div id="footer">
+    <div id="footer" :style="{
+      background: $store.state.bg}">
       <div class="footer-option">
         
       </div>
@@ -45,7 +52,8 @@ export default {
   },
   data() {
     return {
-      scrollPos: 0
+      scrollPos: 0,     // Used to detect if we're scrolling up or down. 
+      searchbarPos: 0,  // Affects the searchbar's vertical position.
     }
   },
   
@@ -53,24 +61,33 @@ export default {
     // Initializing our scroll monitor, to hide and show the top bar
     this.handleScroll();
     window.addEventListener('scroll', this.handleScroll);
-
-    this.changeTheme('pink', 'tan', 'seafoam', 'white')
   },
   methods: {
     
     // This function happens when the user scrolls. 
-    handleScroll() {
-      this.scrollPos = window.scrollY;
+    handleScroll(e) {
+
+      // Keeps the bar at the top when we're at the top
+      if (window.scrollY == 0) {
+        this.searchbarPos = 0;
+
+      // This "if" detects if we're scrolling up:
+      } else if (this.scrollPos < -window.scrollY){
+        if (this.searchbarPos < 0) {
+          this.searchbarPos += 2;
+        }  
+      
+      // And this one for when we scroll down:
+      } else {
+        if (this.searchbarPos > -50) {
+          this.searchbarPos -= 2;
+        }
+      }
+
+      // This scrollPos variable lets us check if we're going up or down. 
+      this.scrollPos = -window.scrollY;
     },
 
-    // Changing the theme colors:
-    changeTheme(bg, bg_light, bg_lighter, fg) {
-      console.log(this);
-      // root.style.setProperty('--bg', bg);
-      // root.style.setProperty('--bg-light', bg_light);
-      // root.style.setProperty('--bg-lighter', bg_lighter);
-
-    }
   }
 }
 </script>
@@ -106,7 +123,6 @@ input {
 // Global vars:
 :root {
   // These CSS variables will be modified in the Store folder for dynamic theming.
-  --bg: hsl(248,19%,31%);
   --bg-light: hsl(248,19%,40%);
   --bg-lighter: hsl(230,19%,60%);
 
@@ -116,7 +132,6 @@ input {
 
 // Header:
 .header {
-  background: var(--bg);
   height: 50px;
   width: 100%;
   display: flex;
@@ -184,7 +199,6 @@ input {
 
 // Footer: 
 #footer {
-  background: var(--bg);
   width: 100%;
   height: 70px;
   position: fixed;

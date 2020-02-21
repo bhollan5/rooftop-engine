@@ -8,7 +8,8 @@
     </div>
 
     <!-- -->
-    <div id="media-suggestions">
+    <div id="media-suggestions"
+      :style="{background: $store.state.bg}">
     
     </div>
     
@@ -37,7 +38,6 @@ export default {
 }
 
 #media-suggestions {
-  background: var(--bg);
   width: 100%;
   min-height: 500px;
   box-shadow: var(--box-shading);
