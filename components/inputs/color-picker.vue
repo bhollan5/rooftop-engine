@@ -15,7 +15,13 @@
 
     <div id="color-canvas-container" @click="canvasClick($event)">
       <canvas class="color-canvas" ref="color-canvas"></canvas>
-      <div class="color-indicator canvas-indicator"></div>
+
+      <div class="color-indicator canvas-indicator"
+        :style="{
+          bottom: (hsl[2] / values[2].max) * 100 + '%',
+          left: (hsl[1] / values[1].max) * 100 + '%',
+        }"></div>
+
       <div class="y-label">Lightness</div>
       <div class="x-label">Saturation</div>
     </div>
@@ -23,13 +29,16 @@
     <div class="hsl-sliders">
 
       <div class="gradient-slider">
-        <span>h:</span> <input v-model="hsl[0]" type="number"><br>
+        <span>h:</span> <input v-model="hsl[0]" type="number"
+          :max="values[0]"><br>
       </div>
       <div class="gradient-slider">
-        <span>s:</span> <input v-model="hsl[1]" type="number"><br>
+        <span>s:</span> <input v-model="hsl[1]" type="number"
+          :max="values[1]"><br>
       </div>
       <div class="gradient-slider">
-        <span>l:</span> <input v-model="hsl[2]" type="number"><br>
+        <span>l:</span> <input v-model="hsl[2]" type="number"
+          :max="values[2]"><br>
       </div>
 
     </div>
@@ -39,6 +48,8 @@
 </template>
 
 <script>
+import Vue from 'vue';
+
 // Icons:
 import expandIcon from '@/components/icons/expand-icon.vue';
 
@@ -67,11 +78,40 @@ export default {
       type: String,
       default: 'A quick description here.'
     },
+    values: {
+      type: Array,
+      default() {
+        return [
+          {
+            name: 'hue',
+            abbr: 'h', 
+            max: 225,
+          }, {
+            name: 'satruation',
+            abbr: 's', 
+            max: 100,
+          }, {
+            name: 'lightness',
+            abbr: 'l', 
+            max: 100,
+          },
+        ]
+      }
+    }
   },
 
   methods: {
+    // Managing changing values when the user clicks on the canvas:
     canvasClick(e) {
-      console.log(e);
+      // e.offsetX gives us the space 
+      let newX = e.offsetX / 200; 
+      newX = Math.floor(newX * this.values[1].max);
+      let newY = e.offsetY / 200;
+      newY = -Math.floor(newY * this.values[2].max) + 100;
+
+      Vue.set(this.hsl, 1, newX);
+      this.hsl[1] = newX;
+      this.hsl[2] = newY;
     },
 
     updateColorPicker() {
@@ -209,8 +249,6 @@ export default {
 .canvas-indicator {
   margin-top: -5px;
   margin-left: -5px;
-  top: 0px;
-  left: 0px;
 }
 
 </style>
