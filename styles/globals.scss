@@ -1,0 +1,80 @@
+
+// This CSS effects ALL PAGES, GLOBALLY. All other CSS should be scoped. 
+// This file is imported into the project in default.vue.
+
+
+@font-face {
+  font-family: crimsonText;
+  src: url('../assets/fonts/CrimsonText-Regular.ttf');
+}
+
+// Global vars:
+:root {
+  // These color scheme vars can be changed dynamically with the theme_color() function
+  // --bg: white;
+  // --bg-text: black;
+  // --bg-text2: hsl(248,19%,40%);
+  // --bg-lighter: hsl(230,19%,60%);
+  // --fg: hsl(0,0%,96%);
+
+  --box-shading: 0px 0px 3px rgba(0,0,0,.7);
+}
+
+html {
+  font-family: crimsonText, serif;
+  font-size: 16px;
+  word-spacing: 1px;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+input {
+  font-family: crimsonText;
+}
+
+.page-content {
+  background: var(--bg);
+  color: var(--bg-text);
+  min-height: 100vh;
+  padding-top: 25px;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+h1 {
+  text-align: center;
+  color: var(--bg-text);
+  margin-top: 25px;
+}
+h2 {
+  text-align: center;
+  color: var()
+}
+p {
+  font-size: 19px;
+}
+
+#logo {
+  fill: pink;
+  stroke: pink;
+}
+
+// Small, single-attribute classes:
+.centered {
+  text-align: center;
+}
+.flex-container {
+  display: flex;
+}
+
+// Add this to a <div> to make a bigger line break.
+.big-br {
+  height: 50px;
+}
