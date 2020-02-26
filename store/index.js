@@ -11,8 +11,10 @@ export const state = () => ({
   input: 'hsl(248,19%,40%)',
   input_text: 'hsl(0,0%,96%)',
   input_text2: 'hsl(230,19%,60%)',
+  input_h: '#F4DEA7',
 
-  fg: 'hsl(0,0%,96%)',
+
+  
 })
 
 // Getters, used to return our state in specific ways
@@ -32,6 +34,7 @@ export const getters = {
       '--input': state.input,
       '--input-text': state.input_text,
       '--input-text2': state.input_text2,
+      '--input-highlight': state.input_h,
     }
   }
 }
@@ -41,8 +44,15 @@ export const getters = {
 //    this.$store.commit("mutationName", { payloadData: data })
 export const mutations = {
   setThemeColor(state, payload) {
+    state.logo = payload.logo;
+
     state.bg = payload.bg;
-    state.bg_light = payload.bg_light;
-    state.bg_lighter = payload.bg_lighter;
+    state.bg_text = payload.bg_text;
+    state.bg_text2 = payload.bg_text2;
+
+    state.input = payload.input;
+    state.input_text = payload.input_text;
+    state.input_text_2 = payload.input_text2;
+    state.input_h = payload.input_h;
   }
 }

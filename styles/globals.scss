@@ -17,7 +17,7 @@
   // --bg-lighter: hsl(230,19%,60%);
   // --fg: hsl(0,0%,96%);
 
-  --box-shading: 0px 0px 3px rgba(0,0,0,.7);
+  --box-shading: 5px;
 }
 
 html {
@@ -37,7 +37,7 @@ input {
 .page-content {
   background: var(--bg);
   color: var(--bg-text);
-  min-height: 100vh;
+  min-height: 1000vh;
   padding-top: 25px;
 }
 
@@ -72,6 +72,7 @@ p {
 }
 .flex-container {
   display: flex;
+  justify-content: space-around;
 }
 
 // Add this to a <div> to make a bigger line break.

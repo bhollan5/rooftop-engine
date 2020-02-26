@@ -125,12 +125,20 @@ export default {
     this.handleScroll();
     window.addEventListener('scroll', this.handleScroll);
 
-    // // Changing our theme colors:
-    // this.$store.commit("setThemeColor", {
-    //   bg: 'white',
-    //   bg_light: 'pink',
-    //   bg_lighter: 'seafoam'
-    // })
+    return; // Comment this line for the alternate scheme!
+    // Changing our theme colors:
+    this.$store.commit("setThemeColor", {
+      logo: '#111111',
+
+      bg: '#EAEAEA',
+      bg_text: '#111111',
+      bg_text2: '#4E4E4E',
+
+      input: '#F6F6F6',
+      input_text: '#111111',
+      input_text_2: '#939393',
+      input_h: "#C21B7A",
+    })
   },
   methods: {
     
