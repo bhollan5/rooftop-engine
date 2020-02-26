@@ -18,11 +18,14 @@
   // --fg: hsl(0,0%,96%);
 
   --box-shading: 5px;
+
+  --small-font-size: 12px;
+  --regular-font-size:  19px;
 }
 
 html {
   font-family: crimsonText, serif;
-  font-size: 16px;
+  font-size: var(--regular-font-size);
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;

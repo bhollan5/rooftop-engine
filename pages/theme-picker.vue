@@ -41,6 +41,8 @@
       <!-- Inputs section -->
       <div id="inputs" class="flex-container">
         <div class="theme-options">
+          <color-picker></color-picker>
+
         </div>
         <div class="theme-example" :style="{color: bg_text}">
 
@@ -71,8 +73,10 @@ import logo from '~/components/logo.vue';
 import searchIcon from '~/components/icons/search-icon.vue';
 
 // inputs:
-import textField from '~/components/inputs/textField.vue';
+import textField from '~/components/inputs/text-field.vue';
 import dropdown from '~/components/inputs/dropdown.vue';
+import colorPicker from '~/components/inputs/color-picker.vue';
+
 
 
 
@@ -85,7 +89,8 @@ export default {
     searchIcon,
 
     textField,
-    dropdown
+    dropdown,
+    colorPicker,
   },
 
   data() {
