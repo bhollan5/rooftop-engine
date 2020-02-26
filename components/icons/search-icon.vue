@@ -10,7 +10,4 @@
   </svg>
 </template>
 <style>
-svg {
-  display: block;
-}
 </style>
