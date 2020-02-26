@@ -62,7 +62,7 @@ input {
   
 }
 input:focus {
-  border-bottom: 3px solid var(--input-highlight);
+  border-bottom: 3px solid var(--input-h);
 }
 input::placeholder {
   color: var(--input-text2);

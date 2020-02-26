@@ -12,6 +12,7 @@ export const state = () => ({
   input_text: 'hsl(0,0%,96%)',
   input_text2: 'hsl(230,19%,60%)',
   input_h: '#F4DEA7',
+  input_h_text: 'black;'
 
 
   
@@ -34,7 +35,8 @@ export const getters = {
       '--input': state.input,
       '--input-text': state.input_text,
       '--input-text2': state.input_text2,
-      '--input-highlight': state.input_h,
+      '--input-h': state.input_h,
+      '--input-h-text': state.input_h_text
     }
   }
 }
@@ -54,5 +56,6 @@ export const mutations = {
     state.input_text = payload.input_text;
     state.input_text_2 = payload.input_text2;
     state.input_h = payload.input_h;
+    state.input_h_text = payload.input_h_text;
   }
 }
