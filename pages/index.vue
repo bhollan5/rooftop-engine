@@ -4,23 +4,24 @@
 
     <!-- The "landing promo" is the banner spread at the top of the landing page. -->
     <div id="landing-promo">
-
+      <placeholder-spread></placeholder-spread>
     </div>
 
     <!-- -->
     <div id="media-suggestions"
       :style="{background: $store.state.bg}">
-    
+
     </div>
     
   </div>
 </template>
 
 <script>
+import placeholderSpread from '@/components/landing_spreads/placeholder_spread.vue';
 
 export default {
   components: {
-
+    placeholderSpread
   },
   data() {
     return {
