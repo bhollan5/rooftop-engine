@@ -1,10 +1,8 @@
-<!-- The website's landing page. -->
 <template>
   <div class="container" scoped>
 
-    <!-- The "landing promo" is the banner spread at the top of the landing page. -->
-    <div id="landing-promo">
-      <placeholder-spread></placeholder-spread>
+    <!-- The "non-fic promo" is the banner spread at the top of the landing page. -->
+    <div id="non-fic-promo">
     </div>
 
     <!-- -->
@@ -32,7 +30,7 @@ export default {
 </script>
 
 <style lang="scss">
-#landing-promo {
+#non-fic-promo {
   width: 100%;
   height: 60vh;
   background: #4E5264;

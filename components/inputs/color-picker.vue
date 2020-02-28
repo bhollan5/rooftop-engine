@@ -13,9 +13,11 @@
   <!-- Absolutely-positioned, popup color picker -->
   <div id="color-picker-popup">
 
-    <div id="color-canvas-container" @click="canvasClick($event)">
-      <canvas class="color-canvas" ref="color-canvas"></canvas>
-
+    <!-- The big gradient canvas: -->
+    <div id="color-canvas-container">
+      <canvas class="color-canvas" ref="color-canvas"
+        @mousemove="canvasClick($event)"
+        @mousedown="canvasDrag = true" @mouseup="canvasDrag = false"></canvas>
       <div class="color-indicator canvas-indicator"
         :style="{
           bottom: (hsl[2] / values[2].max) * 100 + '%',
@@ -26,19 +28,29 @@
       <div class="x-label">Saturation</div>
     </div>
 
+    <!-- The sliders, below the canvas: -->
     <div class="hsl-sliders">
 
       <div class="gradient-slider">
-        <span>h:</span> <input v-model="hsl[0]" type="number"
-          :max="values[0]"><br>
+        <div class="gradient-input">
+          <span>h:</span> <input v-model="hsl[0]" type="number"
+            :max="values[0]"><br>
+        </div>
+        <canvas class="canvas-slider" ref="canvas-slider1"></canvas>
       </div>
       <div class="gradient-slider">
-        <span>s:</span> <input v-model="hsl[1]" type="number"
-          :max="values[1]"><br>
+        <div class="gradient-input">
+          <span>s:</span> <input v-model="hsl[1]" type="number"
+            :max="values[1]"><br>
+        </div>
+        <canvas class="canvas-slider" ref="canvas-slider2"></canvas>
       </div>
       <div class="gradient-slider">
-        <span>l:</span> <input v-model="hsl[2]" type="number"
-          :max="values[2]"><br>
+        <div class="gradient-input">
+          <span>l:</span> <input v-model="hsl[2]" type="number"
+            :max="values[2]"><br>
+        </div>
+        <canvas class="canvas-slider" ref="canvas-slider3"></canvas>
       </div>
 
     </div>
@@ -56,7 +68,9 @@ import expandIcon from '@/components/icons/expand-icon.vue';
 export default {
   data() {
     return {
-      hsl: [0,0,0]
+      hsl: [0,0,0],
+
+      canvasDrag: false, // Indicates if the mouse is down over the canvas
     }
   },
 
@@ -100,9 +114,21 @@ export default {
     }
   },
 
+  watch: {
+    hsl() {
+      this.updateColorPicker();
+    }
+  },
+
   methods: {
     // Managing changing values when the user clicks on the canvas:
     canvasClick(e) {
+
+      // Don't do this function if the mouse isn't down:
+      if (!this.canvasDrag) {
+        return;
+      }
+
       // e.offsetX gives us the space 
       let newX = e.offsetX / 200; 
       newX = Math.floor(newX * this.values[1].max);
@@ -123,7 +149,7 @@ export default {
       let width1 = canvasEl.width;
       let height1 = canvasEl.height;
 
-      var red = 'rgba(255,0,0,1)'; // red
+      var red = 'hsl(' + this.hsl[0] + ',100%,50%)'; // red
 
       // Creating a rectangle on our canvas:
       canvasContext.rect(0, 0, width1, height1);
@@ -132,13 +158,14 @@ export default {
       canvasContext.fillStyle = red;
       canvasContext.fillRect(0, 0, width1, height1);
 
-      // Painting over with white:
+      // Painting over with white, for saturation:
       var grdWhite = canvasContext.createLinearGradient(0, 0, width1, 0);
       grdWhite.addColorStop(0, 'rgba(255,255,255,1)');
       grdWhite.addColorStop(1, 'rgba(255,255,255,0)'); // Transparent
       canvasContext.fillStyle = grdWhite;
       canvasContext.fillRect(0, 0, width1, height1);
 
+      // Painting over the whole thing  from top to bottom for lightness:
       var grdBlack = canvasContext.createLinearGradient(0, 0, 0, height1);
       grdBlack.addColorStop(0, 'rgba(0,0,0,0)');
       grdBlack.addColorStop(1, 'rgba(0,0,0,1)');
@@ -153,6 +180,8 @@ export default {
 
 <style scoped lang="scss">
 
+$margin-size: 10px;
+
 // The entire component:
 .color-picker {
   position: relative;
@@ -163,7 +192,7 @@ export default {
 // Color display:
 .color-display {
   width: 100%;
-  padding: 10px;
+  padding: $margin-size;
   .color-name {
     font-size: var(--regular-font-size);
     font-weight: bold;
@@ -202,35 +231,51 @@ export default {
     color: var(--input-text2);
     text-align: center;
   }
+  .y-label {
+    right: 210px;
+    top: 175px;
+  }
   .x-label {
     width: 100px;
-    right: 70px;
-    top: 220px;
+    right: 120px;
+    top: 205px;
   }
 }
 
 // Slider section
 .hsl-sliders {
   position: absolute;
-  width: 200px;
+  width: 260px;
   position: absolute;
-  right: 20px;
+  right: $margin-size;
   top: 240px;
 
   .gradient-slider {
     display: flex;
     align-items: center;
-    span {
-      display: block;
-      width: 20px;
+    justify-content: space-between;
+
+    .gradient-input {
+      display: flex;
+      align-items: center;
+      width: 50px;
+      span {
+        display: block;
+        width: 20px;
+      }
+      input {
+        outline: none;
+        border: none;
+        width:  30px;
+        padding: none;
+        height: 16px;
+        box-shadow: 0px 0px 5px rgba(0,0,0,.5); 
+      }
     }
-    input {
-      outline: none;
-      border: none;
-      width:  30px;
-      padding: none;
-      height: 16px;
-      box-shadow: 0px 0px 5px rgba(0,0,0,.5); 
+
+    .canvas-slider {
+      width: 200px;
+      height: 10px;
     }
   }
   

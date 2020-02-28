@@ -32,6 +32,7 @@ export default {
   
   .landing-spread-section {
     width: 50%;
+    min-width: 350px;
     height: 100%;
     position: relative;
     text-align: center;
