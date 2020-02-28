@@ -35,14 +35,12 @@ export default {
     height: 100%;
     position: relative;
     text-align: center;
+    overflow: hidden;
 
     .section1 {
       display: flex;
       flex-direction: column;
       align-items: center;
-    }
-    svg {
-      width: 80%;
     }
     h1 {
       font-weight: normal;
@@ -54,11 +52,13 @@ export default {
       margin: 10px auto 0px auto;
     }
 
+    svg {
+      width: 70%;
+    }
     img {
-      width: 80%;
       position: absolute;
-      bottom: 0px;
-      right: 0px;
+      bottom: -3px;
+      right: -3px;
     }
 
   }

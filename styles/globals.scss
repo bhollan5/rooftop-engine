@@ -77,15 +77,35 @@ p {
   display: flex;
   justify-content: space-around;
 }
+
 // SVG classes
 .fill-bg {
   fill: var(--bg);
 }
-.fill-bg-text {
+svg .hover-fill-bg-text {
+  fill: var(--bg-text2);
+}
+svg:hover .hover-fill-bg-text {
   fill: var(--bg-text);
 }
-.stroke-bg-text {
+svg .hover-stroke-bg-text {
+  stroke: var(--bg-text2);
+}
+svg:hover .hover-stroke-bg-text {
   stroke: var(--bg-text);
+}
+
+svg .hover-fill-c1 {
+  fill: var(--bg-text2);
+}
+svg:hover .hover-fill-c1 {
+  fill: var(--c1);
+}
+svg .hover-stroke-c1 {
+  stroke: var(--bg-text2);
+}
+svg:hover .hover-stroke-c1 {
+  stroke: var(--c1);
 }
 
 // Add this to a <div> to make a bigger line break.

@@ -8,6 +8,13 @@ export const state = () => ({
   bg_text: 'hsl(0,0%,96%)',
   bg_text2: 'hsl(230,19%,60%)',
 
+  c1: 'hsl(43,78%,81%)',
+  c1_light: '',
+  c2: 'hsl(43,78%,81%)',
+  c2_light: '',
+  c3: 'hsl(43,78%,81%)',
+  c3_light: '',
+
   input: 'hsl(248,19%,40%)',
   input_text: 'hsl(0,0%,96%)',
   input_text2: 'hsl(230,19%,60%)',
@@ -32,6 +39,13 @@ export const getters = {
       '--bg-text': state.bg_text,
       '--bg-text2': state.bg_text2,
 
+      '--c1': state.c1,
+      '--c1_light': state.c1_light,
+      '--c2': state.c2,
+      '--c2_light': state.c2_light,
+      '--c3': state.c3,
+      '--c3_light': state.c3_light,
+
       '--input': state.input,
       '--input-text': state.input_text,
       '--input-text2': state.input_text2,
@@ -51,6 +65,13 @@ export const mutations = {
     state.bg = payload.bg;
     state.bg_text = payload.bg_text;
     state.bg_text2 = payload.bg_text2;
+
+    state.c1 = payload.c1
+    state.c1_light = payload.c1_light
+    state.c2 = payload.c2
+    state.c2_light = payload.c2_light
+    state.c3 = payload.c3
+    state.c3_light = payload.c3_light
 
     state.input = payload.input;
     state.input_text = payload.input_text;

@@ -26,15 +26,20 @@
 
         <!-- This appears on desktop only: -->
         <div id="header-desktop-menu">
+          
           <media-decor></media-decor>
           <nonfic-decor></nonfic-decor>
           <services-decor></services-decor>
           <merch-decor></merch-decor>
-          <about-us-decor></about-us-decor>
+          <!--<about-us-decor></about-us-decor>-->
         </div>
 
-      </div>
+      </div> <!-- End of right-hand-side-container-->
 
+    </div><!-- end of header -->
+
+    <div id="user options">
+    
     </div>
 
 
@@ -242,6 +247,8 @@ $tablet-bp: 400px;
   
   // Header login button:
   #login-button {
+    font-size: 16px;
+    cursor: pointer;
     background: var(--input);
     height: 30px;
     min-width: 60px;
@@ -259,6 +266,14 @@ $tablet-bp: 400px;
       margin-left: 5px;
     }
   }
+  #login-button:hover {
+    span {
+      color: var(--input-text);
+    }
+    #header-icon {
+      fill: var(--input-text);
+    }
+  }
 
   // Hiding the desktop menu on mobile
   #header-desktop-menu {
@@ -268,25 +283,27 @@ $tablet-bp: 400px;
   // Desktop header – larger, and with nav options
   @media only screen and (min-width: $desktop-bp){
     position: relative;
-    height: 200px;
-    padding: 50px;
+    height: 150px;
+    padding: 25px 50px;
 
     // Changing the header to be larger on desktop
     #header-logo {
       height: 100px;
+      margin: 0px;
     }
 
     // Styling for the desktop nav options
     #header-desktop-menu {
       display: flex;
-      margin-top: 30px;
+      margin-top: 10px;
       min-width: 500px;
       // Styling for individual nav options
       svg {
         height: 50px;
-        width: 100px;
+        width: 120px;
         top: -6px;
         left: 0px;
+        cursor: pointer;
       }
       
     }
