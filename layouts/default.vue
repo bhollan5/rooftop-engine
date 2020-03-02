@@ -3,10 +3,12 @@
   <div :style="theme_style">
 
     <!-- Header: -->
-    <div class="header">
+    <div id="header">
 
       <!-- Logo: -->
-      <img src="~/assets/logo/logo_white.png" id="header-logo">
+      <router-link to="/">
+        <img src="~/assets/logo/logo_white.png" id="header-logo">
+      </router-link>
 
       <!-- We use this container to separate the logo from the content. -->
       <div id="header-right-side-container">
@@ -28,7 +30,9 @@
         <div id="header-desktop-menu">
           
           <media-decor></media-decor>
-          <nonfic-decor></nonfic-decor>
+          <router-link tag="div" to="/non-fic">
+            <nonfic-decor></nonfic-decor>
+          </router-link>
           <services-decor></services-decor>
           <merch-decor></merch-decor>
           <!--<about-us-decor></about-us-decor>-->
@@ -49,10 +53,10 @@
 
     <!-- Footer: -->
     <div id="footer">
-      <div class="footer-option">
+      <router-link tag="div" to="/non-fic" class="footer-option">
         <nonfic-icon class="footer-menu-icon"></nonfic-icon>
         <p>non-fic</p>
-      </div>
+      </router-link>
       <div class="footer-option">
         <media-icon class="footer-menu-icon"></media-icon>
         <p>media</p>
@@ -186,7 +190,7 @@ $desktop-bp: 800px;
 $tablet-bp: 400px;
 
 // Header:
-.header {
+#header {
   background: var(--bg);
   height: 50px;
   width: 100%;

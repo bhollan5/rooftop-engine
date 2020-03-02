@@ -18,6 +18,7 @@
 import placeholderSpread from '@/components/landing_spreads/placeholder_spread.vue';
 
 export default {
+  name: 'non-fic',
   components: {
     placeholderSpread
   },

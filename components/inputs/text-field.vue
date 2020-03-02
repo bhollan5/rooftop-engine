@@ -3,8 +3,14 @@
   <slot></slot>
   <input :value="value" @input="$emit('input', $event.target.value)"
     :placeholder="placeholder"
-    :class="{ 'icon-padding': icon }"
-    >
+    :class="{ 'icon-padding': icon,
+              'underline': underline }"
+    v-if="!textarea">
+    
+  <textarea v-else :value="value" @input="$emit('input', $event.target.value)"
+    :placeholder="placeholder"
+    :class="{ 'icon-padding': icon,
+              'underline': underline }"></textarea>
 </div>
 </template>
 
@@ -21,16 +27,25 @@ export default {
   props: {
     // The value incoming from the v-model variable.
     value: {
-      type: String
+      type: String,
+      default: '',
     },
     placeholder: {
       type: String
     },
+    textarea: {
+      type: Boolean,
+      default: false
+    },
     
-    // Make sure to set this to "false" if your input doesn't use an icon!
+    // Make sure to set this to "true" if your input uses an icon!
     icon: {
       type: Boolean,
-      default: true
+      default: false
+    },
+    underline: {
+      type: Boolean,
+      default: false
     }
   }
 }
@@ -44,33 +59,38 @@ export default {
   position: relative;
   width: 100%;
   box-shadow: 0px 0px var(--box-shading) rgba(0,0,0,.7);
-  margin: 10px auto;
+  margin: 10px 0px;
 }
 
-input {
+input, textarea {
   font-size: 16px;
   padding: 5px;
   width: 100%;
-  min-width: 200px;
+  // min-width: 200px;
   outline: none;
   background: var(--input);
   color: var(--input-text);
   border: none;
-  border-bottom: 3px solid var(--input-text2);
   transition-duration: .5s;
-
-  
 }
-input:focus {
-  border-bottom: 3px solid var(--input-h);
-}
-input::placeholder {
+input::placeholder, textarea::placeholder {
   color: var(--input-text2);
+}
+textarea {
+  resize: vertical;
+  vertical-align: top;
 }
 
 // This goes away if :icon="false"
 .icon-padding {
   padding-left: 30px;
+}
+// This  goes away if :underline="false"
+.underline {
+  border-bottom: 3px solid var(--input-text2);
+}
+.underline:focus {
+  border-bottom: 3px solid var(--input-h);
 }
 
 // Icon styling:
