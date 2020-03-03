@@ -62,6 +62,11 @@ h2 {
   text-align: center;
   color: var()
 }
+// Used in edit.vue
+h5 {
+  font-weight: normal;
+  font-size: 15px;
+}
 p {
   font-size: 19px;
 }
@@ -78,6 +83,12 @@ p {
 .flex-container {
   display: flex;
   justify-content: space-around;
+}
+.bold, .b {
+  font-weight: bold;
+}
+.small-font {
+  font-size: var(--small-font-size);
 }
 
 // SVG classes

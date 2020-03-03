@@ -10,7 +10,7 @@ export const state = () => ({
 
   bg2: '#2B2736',
   bg2_text: '#F6F6F6',
-  bg2_text: '#A3A2A6',
+  bg2_text2: '#A3A2A6',
 
   c1: 'hsl(43,78%,81%)',
   c1_light: '',

@@ -53,7 +53,7 @@
             <my-custom-component :value="myProperty" @input="val => myProperty = val" />
           -->
 
-          <text-field v-model="foo" :placeholder="'Text Field'" class="sample-input">
+          <text-field v-model="foo" :placeholder="'Text Field'" class="sample-input" icon>
             <search-icon></search-icon>
           </text-field>
           <dropdown :options="sampleOptions"></dropdown>

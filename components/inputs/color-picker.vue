@@ -328,7 +328,7 @@ $margin-size: 10px;
 #color-picker-popup {
   position: absolute;
   width: 400px;
-  height: 400px;
+  height: 325px;
   background: var(--input);
   color: var(--input-text);
 
