@@ -71,6 +71,20 @@ p {
   font-size: 19px;
 }
 
+button {
+  font-family: crimsonText, serif;
+  background: var(--input);
+  color: var(--input-text2);
+  border: 1px solid var(--input-text2);
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: var(--regular-font-size);
+  &:hover {
+    color: var(--input-text);
+    border: 1px solid var(--input-text);
+  }
+}
+
 #logo {
   fill: pink;
   stroke: pink;

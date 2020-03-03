@@ -2,7 +2,15 @@
   <div class="page-content flex-container">
 
     <div id="side-bar">
-
+      <h3 v-if="articleData[0].content">
+        {{articleData[0].content}}
+      </h3>
+      <h3 v-else class="bg2-text2">
+        Article Title
+      </h3>
+      <br>
+      <h4>Tab:</h4>
+      <hr>
     </div>
 
     <!-- The content container, which holds the entire editor -->
@@ -12,7 +20,9 @@
       <div class="input-container" v-for="(data, i) in articleData"
         :class="{'expanded-container': editElement == i}">
 
+          <!-- No gear icon for article headers or subheaders. -->
         <div class="gear-icon" @click="editSelect(i)"
+          v-if="data.type != 'header' && data.type != 'subheader'"
           :class="{'gear-icon-selected': editElement == i}">
           <gear-icon></gear-icon>
         </div>
@@ -20,14 +30,14 @@
         <!-- Popup shown when the gear button is clicked: -->
         <div class="edit-element-interface" v-if="editElement == i">
 
+          <!-- Input type selector: -->
           <div class="element-type-selector">
             <h5>Section type:</h5>
-
             <!-- v-for list of the section type options: -->
             <div class="element-type-option" v-for="sectionType in sectionTypes"
               :class="{'selected-element-type': 
                 articleData[editElement].type == sectionType.type}"
-              @click="articleData[editElement].type = sectionType.type">
+              @click="selectElementType(sectionType.type)">
               <div class="element-type-icon"
               :class="{bold: sectionType.bold}">
                 {{sectionType.icon}}
@@ -41,32 +51,45 @@
           </div>
         </div>
 
+        <!-- Various input types: -->
+
+        <!-- Article header: -->
         <text-field id="article-header" v-if="data.type == 'header'"
+          v-model="data.content"
           placeholder="Article Title"></text-field>
 
+        <!-- Article subheader: -->
         <text-field id="article-subheader" v-else-if="data.type == 'subheader'"
-          placeholder="Article Subheader"></text-field>
+          placeholder="Article Subheader (optional)"></text-field>
 
+        <!-- Tabs: -->
         <div id="tabs" v-else-if="data.type == 'tabs'">
           <div class="tab">Main Paper</div>
           <div class="tab">Definitions</div>
           <div class="tab add-tab">+ Add Tab</div>
         </div>
 
-
+        <!-- Section titles: -->
         <text-field class="section-title" v-else-if="data.type =='section-title'"
-          placeholder="1. Section Header">
+          placeholder="1. Section Title">
         </text-field>
 
+        <!-- Subsection title, with bullet:  -->
         <div class="subsection-title-container" v-else-if="data.type =='subsection-title'">
           <text-field class="subsection-number" placeholder="1.1"></text-field>
           <text-field class="subsection-title" placeholder="Subsection Header"></text-field>
         </div>
         
+        <!-- Paragraphs: -->
         <div class="paragraph-section" v-else-if="data.type == 'paragraph'">
           <text-field placeholder="Regular paragraphs go here!" textarea></text-field>
         </div>
+
       </div>
+
+      <!-- Add section button: -->
+      <button id="add-section-button"
+        @click="addSection()">+ Add section</button>
 
     </div>
     
@@ -88,7 +111,7 @@ export default {
       articleData: [
         {
           type: 'header',
-          content: '',
+          content: 'hey',
         },
         {
           type: 'subheader',
@@ -116,20 +139,6 @@ export default {
       // This is mostly just to save html space w/ a v-for
       sectionTypes: [
         {
-          type: 'header',
-          icon: 'H',
-          bold: true,
-          title: 'Header',
-          description: 'The title of the article.'
-        },
-        {
-          type: 'subheader',
-          icon: 'SH',
-          bold: false,
-          title: 'Subheader',
-          description: 'A blurb about the article.'
-        },
-        {
           type: 'section-title',
           icon: '1.',
           bold: true,
@@ -154,26 +163,52 @@ export default {
     }
   },
   methods: {
+    // Clicking on the gear icon:
     editSelect(i) {
       if (this.editElement == i) {
         this.editElement = -1;
       } else {
         this.editElement = i;
       }
+    },
+
+    // Selecting an element type (Changes that element's type, then closes the editor).
+    selectElementType(type) {
+      this.articleData[this.editElement].type = type;
+      this.editElement = -1;
+    },
+    addSection() {
+      this.articleData.push({
+        type: 'paragraph',
+        content: ''
+      });
+      this.editElement = this.articleData.length - 1;
     }
   }
 }
 </script>
 
 <style lang="scss">
+
+// The side bar with the table of contents:
 #side-bar {
-  width: 20%;
+  width: 25%;
+  background: var(--bg2);
+  height: 400px;
+  padding: 15px;
+  .bg2-text2 {
+    color: var(--bg2-text2);
+  }
 }
+
+// Content contains all the inputs:
 #content {
   width: 100%;
   max-width: 600px;
+  align-content:flex-start;
 }
 
+// v-for generated
 .input-container {
   position: relative;
   transition-duration: .5s;
@@ -238,22 +273,27 @@ export default {
   }
 }
 
-.section-title input {
-  font-weight: bold;
-  text-align: center;
-  font-size: var(--h2-font-size);
+
+.section-title {
+  margin-top: 20px;
+  input {
+    font-weight: bold;
+    text-align: center;
+    font-size: var(--h2-font-size);
+  }
 }
 
-
+// TODO: The subsection should be closer to the paragraphs.
 .subsection-title-container {
   display: flex;
   width: 100%;
-  padding: 0px;
   justify-content: space-between;
   .subsection-number {
     width: 50px;
+    margin: 0px;
   }
   .subsection-title {
+    margin: 0px;
     width: calc(100% - 70px);
   }
   input {
@@ -270,7 +310,7 @@ export default {
   width: 250px;
   overflow-y: scroll;
   height: 100%;
-  border-right: solid 1px var(--bg2-text);
+  border-right: solid 1px var(--bg2-text2);
   min-height: 100px;
   h5 {
     padding: 5px;
@@ -320,5 +360,12 @@ export default {
       border: 1px solid var(--input-text);
     }
   }
+}
+
+// Add section button:
+#add-section-button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
 }
 </style>
