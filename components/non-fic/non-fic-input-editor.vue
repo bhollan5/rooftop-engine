@@ -45,20 +45,26 @@
 
         <!-- Article subheader: -->
         <text-field id="article-subheader" v-else-if="dataEl.type == 'subheader'"
+          v-model="dataEl.content"
           placeholder="Article Subheader (optional)"></text-field>
 
         <!-- Tabs: -->
         <div class="tab-container" v-else-if="dataEl.type == 'tabs'">
           <div class="tabs" >
-            <div class="tab">Main Paper</div>
-            <div class="tab">Definitions</div>
+            <div class="tab" v-for="(tab, tabindex) in dataEl.tabs" 
+              :class="{ 'bold': dataEl.selectedTab == tabindex}"
+              @click="dataEl.selectedTab = tabindex">
+              {{tab.name}}
+            </div>
             <div class="tab add-tab">+ Add Tab</div>
           </div>
-          <non-fic-input-editor :data="dataEl.tabs[0].content"></non-fic-input-editor>
+          <non-fic-input-editor :data="dataEl.tabs[dataEl.selectedTab].content">
+          </non-fic-input-editor>
         </div>
 
         <!-- Section titles: -->
         <text-field class="section-title" v-else-if="dataEl.type =='section-title'"
+          v-model="dataEl.content"
           placeholder="1. Section Title">
         </text-field>
 
@@ -70,7 +76,8 @@
         
         <!-- Paragraphs: -->
         <div class="paragraph-section" v-else-if="dataEl.type == 'paragraph'">
-          <text-field placeholder="Regular paragraphs go here!" textarea></text-field>
+          <text-field placeholder="Regular paragraphs go here!" textarea
+            v-model="dataEl.content"></text-field>
         </div>
 
       </div>
@@ -84,6 +91,7 @@
 <script>
 import textField from '@/components/inputs/text-field.vue';
 import gearIcon from '@/components/icons/gear-icon.vue';
+import trashIcon from '@/components/icons/trash-icon.vue';
 
 import nonFicInputEditor from '@/components/non-fic/non-fic-input-editor.vue';
 
@@ -92,6 +100,7 @@ export default {
   components: {
     textField,
     gearIcon,
+    trashIcon,
     nonFicInputEditor
   },
 
@@ -243,6 +252,11 @@ export default {
     text-align: center;
     padding: 5px;
     cursor: pointer;
+    margin-top: -2px;
+    transform: translatey(2px); // This offset lets the border-bottoms line up
+    &.bold {
+      border-bottom: solid 2px var(--bg-text);
+    }
   }
   .add-tab {
     color: var(--bg-text2);

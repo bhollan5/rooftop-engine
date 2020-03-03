@@ -24,6 +24,12 @@ export default {
   */
   css: [
   ],
+
+  /* 
+  ** Express middleware:
+  */
+  serverMiddleware: ['~/api/index.js'],
+
   /*
   ** Plugins to load before mounting the App
   */

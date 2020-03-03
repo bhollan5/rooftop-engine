@@ -15,8 +15,13 @@
 
     <!-- The content container, which holds the entire editor -->
     <div id="content">
-      <non-fic-input-editor :data="articleData"></non-fic-input-editor>
+      <div id="content-options">
+        <button @click="editMode = false" v-if="editMode">Preview</button>
+        <button @click="editMode = true" v-else>Edit</button>
 
+      </div>
+      <non-fic-input-editor :data="articleData" v-if="editMode"></non-fic-input-editor>
+      <non-fic-display :data="articleData" v-else></non-fic-display>
     </div>
     
   </div>
@@ -27,15 +32,19 @@ import textField from '@/components/inputs/text-field.vue';
 import gearIcon from '@/components/icons/gear-icon.vue';
 
 import nonFicInputEditor from '@/components/non-fic/non-fic-input-editor.vue';
+import nonFicDisplay from '@/components/non-fic/non-fic-display.vue';
+
 
 export default {
   components: {
     textField,
     gearIcon,
-    nonFicInputEditor
+    nonFicInputEditor,
+    nonFicDisplay
   },
   data() {
     return {
+      editMode: false,
       editElement: -1, // This indicates the index of the element being edited
       articleData: [
         {
@@ -48,14 +57,32 @@ export default {
         },
         {
           type: 'tabs',
+          selectedTab: 0,
           tabs: [
             {
               name: 'Main Paper',
-              selectedTab: 0,
               content: [
                 {
                   type: 'section-title',
                   content: '',
+                },
+                {
+                  type: 'subsection-title',
+                  index: '1.1',
+                  content: ''
+                },
+                {
+                  type: 'paragraph',
+                  content: ''
+                },
+              ]
+            },
+            {
+              name: 'Definitions',
+              content: [
+                {
+                  type: 'paragraph',
+                  content: 'def',
                 },
                 {
                   type: 'subsection-title',
@@ -134,6 +161,14 @@ export default {
   padding: 15px;
   .bg2-text2 {
     color: var(--bg2-text2);
+  }
+}
+
+#content-options {
+  text-align: right;
+  button {
+    font-size: var(--small-font-size);
+    padding: 2px 15px;
   }
 }
 
