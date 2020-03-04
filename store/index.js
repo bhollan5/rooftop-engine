@@ -1,5 +1,10 @@
 // Info about this layout: https://nuxtjs.org/guide/vuex-store/
 
+// For database calls:
+import axios from 'axios';
+// For the Vue.set function:
+import Vue from 'vue';
+
 // Setting up our state variables:
 export const state = () => ({
   logo: 'pink',
@@ -23,14 +28,19 @@ export const state = () => ({
   input_text: 'hsl(0,0%,96%)',
   input_text2: 'hsl(230,19%,60%)',
   input_h: '#F4DEA7',
-  input_h_text: 'black;'
+  input_h_text: 'black;',
 
-
+  // Article data:
+  articles: [],
   
 })
 
 // Getters, used to return our state in specific ways
 export const getters = {
+
+  articles(state) {
+    return state.articles;
+  },
 
   // We pass this object into :style="" tags to activate dynamic theming!
   // I found it here:
@@ -64,10 +74,33 @@ export const getters = {
   }
 }
 
+// Actions call mutations. (Do async stuff here.)
+// Call actions in vue like this:
+//  this.$store.dispatch('actionName', {playloadData: data });
+export const actions = {
+  // Getting all articles:
+  getArticles({commit}) {
+    axios.get("/api/articles")
+      .then((response) => {
+        console.log("> Loaded in articles.");
+        commit('setArticles', response.data);
+      }, (error) => {
+        console.warn(error);
+      });
+  },
+}
+
 // Mutations, which change our data. 
 // Calling mutations from Vue is weird, you need to do this:
 //    this.$store.commit("mutationName", { payloadData: data })
 export const mutations = {
+  
+  // Setting article array:
+  setArticles(state, payload) {
+    console.log("> Setting articles to:", payload);
+    state.articles = payload;
+  },
+
   setThemeColor(state, payload) {
     state.logo = payload.logo;
 
@@ -91,5 +124,7 @@ export const mutations = {
     state.input_text_2 = payload.input_text2;
     state.input_h = payload.input_h;
     state.input_h_text = payload.input_h_text;
-  }
+  },
+
+
 }

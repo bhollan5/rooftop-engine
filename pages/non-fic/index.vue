@@ -2,13 +2,13 @@
   <div class="container" scoped>
 
     <!-- The "non-fic promo" is the banner spread at the top of the landing page. -->
-    <div id="non-fic-promo">
+    <div id="non-fic-promo" @click="getArticles()">
     </div>
 
     <!-- -->
-    <div id="media-suggestions"
+    <div id="media-suggestions" 
       :style="{background: $store.state.bg}">
-
+      Articles: {{articles}}
     </div>
     
   </div>
@@ -16,6 +16,9 @@
 
 <script>
 import placeholderSpread from '@/components/landing_spreads/placeholder_spread.vue';
+
+// For api call:
+import axios from 'axios';
 
 export default {
   name: 'non-fic',
@@ -25,6 +28,22 @@ export default {
   data() {
     return {
       
+    }
+  },
+
+  computed: {
+    articles() { 
+      return this.$store.getters.articles;
+    }
+  },
+
+  mounted() {
+    
+  },
+
+  methods: {
+    getArticles() {
+      this.$store.dispatch("getArticles")
     }
   }
 }
@@ -41,5 +60,6 @@ export default {
   width: 100%;
   min-height: 500px;
   box-shadow: var(--box-shading);
+  color: var(--bg-text);
 }
 </style>

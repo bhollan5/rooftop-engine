@@ -19,6 +19,8 @@
         <button @click="editMode = false" v-if="editMode">Preview</button>
         <button @click="editMode = true" v-else>Edit</button>
 
+        <button @click="saveChanges()">Save</button>
+
       </div>
       <non-fic-input-editor :data="articleData" v-if="editMode"></non-fic-input-editor>
       <non-fic-display :data="articleData" v-else></non-fic-display>
@@ -34,6 +36,9 @@ import gearIcon from '@/components/icons/gear-icon.vue';
 import nonFicInputEditor from '@/components/non-fic/non-fic-input-editor.vue';
 import nonFicDisplay from '@/components/non-fic/non-fic-display.vue';
 
+// For our db calls
+import axios from 'axios';
+
 
 export default {
   components: {
@@ -44,16 +49,16 @@ export default {
   },
   data() {
     return {
-      editMode: false,
+      editMode: true,
       editElement: -1, // This indicates the index of the element being edited
       articleData: [
         {
           type: 'header',
-          content: 'hey',
+          content: 'My Article Title',
         },
         {
           type: 'subheader',
-          content: '',
+          content: 'This is a subheader, too!',
         },
         {
           type: 'tabs',
@@ -126,26 +131,19 @@ export default {
     }
   },
   methods: {
-    // Clicking on the gear icon:
-    editSelect(i) {
-      if (this.editElement == i) {
-        this.editElement = -1;
-      } else {
-        this.editElement = i;
-      }
-    },
 
-    // Selecting an element type (Changes that element's type, then closes the editor).
-    selectElementType(type) {
-      this.articleData[this.editElement].type = type;
-      this.editElement = -1;
-    },
-    addSection() {
-      this.articleData.push({
-        type: 'paragraph',
-        content: ''
-      });
-      this.editElement = this.articleData.length - 1;
+    // 
+    saveChanges() {
+      axios.post("/api/new-article", {
+          articleData: this.articleData
+        })
+        .then((response) => {
+          console.log("Successfully submitted!");
+          console.log("response:")
+          console.log(response);
+        }, (error) => {
+          console.warn(error);
+        });
     }
   }
 }
