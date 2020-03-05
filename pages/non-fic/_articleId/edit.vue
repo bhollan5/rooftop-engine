@@ -155,7 +155,7 @@ export default {
 
     loadDoc() {
       // Getting the article from the store, setting the current article to that article's data. 
-      this.$store.dispatch("articles/getArticles").then(() => {
+      this.$store.dispatch("articles/readArticles").then(() => {
 
         // This gets an array containing a single object: the result based on that idea.
         let articleList = this.$store.getters['articles/articleById'](this.articleId);
@@ -173,31 +173,19 @@ export default {
 
       // Note that we don't need to use 'var vm = this' or anything for Axios callbacks. 
 
+      // TODO: this should probably take place in the store, in case we want to use it somewhere else
       // If it's a new article, we need to make a new doc. 
       if (this.articleId == 'new'){
 
-        axios.post("/api/create-article", {
+        this.$store.dispatch('articles/createArticle', {
           articleTitle: this.articleData[0].content,
           articleData: this.articleData
         })
-        .then((response) => {
-          console.log("Successfully submitted!");
-          console.log("response:")
-          console.log(response);
 
-          this.articleId = response.data.insertedId
-
-          // Moving the user to the correct page.
-          this.$router.push({
-            path: '/non-fic/' + this.articleId + '/edit'
-          })
-        }, (error) => {
-          console.warn(error);
-        });
-
-      // Handling when the ID isn't "new".
+      // Handling when the ID isn't the string "new".
       } else {
-
+        
+        
       }
     }
   }

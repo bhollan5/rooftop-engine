@@ -56,7 +56,7 @@ export default {
   methods: {
     // Deploy this to refresh the articles. 
     getArticles() {
-      this.$store.dispatch("articles/getArticles")
+      this.$store.dispatch("articles/readArticles")
     },
 
   }

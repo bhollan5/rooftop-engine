@@ -51,25 +51,50 @@ export const getters = {
 // Call actions in vue like this:
 //  this.$store.dispatch('actionName', {playloadData: data });
 export const actions = {
+
+  // Creating a new article:
+  createArticle({commit}, payload) {
+
+    axios.post("/api/create-article", {
+      articleTitle: payload.articleTitle,
+      articleData: payload.articleData
+    })
+    .then((response) => {
+      console.log("Successfully submitted!");
+      console.log("response:")
+      console.log(response);
+
+      this.articleId = response.data.insertedId
+
+      // Moving the user to the correct page.
+      this.$router.push({
+        path: '/non-fic/' + this.articleId + '/edit'
+      })
+    }, (error) => {
+      console.warn(error);
+    });
+
+  },
+
   // Getting all articles:
-  getArticles({commit}) {
+  readArticles({commit}) {
     return axios.get("/api/articles")
       .then((response) => {
-        console.log("> Loaded in articles.");
+        console.log("> Loaded in " + response.data.length + " articles.");
         commit('setArticles', response.data);
       }, (error) => {
         console.warn(error);
       });
   },
 
-  // Getting a single article, by ID
-  getArticle({commit}, payload) {
+  // Getting a set of articles, by query.
+  readArticle({commit}, payload) {
 
     // Getting the article from the database.
     // (Even if we've already loaded the doc, we should refresh it anyway.)
     axios.get("/api/read-article", payload.query)
       .then((response) => {
-        console.log("> Loaded in articles.");
+        console.log("> Loaded in " + response.data.length + " articles based on this query:" + payload.query);
         commit('setArticles', response.data);
       }, (error) => {
         console.warn(error);

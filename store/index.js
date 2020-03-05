@@ -1,8 +1,5 @@
 // Info about this layout: https://nuxtjs.org/guide/vuex-store/
 
-// For database calls:
-import axios from 'axios';
-
 
 // Setting up our state variables:
 export const state = () => ({
