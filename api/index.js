@@ -27,27 +27,35 @@ MongoClient.connect('mongodb://user:password1@ds021650.mlab.com:21650/rooftop-db
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
 
-  app.post('/new-article', (req, res) => {
-
-    // res.send(req.body);
-
+  // Posting a new article:
+  app.post('/create-article', (req, res) => {
     db.collection('articles').insertOne(req.body, (err, result) => {
       if (err) {
-        console.log(err);
         return err;
       }
-  
       console.log('saved to database')
-      res.redirect('/')
+      res.send(result)
     })
   })
 
   // Getting all articles
   app.get('/articles', (req, res) => {
 
-    // res.send(req.body);
-
     db.collection('articles').find({}).toArray( (err, result) => {
+      if (err) {
+        console.log(err);
+        return err;
+      }
+      res.send(result);
+    })
+  })
+
+  // Getting an article. Takes an object with query information
+  app.get('/read-article', (req, res) => {
+
+    // res.send(req.body);
+    console.log(req.data)
+    db.collection('articles').find(req.data).toArray( (err, result) => {
       if (err) {
         console.log(err);
         return err;

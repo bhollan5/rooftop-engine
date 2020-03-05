@@ -8,6 +8,12 @@
       <h3 v-else class="bg2-text2">
         Article Title
       </h3>
+
+      <div class="id-container">
+        <h4 id="id-label" class="bg2-text2">Article ID:</h4>
+        <text-field v-model="articleId"></text-field>
+      </div>
+
       <br>
       <h4>Tab:</h4>
       <hr>
@@ -41,16 +47,23 @@ import axios from 'axios';
 
 
 export default {
+  name: 'article-editor',
+
   components: {
     textField,
     gearIcon,
     nonFicInputEditor,
     nonFicDisplay
   },
+
   data() {
     return {
       editMode: true,
       editElement: -1, // This indicates the index of the element being edited
+
+      // The ID of the article we're on -- initially, the URL id.
+      articleId: this.$route.params.articleId,
+
       articleData: [
         {
           type: 'header',
@@ -130,20 +143,62 @@ export default {
       ]
     }
   },
+
+  mounted() {
+    // When the page loads, get the articles, then load them in. 
+    if (this.articleId != 'new') {
+      this.loadDoc();
+    }
+  },
+
   methods: {
 
-    // 
+    loadDoc() {
+      // Getting the article from the store, setting the current article to that article's data. 
+      this.$store.dispatch("articles/getArticles").then(() => {
+
+        // This gets an array containing a single object: the result based on that idea.
+        let articleList = this.$store.getters['articles/articleById'](this.articleId);
+        // We need to do the json.parse thing to copy the article (since getters are immutable).
+        let articleObj = JSON.parse(JSON.stringify(articleList[0])); 
+        // The articleData object is local, and only updates the database when you save. 
+        this.articleData = articleObj.articleData;
+
+      })
+
+    },
+
+    // Saving the doc
     saveChanges() {
-      axios.post("/api/new-article", {
+
+      // Note that we don't need to use 'var vm = this' or anything for Axios callbacks. 
+
+      // If it's a new article, we need to make a new doc. 
+      if (this.articleId == 'new'){
+
+        axios.post("/api/create-article", {
+          articleTitle: this.articleData[0].content,
           articleData: this.articleData
         })
         .then((response) => {
           console.log("Successfully submitted!");
           console.log("response:")
           console.log(response);
+
+          this.articleId = response.data.insertedId
+
+          // Moving the user to the correct page.
+          this.$router.push({
+            path: '/non-fic/' + this.articleId + '/edit'
+          })
         }, (error) => {
           console.warn(error);
         });
+
+      // Handling when the ID isn't "new".
+      } else {
+
+      }
     }
   }
 }
@@ -174,5 +229,18 @@ export default {
   width: 100%;
   max-width: 600px;
   align-content:flex-start;
+}
+
+.id-container {
+  display: flex;
+  align-items: center;
+  h4 {
+    font-size: var(--small-font-size);
+    width: 70px;
+  }
+  .text-field, .text-field input {
+    font-size: var(--small-font-size);
+    padding: 2px;
+  }
 }
 </style>

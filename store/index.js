@@ -2,8 +2,7 @@
 
 // For database calls:
 import axios from 'axios';
-// For the Vue.set function:
-import Vue from 'vue';
+
 
 // Setting up our state variables:
 export const state = () => ({
@@ -12,6 +11,8 @@ export const state = () => ({
   bg: 'hsl(248,19%,31%)',
   bg_text: 'hsl(0,0%,96%)',
   bg_text2: 'hsl(230,19%,60%)',
+
+  link: 'hsl(43,78%,81%)',
 
   bg2: '#2B2736',
   bg2_text: '#F6F6F6',
@@ -30,17 +31,15 @@ export const state = () => ({
   input_h: '#F4DEA7',
   input_h_text: 'black;',
 
-  // Article data:
-  articles: [],
-  
 })
 
-// Getters, used to return our state in specific ways
-export const getters = {
 
-  articles(state) {
-    return state.articles;
-  },
+
+// Getters, used to return our state in specific ways.
+// Use:
+//   this.$store.getters.getterName
+//   this.$store.getters.getterWithParamName(paramData)
+export const getters = {
 
   // We pass this object into :style="" tags to activate dynamic theming!
   // I found it here:
@@ -52,6 +51,8 @@ export const getters = {
       '--bg': state.bg,
       '--bg-text': state.bg_text,
       '--bg-text2': state.bg_text2,
+
+      '--link': state.link,
 
       '--bg2': state.bg2,
       '--bg2-text': state.bg2_text,
@@ -74,32 +75,25 @@ export const getters = {
   }
 }
 
+
+
+
+
 // Actions call mutations. (Do async stuff here.)
 // Call actions in vue like this:
 //  this.$store.dispatch('actionName', {playloadData: data });
 export const actions = {
-  // Getting all articles:
-  getArticles({commit}) {
-    axios.get("/api/articles")
-      .then((response) => {
-        console.log("> Loaded in articles.");
-        commit('setArticles', response.data);
-      }, (error) => {
-        console.warn(error);
-      });
-  },
+  
 }
+
+
+
+
 
 // Mutations, which change our data. 
 // Calling mutations from Vue is weird, you need to do this:
 //    this.$store.commit("mutationName", { payloadData: data })
 export const mutations = {
-  
-  // Setting article array:
-  setArticles(state, payload) {
-    console.log("> Setting articles to:", payload);
-    state.articles = payload;
-  },
 
   setThemeColor(state, payload) {
     state.logo = payload.logo;
@@ -108,16 +102,18 @@ export const mutations = {
     state.bg_text = payload.bg_text;
     state.bg_text2 = payload.bg_text2;
 
+    state.link = payload.link;
+
     state.bg2 = payload.bg2;
     state.bg2_text = payload.bg2_text;
     state.bg2_text2 = payload.bg2_text2;
 
-    state.c1 = payload.c1
-    state.c1_light = payload.c1_light
-    state.c2 = payload.c2
-    state.c2_light = payload.c2_light
-    state.c3 = payload.c3
-    state.c3_light = payload.c3_light
+    state.c1 = payload.c1;
+    state.c1_light = payload.c1_light;
+    state.c2 = payload.c2;
+    state.c2_light = payload.c2_light;
+    state.c3 = payload.c3;
+    state.c3_light = payload.c3_light;
 
     state.input = payload.input;
     state.input_text = payload.input_text;
