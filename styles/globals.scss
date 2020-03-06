@@ -84,13 +84,29 @@ button {
   background: var(--input);
   color: var(--input-text2);
   border: 1px solid var(--input-text2);
+  display: flex;
+  align-items: center;
   cursor: pointer;
   border-radius: 5px;
   font-size: var(--regular-font-size);
+  // Button icons:
+  svg {
+    fill: var(--input-text2);
+    margin: 0px 5px;
+  }
   &:hover {
     color: var(--input-text);
     border: 1px solid var(--input-text);
+    svg {
+      fill: var(--input-text);
+    }
   }
+  
+}
+
+.small-square, .small-icon {
+  height: var(--small-font-size);
+  width: var(--small-font-size);
 }
 
 #logo {

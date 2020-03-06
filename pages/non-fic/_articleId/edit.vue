@@ -23,7 +23,7 @@
     <div id="content">
       <div id="content-options">
         <button @click="editMode = false" v-if="editMode">Preview</button>
-        <button @click="editMode = true" v-else>Edit</button>
+        <button @click="editMode = true" v-else>Edit <edit-icon class="small-icon"></edit-icon></button>
 
         <button @click="saveChanges()">Save</button>
 
@@ -36,9 +36,14 @@
 </template>
 
 <script>
+// Inputs:
 import textField from '@/components/inputs/text-field.vue';
-import gearIcon from '@/components/icons/gear-icon.vue';
 
+// Icons:
+import gearIcon from '@/components/icons/gear-icon.vue';
+import editIcon from '@/components/icons/edit-icon.vue';
+
+// Display pages:
 import nonFicInputEditor from '@/components/non-fic/non-fic-input-editor.vue';
 import nonFicDisplay from '@/components/non-fic/non-fic-display.vue';
 
@@ -50,8 +55,12 @@ export default {
   name: 'article-editor',
 
   components: {
+
     textField,
+
     gearIcon,
+    editIcon,
+
     nonFicInputEditor,
     nonFicDisplay
   },
@@ -173,7 +182,6 @@ export default {
 
       // Note that we don't need to use 'var vm = this' or anything for Axios callbacks. 
 
-      // TODO: this should probably take place in the store, in case we want to use it somewhere else
       // If it's a new article, we need to make a new doc. 
       if (this.articleId == 'new'){
 
@@ -214,9 +222,17 @@ export default {
 
 #content-options {
   text-align: right;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
   button {
     font-size: var(--small-font-size);
     padding: 2px 15px;
+    margin-left: 10px;
+    svg {
+      width: var(--small-font-size);
+      height: var(--small-font-size);
+    }
   }
 }
 

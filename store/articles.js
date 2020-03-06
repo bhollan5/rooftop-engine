@@ -95,7 +95,7 @@ export const actions = {
 
   },
 
-  // Updating a set of articles, by query.
+  // Updating an article by id.
   updateArticle({commit}, payload) {
 
     // Getting the article from the database.
@@ -109,6 +109,20 @@ export const actions = {
         console.warn(error);
       });
 
+  },
+
+  // Deletes an article by id.
+  deleteArticle(payload) {
+    // Getting the article from the database.
+    axios.delete("/api/delete-article", {
+      _id: payload._id,
+      update: payload.update
+    }).then((response) => {
+      let queryKey = Object.keys(payload.query)[0];
+      console.log(" 🖌 Updated the article with the " + queryKey + " of " + payload.query[queryKey]);
+    }, (error) => {
+      console.warn(error);
+    });
   },
 }
 

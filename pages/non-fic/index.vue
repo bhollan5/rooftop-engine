@@ -14,7 +14,9 @@
         <div v-for="article in articles" class="article-card">
           <div class="article-card-title">{{article.articleTitle}}</div>
           <div class="article-byline">by <router-link to="/">Ben H</router-link></div>
-          <router-link :to="'/non-fic/' + article._id + '/edit/'" tag="button" class="edit-button">Edit</router-link>
+          <router-link :to="'/non-fic/' + article._id + '/edit/'" tag="button" class="edit-button">
+            Edit<edit-icon class="small-icon"></edit-icon>
+            </router-link>
         </div>
 
       </div>
@@ -30,10 +32,16 @@
 <script>
 import placeholderSpread from '@/components/landing_spreads/placeholder_spread.vue';
 
+// Icons: 
+import editIcon from '@/components/icons/edit-icon.vue';
+
+
 export default {
   name: 'non-fic',
   components: {
-    placeholderSpread
+    placeholderSpread,
+
+    editIcon,
   },
   data() {
     return {
@@ -114,9 +122,15 @@ export default {
     color: var(--bg2-text2);
     border: solid 1px var(--bg2-text2);
     font-size: var(--small-font-size);
+    svg {
+      fill: var(--bg2-text2);
+    }
     &:hover {
       color: var(--bg2-text);
       border: solid 1px var(--bg2-text);
+      svg {
+        fill: var(--bg2-text);
+      }
     }
   }
 }
