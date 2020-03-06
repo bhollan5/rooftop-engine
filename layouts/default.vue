@@ -20,7 +20,7 @@
           <input type="text" id="header-searchbar" placeholder="Search Media">
           
           <!-- Log In button -->
-          <div id="login-button">
+          <div id="login-button" @click="userOptions = true">
             <hamburger-icon id="header-icon"></hamburger-icon>
             <span class="tablet-only">Options</span>
           </div>
@@ -42,9 +42,19 @@
 
     </div><!-- end of header -->
 
-    <div id="user options">
-    
+    <transition name="fade">
+      <div id="user-options-darkener" v-if="userOptions"></div>
+    </transition>
+
+    <transition name="menu-popup">
+    <div id="user-options" v-if="userOptions">
+      <div id="user-options-header">
+        <div id="user-options-close" @click="userOptions = false">
+          x Close
+        </div>
+      </div>
     </div>
+    </transition>
 
 
     <!-- This is where other pages get inserted: -->
@@ -118,6 +128,8 @@ export default {
     return {
       scrollPos: 0,     // Used to detect if we're scrolling up or down. 
       searchbarPos: 0,  // Affects the searchbar's vertical position.
+
+      userOptions: false, // Indicates whether we're showing the user options menu
     }
   },
   computed: {
@@ -313,6 +325,58 @@ $tablet-bp: 400px;
     }
   }
   
+}
+
+// User options:
+#user-options {
+  position: fixed;
+  height: 100%;
+  width:  400px;
+  top: 0px;
+  right: 0px;
+  z-index: 12;
+  background: var(--bg);
+  drop-shadow: 0px 0px 10px rgba(0,0,0,1);
+  #user-options-header {
+    width: 100%;
+    height: 150px;
+    background: var(--bg2);
+    color: var(--bg2-text);
+    padding: 20px;
+    #user-options-close {
+      cursor: pointer;
+    }
+  }
+}
+// Menu popup transitions:
+.menu-popup-enter, .menu-popup-leave-to{
+  transform: translatex(400px);
+}
+.menu-popup-enter-active, .menu-popup-leave-active {
+  transition: transform .5s;
+}
+.menu-popup-enter-to,  /* .fade-leave-active below version 2.1.8 */ {
+  transform: translatex(0px);
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .3s;
+}
+.fade-enter-to {
+  opacity: 1;
+}
+ 
+// Dark box that closes the page:
+#user-options-darkener {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  background: rgba(0,0,0,.7);
+  z-index: 11;
 }
 
 // Footer: 
