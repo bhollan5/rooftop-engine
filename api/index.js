@@ -5,6 +5,9 @@
 let MongoClient = require('mongodb').MongoClient;
 let express = require('express');
 
+// For identifying _ids
+let ObjectID = require('mongodb').ObjectID;
+
 const app = require('express')()
 
 module.exports = { path: '/api', handler: app }
@@ -27,6 +30,10 @@ MongoClient.connect('mongodb://user:password1@ds021650.mlab.com:21650/rooftop-db
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
 
+  //
+  // ARTICLE INTERFACING:
+  //
+
   // Posting a new article:
   app.post('/create-article', (req, res) => {
     db.collection('articles').insertOne(req.body, (err, result) => {
@@ -38,14 +45,16 @@ MongoClient.connect('mongodb://user:password1@ds021650.mlab.com:21650/rooftop-db
     })
   })
 
-  // Getting all articles
+  // Getting all articles - for debugging purposes. 
   app.get('/articles', (req, res) => {
-
+    console.log("\n 🗣 Called to read all articles!")
+    
     db.collection('articles').find({}).toArray( (err, result) => {
       if (err) {
         console.log(err);
         return err;
       }
+      console.log(" 💌 Sent out " + result.length + " results!")
       res.send(result);
     })
   })
@@ -53,8 +62,7 @@ MongoClient.connect('mongodb://user:password1@ds021650.mlab.com:21650/rooftop-db
   // Getting an article. Takes an object with query information
   app.get('/read-article', (req, res) => {
 
-    // res.send(req.body);
-    console.log(req.data)
+    console.log("\n 🗣Called to read an article by query.")
     db.collection('articles').find(req.data).toArray( (err, result) => {
       if (err) {
         console.log(err);
@@ -64,5 +72,38 @@ MongoClient.connect('mongodb://user:password1@ds021650.mlab.com:21650/rooftop-db
       res.send(result);
     })
   })
+
+  // Update an article. Takes an object with query information
+  app.post('/update-article', (req, res) => {
+
+    console.log("\n 🗣 Called to update an article!")
+    let _id = req.body._id;         // The id of the doc we're calling
+    let update = req.body.update;   // The updated fields
+
+
+    db.collection('articles').updateOne({
+      "_id": ObjectID(_id)
+    }, {
+      $set: update,
+    }, (err, result) => {
+      if (err) {
+        console.log(err);
+        // return err;
+      }
+
+      console.log(" ⬆️ Updated an article!")
+    })
+  })
+//   db.collection('articles').updateOne(query, {
+//     $set: update
+//   }, (err, result) => {
+//     if (err) {
+//       console.log(err);
+//       return err;
+//     }
+
+//     console.log(" ⬆️ Updated an article!")
+//   })
+// })
 
 })

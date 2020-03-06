@@ -185,6 +185,13 @@ export default {
       // Handling when the ID isn't the string "new".
       } else {
         
+        this.$store.dispatch('articles/updateArticle', {
+          _id: this.articleId,
+          update: {
+            articleData: this.articleData,
+            articleTitle: this.articleData[0].content
+          }
+        })
         
       }
     }

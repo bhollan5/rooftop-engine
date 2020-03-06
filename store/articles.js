@@ -24,13 +24,8 @@ export const getters = {
   //  getterName() { return function (articleId) { ... } }
   articleById: (state) => (articleId) => {
 
-    console.log("Here's state.articles in the getter:")
-    console.log(state.articles);
-
     // This filter format is how we can query an array of objs. 
     return state.articles.filter( function(article) {
-      console.log(article._id + ' ' + articleId);
-      console.log((article._id == articleId))
       return (article._id == articleId);
     });
 
@@ -60,9 +55,8 @@ export const actions = {
       articleData: payload.articleData
     })
     .then((response) => {
-      console.log("Successfully submitted!");
-      console.log("response:")
-      console.log(response);
+      console.log(" 💾 Successfully created an article titled " + payload.articleTitle + "!");
+      console.log(" > The article's id is: " + response.data.insertedId);
 
       this.articleId = response.data.insertedId
 
@@ -80,7 +74,7 @@ export const actions = {
   readArticles({commit}) {
     return axios.get("/api/articles")
       .then((response) => {
-        console.log("> Loaded in " + response.data.length + " articles.");
+        console.log(" 📦 Loaded " + response.data.length + " articles.");
         commit('setArticles', response.data);
       }, (error) => {
         console.warn(error);
@@ -91,11 +85,26 @@ export const actions = {
   readArticle({commit}, payload) {
 
     // Getting the article from the database.
-    // (Even if we've already loaded the doc, we should refresh it anyway.)
     axios.get("/api/read-article", payload.query)
       .then((response) => {
-        console.log("> Loaded in " + response.data.length + " articles based on this query:" + payload.query);
+        console.log(" 📦 Loaded " + response.data.length + " articles based on this query:" + payload.query);
         commit('setArticles', response.data);
+      }, (error) => {
+        console.warn(error);
+      });
+
+  },
+
+  // Updating a set of articles, by query.
+  updateArticle({commit}, payload) {
+
+    // Getting the article from the database.
+    axios.post("/api/update-article", {
+        _id: payload._id,
+        update: payload.update
+      }).then((response) => {
+        let queryKey = Object.keys(payload.query)[0];
+        console.log(" 🖌 Updated the article with the " + queryKey + " of " + payload.query[queryKey]);
       }, (error) => {
         console.warn(error);
       });
@@ -114,7 +123,7 @@ export const mutations = {
   
   // Setting article array:
   setArticles(state, payload) {
-    console.log("> Setting articles to:", payload);
+    console.log(" ✨ Articles updated in the Vuex store:", payload);
     state.articles = payload;
   },
 
