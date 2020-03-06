@@ -159,6 +159,13 @@ svg:hover .hover-stroke-c1 {
   stroke: var(--c1);
 }
 
+svg .logo-fill {
+  fill: var(--logo);
+}
+svg .logo-stroke {
+  stroke: var(--logo);
+}
+
 // Add this to a <div> to make a bigger line break.
 .big-br {
   height: 50px;

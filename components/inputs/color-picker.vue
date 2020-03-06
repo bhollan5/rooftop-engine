@@ -1,5 +1,5 @@
 <template>
-<div class="color-picker">
+<div class="color-picker" >
 
   <!-- This is the color display, ready to be clicked on :O -->
   <div class="color-display" @click="focus=!focus"
@@ -40,12 +40,14 @@
         </div>
 
         <!-- Canvas and indicator: -->
-        <canvas class="canvas-slider" ref="canvas-slider1"></canvas>
+        <canvas class="canvas-slider" ref="canvas-slider1" 
+          @mousedown="sliderDrag[0] = true"
+          @mousemove="sliderMove($event)" @mouseup="noSlidersDragging()"></canvas>
         <!-- The math for the indicator position is a little  weird. The slider is 200px, but it's offset by the 60px gradient-input box. -->
         <div class="color-indicator canvas-indicator"
         :style="{
           top: '12px',
-          left: ((hsl[0] / values[1].max) * 200) + 60 + 'px',
+          left: ((hsl[0] / values[0].max) * 200) + 60 + 'px',
         }"></div>
 
       </div>
@@ -57,7 +59,9 @@
             :max="values[1]" min="0"><br>
         </div>
 
-        <canvas class="canvas-slider" ref="canvas-slider2"></canvas>
+        <canvas class="canvas-slider" ref="canvas-slider2"
+          @mousedown="sliderDrag[1] = true"
+          @mousemove="sliderMove($event)" @mouseup="noSlidersDragging()"></canvas>
         <div class="color-indicator canvas-indicator"
         :style="{
           top: '12px',
@@ -72,7 +76,9 @@
             :max="values[2]" min="0"><br>
         </div>
 
-        <canvas class="canvas-slider" ref="canvas-slider3"></canvas>
+        <canvas class="canvas-slider" ref="canvas-slider3"
+          @mousedown="sliderDrag[2] = true"
+          @mousemove="sliderMove($event)" @mouseup="noSlidersDragging()"></canvas>
         <div class="color-indicator canvas-indicator"
         :style="{
           top: '12px',
@@ -101,6 +107,7 @@ export default {
       focus: true,        // Expanded popup
 
       canvasDrag: false,  // Indicates if the mouse is down over the canvas
+      sliderDrag: [false, false, false]
     }
   },
 
@@ -170,6 +177,28 @@ export default {
       Vue.set(this.hsl, 1, newX);
       this.hsl[1] = newX;
       this.hsl[2] = newY;
+    },
+
+    // Managing changing values when the user clicks on the canvas:
+    sliderMove(e, sliderNum) {
+
+      for (let i = 0; i < 3; i++){
+        // Don't do this function if the mouse isn't down:
+        if (!this.sliderDrag[i]) {
+          continue;
+        }
+
+        // e.offsetX gives us the space 
+        let newX = e.offsetX / 200; 
+        newX = Math.floor(newX * this.values[i].max);
+
+        Vue.set(this.hsl, i, newX);
+      }
+    },
+    noSlidersDragging() {
+      for (let i = 0; i < 3; i++){ 
+        this.sliderDrag[i] = false;
+      }
     },
 
     // Updating the big square canvas:
@@ -329,8 +358,8 @@ $margin-size: 10px;
   position: absolute;
   width: 400px;
   height: 325px;
-  background: var(--input);
-  color: var(--input-text);
+  background: var(--bg2);
+  color: var(--bg2-text);
 
   #color-canvas-container {
     width: 200px;
@@ -347,7 +376,7 @@ $margin-size: 10px;
   .y-label, .x-label {
     position: absolute;
     font-size: var(--small-font-size);
-    color: var(--input-text2);
+    color: var(--bg2-text2);
     text-align: center;
   }
   .y-label {

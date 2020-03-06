@@ -43,7 +43,7 @@ export const getters = {
   //   https://stackoverflow.com/questions/46551925/vuejs-v-bindstyle-hover
   themeStyle(state) {
     return {
-      'logo': state.logo,
+      '--logo': state.logo,
 
       '--bg': state.bg,
       '--bg-text': state.bg_text,
