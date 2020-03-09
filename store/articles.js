@@ -83,6 +83,7 @@ export const actions = {
 
   // Getting a set of articles, by query.
   readArticle({commit}, payload) {
+    console.log(" 🗣 Calling the API to load all articles.")
 
     // Getting the article from the database.
     axios.get("/api/read-article", payload.query)
@@ -97,29 +98,27 @@ export const actions = {
 
   // Updating an article by id.
   updateArticle({commit}, payload) {
+    console.log(" 🗣 Calling the API to update article %c" +  payload._id, "color:magenta;")
 
     // Getting the article from the database.
     axios.post("/api/update-article", {
         _id: payload._id,
         update: payload.update
       }).then((response) => {
-        let queryKey = Object.keys(payload.query)[0];
-        console.log(" 🖌 Updated the article with the " + queryKey + " of " + payload.query[queryKey]);
-      }, (error) => {
+        console.log(" 🖌 Updated the article %c" +  payload._id, "color:magenta;");
+      }).catch ((error) => {
         console.warn(error);
       });
 
   },
 
   // Deletes an article by id.
-  deleteArticle(payload) {
+  deleteArticle({commit}, payload) {
+    console.log(" 🗣 Calling the api to delete article %c" +  payload._id, "color:magenta;")
+
     // Getting the article from the database.
-    axios.delete("/api/delete-article", {
-      _id: payload._id,
-      update: payload.update
-    }).then((response) => {
-      let queryKey = Object.keys(payload.query)[0];
-      console.log(" 🖌 Updated the article with the " + queryKey + " of " + payload.query[queryKey]);
+    axios.delete("/api/delete-article/" + payload._id).then(() => {
+      console.log(" ⛔️ Deleted the article with the id of " + payload._id);
     }, (error) => {
       console.warn(error);
     });
@@ -137,8 +136,12 @@ export const mutations = {
   
   // Setting article array:
   setArticles(state, payload) {
-    console.log(" ✨ Articles updated in the Vuex store:", payload);
     state.articles = payload;
+    console.log(" ✨ Articles updated in the Vuex store:", payload);
   },
+
+  logMessage(state, payload) {
+    console.log(payload.msg);
+  }
 
 }

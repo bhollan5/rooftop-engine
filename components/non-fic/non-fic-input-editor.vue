@@ -6,8 +6,9 @@
         :class="{'expanded-container': editElement == i}">
 
           <!-- No gear icon for article headers or subheaders. -->
+          <!-- TODO: Add options for tabs -->
         <div class="gear-icon" @click="editSelect(i)"
-          v-if="dataEl.type != 'header' && dataEl.type != 'subheader'"
+          v-if="dataEl.type != 'header' && dataEl.type != 'subheader' && dataEl.type != 'tabs'" 
           :class="{'gear-icon-selected': editElement == i}">
           <gear-icon></gear-icon>
         </div>
@@ -25,15 +26,20 @@
               @click="selectElementType(sectionType.type)">
               <div class="element-type-icon"
               :class="{bold: sectionType.bold}">
-                {{sectionType.icon}}
+                <image-icon v-if="sectionType.type == 'image'"></image-icon>
+                <span v-else>{{sectionType.icon}}</span>
               </div>
               <div class="option-description">
                 <p class="bold">{{sectionType.title}}</p>
                 <p class="small-font">{{sectionType.description}}</p>
               </div>
             </div>
-
           </div>
+
+          <div class="element-size-selector">
+            <h5>Size:</h5>
+          </div>
+
         </div>
 
         <!-- Various input types: -->
@@ -80,6 +86,12 @@
             v-model="dataEl.content"></text-field>
         </div>
 
+        <!-- Images: -->
+        <div class="image-section" v-else-if="dataEl.type == 'image'">
+          <input type="file">
+          <p>+ Upload an Image</p>
+        </div>
+
       </div>
 
       <!-- Add section button: -->
@@ -92,6 +104,8 @@
 import textField from '@/components/inputs/text-field.vue';
 import gearIcon from '@/components/icons/gear-icon.vue';
 import trashIcon from '@/components/icons/trash-icon.vue';
+import imageIcon from '@/components/icons/image-icon.vue';
+
 
 import nonFicInputEditor from '@/components/non-fic/non-fic-input-editor.vue';
 
@@ -101,6 +115,8 @@ export default {
     textField,
     gearIcon,
     trashIcon,
+    imageIcon,
+
     nonFicInputEditor
   },
 
@@ -138,6 +154,13 @@ export default {
           bold: true,
           title: 'Paragraph',
           description: 'For writing text.'
+        },
+        {
+          type: 'image',
+          icon: 'image-icon',
+          bold: false,
+          title: 'Image',
+          description: 'Add an image!'
         },
       ]
     }
@@ -225,10 +248,14 @@ export default {
 // This is for the interface that pops up when you press the gear icon. 
 .edit-element-interface {
   position: absolute;
+  display: flex;
   width: 100%;
   height: 100%;
   background: var(--bg2);
   z-index: 2;
+  h5 {
+    padding: 5px;
+  }
 }
 
 // Styling for different element types:
@@ -308,9 +335,6 @@ export default {
   height: 100%;
   border-right: solid 1px var(--bg2-text2);
   min-height: 100px;
-  h5 {
-    padding: 5px;
-  }
 }
 // Each individual section type option, w/ icon:
 .element-type-option {
@@ -329,6 +353,13 @@ export default {
     display: flex; 
     align-items: center;
     justify-content: space-around;
+    svg {
+      padding: 0px;
+      border: solid 1px red;
+      fill: var(--input-text);
+      width: var(--regular-font-size);
+      height: var(--regular-font-size);
+    }
   }
   .option-description {
     padding: 0px 10px;
@@ -356,6 +387,18 @@ export default {
       border: 1px solid var(--input-text);
     }
   }
+}
+
+// For sections containing images:
+.image-section {
+  cursor: pointer;
+  width: 100%;
+  min-height: 100px;
+  border: solid 1px var(--bg-text);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 
 // Add section button:

@@ -17,6 +17,7 @@
           <router-link :to="'/non-fic/' + article._id + '/edit/'" tag="button" class="edit-button">
             Edit<edit-icon class="small-icon"></edit-icon>
             </router-link>
+          <button class="edit-button" @click="deleteArticle(article)">Delete</button>
         </div>
 
       </div>
@@ -66,6 +67,15 @@ export default {
     getArticles() {
       this.$store.dispatch("articles/readArticles")
     },
+
+    //
+    deleteArticle(article) {
+      if (confirm('Are you sure you want to delete "' + article.articleTitle + '"?')) {
+        this.$store.dispatch("articles/deleteArticle", {
+          _id: article._id
+        })
+      }
+    }
 
   }
 }

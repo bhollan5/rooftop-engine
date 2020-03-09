@@ -9,7 +9,7 @@
         <g transform="matrix(1.03506,0,0,3.58793,2723.09,1025.81)">
             <g transform="matrix(0.610814,0,0,0.176209,1029.17,312.846)">
                 <g>
-                    <text x="1718.5px" y="244.152px" style="font-family:'CrimsonText-Regular', 'Crimson Text';font-size:25.307px;fill:rgb(246,246,246);">Merch</text>
+                    <text x="1718.5px" y="244.152px" style="font-family:'CrimsonText-Regular', 'Crimson Text';font-size:25.307px;" class="bg-text-fill">Merch</text>
                 </g>
             </g>
         </g>

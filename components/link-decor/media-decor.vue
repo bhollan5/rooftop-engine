@@ -39,7 +39,7 @@
         </g>
         <g transform="matrix(1.03506,0,0,3.58793,2723.09,1025.81)">
             <g transform="matrix(0.610814,0,0,0.176209,729.617,313.158)">
-                <text x="1732.05px" y="244.152px" style="font-family:'CrimsonText-Regular', 'Crimson Text';font-size:25.307px;fill:rgb(246,246,246);">Media</text>
+                <text x="1732.05px" y="244.152px" style="font-family:'CrimsonText-Regular', 'Crimson Text';font-size:25.307px;" class="bg-text-fill">Media</text>
             </g>
         </g>
     </g>

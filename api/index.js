@@ -2,6 +2,8 @@
 // https://medium.com/@mitsuyawatanabe/how-to-start-express-project-in-nuxt-2-x-d3406c92a8ca
 // https://www.reddit.com/r/vuejs/comments/aayav5/any_examplestutorial_on_a_nuxt_app_with/
 
+// TODO: Look into mongoose?
+
 let MongoClient = require('mongodb').MongoClient;
 let express = require('express');
 
@@ -21,7 +23,8 @@ app.get('/hello', (req, res) => {
 let db;
 // Connecting to our sample database:
 MongoClient.connect('mongodb://user:password1@ds021650.mlab.com:21650/rooftop-db', 
-                      function (err, client) {
+{ useUnifiedTopology: true }, // To fix a deprecation error for the server discovery engine!
+function (err, client) {
   if (err) throw err;
   // the DD variable is now our database!
   db = client.db('rooftop-db');
@@ -88,22 +91,29 @@ MongoClient.connect('mongodb://user:password1@ds021650.mlab.com:21650/rooftop-db
     }, (err, result) => {
       if (err) {
         console.log(err);
-        // return err;
+        res.send(err);
       }
-
       console.log(" ⬆️ Updated an article!")
+      res.send(result);
     })
   })
-//   db.collection('articles').updateOne(query, {
-//     $set: update
-//   }, (err, result) => {
-//     if (err) {
-//       console.log(err);
-//       return err;
-//     }
 
-//     console.log(" ⬆️ Updated an article!")
-//   })
-// })
+  // Delete an article. Takes an object with an _id 
+  app.delete('/delete-article/:_id', (req, res) => {
+
+    let _id = req.params._id; 
+    console.log("\n 🗣 Called to delete the article " + _id)
+
+    db.collection('articles').deleteOne({
+      "_id": ObjectID(_id)
+    }, (err, result) => {
+      if (err) {
+        console.log(err);
+        res.send(err)
+      }
+      console.log(" ⛔️ Deleted an article!")
+      res.send(result);
+    })
+  })
 
 })

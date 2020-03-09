@@ -88,7 +88,8 @@ button {
   align-items: center;
   cursor: pointer;
   border-radius: 5px;
-  font-size: var(--regular-font-size);
+  font-size: var(--small-font-size);
+  font-weight: bold;
   // Button icons:
   svg {
     fill: var(--input-text2);
@@ -102,6 +103,15 @@ button {
     }
   }
   
+  &.bg2-button {
+    background: var(--bg2);
+    color: var(--bg-text2);
+    border: 1px solid var(--bg-text2);
+    &:hover {
+      color: var(--bg-text);
+      border: 1px solid var(--bg-text);
+    }
+  }
 }
 
 .small-square, .small-icon {
@@ -131,6 +141,9 @@ button {
 
 // SVG classes
 .fill-bg {
+  fill: var(--bg);
+}
+.fill-bg-text {
   fill: var(--bg);
 }
 svg .hover-fill-bg-text {
@@ -164,6 +177,10 @@ svg .logo-fill {
 }
 svg .logo-stroke {
   stroke: var(--logo);
+}
+
+svg .bg-text-fill {
+  fill: var(--bg-text)
 }
 
 // Add this to a <div> to make a bigger line break.

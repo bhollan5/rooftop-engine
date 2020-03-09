@@ -7,7 +7,7 @@
 
       <!-- Logo: -->
       <router-link to="/">
-        <img src="~/assets/logo/logo_white.png" id="header-logo">
+        <logo id="header-logo"></logo>
       </router-link>
 
       <!-- We use this container to separate the logo from the content. -->
@@ -43,16 +43,22 @@
     </div><!-- end of header -->
 
     <transition name="fade">
-      <div id="user-options-darkener" v-if="userOptions"></div>
+      <div id="user-options-darkener" v-if="userOptions" @click="userOptions = false"></div>
     </transition>
 
     <transition name="menu-popup">
     <div id="user-options" v-if="userOptions">
       <div id="user-options-header">
-        <div id="user-options-close" @click="userOptions = false">
-          x Close
-        </div>
+        <button id="user-options-close" class="bg2-button" @click="userOptions = false">
+          X
+        </button>
       </div>
+
+      <div id="theme-picker" class="user-option">
+        <div style="cursor:pointer;" @click="themeGoldenNight()">Golden Night</div>
+        <div style="cursor:pointer;" @click="themeMondrian()">Mondrian</div>
+      </div>
+
     </div>
     </transition>
 
@@ -97,6 +103,9 @@ import mediaIcon from '~/components/icons/media-icon.vue';
 import servicesIcon from '~/components/icons/services-icon.vue';
 import merchIcon from '~/components/icons/merch-icon.vue';
 
+// Logo (for dynamic coloring) 
+import logo from '~/components/logo.vue';
+
 // Decoration for the desktop menu:
 import mediaDecor from '~/components/link-decor/media-decor.vue';
 import nonficDecor from '~/components/link-decor/non-fic-decor.vue';
@@ -116,6 +125,9 @@ export default {
     mediaIcon,
     servicesIcon,
     merchIcon,
+
+    // Logo component:
+    logo,
 
     // Desktop menu decor:
     mediaDecor,
@@ -186,6 +198,65 @@ export default {
       // This scrollPos variable lets us check if we're going up or down. 
       this.scrollPos = -window.scrollY;
     },
+
+    themeGoldenNight() {
+      this.$store.commit("setThemeColor", {
+        logo: 'white',
+
+        bg: 'hsl(248,19%,31%)',
+        bg_text: 'hsl(0,0%,96%)',
+        bg_text2: 'hsl(230,19%,60%)',
+
+        link: 'hsl(43,78%,81%)',
+
+        bg2: '#2B2736',
+        bg2_text: '#F6F6F6',
+        bg2_text2: '#A3A2A6',
+
+        c1: 'hsl(43,78%,81%)',
+        c1_light: '',
+        c2: 'hsl(43,78%,81%)',
+        c2_light: '',
+        c3: 'hsl(43,78%,81%)',
+        c3_light: '',
+
+        input: 'hsl(248,19%,40%)',
+        input_text: 'hsl(0,0%,96%)',
+        input_text2: 'hsl(230,19%,60%)',
+        input_h: '#F4DEA7',
+        input_h_text: 'black;',
+      })
+
+      
+    },
+    themeMondrian() {
+      this.$store.commit("setThemeColor", {
+        logo: '#111111',
+
+        bg: '#EAEAEA',
+        bg_text: '#111111',
+        bg_text2: '#4E4E4E',
+
+        link: 'hsl(43,78%,81%)',
+
+        bg2: '#F6F6F6',
+        bg2_text: '#F6F6F6',
+        bg2_text2: '#A3A2A6',
+
+        c1: '#3D93D5',
+        c1_light: '',
+        c2: '#C21BA3',
+        c2_light: '',
+        c3: '#951BC2',
+        c3_light: '',
+
+        input: '#F6F6F6',
+        input_text: '#111111',
+        input_text_2: '#939393',
+        input_h: "#C21B7A",
+        input_h_text: 'black;',
+      })
+    }
 
   }
 }
@@ -343,9 +414,11 @@ $tablet-bp: 400px;
     background: var(--bg2);
     color: var(--bg2-text);
     padding: 20px;
-    #user-options-close {
-      cursor: pointer;
-    }
+  }
+  // For the various options in the menu.
+  .user-option {
+    padding: 20px;
+    color: var(--bg-text);
   }
 }
 // Menu popup transitions:
@@ -359,15 +432,6 @@ $tablet-bp: 400px;
   transform: translatex(0px);
 }
 
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .3s;
-}
-.fade-enter-to {
-  opacity: 1;
-}
  
 // Dark box that closes the page:
 #user-options-darkener {
@@ -377,6 +441,16 @@ $tablet-bp: 400px;
   top: 0px;
   background: rgba(0,0,0,.7);
   z-index: 11;
+}
+// Fade in for the options darkener:
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .3s;
+}
+.fade-enter-to {
+  opacity: 1;
 }
 
 // Footer: 

@@ -3,7 +3,7 @@
 
 // Setting up our state variables:
 export const state = () => ({
-  logo: 'pink',
+  logo: 'hsl(0,0%,96%)',
 
   bg: 'hsl(248,19%,31%)',
   bg_text: 'hsl(0,0%,96%)',
