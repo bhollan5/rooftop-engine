@@ -23,7 +23,6 @@ export const getters = {
   // This notation is the same as 
   //  getterName() { return function (articleId) { ... } }
   articleById: (state) => (articleId) => {
-
     // This filter format is how we can query an array of objs. 
     return state.articles.filter( function(article) {
       return (article._id == articleId);
@@ -56,9 +55,9 @@ export const actions = {
     })
     .then((response) => {
       console.log(" 💾 Successfully created an article titled " + payload.articleTitle + "!");
-      console.log(" > The article's id is: " + response.data.insertedId);
+      console.log(" > The article's id is: " + response.data._id);
 
-      this.articleId = response.data.insertedId
+      this.articleId = response.data._id
 
       // Moving the user to the correct page.
       this.$router.push({
@@ -72,6 +71,8 @@ export const actions = {
 
   // Getting all articles:
   readArticles({commit}) {
+    console.log(" 🗣 Calling the API to load all articles.")
+
     return axios.get("/api/articles")
       .then((response) => {
         console.log(" 📦 Loaded " + response.data.length + " articles.");
@@ -83,7 +84,6 @@ export const actions = {
 
   // Getting a set of articles, by query.
   readArticle({commit}, payload) {
-    console.log(" 🗣 Calling the API to load all articles.")
 
     // Getting the article from the database.
     axios.get("/api/read-article", payload.query)
@@ -123,6 +123,27 @@ export const actions = {
       console.warn(error);
     });
   },
+
+  // Uploading an image for an article: 
+  uploadImage({commit}, payload) {
+    console.log(payload);
+    return;
+    console.log(" 🗣 Calling the api to upload the image %c" +  payload.filename, "color:magenta;")
+
+    // You should have a server side REST API 
+    axios.post('http://localhost:8080/restapi/fileupload',
+        formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      ).then(function () {
+        console.log('SUCCESS!!');
+      })
+      .catch(function () {
+        console.log('FAILURE!!');
+      });
+  }
 }
 
 

@@ -87,7 +87,7 @@
         </div>
 
         <!-- Images: -->
-        <div class="image-section" v-else-if="dataEl.type == 'image'">
+        <div class="image-section" v-else-if="dataEl.type == 'image'" @change="uploadFile">
           <input type="file">
           <p>+ Upload an Image</p>
         </div>
@@ -200,6 +200,13 @@ export default {
         content: ''
       });
       this.editElement = this.data.length - 1;
+    },
+
+    // Called when a file is uploaded
+    uploadFile(event) {
+      console.log(event.target.files[0]);
+
+      this.$store.dispatch('articles/uploadImage', event.target.files[0]);
     }
   },
 
