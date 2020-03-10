@@ -12,6 +12,14 @@ let express = require('express');       // The Express library
 
 let ObjectID = mongodb.ObjectID;        // This tool lets us convert object id's to be queryable
 
+// // Disabling this for now, since we're not uploading any files yet. 
+// let multer  = require('multer');        // Lets us route new images we're uploading
+// let uploadObj = multer({                // This object references the path we want to use
+//   dest: './uploads/' 
+// })
+
+
+
 const app = express()                   // Creating our Express instance
 
 module.exports = { path: '/api', handler: app } // lets us access our express paths via /api/
@@ -104,54 +112,19 @@ function (err, client) {
     })
   })
 
-  /*
+  // File Upload
+  // TODO: Instead of fs, consider this - http://menge.io/2015/03/24/storing-small-images-in-mongodb/
+  app.post('/upload-article-image', (req, res) => {
+    console.log("\n 🗣 Called to upload a file! ")
+    console.log(req.body);
 
-  // Getting an article. Takes an object with query information
-  app.get('/read-article', (req, res) => {
+    // var writestream = gfs.createWriteStream({ filename: db_filename });
+    //     fs.createReadStream(local_file).pipe(writestream);
+    //     writestream.on('close', function (file) {
+    //         res.send('File Created : ' + file.filename);
+    //     });
 
-    console.log("\n 🗣Called to read an article by query.")
-    db.collection('articles').find(req.data).toArray( (err, result) => {
-      if (err) {
-        console.log(err);
-        return err;
-      }
-  
-      res.send(result);
-    })
   })
 
-
-  // Delete an article. Takes an object with an _id 
-  app.delete('/delete-article/:_id', (req, res) => {
-
-    let _id = req.params._id; 
-    console.log("\n 🗣 Called to delete the article " + _id)
-
-    db.collection('articles').deleteOne({
-      "_id": ObjectID(_id)
-    }, (err, result) => {
-      if (err) {
-        console.log(err);
-        res.send(err)
-      }
-      console.log(" ⛔️ Deleted an article!")
-      res.send(result);
-    })
-  })
-
-  // Uploading files:
-  var bucket = new mongodb.GridFSBucket(db);
-  app.post('/upload-image', (req, res) => {
-    fs.createReadStream('./my-pic.svg').
-    pipe(bucket.openUploadStream('my-pic.svg')).
-    on('error', function(error) {
-      assert.ifError(error);
-    }).
-    on('finish', function() {
-      console.log('done!');
-      process.exit(0);
-    });
-
-  })*/
 
 })

@@ -87,10 +87,15 @@
         </div>
 
         <!-- Images: -->
-        <div class="image-section" v-else-if="dataEl.type == 'image'" @change="uploadFile">
-          <input type="file">
+        <form class="image-section" v-else-if="dataEl.type == 'image'" @change="uploadFile" enctype="multipart/form-data">
+          <input type="file" accept="image/svg" name="avatar">
           <p>+ Upload an Image</p>
-        </div>
+        </form><!--
+        <form action="/api/upload-article-image" method="post" enctype="multipart/form-data"
+        v-else-if="dataEl.type == 'image'">
+          <input type="file" name="avatar" />
+          <button type="submit">sub</button>
+        </form>-->
 
       </div>
 
@@ -204,11 +209,33 @@ export default {
 
     // Called when a file is uploaded
     uploadFile(event) {
-      console.log(event.target.files[0]);
+      let _file = event.target.files[0];
+      let fileName = _file.name;
 
-      this.$store.dispatch('articles/uploadImage', event.target.files[0]);
-    }
+      // Reading the file's contents
+      this.readFileContent(_file).then(content => {
+        let fileValue = content;
+        console.log(fileValue);
+        this.$store.dispatch('articles/uploadImage', {
+          fileName: fileName,
+          fileValue: fileValue
+        });
+      }).catch(error => console.log(error))
+
+    },
+
+    readFileContent(file) {
+      const reader = new FileReader()
+      return new Promise((resolve, reject) => {
+        reader.onload = event => resolve(event.target.result)
+        reader.onerror = error => reject(error)
+        reader.readAsText(file)
+      })
+    },
+
   },
+
+  
 
 }
 </script>

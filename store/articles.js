@@ -126,22 +126,18 @@ export const actions = {
 
   // Uploading an image for an article: 
   uploadImage({commit}, payload) {
+    console.log(" 🗣 Calling the api to upload the image %c" +  payload.fileName, "color:magenta;")
     console.log(payload);
-    return;
-    console.log(" 🗣 Calling the api to upload the image %c" +  payload.filename, "color:magenta;")
 
     // You should have a server side REST API 
-    axios.post('http://localhost:8080/restapi/fileupload',
-        formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }
-      ).then(function () {
-        console.log('SUCCESS!!');
+    axios.post('/api/upload-article-image', {
+      fileName: payload.fileName,
+      fileValue: payload.fileValue
+    }).then(function () {
+        console.log('Success uploading file!');
       })
       .catch(function () {
-        console.log('FAILURE!!');
+        console.log('Failed to upload item!');
       });
   }
 }
