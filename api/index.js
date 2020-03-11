@@ -55,8 +55,15 @@ function (err, client) {
     articleTitle: String,
     articleData: Array,
   });
+  // Images are a separate schema
+  let vectorImageSchema = new mongoose.Schema({
+    fileName: String,
+    fileValue: String,
+  });
 
   let Article = mongoose.model('Article', articleSchema);
+  let VectorImage = mongoose.model('VectorImage', vectorImageSchema);
+
 
   // Creating a new article:
   app.post('/create-article', (req, res) => {
@@ -116,13 +123,13 @@ function (err, client) {
   // TODO: Instead of fs, consider this - http://menge.io/2015/03/24/storing-small-images-in-mongodb/
   app.post('/upload-article-image', (req, res) => {
     console.log("\n 🗣 Called to upload a file! ")
-    console.log(req.body);
 
-    // var writestream = gfs.createWriteStream({ filename: db_filename });
-    //     fs.createReadStream(local_file).pipe(writestream);
-    //     writestream.on('close', function (file) {
-    //         res.send('File Created : ' + file.filename);
-    //     });
+    let newVectorImage = new VectorImage(req.body);
+    newVectorImage.save(function (err, result) {
+      if (err) return console.error(err);
+      console.log('Saved SVG to database.');
+      res.send(result)
+    });
 
   })
 

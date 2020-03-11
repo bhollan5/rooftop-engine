@@ -2,19 +2,19 @@
 <div class="content">
   
       <!-- An input container is created for each node in our data. -->
-      <div class="input-container" v-for="(dataEl, i) in data"
-        :class="{'expanded-container': editElement == i}">
+      <div class="input-container" v-for="(dataEl, dataEl_i) in data"
+        :class="{'expanded-container': editElement == dataEl_i}">
 
           <!-- No gear icon for article headers or subheaders. -->
           <!-- TODO: Add options for tabs -->
-        <div class="gear-icon" @click="editSelect(i)"
+        <div class="gear-icon" @click="editSelect(dataEl_i)"
           v-if="dataEl.type != 'header' && dataEl.type != 'subheader' && dataEl.type != 'tabs'" 
-          :class="{'gear-icon-selected': editElement == i}">
+          :class="{'gear-icon-selected': editElement == dataEl_i}">
           <gear-icon></gear-icon>
         </div>
 
         <!-- Popup shown when the gear button is clicked: -->
-        <div class="edit-element-interface" v-if="editElement == i">
+        <div class="edit-element-interface" v-if="editElement == dataEl_i">
 
           <!-- Input type selector: -->
           <div class="element-type-selector">
@@ -64,7 +64,7 @@
             </div>
             <div class="tab add-tab">+ Add Tab</div>
           </div>
-          <non-fic-input-editor :data="dataEl.tabs[dataEl.selectedTab].content">
+          <non-fic-input-editor :data="dataEl.tabs[dataEl.selectedTab].content" :articleId="articleId">
           </non-fic-input-editor>
         </div>
 
@@ -87,15 +87,14 @@
         </div>
 
         <!-- Images: -->
-        <form class="image-section" v-else-if="dataEl.type == 'image'" @change="uploadFile" enctype="multipart/form-data">
-          <input type="file" accept="image/svg" name="avatar">
-          <p>+ Upload an Image</p>
-        </form><!--
-        <form action="/api/upload-article-image" method="post" enctype="multipart/form-data"
-        v-else-if="dataEl.type == 'image'">
-          <input type="file" name="avatar" />
-          <button type="submit">sub</button>
-        </form>-->
+        <div class="image-section" v-else-if="dataEl.type == 'image'" @change="uploadFile($event, dataEl_i)" enctype="multipart/form-data"
+              @click="openSVGInput(dataEl_i)">
+            
+          <input type="file" accept="image/svg" ref="fileInput" style="display: none;">
+          <p v-if="!dataEl.content">+ Upload an Image</p>
+          <div v-html="dataEl.content" v-else></div>
+
+        </div>
 
       </div>
 
@@ -128,6 +127,9 @@ export default {
   props: {
     data: {
       type: Array,
+    },
+    articleId: {
+      type: String
     }
   },
 
@@ -208,30 +210,32 @@ export default {
     },
 
     // Called when a file is uploaded
-    uploadFile(event) {
+    uploadFile(event, elementIndex) {
       let _file = event.target.files[0];
       let fileName = _file.name;
-
       // Reading the file's contents
-      this.readFileContent(_file).then(content => {
-        let fileValue = content;
-        console.log(fileValue);
-        this.$store.dispatch('articles/uploadImage', {
-          fileName: fileName,
-          fileValue: fileValue
-        });
+      this.readFileContent(_file).then(fileContent => {
+        this.data[elementIndex].content = fileContent;
       }).catch(error => console.log(error))
 
     },
 
+    // This function takes an svg file and returns the actual XML code of that SVG as a string.
+    // It uses FileReader, a web API available by default in modern browsers.
     readFileContent(file) {
       const reader = new FileReader()
+      // We're returning a promise, which  means you can use the .then(() => {}) function on this one!
       return new Promise((resolve, reject) => {
         reader.onload = event => resolve(event.target.result)
         reader.onerror = error => reject(error)
         reader.readAsText(file)
       })
     },
+
+    // Clicks on the hidden input so we can use our custom-styled input
+    openSVGInput() {
+      this.$refs['fileInput'][0].click()
+    }
 
   },
 
@@ -433,6 +437,9 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-around;
+  p {
+    cursor: pointer;
+  }
 }
 
 // Add section button:

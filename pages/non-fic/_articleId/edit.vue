@@ -28,7 +28,7 @@
         <button @click="saveChanges()">Save</button>
 
       </div>
-      <non-fic-input-editor :data="articleData" v-if="editMode"></non-fic-input-editor>
+      <non-fic-input-editor :data="articleData" :articleId="articleId" v-if="editMode"></non-fic-input-editor>
       <non-fic-display :data="articleData" v-else></non-fic-display>
     </div>
     
