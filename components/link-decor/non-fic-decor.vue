@@ -13,7 +13,7 @@
         </g>
         <g transform="matrix(1.03506,0,0,3.58793,2723.09,1025.81)">
             <g transform="matrix(0.610814,0,0,0.176209,812.256,312.589)">
-                <text x="1728.18px" y="244.152px" style="font-family:'CrimsonText-Regular', 'Crimson Text';font-size:25.307px;" class="bg-text-fill">Non-Fiction</text>
+                <text x="1723.18px" y="244.152px" style="font-family:'CrimsonText-Regular', 'Crimson Text';font-size:25.307px;" class="bg-text-fill">Non-Fiction</text>
             </g>
         </g>
     </g>

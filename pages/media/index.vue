@@ -11,9 +11,14 @@
 
       <h3 class="collection-label">Rooftop Policy</h3>
       <div class="collection">
-
-        <article-card v-for="(article, article_i) in articles" :article="article" :key="'article-' + article_i">
-        </article-card>
+        <div v-for="article in articles" class="article-card">
+          <div class="article-card-title">{{article.articleTitle}}</div>
+          <div class="article-byline">by <router-link to="/">Ben H</router-link></div>
+          <router-link :to="'/non-fic/' + article._id + '/edit/'" tag="button" class="edit-button">
+            Edit<edit-icon class="small-icon"></edit-icon>
+            </router-link>
+          <button class="edit-button" @click="deleteArticle(article)">Delete</button>
+        </div>
 
       </div>
     </div>
@@ -27,14 +32,15 @@
 
 <script>
 import placeholderSpread from '@/components/landing_spreads/placeholder_spread.vue';
-import articleCard from '@/components/non-fic/article-card.vue';
+
+// Icons: 
 import editIcon from '@/components/icons/edit-icon.vue';
+
 
 export default {
   name: 'non-fic',
   components: {
     placeholderSpread,
-    articleCard,
 
     editIcon,
   },
@@ -122,29 +128,21 @@ export default {
   .article-byline {
     font-size: var(--small-font-size);
   }
-
-  // The container for the edit and delete buttons in the article cards
-  .action-container {
-    display: flex;
-    margin-top: 10px;
-    .action-button {
-      background: var(--bg2);
-      color: var(--bg2-text2);
-      border: solid 1px var(--bg2-text2);
-      font-size: var(--small-font-size);
-      margin-right: 10px;
+  .edit-button {
+    background: var(--bg2);
+    color: var(--bg2-text2);
+    border: solid 1px var(--bg2-text2);
+    font-size: var(--small-font-size);
+    svg {
+      fill: var(--bg2-text2);
+    }
+    &:hover {
+      color: var(--bg2-text);
+      border: solid 1px var(--bg2-text);
       svg {
-        fill: var(--bg2-text2);
-      }
-      &:hover {
-        color: var(--bg2-text);
-        border: solid 1px var(--bg2-text);
-        svg {
-          fill: var(--bg2-text);
-        }
+        fill: var(--bg2-text);
       }
     }
   }
-
 }
 </style>

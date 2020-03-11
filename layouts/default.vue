@@ -28,8 +28,10 @@
 
         <!-- This appears on desktop only: -->
         <div id="header-desktop-menu">
-          
-          <media-decor></media-decor>
+
+          <router-link tag="div" to="/media">
+            <media-decor></media-decor>
+          </router-link>
           <router-link tag="div" to="/non-fic">
             <nonfic-decor></nonfic-decor>
           </router-link>
@@ -391,6 +393,20 @@ $tablet-bp: 400px;
         top: -6px;
         left: 0px;
         cursor: pointer;
+        text-align: center;
+      }
+      // For active links in the header
+      .nuxt-link-active svg {
+        font-weight: bold;
+        .hover-stroke-c1 {
+          stroke: var(--c1);
+        }
+        .hover-stroke-c2 {
+          stroke: var(--c1);
+        }
+        .hover-stroke-c3 {
+          stroke: var(--c1);
+        }
       }
       
     }
@@ -486,4 +502,5 @@ $tablet-bp: 400px;
     height: 24px;
   }
 }
+
 </style>
