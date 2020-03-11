@@ -1,7 +1,8 @@
 module.exports = function(app, mongoose){
-
+  console.log("Called!")
+  return;
   //
-  // Access our articles in the database:
+  // Accessing our themes in the database:
   //
 
   // Defining our mongoose schema for a given article:
@@ -67,7 +68,7 @@ module.exports = function(app, mongoose){
     })
   })
 
-  // File Upload - deprecated
+  // File Upload
   // TODO: Instead of fs, consider this - http://menge.io/2015/03/24/storing-small-images-in-mongodb/
   app.post('/upload-article-image', (req, res) => {
     console.log("\n 🗣 Called to upload a file! ")
