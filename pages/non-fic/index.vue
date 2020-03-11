@@ -9,8 +9,8 @@
     <div id="media-suggestions" 
       :style="{background: $store.state.bg}">
 
-      <div class="collection-display">
-
+      <h3 class="collection-label">Rooftop Policy</h3>
+      <div class="collection">
         <div v-for="article in articles" class="article-card">
           <div class="article-card-title">{{article.articleTitle}}</div>
           <div class="article-byline">by <router-link to="/">Ben H</router-link></div>
@@ -84,7 +84,7 @@ export default {
 <style lang="scss">
 #non-fic-promo {
   width: 100%;
-  height: 60vh;
+  height: 20vh;
   background: #4E5264;
 }
 
@@ -110,16 +110,17 @@ export default {
   }
 }
 
-// .collection-display is also styled in global.scss.
-.collection-display {
+// .collection is also styled in global.scss.
+.collection, .collection-label {
   margin-left: 50px;
 }
 .article-card {
   width: 275px;
   height: 125px;
   background: var(--bg2);
-  margin: 0px 10px;
+  margin-right: 20px;
   padding: 10px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,.5);
   .article-card-title {
     font-size: var(--regular-font-size);
     font-weight: bold;

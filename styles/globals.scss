@@ -188,7 +188,13 @@ svg .bg-text-fill {
   height: 50px;
 }
 
-// Flickity type container
-.collection-display {
+// Container for collections of media.
+.collection {
   display: flex;
+}
+
+// Container for pages and page content.
+.container {
+  min-height: 100vh;
+  background: var(--bg);
 }

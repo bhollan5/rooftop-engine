@@ -393,7 +393,6 @@ export default {
     justify-content: space-around;
     svg {
       padding: 0px;
-      border: solid 1px red;
       fill: var(--input-text);
       width: var(--regular-font-size);
       height: var(--regular-font-size);
@@ -432,13 +431,16 @@ export default {
   cursor: pointer;
   width: 100%;
   min-height: 100px;
-  border: solid 1px var(--bg-text);
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: space-around;
+  padding: 10px;
   p {
     cursor: pointer;
+  }
+  &:hover {
+    outline: solid 1px var(--bg-text2);
   }
 }
 

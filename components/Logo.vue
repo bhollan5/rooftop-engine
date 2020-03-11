@@ -1,6 +1,6 @@
 <template>
   
-<svg width="100%" viewBox="0 0 243 101" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+<svg viewBox="0 0 243 101" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
     <g transform="matrix(1,0,0,1,-7498.68,-1241.28)">
         <g transform="matrix(0.618667,0,0,2.16874,2727.2,-1980.85)">
             <g transform="matrix(0.411438,0,0,0.113681,7640.89,1471.96)">

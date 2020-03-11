@@ -1,7 +1,16 @@
 // Info about modules: https://nuxtjs.org/guide/vuex-store/#modules-mode
 
+//   Contents:
+// ==========================
+//   - Imports
+//   - State 
+//   - Getters
+//   - Actions   (called with "$store.dispatch()")
+//   - Mutations (used in the store with "commit()")
+
 // For database calls:
 import axios from 'axios';
+
 
 
 // Setting up our state variables:
@@ -14,10 +23,13 @@ export const state = () => ({
 
 
 
+//
 // Getters, used to return our state in specific ways.
-// Use:
+//      Use:
 //   this.$store.getters.getterName
 //   this.$store.getters.getterWithParamName(paramData)
+//
+
 export const getters = {
 
   // This notation is the same as 
@@ -119,6 +131,7 @@ export const actions = {
     // Getting the article from the database.
     axios.delete("/api/delete-article/" + payload._id).then(() => {
       console.log(" ⛔️ Deleted the article with the id of " + payload._id);
+      commit('deleteArticle', { _id: payload._id});
     }, (error) => {
       console.warn(error);
     });
@@ -155,6 +168,17 @@ export const mutations = {
   setArticles(state, payload) {
     state.articles = payload;
     console.log(" ✨ Articles updated in the Vuex store:", payload);
+  },
+  
+  // Deleting an article by id: 
+  deleteArticle(state, payload) {
+    let updatedArticles = state.articles.filter((article) => { 
+      // Keeping articles when this is true:
+      return article._id != payload._id;
+    });
+    let difference = state.articles.length - updatedArticles.length;
+    state.articles = updatedArticles;
+    console.log(" ✨ " + difference + " article was deleted in the Vuex store.")
   },
 
   logMessage(state, payload) {
