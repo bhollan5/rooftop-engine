@@ -1,34 +1,40 @@
 module.exports = function(app, mongoose){
-  console.log("Called!")
-  return;
+
   //
   // Accessing our themes in the database:
   //
 
   // Defining our mongoose schema for a given article:
-  let articleSchema = new mongoose.Schema({
-    articleTitle: String,
-    articleData: Array,
+  let themeSchema = new mongoose.Schema({
+    theme_name: String,
+    _id: String,
+
+    thumbnail: String,
+
+    colors: Object
+
   });
 
-  let Article = mongoose.model('Article', articleSchema);
+  let Theme = mongoose.model('Theme', themeSchema);
 
 
   // Creating a new article:
-  app.post('/create-article', (req, res) => {
-    let newArticle = new Article(req.body);
-    newArticle.save(function (err, result) {
+  app.post('/create-theme', (req, res) => {
+    console.log("\n 🗣 Called to create a theme!")
+
+    let newTheme = new Theme(req.body);
+    newTheme.save(function (err, result) {
       if (err) return console.error(err);
-      console.log('saved to database');
+      console.log(' 💾 Saved theme to database!');
       res.send(result)
     });
   })
 
   // Getting all articles:
-  app.get('/articles', (req, res) => {
-    console.log("\n 🗣 Called to read all articles!")
+  app.get('/themes', (req, res) => {
+    console.log("\n 🗣 Called to read all themes!")
 
-    Article.find(function (err, result) {
+    Theme.find(function (err, result) {
       if (err) return console.error(err);
       console.log(" 💌 Sent out " + result.length + " results!")
       res.send(result);
@@ -37,9 +43,9 @@ module.exports = function(app, mongoose){
 
   
   // Update an article. Takes an object with query information
-  app.post('/update-article', (req, res) => {
+  app.post('/update-theme', (req, res) => {
 
-    console.log("\n 🗣 Called to update an article!")
+    console.log("\n 🗣 Called to update an theme!")
     let _id = req.body._id;         // The id of the doc we're calling
     let update = req.body.update;   // The updated fields
 
@@ -66,20 +72,6 @@ module.exports = function(app, mongoose){
       console.log(" ⛔️ Deleted an article!")
       res.send(result);
     })
-  })
-
-  // File Upload
-  // TODO: Instead of fs, consider this - http://menge.io/2015/03/24/storing-small-images-in-mongodb/
-  app.post('/upload-article-image', (req, res) => {
-    console.log("\n 🗣 Called to upload a file! ")
-
-    let newVectorImage = new VectorImage(req.body);
-    newVectorImage.save(function (err, result) {
-      if (err) return console.error(err);
-      console.log('Saved SVG to database.');
-      res.send(result)
-    });
-
   })
 
 }

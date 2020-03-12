@@ -3,6 +3,7 @@
 
     <!-- The "non-fic promo" is the banner spread at the top of the landing page. -->
     <div id="non-fic-promo">
+
     </div>
 
     <!-- -->
@@ -10,6 +11,7 @@
       :style="{background: $store.state.bg}">
 
       <h3 class="collection-label">Rooftop Policy</h3>
+      <hr class="collection-underline">
       <div class="collection">
 
         <article-card v-for="(article, article_i) in articles" :article="article" :key="'article-' + article_i">
@@ -79,7 +81,7 @@ export default {
 #non-fic-promo {
   width: 100%;
   height: 20vh;
-  background: #4E5264;
+  background: var(--bg);
 }
 
 #media-suggestions {
@@ -105,46 +107,12 @@ export default {
 }
 
 // .collection is also styled in global.scss.
-.collection, .collection-label {
+.collection, .collection-label, .collection-underline {
   margin-left: 50px;
 }
-.article-card {
-  width: 275px;
-  height: 125px;
-  background: var(--bg2);
-  margin-right: 20px;
-  padding: 10px;
-  box-shadow: 0px 0px 10px rgba(0,0,0,.5);
-  .article-card-title {
-    font-size: var(--regular-font-size);
-    font-weight: bold;
-  }
-  .article-byline {
-    font-size: var(--small-font-size);
-  }
-
-  // The container for the edit and delete buttons in the article cards
-  .action-container {
-    display: flex;
-    margin-top: 10px;
-    .action-button {
-      background: var(--bg2);
-      color: var(--bg2-text2);
-      border: solid 1px var(--bg2-text2);
-      font-size: var(--small-font-size);
-      margin-right: 10px;
-      svg {
-        fill: var(--bg2-text2);
-      }
-      &:hover {
-        color: var(--bg2-text);
-        border: solid 1px var(--bg2-text);
-        svg {
-          fill: var(--bg2-text);
-        }
-      }
-    }
-  }
-
+.collection-underline {
+  width: 40%;
+  min-width: 250px;
+  margin-bottom: 10px;
 }
 </style>

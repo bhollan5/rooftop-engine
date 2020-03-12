@@ -3,7 +3,11 @@
 
 // Setting up our state variables:
 export const state = () => ({
+  theme_name: 'Golden Night',
+  _id: 'golden-night',
+
   logo: 'hsl(0,0%,96%)',
+  header_bg: 'hsl(248,19%,26%)',
 
   bg: 'hsl(248,19%,31%)',
   bg_text: 'hsl(0,0%,96%)',
@@ -14,6 +18,10 @@ export const state = () => ({
   bg2: '#2B2736',
   bg2_text: '#F6F6F6',
   bg2_text2: '#A3A2A6',
+
+  bg2_input: 'hsl(248,19%,35%)',
+  bg2_input_text: 'hsl(0,0%,91%)',
+  bg2_input_text2: 'hsl(230,19%,55%)',
 
   c1: 'hsl(43,78%,81%)',
   c1_light: '',
@@ -45,6 +53,8 @@ export const getters = {
     return {
       '--logo': state.logo,
 
+      '--header-bg': state.header_bg,
+
       '--bg': state.bg,
       '--bg-text': state.bg_text,
       '--bg-text2': state.bg_text2,
@@ -54,6 +64,10 @@ export const getters = {
       '--bg2': state.bg2,
       '--bg2-text': state.bg2_text,
       '--bg2-text2': state.bg2_text2,
+
+      '--bg2-input': state.bg2_input,
+      '--bg2-input-text': state.bg2_input_text,
+      '--bg2-input-text2': state.bg2_input_text2,
 
       '--c1': state.c1,
       '--c1_light': state.c1_light,
@@ -95,6 +109,8 @@ export const mutations = {
   setThemeColor(state, payload) {
     state.logo = payload.logo;
 
+    state.header_bg = payload.header_bg,
+
     state.bg = payload.bg;
     state.bg_text = payload.bg_text;
     state.bg_text2 = payload.bg_text2;
@@ -104,6 +120,10 @@ export const mutations = {
     state.bg2 = payload.bg2;
     state.bg2_text = payload.bg2_text;
     state.bg2_text2 = payload.bg2_text2;
+
+    state.bg2_input = payload.bg2_input,
+    state.bg2_input_text = payload.bg2_input_text,
+    state.bg2_input_text2 = payload.bg2_input_text2,
 
     state.c1 = payload.c1;
     state.c1_light = payload.c1_light;

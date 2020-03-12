@@ -32,8 +32,8 @@
 
         <!-- Subsection title, with bullet:  -->
         <div class="subsection-title-container" v-else-if="dataEl.type =='subsection-title'">
-          <p class="subsection-number">{{dataEl.index}}</p>
-          <p class="subsection-title">Subsection Title</p>
+          <p class="subsection-number">{{dataEl.num}}</p>
+          <p class="subsection-title">{{dataEl.content}}</p>
         </div>
         
         <!-- Paragraphs: -->

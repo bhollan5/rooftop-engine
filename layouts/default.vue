@@ -276,13 +276,13 @@ $tablet-bp: 400px;
 
 // Header:
 #header {
-  background: var(--bg);
+  background: var(--header-bg);
   height: 50px;
   width: 100%;
   display: flex;
   position: fixed;
   justify-content: space-between;
-  box-shadow: var(--box-shading);
+  box-shadow: 0px 0px 5px rgba(0,0,0,.5);
 
   // Logo:
   #header-logo {
@@ -307,8 +307,8 @@ $tablet-bp: 400px;
 
   // Searchbar:
   #header-searchbar {
-    background: var(--input);
-    color: var(--input-text);
+    background: var(--bg2-input);
+    color: var(--bg2-input-text);
     outline: none;
     border: none;
     height: 30px;
@@ -320,7 +320,7 @@ $tablet-bp: 400px;
     padding-left: 30px;
   }
   ::placeholder {
-    color: var(--input-text2);
+    color: var(--bg2-input-text2);
   }
   #header-searchbar:focus {
     // TODO: Figure out how to expand the width smoothly and w/o bugs here
@@ -338,7 +338,7 @@ $tablet-bp: 400px;
   #login-button {
     font-size: 16px;
     cursor: pointer;
-    background: var(--input);
+    background: var(--bg2-input);
     height: 30px;
     min-width: 60px;
     margin: 10px 10px;
@@ -346,12 +346,12 @@ $tablet-bp: 400px;
     align-items: center;
     padding: 5px 10px;
     #header-icon {
-      fill: var(--input-text2);
+      fill: var(--bg2-input-text2);
       height: 15px;
       width: 15px;
     }
     span {
-      color: var(--input-text2);
+      color: var(--bg2-input-text2);
       margin-left: 5px;
     }
   }

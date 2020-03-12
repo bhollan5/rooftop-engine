@@ -76,8 +76,10 @@
 
         <!-- Subsection title, with bullet:  -->
         <div class="subsection-title-container" v-else-if="dataEl.type =='subsection-title'">
-          <text-field class="subsection-number" placeholder="1.1"></text-field>
-          <text-field class="subsection-title" placeholder="Subsection Header"></text-field>
+          <text-field class="subsection-number" placeholder="1.1"
+            v-model="dataEl.num"></text-field>
+          <text-field class="subsection-title" placeholder="Subsection Header"
+            v-model="dataEl.content"></text-field>
         </div>
         
         <!-- Paragraphs: -->

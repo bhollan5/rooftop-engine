@@ -59,9 +59,20 @@ export const getters = {
 export const actions = {
 
   // Creating a new article:
-  createArticle({commit}, payload) {
+  createTheme({commit}, payload) {
+    // Creating a new article:
+  app.post('/create-theme', (req, res) => {
+    console.log("\n 🗣 Called to create a theme!")
 
-    axios.post("/api/create-article", {
+    let newTheme = new Theme(req.body);
+    newTheme.save(function (err, result) {
+      if (err) return console.error(err);
+      console.log(' 💾 Saved theme to database!');
+      res.send(result)
+    });
+  })
+
+    axios.post("/api/create-theme", {
       articleTitle: payload.articleTitle,
       articleData: payload.articleData
     })
