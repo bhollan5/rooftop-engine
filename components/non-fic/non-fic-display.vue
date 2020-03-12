@@ -50,6 +50,7 @@ import textField from '@/components/inputs/text-field.vue';
 import gearIcon from '@/components/icons/gear-icon.vue';
 import trashIcon from '@/components/icons/trash-icon.vue';
 
+
 import nonFicInputEditor from '@/components/non-fic/non-fic-input-editor.vue';
 
 export default {
@@ -58,7 +59,7 @@ export default {
     textField,
     gearIcon,
     trashIcon,
-    nonFicInputEditor
+    nonFicInputEditor,
   },
 
   props: {
@@ -165,12 +166,14 @@ h1 {
 }
 .section-title {
   margin-bottom: 20px;
+  font-size: var(--h2-font-size);
 }
 .subsection-title {
   margin-bottom: 10px;
 }
 .paragraph-section {
   margin-bottom: 10px;
+  font-size: var(--regular-font-size);
 }
 
 </style>

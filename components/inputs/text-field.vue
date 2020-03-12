@@ -1,5 +1,5 @@
 <template>
-<div class="text-field" :class="{ 'has-input': hasInput}">
+<div class="text-field" :class="{ 'has-input': hasInput, 'nobox': nobox}">
   <slot></slot>
   <input :value="value" @input="$emit('input', $event.target.value)"
     :placeholder="placeholder"
@@ -33,9 +33,15 @@ export default {
     placeholder: {
       type: String
     },
+    // Turns it into a multi-line text area
     textarea: {
       type: Boolean,
       default: false
+    },
+    // Removes the box around the input
+    nobox: {
+      type: Boolean,
+      default: false,
     },
     
     // Make sure to set this to "true" if your input uses an icon!
@@ -58,7 +64,6 @@ export default {
 .text-field {
   position: relative;
   width: 100%;
-  box-shadow: 0px 0px var(--box-shading) rgba(0,0,0,.7);
   margin: 10px 0px;
 }
 
@@ -72,6 +77,8 @@ input, textarea {
   color: var(--input-text);
   border: none;
   transition-duration: .5s;
+  box-shadow: 0px 0px var(--box-shading) rgba(0,0,0,.7);
+
 }
 input::placeholder, textarea::placeholder {
   color: var(--input-text2);
@@ -110,5 +117,15 @@ svg {
   fill: var(--input-text2);
 }
 
-
+.nobox {
+  margin: 0px;
+  input, textarea {
+    background: none;
+    box-shadow: none;
+    padding: 0px;
+  }
+  &:hover {
+    outline: 1px solid var(--bg-text2);
+  }
+}
 </style>

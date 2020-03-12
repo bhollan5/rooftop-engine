@@ -57,6 +57,8 @@ h1 {
   text-align: center;
   color: var(--bg-text);
   margin-top: 25px;
+  font-weight: bold;
+  font-size: var(--h1-font-size);
 }
 h2 {
   text-align: center;
@@ -68,7 +70,7 @@ h5 {
   font-size: 15px;
 }
 p {
-  font-size: 19px;
+  font-size: var(--regular-font-size);
 }
 a {
   color: var(--link);

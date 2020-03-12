@@ -46,12 +46,12 @@
 
         <!-- Article header: -->
         <text-field id="article-header" v-if="dataEl.type == 'header'"
-          v-model="dataEl.content"
+          v-model="dataEl.content" :nobox="noboxes"
           placeholder="Article Title"></text-field>
 
         <!-- Article subheader: -->
         <text-field id="article-subheader" v-else-if="dataEl.type == 'subheader'"
-          v-model="dataEl.content"
+          v-model="dataEl.content" :nobox="noboxes"
           placeholder="Article Subheader (optional)"></text-field>
 
         <!-- Tabs: -->
@@ -69,23 +69,24 @@
         </div>
 
         <!-- Section titles: -->
-        <text-field class="section-title" v-else-if="dataEl.type =='section-title'"
-          v-model="dataEl.content"
-          placeholder="1. Section Title">
-        </text-field>
+        <div class="section-title" v-else-if="dataEl.type =='section-title'">
+          <text-field v-model="dataEl.content" :nobox="noboxes"
+            placeholder="1. Section Title">
+          </text-field>
+        </div>
 
         <!-- Subsection title, with bullet:  -->
         <div class="subsection-title-container" v-else-if="dataEl.type =='subsection-title'">
           <text-field class="subsection-number" placeholder="1.1"
-            v-model="dataEl.num"></text-field>
+            v-model="dataEl.num" :nobox="noboxes"></text-field>
           <text-field class="subsection-title" placeholder="Subsection Header"
-            v-model="dataEl.content"></text-field>
+            v-model="dataEl.content" :nobox="noboxes"></text-field>
         </div>
         
         <!-- Paragraphs: -->
         <div class="paragraph-section" v-else-if="dataEl.type == 'paragraph'">
           <text-field placeholder="Regular paragraphs go here!" textarea
-            v-model="dataEl.content"></text-field>
+            v-model="dataEl.content" :nobox="noboxes"></text-field>
         </div>
 
         <!-- Images: -->
@@ -132,7 +133,12 @@ export default {
     },
     articleId: {
       type: String
-    }
+    },
+    // Toggles visual boxes around inputs
+    noboxes: {
+      type: Boolean,
+      default: true
+    }  
   },
 
   data() {
@@ -300,8 +306,14 @@ export default {
 
 // Styling for different element types:
 #article-header input{
+  margin-bottom: -10px;
+  margin-top: 25px;
   font-weight: bold;
   font-size: var(--h1-font-size);
+}
+#article-subheader input {
+  font-size: var(--regular-font-size);
+  font-style: italic;
 }
 
 .tab-container {
@@ -317,13 +329,14 @@ export default {
     font-size: var(--small-font-size);
     min-width: 100px;
     text-align: center;
-    padding: 5px;
+    position: relative;
     cursor: pointer;
     margin-top: -2px;
     transform: translatey(2px); // This offset lets the border-bottoms line up
     &.bold {
       border-bottom: solid 2px var(--bg-text);
     }
+
   }
   .add-tab {
     color: var(--bg-text2);
@@ -351,6 +364,7 @@ export default {
   display: flex;
   width: 100%;
   justify-content: space-between;
+
   .subsection-number {
     width: 50px;
     margin: 0px;
@@ -361,11 +375,13 @@ export default {
   }
   input {
     font-weight: bold;
+    font-size: var(--regular-font-size);
   }
 }
 
-.paragraph-section {
-
+.paragraph-section input, .paragraph-section textarea {
+  font-size: var(--regular-font-size);
+  margin-bottom: 10px;
 }
 
 // Section Type selector
