@@ -16,8 +16,8 @@ import axios from 'axios';
 // Setting up our state variables:
 export const state = () => ({
 
-  // Article data:
-  articles: [],
+  // Loaded collections data:
+  collections: [],
   
 })
 
@@ -34,17 +34,17 @@ export const getters = {
 
   // This notation is the same as 
   //  getterName() { return function (articleId) { ... } }
-  articleById: (state) => (articleId) => {
+  collectionById: (state) => (collectionId) => {
     // This filter format is how we can query an array of objs. 
-    return state.articles.filter( function(article) {
-      return (article._id == articleId);
+    return state.collections.filter( function(collection) {
+      return (collection._id == collectionId);
     });
 
   },
 
-  // Gets all loaded articles (probably just for debugging.)
-  allArticles(state) {
-    return state.articles;
+  // Gets all loaded collections (probably just for debugging.)
+  allCollections(state) {
+    return state.collections;
   },
 
 }
@@ -58,23 +58,18 @@ export const getters = {
 //  this.$store.dispatch('actionName', {playloadData: data });
 export const actions = {
 
-  // Creating a new article:
-  createArticle({commit}, payload) {
+  // Creating a new collection:
+  createCollection({commit}, payload) {
 
-    axios.post("/api/create-article", {
-      articleTitle: payload.articleTitle,
-      articleData: payload.articleData
+    axios.post("/api/create-collection", {
+      collectionTitle: payload.collectionTitle,
+      collectionDescription: payload.collectionDescription,
+      collectionData: [],
     })
     .then((response) => {
-      console.log(" 💾 Successfully created an article titled " + payload.articleTitle + "!");
-      console.log(" > The article's id is: " + response.data._id);
+      console.log(" 💾 Successfully created a collection titled " + payload.collectionTitle + "!");
+      console.log(" > The collection's id is: " + response.data._id);
 
-      let articleId = response.data._id
-
-      // Moving the user to the correct page.
-      this.$router.push({
-        path: '/non-fic/' + articleId + '/edit'
-      })
     }, (error) => {
       console.warn(error);
     });

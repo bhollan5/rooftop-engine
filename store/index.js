@@ -17,7 +17,7 @@ export const state = () => ({
   card: 'hsl(255,16%,17%)',
   card2: 'hsl(255,16%,15%)',
   card_text: 'hsl(0,0%,96%)',
-  card_text2: 'hsl(257,7%,40%)',
+  card_text2: 'hsl(257,7%,63%)',
 
 
   link: 'hsl(43,78%,81%)',

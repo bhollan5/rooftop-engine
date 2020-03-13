@@ -63,6 +63,7 @@ export default {
   background: var(--bg2);
   margin-right: 20px;
   box-shadow: 0px 0px 10px rgba(0,0,0,.5);
+  transition-duration: .5s;
 
   .article-card-header {
     position: relative;
@@ -78,7 +79,7 @@ export default {
     font-size: var(--small-font-size);
   }
   .article-description {
-    font-size: var(--regular-font-size);
+    font-size: var(--small-font-size);
     padding: 5px 10px;
     width: calc(100% - 110px);
     line-spacing: 0px;
@@ -111,14 +112,19 @@ export default {
       svg {
         height: var(--small-font-size);
         width: var(--small-font-size);
-        fill: var(--bg2-text2);
-      }
-      &:hover {
-        svg {
-          fill: var(--bg2-text);
-        }
+        fill: var(--card-text2);
       }
     }
+  }
+}
+
+.article-card:hover {
+  transform: scale(1.1);
+  .article-description {
+    color:var(--card-text);
+  }
+  .action-button svg {
+    fill: var(--card-text);
   }
 }
 </style>
