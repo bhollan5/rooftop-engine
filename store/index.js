@@ -12,10 +12,16 @@ export const state = () => ({
   bg: 'hsl(248,19%,31%)',
   bg_text: 'hsl(0,0%,96%)',
   bg_text2: 'hsl(230,19%,60%)',
+  bg2: '#2B2736',
+
+  card: 'hsl(255,16%,17%)',
+  card2: 'hsl(255,16%,15%)',
+  card_text: 'hsl(0,0%,96%)',
+  card_text2: 'hsl(257,7%,40%)',
+
 
   link: 'hsl(43,78%,81%)',
 
-  bg2: '#2B2736',
   bg2_text: '#F6F6F6',
   bg2_text2: '#A3A2A6',
 
@@ -56,12 +62,19 @@ export const getters = {
       '--header-bg': state.header_bg,
 
       '--bg': state.bg,
+      '--bg2': state.bg2,
       '--bg-text': state.bg_text,
       '--bg-text2': state.bg_text2,
 
+      '--card': state.card,
+      '--card2': state.card2,
+      '--card-text': state.card_text,
+      '--card-text2': state.card_text2,
+      
+
       '--link': state.link,
 
-      '--bg2': state.bg2,
+      
       '--bg2-text': state.bg2_text,
       '--bg2-text2': state.bg2_text2,
 
@@ -114,10 +127,15 @@ export const mutations = {
     state.bg = payload.bg;
     state.bg_text = payload.bg_text;
     state.bg_text2 = payload.bg_text2;
+    state.bg2 = payload.bg2;
+
+    state.card = payload.card;
+    state.card2 = payload.card2;
+    state.card_text = payload.card_text
+    state.card_text2 = payload.card_text2
 
     state.link = payload.link;
 
-    state.bg2 = payload.bg2;
     state.bg2_text = payload.bg2_text;
     state.bg2_text2 = payload.bg2_text2;
 
