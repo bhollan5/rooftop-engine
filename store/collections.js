@@ -41,11 +41,46 @@ export const getters = {
       return (collection._id == collectionId);
     });
 
+    
+
+  },
+
+  // This getter takes an array of article Id's
+  collectionWithData: (state, getters, rootState, rootGetters) => (collection_of_ids) => {
+    let collection_of_items = [];
+    let articles = rootGetters['articles/allArticles']
+    console.warn("Looking through this collection:", collection_of_ids)
+    collection_of_ids.forEach((item_id) => {
+      articles.forEach((article) => {
+        if (article._id == item_id) {
+          collection_of_items.push(article);
+        }
+      })
+    });
+    console.warn("I made this:", collection_of_items)
+    return collection_of_items;
   },
 
   // Gets all loaded collections (probably just for debugging.)
-  allCollections(state) {
-    return state.collections;
+  allCollections(state, getters, rootState, rootGetters) {
+    let collections_with_data = JSON.parse(JSON.stringify(state.collections));
+    
+    collections_with_data.forEach((collection, col_i) => {
+      collection.collectionData.forEach((item, item_i) => {
+        
+        let item_data = rootGetters['articles/articleById'](item);
+        console.log("item_data:", item_data);
+        if (!item_data) {
+          collection.loading = true;
+        } else {
+          collections_with_data[col_i].collectionData[item_i] = item_data
+        }
+      })
+    })
+    console.log("So here's our collection data being returned:")
+    console.log(collections_with_data);
+    // let articles = rootGetters['articles/allArticles']
+    return collections_with_data;
   },
 
 }
@@ -78,16 +113,59 @@ export const actions = {
   },
 
   // Getting all collections:
-  readCollections({commit}) {
+  readCollections({commit, rootGetters, dispatch}) {
     console.log(" 🗣 Calling the API to load all collections.")
 
     return axios.get("/api/read-all-collections")
       .then((response) => {
         console.log(" 📦 Loaded " + response.data.length + " collections.");
+
+        // This is now an array of collection objects:
+        let all_collections = response.data;
+        // But the collectionData is loaded in as an array of article id's. 
+        // We need to load in their corresponding articles!
+
+        all_collections.forEach((collection) => {
+          dispatch('getCollectionArticle', collection);
+        })
+
         commit('setCollections', response.data);
+
       }, (error) => {
         console.warn(error);
       });
+  },
+
+  // Takes a collection and loads in the data for it. 
+  getCollectionArticle({dispatch}, payload) {
+    let collection = payload;
+
+    // We're gonna set up a query to find all our articles at once. More info:
+    //   https://docs.mongodb.com/manual/reference/operator/query/or/
+    let articleQuery = { $or: [] };
+
+    // Adding all those id's to our query
+    collection.collectionData.forEach((item) => {
+      articleQuery.$or.push({_id: item});
+    })
+    
+    dispatch('articles/readArticlesByQuery', articleQuery, {root: true});
+  },
+
+  // Updating a collection by id.
+  updateCollection({commit}, payload) {
+    console.log(" 🗣 Calling the API to update collection %c" +  payload._id, "color:magenta;")
+
+    // Making the API call
+    axios.post("/api/update-collection", {
+        _id: payload._id,
+        update: payload.update
+      }).then((response) => {
+        console.log(" 🖌 Updated the collection %c" +  payload._id, "color:magenta;");
+      }).catch ((error) => {
+        console.warn(error);
+      });
+
   },
 
   // Updating a collection by id.
@@ -123,22 +201,6 @@ export const actions = {
     });
   },
 
-  // Uploading an image for an article: 
-  uploadImage({commit}, payload) {
-    console.log(" 🗣 Calling the api to upload the image %c" +  payload.fileName, "color:magenta;")
-    console.log(payload);
-
-    // You should have a server side REST API 
-    axios.post('/api/upload-article-image', {
-      fileName: payload.fileName,
-      fileValue: payload.fileValue
-    }).then(function () {
-        console.log('Success uploading file!');
-      })
-      .catch(function () {
-        console.log('Failed to upload item!');
-      });
-  }
 }
 
 
@@ -150,10 +212,9 @@ export const actions = {
 //    this.$store.commit("mutationName", { payloadData: data })
 export const mutations = {
   
-  // Setting article array:
+  // Setting article array.
   setCollections(state, payload) {
     state.collections = payload;
-    console.log(" ✨ Collections updated in the Vuex store:", payload);
   },
 
   // update a collection byID:

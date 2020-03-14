@@ -21,7 +21,7 @@
     </div>-->
 
     <collection v-for="(collection, collection_i) in collections"
-      :collection="collection" :key="'collection' + collection_i" :articles="articles">
+      :collection="collection" :key="'collection' + collection_i" >
     </collection>
 
     
@@ -65,7 +65,7 @@ export default {
 
   mounted() {
     // When the page loads, we load in the articles. 
-    this.getArticles();
+    // this.getArticles();
     this.getCollections();
   },
 
@@ -77,15 +77,6 @@ export default {
     // And this refreshes the collections
     getCollections() {
       this.$store.dispatch("collections/readCollections")
-    },
-
-    // Deleting an article
-    deleteArticle(article) {
-      if (confirm('Are you sure you want to delete "' + article.articleTitle + '"?')) {
-        this.$store.dispatch("articles/deleteArticle", {
-          _id: article._id
-        })
-      }
     },
 
     // Adding a collection

@@ -1,20 +1,20 @@
 <template>
-<router-link :to="'/non-fic/' + article._id + '/edit/'" tag="div" class="article-card">
+<div class="article-card">
 
   <!-- The  header of the card. -->
-  <div class="article-card-header">
+  <router-link class="article-card-header" tag="div" router-link :to="'/non-fic/' + article._id + '/edit/'">
     <div class="article-card-title">{{article.articleTitle}}</div>
     <div class="byline">by <router-link to="/">Ben H</router-link></div>
 
     <!-- The thumbnail image. 
       It's inside the header because it's positioned relative to the bottom of the header. -->
-    <div class="thumbnail"></div>
+    <div class="thumbnail" v-html="article.articleThumbnail"></div>
 
-  </div>
+  </router-link>
 
   <!-- Article description. -->
   <div class="article-description">
-    A non-technical explanation of the design plans for...
+    {{article.articleDescription}}
   </div>
 
   
@@ -29,7 +29,7 @@
     </div>
   </div>
   
-</router-link>
+</div>
 </template>
 
 <script>
@@ -49,6 +49,17 @@ export default {
   },
   props: {
     article: Object
+  },
+
+  methods: {
+    // Deleting an article
+    deleteArticle(article) {
+      if (confirm('Are you sure you want to delete "' + article.articleTitle + '"?')) {
+        this.$store.dispatch("articles/deleteArticle", {
+          _id: article._id
+        })
+      }
+    },
   }
 }
 </script>
@@ -58,7 +69,6 @@ export default {
 .article-card {
   width: 275px;
   height: 150px;
-  cursor: pointer;
   position: relative;
   background: var(--card);
   margin-right: 20px;
@@ -70,6 +80,7 @@ export default {
     position: relative;
     padding: 5px 10px;
     background: var(--card2);
+    cursor: pointer;
   }
 
   .article-card-title {
@@ -101,6 +112,7 @@ export default {
     bottom: 0px;  
     padding: 5px 10px;
     .action-button {
+      cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -115,8 +127,8 @@ export default {
 }
 
 .article-card:hover {
-  transform: scale(1.15);
-  height: 200px;
+  transform: scale(1.1);
+  // height: 200px;
   z-index: 3;
   box-shadow: 0px 0px 10px rgba(0,0,0,.5);
   .article-description {

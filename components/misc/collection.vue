@@ -5,6 +5,7 @@
 
   <!-- collection info/header -->
   <div class="collection-header" :class="{'collection-header-selected': editCollection }">
+
     <!-- Edit icons, floating to the left -->
     <div class="floating-element-icons" @click="floatingIconAction()"
       :class="{'floating-icons-selected': editCollection}">
@@ -12,17 +13,27 @@
       <edit-icon v-else></edit-icon>
     </div>
 
+    <!-- The title of the collection. -->
     <h3 class="collection-title" v-if="!editCollection">{{collection.collectionTitle}}</h3>
-    <text-field v-else v-model="collectionTitleDraft" nobox class="collection-title h3-input"></text-field>
+    <text-field v-else v-model="collectionTitleDraft" nobox class="collection-title h3-input"
+      @enter="floatingIconAction()"></text-field>
 
+    <!-- Collection descriptions. -->
     <p class="collection-description" v-if="!editCollection">{{collection.collectionDescription}}</p>
-    <text-field v-else v-model="collectionDescriptionDraft" nobox class="collection-description"></text-field>
+    <text-field v-else v-model="collectionDescriptionDraft" nobox class="collection-description"
+      @enter="floatingIconAction()"></text-field>
 
   </div>
 
+  <!-- Area displaying the content of the collection. -->
   <div class="collection-display">
-    <article-card v-for="(article, article_i) in articles" :article="article" :key="'article-' + article_i">
+    <article-card v-for="(article, article_i) in collection.collectionData" :article="article" 
+      :key="'article-' + article_i" v-if="!collection.loading">
     </article-card>
+    <div class="add-a-file">
+      <text-field v-model="articleIdToAdd"></text-field>
+      <button @click="addArticleToCollection()">Add</button>
+    </div>
   </div>
 
 </div>
@@ -40,7 +51,6 @@ import textField from '@/components/inputs/text-field.vue';
 export default {
   props: {
     collection: Object,
-    articles: Array
   },
   components: {
     editIcon,
@@ -52,7 +62,9 @@ export default {
     return {
       editCollection: false,
       collectionTitleDraft: '',
-      collectionDescriptionDraft: ''
+      collectionDescriptionDraft: '',
+
+      articleIdToAdd: '', // For adding articles to collections
     }
   },
   methods: {
@@ -72,7 +84,16 @@ export default {
           },
         }) 
       }
+    },
+
+    // Adds an article ID to a collection
+    addArticleToCollection() {
+      this.$store.dispatch('collections/updateCollection', {
+        _id: this.collection._id,
+        update: { $addToSet: { collectionData: this.articleIdToAdd } }
+      })
     }
+
   }
 }
 </script>
@@ -102,7 +123,8 @@ export default {
 }
 .collection-description {
   margin-bottom: 5px;
-  max-width: 350px;
+  
+  max-width: 50%;
   font-size: var(--small-font-size);
   input {
     font-size: var(--small-font-size);

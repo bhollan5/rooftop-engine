@@ -11,13 +11,14 @@
 // For database calls:
 import axios from 'axios';
 
-
+// We need this for Vue.set()
+import Vue from 'vue';
 
 // Setting up our state variables:
 export const state = () => ({
 
   // Article data:
-  articles: [],
+  articles: {},
   
 })
 
@@ -36,9 +37,7 @@ export const getters = {
   //  getterName() { return function (articleId) { ... } }
   articleById: (state) => (articleId) => {
     // This filter format is how we can query an array of objs. 
-    return state.articles.filter( function(article) {
-      return (article._id == articleId);
-    });
+    return state.articles[articleId];
 
   },
 
@@ -96,13 +95,17 @@ export const actions = {
   },
 
   // Getting a set of articles, by query.
-  readArticle({commit}, payload) {
+  readArticlesByQuery({commit}, payload) {
+    console.log(" 🗣 Calling the API to load articles based on this query: ", payload);
 
     // Getting the article from the database.
-    axios.get("/api/read-article", payload.query)
+    axios.get("/api/read-articles", { params: {query: payload}})
       .then((response) => {
-        console.log(" 📦 Loaded " + response.data.length + " articles based on this query:" + payload.query);
-        commit('setArticles', response.data);
+        let articles = response.data;
+        console.log(" 📦 Loaded " + articles.length + " articles!");
+        articles.forEach((article) => {
+          commit('setArticle', article);
+        })
       }, (error) => {
         console.warn(error);
       });
@@ -138,22 +141,23 @@ export const actions = {
     });
   },
 
-  // Uploading an image for an article: 
-  uploadImage({commit}, payload) {
-    console.log(" 🗣 Calling the api to upload the image %c" +  payload.fileName, "color:magenta;")
-    console.log(payload);
+    // We just put SVGS as normal datafields now instead of this
+  // // Uploading an image for an article: 
+  // uploadImage({commit}, payload) {
+  //   console.log(" 🗣 Calling the api to upload the image %c" +  payload.fileName, "color:magenta;")
+  //   console.log(payload);
 
-    // You should have a server side REST API 
-    axios.post('/api/upload-article-image', {
-      fileName: payload.fileName,
-      fileValue: payload.fileValue
-    }).then(function () {
-        console.log('Success uploading file!');
-      })
-      .catch(function () {
-        console.log('Failed to upload item!');
-      });
-  }
+  //   // You should have a server side REST API 
+  //   axios.post('/api/upload-article-image', {
+  //     fileName: payload.fileName,
+  //     fileValue: payload.fileValue
+  //   }).then(function () {
+  //       console.log('Success uploading file!');
+  //     })
+  //     .catch(function () {
+  //       console.log('Failed to upload item!');
+  //     });
+  // }
 }
 
 
@@ -164,6 +168,13 @@ export const actions = {
 // Calling mutations from Vue is weird, you need to do this:
 //    this.$store.commit("mutationName", { payloadData: data })
 export const mutations = {
+
+  // Setting article in the articles object:
+  setArticle(state, payload) {
+    let article = payload;
+    Vue.set(state.articles, article._id, article);
+    console.log(" ✨ One article updated in the Vuex store", article);
+  },
   
   // Setting article array:
   setArticles(state, payload) {

@@ -15,7 +15,8 @@
 
         <div class="byline">by <router-link to="/">Ben H</router-link></div>
     
-        <div class="thumbnail"></div>
+        <div class="thumbnail" v-if="0"></div>
+        <svg-uploader v-model="articleThumbnail" class="thumbnail" v-else></svg-uploader>
 
       </div>
 
@@ -49,6 +50,7 @@
 <script>
 // Inputs:
 import textField from '@/components/inputs/text-field.vue';
+import svgUploader from '@/components/inputs/svg-uploader.vue';
 
 // Icons:
 import gearIcon from '@/components/icons/gear-icon.vue';
@@ -68,6 +70,7 @@ export default {
   components: {
 
     textField,
+    svgUploader,
 
     gearIcon,
     editIcon,
@@ -89,11 +92,11 @@ export default {
       articleData: [
         {
           type: 'header',
-          content: 'My Article Title',
+          content: '',
         },
         {
           type: 'subheader',
-          content: 'This is a subheader, too!',
+          content: '',
         },
         {
           type: 'tabs',
@@ -122,7 +125,7 @@ export default {
               content: [
                 {
                   type: 'paragraph',
-                  content: 'def',
+                  content: '',
                 },
                 {
                   type: 'subsection-title',
@@ -185,6 +188,7 @@ export default {
         let articleObj = JSON.parse(JSON.stringify(articleList[0])); 
         // The articleData object is local, and only updates the database when you save. 
         this.articleDescription = articleObj.articleDescription;
+        this.articleThumbnail = articleObj.articleThumbnail;
         this.articleData = articleObj.articleData;
 
       })
@@ -202,7 +206,8 @@ export default {
         this.$store.dispatch('articles/createArticle', {
           articleTitle: this.articleData[0].content,
           articleDescription: this.articleDescription,
-          articleData: this.articleData
+          articleData: this.articleData,
+          articleThumbnail: this.articleThumbnail
         })
 
       // Handling when the ID isn't the string "new".
@@ -213,7 +218,8 @@ export default {
           update: {
             articleData: this.articleData,
             articleTitle: this.articleData[0].content,
-            articleDescription: this.articleDescription
+            articleDescription: this.articleDescription,
+            articleThumbnail: this.articleThumbnail
           }
         })
         

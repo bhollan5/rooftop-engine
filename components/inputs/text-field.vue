@@ -5,10 +5,12 @@
     :placeholder="placeholder"
     :class="{ 'icon-padding': icon,
               'underline': underline }"
+    v-on:keyup.enter="$emit('enter')"
     v-if="!textarea">
     
   <textarea v-else :value="value" @input="$emit('input', $event.target.value)"
     :placeholder="placeholder"
+    v-on:keyup.enter="$emit('enter')"
     :class="{ 'icon-padding': icon,
               'underline': underline }"></textarea>
 </div>

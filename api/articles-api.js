@@ -1,3 +1,6 @@
+
+let ObjectID = require('mongodb').ObjectID;        // This tool lets us convert object id's to be queryable
+
 module.exports = function(app, mongoose){
 
   //
@@ -8,6 +11,7 @@ module.exports = function(app, mongoose){
   let articleSchema = new mongoose.Schema({
     articleTitle: String,
     articleDescription: String,
+    articleThumbnail: String,
     articleData: Array,
   });
 
@@ -23,6 +27,19 @@ module.exports = function(app, mongoose){
       res.send(result)
     });
   })
+
+  // Getting all articles:
+  app.get('/read-articles', (req, res) => {
+    console.log("\n 🗣 Called to query articles!")
+    console.log(req.params);
+    console.log(req.params.query);
+
+    Article.find(req.params.query, function (err, result) {
+      if (err) return console.error(err);
+      console.log(" 💌 Sent out " + result.length + " results!")
+      res.send(result);
+    })
+  });
 
   // Getting all articles:
   app.get('/articles', (req, res) => {
