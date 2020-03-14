@@ -7,9 +7,9 @@
 
           <!-- No gear icon for article headers or subheaders. -->
           <!-- TODO: Add options for tabs -->
-        <div class="gear-icon" @click="editSelect(dataEl_i)"
+        <div class="floating-element-icons" @click="editSelect(dataEl_i)"
           v-if="dataEl.type != 'header' && dataEl.type != 'subheader' && dataEl.type != 'tabs'" 
-          :class="{'gear-icon-selected': editElement == dataEl_i}">
+          :class="{'floating-icons-selected': editElement == dataEl_i}">
           <gear-icon></gear-icon>
         </div>
 
@@ -272,32 +272,13 @@ export default {
   }
 }
 
-.gear-icon {
-  position: absolute;
-  height: 30px;
-  width: 35px;
-  left: -33px;
-  padding: 5px;
-  border-radius: 5px 0px 0px 5px;
-  top: 0px;
-  fill: var(--bg2);
-  &.gear-icon-selected {
-    background: var(--bg2);
-    fill: var(--bg2-text);
-  }
-  cursor: pointer;
-  &:hover {
-    fill: var(--bg2-text);
-  }
-}
-
 // This is for the interface that pops up when you press the gear icon. 
 .edit-element-interface {
   position: absolute;
   display: flex;
   width: 100%;
   height: 100%;
-  background: var(--bg2);
+  background: var(--card);
   z-index: 2;
   h5 {
     padding: 5px;
@@ -389,7 +370,7 @@ export default {
   width: 250px;
   overflow-y: scroll;
   height: 100%;
-  border-right: solid 1px var(--bg2-text2);
+  border-right: solid 1px var(--card-text2);
   min-height: 100px;
 }
 // Each individual section type option, w/ icon:
@@ -398,7 +379,7 @@ export default {
   padding: 5px 10px;
   display: flex;
   align-items: center;
-  background: var(--bg2);
+  background: var(--card);
   cursor: pointer;
   .element-type-icon {
     width: 35px;
@@ -418,7 +399,7 @@ export default {
   }
   .option-description {
     padding: 0px 10px;
-    color: var(--bg2-text2);
+    color: var(--card-text2);
     // Scooting the description closer to the label
     .bold {
       margin-bottom: -5px;
@@ -428,15 +409,15 @@ export default {
   &:hover {
     filter: brightness(130%);
     .option-description {
-      color: var(--bg2-text);
+      color: var(--card-text);
     }
   }
   // For the currently selected element option:
   &.selected-element-type {
     filter: brightness(120%);
-    color: var(--bg2-text);
+    color: var(--card-text);
     .option-description {
-      color: var(--bg2-text);
+      color: var(--card-text);
     }
     .element-type-icon {
       border: 1px solid var(--input-text);

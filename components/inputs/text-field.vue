@@ -68,17 +68,14 @@ export default {
 }
 
 input, textarea {
-  font-size: 16px;
   padding: 5px;
   width: 100%;
-  // min-width: 200px;
   outline: none;
   background: var(--input);
   color: var(--input-text);
   border: none;
   transition-duration: .5s;
   box-shadow: 0px 0px var(--box-shading) rgba(0,0,0,.7);
-
 }
 input::placeholder, textarea::placeholder {
   color: var(--input-text2);

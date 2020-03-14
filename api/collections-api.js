@@ -24,20 +24,20 @@ module.exports = function(app, mongoose){
     });
   })
 
-  // Getting all articles:
-  app.get('/articles', (req, res) => {
-    console.log("\n 🗣 Called to read all articles!")
+  // Getting all collections:
+  app.get('/read-all-collections', (req, res) => {
+    console.log("\n 🗣 Called to read all collections!")
 
-    Article.find(function (err, result) {
+    Collection.find(function (err, result) {
       if (err) return console.error(err);
-      console.log(" 💌 Sent out " + result.length + " results!")
+      console.log(" 💌 Sent  " + result.length + " collections to the frontend!")
       res.send(result);
     })
   });
 
   
-  // Update an article. Takes an object with query information
-  app.post('/update-article', (req, res) => {
+  // Update a collection. Takes an object with query information
+  app.post('/update-collection', (req, res) => {
 
     console.log("\n 🗣 Called to update an article!")
     let _id = req.body._id;         // The id of the doc we're calling

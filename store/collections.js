@@ -76,14 +76,14 @@ export const actions = {
 
   },
 
-  // Getting all articles:
-  readArticles({commit}) {
-    console.log(" 🗣 Calling the API to load all articles.")
+  // Getting all collections:
+  readCollections({commit}) {
+    console.log(" 🗣 Calling the API to load all collections.")
 
-    return axios.get("/api/articles")
+    return axios.get("/api/read-all-collections")
       .then((response) => {
-        console.log(" 📦 Loaded " + response.data.length + " articles.");
-        commit('setArticles', response.data);
+        console.log(" 📦 Loaded " + response.data.length + " collections.");
+        commit('setCollections', response.data);
       }, (error) => {
         console.warn(error);
       });
@@ -160,9 +160,9 @@ export const actions = {
 export const mutations = {
   
   // Setting article array:
-  setArticles(state, payload) {
-    state.articles = payload;
-    console.log(" ✨ Articles updated in the Vuex store:", payload);
+  setCollections(state, payload) {
+    state.collections = payload;
+    console.log(" ✨ Collections updated in the Vuex store:", payload);
   },
   
   // Deleting an article by id: 

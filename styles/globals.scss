@@ -23,6 +23,7 @@
   --regular-font-size:  19px;
   --h1-font-size: 36px;
   --h2-font-size: 24px;
+  --h3-font-size: 24px;
 }
 
 html {
@@ -62,7 +63,11 @@ h1 {
 }
 h2 {
   text-align: center;
-  color: var()
+  font-size: var(--h2-font-size);
+}
+h3, .h3-input input {
+  font-size: var(--h3-font-size);
+  font-weight: bold;
 }
 // Used in edit.vue
 h5 {
@@ -119,6 +124,25 @@ button {
 .small-square, .small-icon {
   height: var(--small-font-size);
   width: var(--small-font-size);
+}
+
+.floating-element-icons {
+  position: absolute;
+  height: 30px;
+  width: 35px;
+  left: -33px;
+  padding: 5px;
+  border-radius: 5px 0px 0px 5px;
+  top: 0px;
+  fill: var(--card);
+  &.floating-icons-selected {
+    background: var(--card);
+    fill: var(--card-text2);
+  }
+  cursor: pointer;
+  &:hover {
+    fill: var(--card-text);
+  }
 }
 
 #logo {
@@ -190,10 +214,7 @@ svg .bg-text-fill {
   height: 50px;
 }
 
-// Container for collections of media.
-.collection {
-  display: flex;
-}
+
 
 // Container for pages and page content.
 .container {

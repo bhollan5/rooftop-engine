@@ -1,22 +1,29 @@
+<!-- /nonfic/edit, where users can edit their nonfic articles! -->
 <template>
   <div class="page-content flex-container">
 
+    <!-- The side bar, with the outline and stuff -->
     <div id="side-bar">
-      <h3 v-if="articleData[0].content">
-        {{articleData[0].content}}
-      </h3>
-      <h3 v-else class="bg2-text2">
-        Article Title
-      </h3>
+      <!-- The header of the side bar is colored differently. -->
+      <div id="side-bar-header">
+        <h3 v-if="articleData[0].content">
+          {{articleData[0].content}}
+        </h3>
 
-      <div class="id-container">
-        <h4 id="id-label" class="bg2-text2">Article ID:</h4>
-        <text-field v-model="articleId"></text-field>
+        <h3 v-else class="card-text2">
+          Article Title
+        </h3>
+
+        <div class="id-container">
+          <h4 id="id-label" class="card-text2">Article ID:</h4>
+          <text-field v-model="articleId" nobox></text-field>
+        </div>
       </div>
 
-      <br>
-      <h4>Tab:</h4>
-      <hr>
+      <div id="side-bar-content">
+        <h4>Tab:</h4>
+        <hr>
+      </div>
     </div>
 
     <!-- The content container, which holds the entire editor -->
@@ -212,11 +219,33 @@ export default {
 // The side bar with the table of contents:
 #side-bar {
   width: 25%;
-  background: var(--bg2);
+  background: var(--card);
   height: 400px;
-  padding: 15px;
-  .bg2-text2 {
-    color: var(--bg2-text2);
+  
+  // The sidebar header has the title and article ID
+  #side-bar-header {
+    padding: 15px;
+    background: var(--card2);
+    // Contains the article ID
+    .id-container {
+      display: flex;
+      align-items: center;
+      h4 {
+        font-size: var(--small-font-size);
+        width: 100px;
+      }
+      .text-field, .text-field input {
+        font-size: var(--small-font-size);
+        padding: 2px;
+      }
+    }
+  }
+  
+  #side-bar-content {
+    padding: 15px;
+  }
+  .card-text2 {
+    color: var(--card-text2);
   }
 }
 
@@ -242,16 +271,5 @@ export default {
   align-content:flex-start;
 }
 
-.id-container {
-  display: flex;
-  align-items: center;
-  h4 {
-    font-size: var(--small-font-size);
-    width: 70px;
-  }
-  .text-field, .text-field input {
-    font-size: var(--small-font-size);
-    padding: 2px;
-  }
-}
+
 </style>

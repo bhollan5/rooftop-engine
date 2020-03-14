@@ -2,12 +2,12 @@
   <div class="container" scoped>
 
     <!-- The "non-fic promo" is the banner spread at the top of the landing page. -->
-    <div id="non-fic-promo">
+    <div id="non-fic-banner">
 
     </div>
 
-    <!-- -->
-    <div id="media-suggestions" 
+    <!-- Model coll (delete)
+    <div id="collection-container" 
       :style="{background: $store.state.bg}">
 
       <h3 class="collection-label">Rooftop Policy</h3>
@@ -18,7 +18,13 @@
         </article-card>
 
       </div>
-    </div>
+    </div>-->
+
+    <collection v-for="(collection, collection_i) in collections"
+      :collection="collection" :key="'collection' + collection_i" :articles="articles">
+    </collection>
+
+    
 
     <button @click="addCollection()" id="new-collection-button">
       + New Collection
@@ -32,39 +38,45 @@
 
 <script>
 import placeholderSpread from '@/components/landing_spreads/placeholder_spread.vue';
-import articleCard from '@/components/non-fic/article-card.vue';
-import editIcon from '@/components/icons/edit-icon.vue';
+import collection from '@/components/misc/collection.vue';
 
 export default {
   name: 'non-fic',
   components: {
     placeholderSpread,
-    articleCard,
+    collection,
 
-    editIcon,
   },
   data() {
     return {
-      
+      editCollection: -1, // Indicates which index of the collection we're editing
     }
   },
 
   computed: {
-    // Getting the article array from the store. 
+    // Getting arrays of collections, containing art from the store. 
     articles() { 
       return this.$store.getters['articles/allArticles'];
+    },
+    collections() { 
+      return this.$store.getters['collections/allCollections'];
     }
   },
 
   mounted() {
     // When the page loads, we load in the articles. 
     this.getArticles();
+    this.getCollections();
   },
 
   methods: {
     // Deploy this to refresh the articles. 
     getArticles() {
       this.$store.dispatch("articles/readArticles")
+    },
+    // And this refreshes the collections
+    getCollections() {
+      this.$store.dispatch("collections/readCollections")
     },
 
     // Deleting an article
@@ -79,6 +91,14 @@ export default {
     // Adding a collection
     addCollection() {
       this.$store.dispatch("collections/createCollection")
+    },
+
+    editSelect(collection_i) {
+      if (this.editCollection == collection_i) {
+        this.editCollection = -1;
+      } else {
+        this.editCollection = collection_i
+      }
     }
 
   }
@@ -86,16 +106,17 @@ export default {
 </script>
 
 <style lang="scss">
-#non-fic-promo {
+// The banner image
+#non-fic-banner {
   width: 100%;
   height: 20vh;
   background: var(--bg);
 }
 
-#media-suggestions {
+// All collections
+#collection-container {
   padding-top: 50px;
   width: 100%;
-  min-height: 500px;
   box-shadow: var(--box-shading);
   color: var(--bg-text);
 }
@@ -118,13 +139,4 @@ export default {
 
 }
 
-// .collection is also styled in global.scss.
-.collection, .collection-label, .collection-underline {
-  margin-left: 50px;
-}
-.collection-underline {
-  width: 40%;
-  min-width: 250px;
-  margin-bottom: 10px;
-}
 </style>
