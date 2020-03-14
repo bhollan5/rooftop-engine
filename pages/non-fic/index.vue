@@ -20,6 +20,9 @@
       </div>
     </div>
 
+    <button @click="addCollection()" id="new-collection-button">
+      + New Collection
+    </button>
     <router-link tag="button" to="/non-fic/new/edit" id="new-article-button">
       + New Article
     </router-link>
@@ -64,13 +67,18 @@ export default {
       this.$store.dispatch("articles/readArticles")
     },
 
-    //
+    // Deleting an article
     deleteArticle(article) {
       if (confirm('Are you sure you want to delete "' + article.articleTitle + '"?')) {
         this.$store.dispatch("articles/deleteArticle", {
           _id: article._id
         })
       }
+    },
+
+    // Adding a collection
+    addCollection() {
+      this.$store.dispatch("collections/createCollection")
     }
 
   }
@@ -92,7 +100,7 @@ export default {
   color: var(--bg-text);
 }
 
-#new-article-button {
+#new-article-button, #new-collection-button {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -104,6 +112,10 @@ export default {
     color: var(--c1-light);
     border: solid 2px var(--c1-light);
   }
+}
+#new-collection-button {
+  right: 150px;
+
 }
 
 // .collection is also styled in global.scss.

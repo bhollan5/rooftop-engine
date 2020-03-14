@@ -22,6 +22,8 @@ let ObjectID = mongodb.ObjectID;        // This tool lets us convert object id's
 // down below, at the bottom of the file. 
 const articlesRoutes = require('./articles-api.js');
 const themesRoutes = require('./themes-api.js');
+const collectionsRoutes = require('./collections-api.js');
+
 
 
 const app = express()                   // Creating our Express instance
@@ -53,6 +55,7 @@ function (err, client) {
   // Initializing the article routes
   articlesRoutes(app, mongoose);
   themesRoutes(app, mongoose);
+  collectionsRoutes(app, mongoose);
 
 
 })

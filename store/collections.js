@@ -62,12 +62,12 @@ export const actions = {
   createCollection({commit}, payload) {
 
     axios.post("/api/create-collection", {
-      collectionTitle: payload.collectionTitle,
-      collectionDescription: payload.collectionDescription,
+      collectionTitle: 'New Collection',
+      collectionDescription: "Your collection description here!",
       collectionData: [],
     })
     .then((response) => {
-      console.log(" 💾 Successfully created a collection titled " + payload.collectionTitle + "!");
+      console.log(" 💾 Successfully created a collection!");
       console.log(" > The collection's id is: " + response.data._id);
 
     }, (error) => {

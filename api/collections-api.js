@@ -1,24 +1,25 @@
 module.exports = function(app, mongoose){
 
   //
-  // Access our articles in the database:
+  // Access our collections in the database:
   //
 
-  // Defining our mongoose schema for a given article:
-  let articleSchema = new mongoose.Schema({
-    articleTitle: String,
-    articleData: Array,
+  // Defining our mongoose schema for a given collection:
+  let collectionSchema = new mongoose.Schema({
+    collectionTitle: String,
+    collectionDescription: String,
+    collectionData: Array,
   });
 
-  let Article = mongoose.model('Article', articleSchema);
+  let Collection = mongoose.model('Collection', collectionSchema);
 
 
-  // Creating a new article:
-  app.post('/create-article', (req, res) => {
-    let newArticle = new Article(req.body);
-    newArticle.save(function (err, result) {
+  // Creating a new collection:
+  app.post('/create-collection', (req, res) => {
+    let newCollection = new Collection(req.body);
+    newCollection.save(function (err, result) {
       if (err) return console.error(err);
-      console.log(' 💾 Saved a new article to the database!');
+      console.log(' 💾 Saved a new collection to the database!');
       res.send(result)
     });
   })

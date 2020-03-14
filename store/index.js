@@ -29,12 +29,12 @@ export const state = () => ({
   bg2_input_text: 'hsl(0,0%,91%)',
   bg2_input_text2: 'hsl(230,19%,55%)',
 
-  c1: 'hsl(43,78%,81%)',
-  c1_light: '',
+  c1: 'hsl(43,78%,76%)',
+  c1_light: 'hsl(43,78%,86%)',
   c2: 'hsl(43,78%,81%)',
-  c2_light: '',
+  c2_light: 'hsl(43,78%,86%)',
   c3: 'hsl(43,78%,81%)',
-  c3_light: '',
+  c3_light: 'hsl(43,78%,86%)',
 
   input: 'hsl(248,19%,40%)',
   input_text: 'hsl(0,0%,96%)',
@@ -83,11 +83,11 @@ export const getters = {
       '--bg2-input-text2': state.bg2_input_text2,
 
       '--c1': state.c1,
-      '--c1_light': state.c1_light,
+      '--c1-light': state.c1_light,
       '--c2': state.c2,
-      '--c2_light': state.c2_light,
+      '--c2-light': state.c2_light,
       '--c3': state.c3,
-      '--c3_light': state.c3_light,
+      '--c3-light': state.c3_light,
 
       '--input': state.input,
       '--input-text': state.input_text,
