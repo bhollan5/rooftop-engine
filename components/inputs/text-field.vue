@@ -81,7 +81,8 @@ input::placeholder, textarea::placeholder {
   color: var(--input-text2);
 }
 textarea {
-  resize: vertical;
+  // resize: vertical;
+  resize: none;
   vertical-align: top;
 }
 

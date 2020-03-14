@@ -6,21 +6,25 @@
     <div id="side-bar">
       <!-- The header of the side bar is colored differently. -->
       <div id="side-bar-header">
-        <h3 v-if="articleData[0].content">
-          {{articleData[0].content}}
-        </h3>
-
-        <h3 v-else class="card-text2">
-          Article Title
-        </h3>
+        <text-field nobox class="h3-input" v-model="articleData[0].content" ></text-field>
 
         <div class="id-container">
-          <h4 id="id-label" class="card-text2">Article ID:</h4>
+          <h4 id="id-label" class="card-text2">id:</h4>
           <text-field v-model="articleId" nobox></text-field>
         </div>
+
+        <div class="byline">by <router-link to="/">Ben H</router-link></div>
+    
+        <div class="thumbnail"></div>
+
       </div>
 
       <div id="side-bar-content">
+        <!-- Article description. -->
+        <text-field textarea nobox class="article-description"
+          v-model="articleDescription">
+        </text-field>
+
         <h4>Tab:</h4>
         <hr>
       </div>
@@ -79,6 +83,8 @@ export default {
 
       // The ID of the article we're on -- initially, the URL id.
       articleId: this.$route.params.articleId,
+      articleDescription: 'Add a description here.',
+      articleThumbnail: '',
 
       articleData: [
         {
@@ -178,6 +184,7 @@ export default {
         // We need to do the json.parse thing to copy the article (since getters are immutable).
         let articleObj = JSON.parse(JSON.stringify(articleList[0])); 
         // The articleData object is local, and only updates the database when you save. 
+        this.articleDescription = articleObj.articleDescription;
         this.articleData = articleObj.articleData;
 
       })
@@ -194,6 +201,7 @@ export default {
 
         this.$store.dispatch('articles/createArticle', {
           articleTitle: this.articleData[0].content,
+          articleDescription: this.articleDescription,
           articleData: this.articleData
         })
 
@@ -204,7 +212,8 @@ export default {
           _id: this.articleId,
           update: {
             articleData: this.articleData,
-            articleTitle: this.articleData[0].content
+            articleTitle: this.articleData[0].content,
+            articleDescription: this.articleDescription
           }
         })
         
@@ -218,32 +227,45 @@ export default {
 
 // The side bar with the table of contents:
 #side-bar {
-  width: 25%;
+  width: 275px;
   background: var(--card);
   height: 400px;
   
   // The sidebar header has the title and article ID
   #side-bar-header {
-    padding: 15px;
+    padding: 10px;
     background: var(--card2);
+    position: relative;
+
     // Contains the article ID
     .id-container {
       display: flex;
       align-items: center;
       h4 {
         font-size: var(--small-font-size);
-        width: 100px;
+        width: 25px;
       }
       .text-field, .text-field input {
         font-size: var(--small-font-size);
-        padding: 2px;
+        // padding: 2px;
       }
     }
   }
   
   #side-bar-content {
-    padding: 15px;
+    padding: 5px 10px;
+    .article-description {
+      width: calc(100% - 110px);
+      line-height: 1;
+      color: var(--card-text2);
+      height: 80px;
+      textarea {
+        font-size: var(--small-font-size);
+        height: 100%;
+      }
+    }
   }
+  
   .card-text2 {
     color: var(--card-text2);
   }

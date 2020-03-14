@@ -4,7 +4,7 @@
   <!-- The  header of the card. -->
   <div class="article-card-header">
     <div class="article-card-title">{{article.articleTitle}}</div>
-    <div class="article-byline">by <router-link to="/">Ben H</router-link></div>
+    <div class="byline">by <router-link to="/">Ben H</router-link></div>
 
     <!-- The thumbnail image. 
       It's inside the header because it's positioned relative to the bottom of the header. -->
@@ -76,8 +76,8 @@ export default {
     font-size: var(--regular-font-size);
     font-weight: bold;
   }
-  .article-byline {
-    font-size: var(--small-font-size);
+  .byline {
+    // Styled in global.scss
   }
   .article-description {
     font-size: var(--small-font-size);
@@ -90,12 +90,7 @@ export default {
 
   // Thumbnail image
   .thumbnail {
-    width: 100px;
-    height: 100px;
-    position: absolute;
-    background: var(--bg);
-    right: 10px;
-    bottom: -85px;
+    // Styled in global.scss
   }
 
   // The container for the edit and delete buttons in the article cards

@@ -110,39 +110,4 @@ export default {
   }
 }
 
-// .collection is also styled in global.scss.
-.collection, .collection-label {
-  margin-left: 50px;
-}
-.article-card {
-  width: 275px;
-  height: 125px;
-  background: var(--bg2);
-  margin-right: 20px;
-  padding: 10px;
-  box-shadow: 0px 0px 10px rgba(0,0,0,.5);
-  .article-card-title {
-    font-size: var(--regular-font-size);
-    font-weight: bold;
-  }
-  .article-byline {
-    font-size: var(--small-font-size);
-  }
-  .edit-button {
-    background: var(--bg2);
-    color: var(--card-text2);
-    border: solid 1px var(--card-text2);
-    font-size: var(--small-font-size);
-    svg {
-      fill: var(--card-text2);
-    }
-    &:hover {
-      color: var(--card-text);
-      border: solid 1px var(--card-text);
-      svg {
-        fill: var(--card-text);
-      }
-    }
-  }
-}
 </style>

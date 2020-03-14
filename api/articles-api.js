@@ -7,6 +7,7 @@ module.exports = function(app, mongoose){
   // Defining our mongoose schema for a given article:
   let articleSchema = new mongoose.Schema({
     articleTitle: String,
+    articleDescription: String,
     articleData: Array,
   });
 

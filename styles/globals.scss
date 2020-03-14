@@ -54,14 +54,14 @@ input, textarea {
   margin: 0;
 }
 
-h1 {
+h1, .h1-input input {
   text-align: center;
   color: var(--bg-text);
   margin-top: 25px;
   font-weight: bold;
   font-size: var(--h1-font-size);
 }
-h2 {
+h2, .h2-input input{
   text-align: center;
   font-size: var(--h2-font-size);
 }
@@ -164,6 +164,12 @@ button {
 .small-font {
   font-size: var(--small-font-size);
 }
+.byline {
+  font-size: var(--small-font-size);
+}
+
+
+
 
 // SVG classes
 .fill-bg {
@@ -220,4 +226,14 @@ svg .bg-text-fill {
 .container {
   min-height: 100vh;
   background: var(--bg);
+}
+
+// Thumbnail for cards
+.thumbnail {
+  width: 100px;
+    height: 100px;
+    position: absolute;
+    background: var(--bg);
+    right: 10px;
+    bottom: -85px;
 }

@@ -63,7 +63,8 @@ export const actions = {
 
     axios.post("/api/create-article", {
       articleTitle: payload.articleTitle,
-      articleData: payload.articleData
+      articleData: payload.articleData,
+      articleDescription: payload.articleDescription
     })
     .then((response) => {
       console.log(" 💾 Successfully created an article titled " + payload.articleTitle + "!");
