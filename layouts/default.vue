@@ -428,7 +428,7 @@ $tablet-bp: 400px;
     width: 100%;
     height: 150px;
     background: var(--bg2);
-    color: var(--bg2-text);
+    color: var(--card-text);
     padding: 20px;
   }
   // For the various options in the menu.

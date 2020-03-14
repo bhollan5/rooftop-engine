@@ -10,11 +10,12 @@ export const state = () => ({
   header_bg: 'hsl(248,19%,26%)',
 
   bg: 'hsl(248,19%,31%)',
+  bg2: 'hsl(248,19%,26%)',
   bg_text: 'hsl(0,0%,96%)',
   bg_text2: 'hsl(230,19%,60%)',
-  bg2: '#2B2736',
+  
 
-  card: 'hsl(255,16%,17%)',
+  card: 'hsl(255,14%,19%)',
   card2: 'hsl(255,16%,15%)',
   card_text: 'hsl(0,0%,96%)',
   card_text2: 'hsl(257,7%,63%)',
@@ -22,8 +23,6 @@ export const state = () => ({
 
   link: 'hsl(43,78%,81%)',
 
-  bg2_text: '#F6F6F6',
-  bg2_text2: '#A3A2A6',
 
   bg2_input: 'hsl(248,19%,35%)',
   bg2_input_text: 'hsl(0,0%,91%)',
@@ -73,10 +72,6 @@ export const getters = {
       
 
       '--link': state.link,
-
-      
-      '--bg2-text': state.bg2_text,
-      '--bg2-text2': state.bg2_text2,
 
       '--bg2-input': state.bg2_input,
       '--bg2-input-text': state.bg2_input_text,
@@ -135,9 +130,6 @@ export const mutations = {
     state.card_text2 = payload.card_text2
 
     state.link = payload.link;
-
-    state.bg2_text = payload.bg2_text;
-    state.bg2_text2 = payload.bg2_text2;
 
     state.bg2_input = payload.bg2_input,
     state.bg2_input_text = payload.bg2_input_text,

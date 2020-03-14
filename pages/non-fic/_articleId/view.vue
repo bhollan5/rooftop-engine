@@ -5,12 +5,12 @@
       <h3 v-if="articleData[0].content">
         {{articleData[0].content}}
       </h3>
-      <h3 v-else class="bg2-text2">
+      <h3 v-else class="card-text2">
         Article Title
       </h3>
 
       <div class="id-container">
-        <h4 id="id-label" class="bg2-text2">Article ID: {{articleId}}</h4>
+        <h4 id="id-label" class="card-text2">Article ID: {{articleId}}</h4>
       </div>
 
       <br>
@@ -205,8 +205,8 @@ export default {
   background: var(--bg2);
   height: 400px;
   padding: 15px;
-  .bg2-text2 {
-    color: var(--bg2-text2);
+  .card-text2 {
+    color: var(--card-text2);
   }
 }
 

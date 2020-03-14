@@ -130,17 +130,17 @@ export default {
   }
   .edit-button {
     background: var(--bg2);
-    color: var(--bg2-text2);
-    border: solid 1px var(--bg2-text2);
+    color: var(--card-text2);
+    border: solid 1px var(--card-text2);
     font-size: var(--small-font-size);
     svg {
-      fill: var(--bg2-text2);
+      fill: var(--card-text2);
     }
     &:hover {
-      color: var(--bg2-text);
-      border: solid 1px var(--bg2-text);
+      color: var(--card-text);
+      border: solid 1px var(--card-text);
       svg {
-        fill: var(--bg2-text);
+        fill: var(--card-text);
       }
     }
   }

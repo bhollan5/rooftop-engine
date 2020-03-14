@@ -358,8 +358,8 @@ $margin-size: 10px;
   position: absolute;
   width: 400px;
   height: 325px;
-  background: var(--bg2);
-  color: var(--bg2-text);
+  background: var(--card);
+  color: var(--card-text);
 
   #color-canvas-container {
     width: 200px;
@@ -376,7 +376,7 @@ $margin-size: 10px;
   .y-label, .x-label {
     position: absolute;
     font-size: var(--small-font-size);
-    color: var(--bg2-text2);
+    color: var(--card-text2);
     text-align: center;
   }
   .y-label {

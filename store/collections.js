@@ -11,7 +11,8 @@
 // For database calls:
 import axios from 'axios';
 
-
+// For Vue.set()
+import Vue from 'vue';
 
 // Setting up our state variables:
 export const state = () => ({
@@ -89,30 +90,20 @@ export const actions = {
       });
   },
 
-  // Getting a set of articles, by query.
-  readArticle({commit}, payload) {
+  // Updating a collection by id.
+  updateCollectionInfo({commit}, payload) {
+    console.log(" 🗣 Calling the API to update collection %c" +  payload._id, "color:magenta;")
 
-    // Getting the article from the database.
-    axios.get("/api/read-article", payload.query)
-      .then((response) => {
-        console.log(" 📦 Loaded " + response.data.length + " articles based on this query:" + payload.query);
-        commit('setArticles', response.data);
-      }, (error) => {
-        console.warn(error);
-      });
-
-  },
-
-  // Updating an article by id.
-  updateArticle({commit}, payload) {
-    console.log(" 🗣 Calling the API to update article %c" +  payload._id, "color:magenta;")
-
-    // Getting the article from the database.
-    axios.post("/api/update-article", {
+    // Making the API call
+    axios.post("/api/update-collection", {
         _id: payload._id,
         update: payload.update
       }).then((response) => {
-        console.log(" 🖌 Updated the article %c" +  payload._id, "color:magenta;");
+        console.log(" 🖌 Updated the collection %c" +  payload._id, "color:magenta;");
+        commit('updateCollectionInfo', {
+          _id: payload._id,
+          update: payload.update
+        })
       }).catch ((error) => {
         console.warn(error);
       });
@@ -163,6 +154,18 @@ export const mutations = {
   setCollections(state, payload) {
     state.collections = payload;
     console.log(" ✨ Collections updated in the Vuex store:", payload);
+  },
+
+  // update a collection byID:
+  updateCollectionInfo(state, payload) {
+    state.collections.forEach((collection) => { 
+      if (collection._id == payload._id) {
+        collection.collectionTitle = payload.update.collectionTitle;
+        collection.collectionDescription = payload.update.collectionDescription;
+        console.log(" ✨ Updated the collection %c" +  payload._id + " in the Vuex store:", "color:magenta;");
+        return; // End early, since we're just updating one
+      }
+    });
   },
   
   // Deleting an article by id: 

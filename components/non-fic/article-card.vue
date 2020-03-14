@@ -60,10 +60,11 @@ export default {
   height: 150px;
   cursor: pointer;
   position: relative;
-  background: var(--bg2);
+  background: var(--card);
   margin-right: 20px;
-  box-shadow: 0px 0px 10px rgba(0,0,0,.5);
+  box-shadow: 0px 0px 2px rgba(0,0,0,.5); // Set blur to 2 so we can animate it
   transition-duration: .5s;
+  z-index: 2;
 
   .article-card-header {
     position: relative;
@@ -110,21 +111,28 @@ export default {
       align-items: center;
       margin-right: 10px;
       svg {
+        display: none;
         height: var(--small-font-size);
         width: var(--small-font-size);
-        fill: var(--card-text2);
       }
     }
   }
 }
 
 .article-card:hover {
-  transform: scale(1.1);
+  transform: scale(1.15);
+  height: 200px;
+  z-index: 3;
+  box-shadow: 0px 0px 10px rgba(0,0,0,.5);
   .article-description {
     color:var(--card-text);
   }
   .action-button svg {
-    fill: var(--card-text);
+    display: block;
+    fill: var(--card-text2);
+    &:hover {
+      fill: var(--card-text);
+    }
   }
 }
 </style>

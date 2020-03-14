@@ -39,12 +39,12 @@ module.exports = function(app, mongoose){
   // Update a collection. Takes an object with query information
   app.post('/update-collection', (req, res) => {
 
-    console.log("\n 🗣 Called to update an article!")
+    console.log("\n 🗣 Called to update a collection!")
     let _id = req.body._id;         // The id of the doc we're calling
     let update = req.body.update;   // The updated fields
 
-    Article.updateOne({_id: _id}, update, (result) => {
-      console.log(" ⬆️ Updated an article!")
+    Collection.updateOne({_id: _id}, update, (result) => {
+      console.log(" ⬆️ Updated a collection!")
       res.send(result);
     })
 

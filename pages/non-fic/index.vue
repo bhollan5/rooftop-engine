@@ -122,6 +122,7 @@ export default {
 }
 
 #new-article-button, #new-collection-button {
+  z-index: 5;
   position: fixed;
   bottom: 20px;
   right: 20px;
