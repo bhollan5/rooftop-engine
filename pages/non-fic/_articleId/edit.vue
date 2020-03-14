@@ -180,12 +180,14 @@ export default {
 
     loadDoc() {
       // Getting the article from the store, setting the current article to that article's data. 
-      this.$store.dispatch("articles/readArticles").then(() => {
-
+      this.$store.dispatch("articles/readArticlesByQuery", [this.articleId]).then(() => {
+        console.log(this.articleId)
         // This gets an array containing a single object: the result based on that idea.
         let articleList = this.$store.getters['articles/articleById'](this.articleId);
+        console.log(articleList);
+
         // We need to do the json.parse thing to copy the article (since getters are immutable).
-        let articleObj = JSON.parse(JSON.stringify(articleList[0])); 
+        let articleObj = JSON.parse(JSON.stringify(articleList)); 
         // The articleData object is local, and only updates the database when you save. 
         this.articleDescription = articleObj.articleDescription;
         this.articleThumbnail = articleObj.articleThumbnail;

@@ -32,16 +32,16 @@ module.exports = function(app, mongoose){
   app.get('/read-articles', (req, res) => {
     console.log("\n 🗣 Called to query articles!")
     let ids = req.query;
-    let articleQuery = { $or: [] };
+    let articleQuery = [] ;
     
     const indexes = Object.keys(ids)
     for (const index of indexes) {
-      articleQuery.$or.push({_id: ids[index]});
+      articleQuery.push({_id: ObjectID(ids[index])});
     }
 
     console.log(articleQuery);
 
-    Article.find(articleQuery, function (err, result) {
+    Article.find({ $or: articleQuery }, function (err, result) {
       if (err) return console.error(err);
       console.log(" 💌 Sent out " + result.length + " results!")
       res.send(result);

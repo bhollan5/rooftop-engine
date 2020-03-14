@@ -30,7 +30,8 @@
     <article-card v-for="(article, article_i) in collection.collectionData" :article="article" 
       :key="'article-' + article_i" v-if="!collection.loading">
     </article-card>
-    <div class="add-a-file">
+
+    <div class="add-a-file" v-if="editCollection">
       <text-field v-model="articleIdToAdd"></text-field>
       <button @click="addArticleToCollection()">Add</button>
     </div>

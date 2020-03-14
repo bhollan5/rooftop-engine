@@ -51,7 +51,6 @@ export const getters = {
       collection.collectionData.forEach((item, item_i) => {
         
         let item_data = rootGetters['articles/articleById'](item);
-        console.log("item_data:", item_data);
         if (!item_data) {
           collection.loading = true;
         } else {
@@ -104,7 +103,7 @@ export const actions = {
         let all_collections = response.data;
         // But the collectionData is loaded in as an array of article id's. 
         // We need to load in their corresponding articles!
-
+        
         all_collections.forEach((collection) => {
           if (collection.collectionData.length){
             dispatch('articles/readArticlesByQuery', collection.collectionData, {root: true});
