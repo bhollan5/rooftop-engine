@@ -40,26 +40,8 @@ export const getters = {
     return state.collections.filter( function(collection) {
       return (collection._id == collectionId);
     });
-
-    
-
   },
 
-  // This getter takes an array of article Id's
-  collectionWithData: (state, getters, rootState, rootGetters) => (collection_of_ids) => {
-    let collection_of_items = [];
-    let articles = rootGetters['articles/allArticles']
-    console.warn("Looking through this collection:", collection_of_ids)
-    collection_of_ids.forEach((item_id) => {
-      articles.forEach((article) => {
-        if (article._id == item_id) {
-          collection_of_items.push(article);
-        }
-      })
-    });
-    console.warn("I made this:", collection_of_items)
-    return collection_of_items;
-  },
 
   // Gets all loaded collections (probably just for debugging.)
   allCollections(state, getters, rootState, rootGetters) {
@@ -77,8 +59,6 @@ export const getters = {
         }
       })
     })
-    console.log("So here's our collection data being returned:")
-    console.log(collections_with_data);
     // let articles = rootGetters['articles/allArticles']
     return collections_with_data;
   },
@@ -126,7 +106,11 @@ export const actions = {
         // We need to load in their corresponding articles!
 
         all_collections.forEach((collection) => {
-          dispatch('getCollectionArticle', collection);
+          if (collection.collectionData.length){
+            dispatch('articles/readArticlesByQuery', collection.collectionData, {root: true});
+          }
+
+          // dispatch('getCollectionArticle', collection);
         })
 
         commit('setCollections', response.data);
@@ -139,6 +123,8 @@ export const actions = {
   // Takes a collection and loads in the data for it. 
   getCollectionArticle({dispatch}, payload) {
     let collection = payload;
+
+    if (!collection.collectionData.length) return;
 
     // We're gonna set up a query to find all our articles at once. More info:
     //   https://docs.mongodb.com/manual/reference/operator/query/or/

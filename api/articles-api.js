@@ -31,10 +31,17 @@ module.exports = function(app, mongoose){
   // Getting all articles:
   app.get('/read-articles', (req, res) => {
     console.log("\n 🗣 Called to query articles!")
-    console.log(req.params);
-    console.log(req.params.query);
+    let ids = req.query;
+    let articleQuery = { $or: [] };
+    
+    const indexes = Object.keys(ids)
+    for (const index of indexes) {
+      articleQuery.$or.push({_id: ids[index]});
+    }
 
-    Article.find(req.params.query, function (err, result) {
+    console.log(articleQuery);
+
+    Article.find(articleQuery, function (err, result) {
       if (err) return console.error(err);
       console.log(" 💌 Sent out " + result.length + " results!")
       res.send(result);

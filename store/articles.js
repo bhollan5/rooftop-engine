@@ -99,7 +99,7 @@ export const actions = {
     console.log(" 🗣 Calling the API to load articles based on this query: ", payload);
 
     // Getting the article from the database.
-    axios.get("/api/read-articles", { params: {query: payload}})
+    axios.get("/api/read-articles", { params: payload})
       .then((response) => {
         let articles = response.data;
         console.log(" 📦 Loaded " + articles.length + " articles!");
