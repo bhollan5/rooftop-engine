@@ -2,6 +2,16 @@
 <div class="container" id="sign-in">
   <h1>Sign In</h1>
   <line-break class="line-break"></line-break>
+
+  <text-field class="input username" placeholder="User ID"></text-field>
+  <text-field class="input pass" placeholder="pass"></text-field>
+  <button>Sign In</button>
+
+  <div class="info">
+    <p>While Rooftop gets off the ground, accounts are only available for staff & creators, on a case-by-case basis.</p>
+    <br>
+    <p>If you'd like to get involved as a staff member or creator, feel free to join our <a href="https://discord.gg/qCjmpwC" target="_blank"> discord</a>.</p>
+  </div>
 </div>
 </template>
 
@@ -12,8 +22,6 @@ export default {
     return {
 
     }
-  },
-  components: {
   },
   mounted() {
     this.$parent.$parent.userOptions = false;
@@ -38,5 +46,24 @@ export default {
     max-width: 350px;
 
   }
+  .input  {
+    max-width: 300px;
+    input{
+      font-size: var(--regular-font-size);
+    }
+  }
+  button {
+    margin-top: 10px;
+    padding: 2px 20px;
+  }
+  .info {
+    margin-top: 50px;
+    p {
+      width: 350px;
+      font-size: var(--small-font-size);
+      color: var(--bg-text);
+    }
+  }
+  
 }
 </style>
