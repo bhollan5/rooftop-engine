@@ -26,8 +26,11 @@
           v-model="articleDescription">
         </text-field>
 
-        <h4>Tab:</h4>
+        <div class="tab-container">
+          <h4>Tab:</h4><dropdown :options="articleData[2].tabs" property="name"></dropdown>
+        </div>
         <hr>
+
       </div>
     </div>
 
@@ -51,6 +54,7 @@
 // Inputs:
 import textField from '@/components/inputs/text-field.vue';
 import svgUploader from '@/components/inputs/svg-uploader.vue';
+import dropdown from '@/components/inputs/dropdown.vue';
 
 // Icons:
 import gearIcon from '@/components/icons/gear-icon.vue';
@@ -63,7 +67,6 @@ import nonFicDisplay from '@/components/non-fic/non-fic-display.vue';
 // For our db calls
 import axios from 'axios';
 
-
 export default {
   name: 'article-editor',
 
@@ -71,6 +74,7 @@ export default {
 
     textField,
     svgUploader,
+    dropdown,
 
     gearIcon,
     editIcon,
@@ -181,10 +185,8 @@ export default {
     loadDoc() {
       // Getting the article from the store, setting the current article to that article's data. 
       this.$store.dispatch("articles/readArticlesByQuery", [this.articleId]).then(() => {
-        console.log(this.articleId)
         // This gets an array containing a single object: the result based on that idea.
         let articleList = this.$store.getters['articles/articleById'](this.articleId);
-        console.log(articleList);
 
         // We need to do the json.parse thing to copy the article (since getters are immutable).
         let articleObj = JSON.parse(JSON.stringify(articleList)); 
@@ -271,6 +273,13 @@ export default {
         font-size: var(--small-font-size);
         height: 100%;
       }
+    }
+    .tab-container {
+      h4 {
+        margin-right: 10px;
+      }
+      display: flex;
+      align-items: center;
     }
   }
   

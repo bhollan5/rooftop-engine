@@ -85,9 +85,11 @@ export default {
 
   .article-card-title {
     font-size: var(--regular-font-size);
+    color: var(--card-text);
     font-weight: bold;
   }
   .byline {
+    color: var(--card-text2);
     // Styled in global.scss
   }
   .article-description {

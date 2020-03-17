@@ -11,9 +11,9 @@
 
       <!-- Logo and Text section -->
       <div id="logo-and-text" class="flex-container">
-        <div class="theme-options"><!--
-          --logo:<input type="color" v-model="logo"><br><br>
-
+        <div class="theme-options">
+          --logo:<color-picker v-model="themeDraft.logo" name="Logo Color" description=""></color-picker><br><br>
+          <!--
           --bg:<input type="color" v-model="bg"><br>
           --bg-text:<input type="color" v-model="bg_text"><br>
           --bg-text2:<input type="color" v-model="bg_text2"><br>-->
@@ -82,6 +82,22 @@ import colorPicker from '~/components/inputs/color-picker.vue';
 
 // Our vue component:
 export default {
+  name: 'theme-picker',
+
+  data() {
+    return {
+      themeDraft: {},
+
+      logo: this.$store.state.logo,
+      bg: this.$store.state.bg,
+      bg_text: this.$store.state.bg_text,
+      bg_text2: this.$store.state.bg_text2,
+
+      // Sample data for inputs:
+      sampleOptions: ['Option 1!', 'Option 2 :)', 'option 3 ;o', 'option 4??'],
+      foo: ''
+    }
+  },
 
   components: {
     logo,
@@ -93,17 +109,12 @@ export default {
     colorPicker,
   },
 
-  data() {
-    return {
-      logo: this.$store.state.logo,
-      bg: this.$store.state.bg,
-      bg_text: this.$store.state.bg_text,
-      bg_text2: this.$store.state.bg_text2,
+  mounted() {
+    this.themeDraft = JSON.parse(JSON.stringify(this.$store.getters.themeScriptObj));
+  },
 
-      // Sample data for inputs:
-      sampleOptions: ['Option 1!', 'Option 2 :)', 'option 3 ;o', 'option 4??'],
-      foo: ''
-    }
+  computed: {
+    
   },
   
 }

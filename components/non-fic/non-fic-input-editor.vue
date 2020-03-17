@@ -57,12 +57,11 @@
         <!-- Tabs: -->
         <div class="tab-container" v-else-if="dataEl.type == 'tabs'">
           <div class="tabs" >
-            <div class="tab" v-for="(tab, tabindex) in dataEl.tabs" 
-              :class="{ 'bold': dataEl.selectedTab == tabindex}"
-              @click="dataEl.selectedTab = tabindex">
-              {{tab.name}}
-            </div>
-            <div class="tab add-tab">+ Add Tab</div>
+            <text-field class="tab" v-for="(tab, tabindex) in dataEl.tabs" 
+              :class="{ 'bold': dataEl.selectedTab == tabindex}" nobox
+              @click="dataEl.selectedTab = tabindex" v-model="tab.name" :key="'tab-' + tabindex">
+            </text-field>
+            <div class="tab add-tab" @click="addTab(dataEl)">+ Add Tab</div>
           </div>
           <non-fic-input-editor :data="dataEl.tabs[dataEl.selectedTab].content" :articleId="articleId">
           </non-fic-input-editor>
@@ -220,6 +219,7 @@ export default {
     // Called when a file is uploaded
     uploadFile(event, elementIndex) {
       let _file = event.target.files[0];
+      console.log(_file);
       let fileName = _file.name;
       // Reading the file's contents
       this.readFileContent(_file).then(fileContent => {
@@ -243,6 +243,29 @@ export default {
     // Clicks on the hidden input so we can use our custom-styled input
     openSVGInput() {
       this.$refs['fileInput'][0].click()
+    },
+
+    // Adds a tab section
+    addTab(tabElement) {
+      
+      tabElement.tabs.push({
+        "name": "New Tab",
+        "content": [
+            {
+                "type": "section-title",
+                "content": ""
+            },
+            {
+                "type": "subsection-title",
+                "index": "1.1",
+                "content": ""
+            },
+            {
+                "type": "paragraph",
+                "content": ""
+            }
+        ]
+      });
     }
 
   },
@@ -308,7 +331,7 @@ export default {
 
   .tab {
     font-size: var(--small-font-size);
-    min-width: 100px;
+    width: 150px;
     text-align: center;
     position: relative;
     cursor: pointer;
@@ -317,10 +340,13 @@ export default {
     &.bold {
       border-bottom: solid 2px var(--bg-text);
     }
-
+    input {
+      text-align: center;
+    }
   }
   .add-tab {
     color: var(--bg-text2);
+    font-size: var(--small-font-size);
     &:hover {
       color: var(--bg-text);
     }

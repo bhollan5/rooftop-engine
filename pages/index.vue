@@ -1,6 +1,6 @@
 <!-- The website's landing page. -->
 <template>
-  <div class="container" scoped>
+  <div class="container">
 
     <!-- The "landing promo" is the banner spread at the top of the landing page. -->
     <div id="landing-promo">

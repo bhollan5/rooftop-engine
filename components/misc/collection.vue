@@ -1,6 +1,6 @@
 <template>
 <!-- Container for all collections-->
-<div id="collection-container"
+<div class="collection-container"
   :style="{background: $store.state.bg}">
 
   <!-- collection info/header -->
@@ -8,7 +8,7 @@
 
     <!-- Edit icons, floating to the left -->
     <div class="floating-element-icons" @click="floatingIconAction()"
-      :class="{'floating-icons-selected': editCollection}">
+      :class="{'floating-icons-selected': editCollection}" v-if="collection.editable">
       <check-icon v-if="editCollection"></check-icon>
       <edit-icon v-else></edit-icon>
     </div>
@@ -100,6 +100,13 @@ export default {
 </script>
 
 <style lang="scss">
+// All collections
+.collection-container {
+  padding-top: 25px;
+  width: 100%;
+  box-shadow: var(--box-shading);
+  color: var(--bg-text);
+}
 
 // Container for collections of media.
 .collection-display {

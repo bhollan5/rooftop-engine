@@ -112,6 +112,7 @@ export default {
   },
 
   mounted() {
+    this.hsl = this.value;
     this.updateColorPicker();
     this.updateSlider();
   },
@@ -129,6 +130,13 @@ export default {
     description: {
       type: String,
       default: 'A quick description here.'
+    },
+    // The value incoming from the v-model variable.
+    value: {
+      type: Array,
+      default() {
+        return [225, 100, 100]
+      },
     },
     values: {
       type: Array,
@@ -175,6 +183,7 @@ export default {
       newY = -Math.floor(newY * this.values[2].max) + 100;
 
       Vue.set(this.hsl, 1, newX);
+      this.$emit('input', this.hsl)
       this.hsl[1] = newX;
       this.hsl[2] = newY;
     },

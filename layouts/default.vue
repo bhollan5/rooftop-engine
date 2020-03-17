@@ -19,8 +19,8 @@
           <search-icon id="header-search-icon"> </search-icon>
           <input type="text" id="header-searchbar" placeholder="Search Media">
           
-          <!-- Log In button -->
-          <div id="login-button" @click="userOptions = true">
+          <!-- options button -->
+          <div id="options-button" @click="userOptions = true">
             <hamburger-icon id="header-icon"></hamburger-icon>
             <span class="tablet-only">Options</span>
           </div>
@@ -54,6 +54,20 @@
         <button id="user-options-close" class="bg2-button" @click="userOptions = false">
           X
         </button>
+
+        <div class="user-info" v-if="0">
+          <div class="user-info-text">
+            <div>Ben Holland</div>
+            <div class="secondary">@benholland</div>
+          </div>
+          <div class="user-icon">
+            <img src="@/assets/misc/frog-pic.svg">
+          </div>
+        </div>
+        <router-link to="/sign-in" tag="div" class="login-button" v-else>
+          Sign In
+        </router-link>
+
       </div>
 
       <div id="theme-picker" class="user-option">
@@ -150,7 +164,7 @@ export default {
 
     // Grabbing our dynamic theme variables from the store:
     theme_style() {
-      return this.$store.getters.themeStyle
+      return this.$store.getters.themeCSSObj
     }
 
   },
@@ -233,30 +247,36 @@ export default {
     },
     themeMondrian() {
       this.$store.commit("setThemeColor", {
-        logo: '#111111',
+        logo: [0,0,7],
+        header_bg: [0,0,85],
 
-        bg: '#EAEAEA',
-        bg_text: '#111111',
-        bg_text2: '#4E4E4E',
+        bg: [0,0,92],
+        bg2: [0,0,85],
+        bg_text: [0,0,7],
+        bg_text2: [0,0,17],
 
-        link: 'hsl(43,78%,81%)',
+        card: [0,0,7],
+        card2: [0,0,20],
+        card_text: [0,0,92],
+        card_text2: [0,0,50],
 
-        bg2: '#F6F6F6',
-        bg2_text: '#F6F6F6',
-        bg2_text2: '#A3A2A6',
+        link: [43,78,81],
 
-        c1: '#3D93D5',
-        c1_light: '',
-        c2: '#C21BA3',
-        c2_light: '',
-        c3: '#951BC2',
-        c3_light: '',
 
-        input: '#F6F6F6',
-        input_text: '#111111',
-        input_text_2: '#939393',
-        input_h: "#C21B7A",
-        input_h_text: 'black;',
+        bg2_input: [0,0,98],
+        bg2_input_text: [0,0,7],
+        bg2_input_text2: [0,0,17],
+
+        c1: [43,78,76],
+        c1_light: [43,78,86],
+        c2: [43,78,81],
+        c2_light: [43,78,86],
+        c3: [43,78,81],
+        c3_light: [43,78,86],
+
+        input: [248,19,40],
+        input_text: [0,0,96],
+        input_text2: [230,19,60],
       })
     }
 
@@ -335,7 +355,7 @@ $tablet-bp: 400px;
   }
   
   // Header login button:
-  #login-button {
+  #options-button {
     font-size: 16px;
     cursor: pointer;
     background: var(--bg2-input);
@@ -424,12 +444,42 @@ $tablet-bp: 400px;
   z-index: 12;
   background: var(--bg);
   drop-shadow: 0px 0px 10px rgba(0,0,0,1);
+  // The upper part of the header
   #user-options-header {
     width: 100%;
-    height: 150px;
+    height: 130px;
     background: var(--bg2);
     color: var(--card-text);
     padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    // User icon and text
+    .user-info {
+      display: flex;
+      .user-info-text {
+        text-align: right;
+        margin-right: 10px;
+        padding-top: 10px;
+        color: var(--bg-text);
+        font-size: var(--regular-font-size);
+        .secondary {
+          color: var(--bg-text2);
+          font-size: var(--small-font-size);
+        }
+      }
+      .user-icon {
+        width: 70px; 
+        height: 70px;
+        border-radius: 50%;
+        background: #CEFDFE;
+        overflow: hidden;
+      }
+    }
+    // Login button 
+    .login-button {
+      cursor: pointer;
+    }
   }
   // For the various options in the menu.
   .user-option {
@@ -502,5 +552,7 @@ $tablet-bp: 400px;
     height: 24px;
   }
 }
+
+
 
 </style>

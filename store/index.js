@@ -1,43 +1,44 @@
 // Info about this layout: https://nuxtjs.org/guide/vuex-store/
 
+import Vue from 'vue';
 
 // Setting up our state variables:
 export const state = () => ({
   theme_name: 'Golden Night',
   _id: 'golden-night',
 
-  logo: 'hsl(0,0%,96%)',
-  header_bg: 'hsl(248,19%,26%)',
+  logo: [0,0,96],
+  header_bg: [248,19,26],
 
-  bg: 'hsl(248,19%,31%)',
-  bg2: 'hsl(248,19%,26%)',
-  bg_text: 'hsl(0,0%,96%)',
-  bg_text2: 'hsl(230,19%,60%)',
+  bg: [248,19,31],
+  bg2: [248,19,26],
+  bg_text: [0,0,96],
+  bg_text2: [230,19,60],
   
 
-  card: 'hsl(255,14%,19%)',
-  card2: 'hsl(255,16%,15%)',
-  card_text: 'hsl(0,0%,96%)',
-  card_text2: 'hsl(257,7%,63%)',
+  card: [255,14,19],
+  card2: [255,16,15],
+  card_text: [0,0,96],
+  card_text2: [257,7,63],
 
 
-  link: 'hsl(43,78%,81%)',
+  link: [43,78,81],
 
 
-  bg2_input: 'hsl(248,19%,35%)',
-  bg2_input_text: 'hsl(0,0%,91%)',
-  bg2_input_text2: 'hsl(230,19%,55%)',
+  bg2_input: [248,19,35],
+  bg2_input_text: [0,0,91],
+  bg2_input_text2: [230,19,55],
 
-  c1: 'hsl(43,78%,76%)',
-  c1_light: 'hsl(43,78%,86%)',
-  c2: 'hsl(43,78%,81%)',
-  c2_light: 'hsl(43,78%,86%)',
-  c3: 'hsl(43,78%,81%)',
-  c3_light: 'hsl(43,78%,86%)',
+  c1: [43,78,76],
+  c1_light: [43,78,86],
+  c2: [43,78,81],
+  c2_light: [43,78,86],
+  c3: [43,78,81],
+  c3_light: [43,78,86],
 
-  input: 'hsl(248,19%,40%)',
-  input_text: 'hsl(0,0%,96%)',
-  input_text2: 'hsl(230,19%,60%)',
+  input: [248,19,40],
+  input_text: [0,0,96],
+  input_text2: [230,19,60],
   input_h: '#F4DEA7',
   input_h_text: 'black;',
 
@@ -54,44 +55,37 @@ export const getters = {
   // We pass this object into :style="" tags to activate dynamic theming!
   // I found it here:
   //   https://stackoverflow.com/questions/46551925/vuejs-v-bindstyle-hover
-  themeStyle(state) {
-    return {
-      '--logo': state.logo,
-
-      '--header-bg': state.header_bg,
-
-      '--bg': state.bg,
-      '--bg2': state.bg2,
-      '--bg-text': state.bg_text,
-      '--bg-text2': state.bg_text2,
-
-      '--card': state.card,
-      '--card2': state.card2,
-      '--card-text': state.card_text,
-      '--card-text2': state.card_text2,
-      
-
-      '--link': state.link,
-
-      '--bg2-input': state.bg2_input,
-      '--bg2-input-text': state.bg2_input_text,
-      '--bg2-input-text2': state.bg2_input_text2,
-
-      '--c1': state.c1,
-      '--c1-light': state.c1_light,
-      '--c2': state.c2,
-      '--c2-light': state.c2_light,
-      '--c3': state.c3,
-      '--c3-light': state.c3_light,
-
-      '--input': state.input,
-      '--input-text': state.input_text,
-      '--input-text2': state.input_text2,
-      '--input-h': state.input_h,
-      '--input-h-text': state.input_h_text,
-
+  themeCSSObj(state) {
+    // Because our colors are stored as hsl arrays, we need to iterate thru them
+    //   and change them to 'hsl(x,x%,x%)' format
+    let styleObj = {};
+    let fields = [
+      'logo',
+      'header_bg',
+      'bg', 'bg2', 'bg_text', 'bg_text2',
+      'card', 'card2', 'card_text', 'card_text2',
+      'link',
+      'bg2_input', 'bg2_input_text', 'bg2_input_text2',
+      'c1', 'c1_light', 'c2', 'c2_light', 'c3', 'c3_light',
+      'input', 'input_text', 'input_text2',
+      'input_h', 'input_h_text',
+    ]
+    for (let i in fields) {
+      // Turning 'bg_text' into '--bg-text':
+      let cssVarName = '--' + fields[i].replace(/_/g, "-");
+      // Assigning that css var to our hsl string:
+      styleObj[cssVarName] = 'hsl(' + state[fields[i]][0] + ','
+                                           + state[fields[i]][1] + '%,'
+                                           + state[fields[i]][2] + '%)';
     }
-  }
+    return styleObj;
+  },
+
+  // Returning the colors as arrays
+  themeScriptObj(state) {
+    return state;
+  },
+
 }
 
 
@@ -115,38 +109,25 @@ export const actions = {
 export const mutations = {
 
   setThemeColor(state, payload) {
-    state.logo = payload.logo;
 
-    state.header_bg = payload.header_bg,
-
-    state.bg = payload.bg;
-    state.bg_text = payload.bg_text;
-    state.bg_text2 = payload.bg_text2;
-    state.bg2 = payload.bg2;
-
-    state.card = payload.card;
-    state.card2 = payload.card2;
-    state.card_text = payload.card_text
-    state.card_text2 = payload.card_text2
-
-    state.link = payload.link;
-
-    state.bg2_input = payload.bg2_input,
-    state.bg2_input_text = payload.bg2_input_text,
-    state.bg2_input_text2 = payload.bg2_input_text2,
-
-    state.c1 = payload.c1;
-    state.c1_light = payload.c1_light;
-    state.c2 = payload.c2;
-    state.c2_light = payload.c2_light;
-    state.c3 = payload.c3;
-    state.c3_light = payload.c3_light;
-
-    state.input = payload.input;
-    state.input_text = payload.input_text;
-    state.input_text_2 = payload.input_text2;
-    state.input_h = payload.input_h;
-    state.input_h_text = payload.input_h_text;
+    let fields = [
+      'logo',
+      'header_bg',
+      'bg', 'bg2', 'bg_text', 'bg_text2',
+      'card', 'card2', 'card_text', 'card_text2',
+      'link',
+      'bg2_input', 'bg2_input_text', 'bg2_input_text2',
+      'c1', 'c1_light', 'c2', 'c2_light', 'c3', 'c3_light',
+      'input', 'input_text', 'input_text2',
+      'input_h', 'input_h_text',
+    ]
+    for (let i in fields) {
+      if (payload[fields[i]]){
+        Vue.set(state[fields[i]], 0, payload[fields[i]][0])
+        Vue.set(state[fields[i]], 1, payload[fields[i]][1])
+        Vue.set(state[fields[i]], 2, payload[fields[i]][2])
+      }
+    }
   },
 
 

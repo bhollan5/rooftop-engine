@@ -3,7 +3,12 @@
 
     <!-- The "non-fic promo" is the banner spread at the top of the landing page. -->
     <div id="non-fic-banner">
-
+      <non-fic-header></non-fic-header>
+      <p>Our non-fiction articles focus on <span class="highlight">communicating clearly</span>!</p>
+      <p>
+        If you disagree with something written in one of these articles, click on it to open
+        <span class="highlight">Clarity</span>, our feedback system. 
+      </p>
     </div>
 
     <!-- Model coll (delete)
@@ -20,8 +25,12 @@
       </div>
     </div>-->
 
+    <!-- List of collections -->
     <collection v-for="(collection, collection_i) in collections"
       :collection="collection" :key="'collection' + collection_i" >
+    </collection>
+      <br><br><hr>
+    <collection :collection="collectionOfAllArticles">
     </collection>
 
     
@@ -39,6 +48,7 @@
 <script>
 import placeholderSpread from '@/components/landing_spreads/placeholder_spread.vue';
 import collection from '@/components/misc/collection.vue';
+import nonFicHeader from '@/components/non-fic/non-fic-header.vue';
 
 export default {
   name: 'non-fic',
@@ -46,6 +56,7 @@ export default {
     placeholderSpread,
     collection,
 
+    nonFicHeader,
   },
   data() {
     return {
@@ -55,17 +66,17 @@ export default {
 
   computed: {
     // Getting arrays of collections, containing art from the store. 
-    articles() { 
-      return this.$store.getters['articles/allArticles'];
-    },
     collections() { 
       return this.$store.getters['collections/allCollections'];
+    },
+    collectionOfAllArticles() {
+      return this.$store.getters['collections/collectionOfAllArticles']
     }
   },
 
   mounted() {
     // When the page loads, we load in the articles. 
-    // this.getArticles();
+    this.getArticles();
     this.getCollections();
   },
 
@@ -102,14 +113,18 @@ export default {
   width: 100%;
   height: 20vh;
   background: var(--bg);
-}
-
-// All collections
-#collection-container {
-  padding-top: 50px;
-  width: 100%;
-  box-shadow: var(--box-shading);
   color: var(--bg-text);
+  transform-style: preserve3d;
+  perspective: 300px;
+  text-align: center;
+  p {
+    font-size: var(--small-font-size);
+  }
+  svg {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    width: 350px;
+  }
 }
 
 #new-article-button, #new-collection-button {

@@ -39,8 +39,6 @@ module.exports = function(app, mongoose){
       articleQuery.push({_id: ObjectID(ids[index])});
     }
 
-    console.log(articleQuery);
-
     Article.find({ $or: articleQuery }, function (err, result) {
       if (err) return console.error(err);
       console.log(" 💌 Sent out " + result.length + " results!")

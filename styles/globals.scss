@@ -19,6 +19,7 @@
 
   --box-shading: 5px;
 
+  --very-small-font-size: 10px;
   --small-font-size: 14px;
   --regular-font-size:  19px;
   --h1-font-size: 36px;
@@ -57,7 +58,6 @@ input, textarea {
 h1, .h1-input input {
   text-align: center;
   color: var(--bg-text);
-  margin-top: 25px;
   font-weight: bold;
   font-size: var(--h1-font-size);
 }
@@ -175,8 +175,17 @@ button {
 .fill-bg {
   fill: var(--bg);
 }
+.fill-bg2 {
+  fill: var(--bg2);
+}
+.fill-card {
+  fill: var(--card);
+}
+.fill-card2 {
+  fill: var(--card2);
+}
 .fill-bg-text {
-  fill: var(--bg);
+  fill: var(--bg-text);
 }
 svg .hover-fill-bg-text {
   fill: var(--bg-text2);
@@ -237,3 +246,9 @@ svg .bg-text-fill {
     right: 10px;
     bottom: -85px;
 }
+
+.highlight {
+  color: var(--c1);
+  font-weight: bold;
+}
+

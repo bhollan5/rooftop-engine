@@ -11,7 +11,7 @@
         }">
       <div class="option" v-for="(option, i) in options" @click="selectOption(i)">
         <check-icon class="option-icon" v-if="i == currentOption"></check-icon>
-          {{option}}
+          {{option[property]}}
       </div>
     </div>
   </transition>
@@ -19,7 +19,7 @@
   <!-- This is the drop down display, ready to be clicked on :O -->
   <div class="chosen-option" @click="focus=true">
     <expand-icon class="option-icon"></expand-icon>
-    {{options[currentOption]}}
+    {{options[currentOption][property]}}
   </div>
   
 </div>
@@ -44,6 +44,11 @@ export default {
     // A list of the incoming options:
     options: {
       type: Array,
+    },
+
+    // If an array of objects is passed in, we can access a specific property.
+    property: {
+      type: String
     },
     // The index of the current selection.
     currentOption: {
@@ -85,22 +90,21 @@ export default {
   z-index: 2;
   width: 100%;
   min-width: 100px;
-  padding: 5px;
+  padding: 2px;
   padding-left: 32px;
   border-radius: 5px;
   border-top: solid 1px var(--input-text2);
-  font-size: 16px;
+  font-size: var(--small-font-size);
   cursor: pointer;
 
   background: var(--input);
-  box-shadow: 0px 2px 0px var(--input-text2);
 
   // Dropdown icon:
   svg {
     height: 14px;
     position: absolute;
     left: 12px;
-    top: 10px;
+    top: 7px;
     fill: var(--input-text2);
     stroke: var(--input-text2);
   }
@@ -125,8 +129,11 @@ export default {
     height: 24px;
     padding: 2px 5px 8px 36px;
     cursor: pointer;
+
+    font-size: var(--small-font-size);
+
     svg {
-      height: 14px;
+      height: 10px;
       position: absolute;
       left: 12px;
       top: 6px;
@@ -135,7 +142,7 @@ export default {
   }
   .option:hover {
     color: var(--input-h-text);
-    background: var(--input-h);
+    background: var(--bg2);
     svg {
       fill: var(--input-h-text);
     }

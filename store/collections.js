@@ -57,10 +57,22 @@ export const getters = {
           collections_with_data[col_i].collectionData[item_i] = item_data
         }
       })
+      collection.editable = true;
     })
-    // let articles = rootGetters['articles/allArticles']
     return collections_with_data;
   },
+
+  collectionOfAllArticles(state, getters, rootState, rootGetters) {
+    let allArticles = rootGetters['articles/allArticles'];
+    let allArticleCollection = {
+      _id: 'all-articles',
+      collectionDescription: "This displays all published articles",
+      collectionTitle: "All Articles",
+      collectionData: allArticles,
+      editable: false,
+    }
+    return allArticleCollection;
+  }
 
 }
 

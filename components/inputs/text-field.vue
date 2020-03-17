@@ -1,5 +1,5 @@
 <template>
-<div class="text-field" :class="{ 'has-input': hasInput, 'nobox': nobox}">
+<div class="text-field" :class="{ 'has-input': hasInput, 'nobox': nobox}" @click="$emit('click')">
   <slot></slot>
   <input :value="value" @input="$emit('input', $event.target.value)"
     :placeholder="placeholder"
