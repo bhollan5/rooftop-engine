@@ -81,6 +81,7 @@
             id="input-text2" description="Placeholders and other secondary text">
           </color-picker><br><br>
 
+          <input type="checkbox" v-model="nobox">
         </div>
         <div id="input-example" class="theme-example">
 
@@ -90,27 +91,27 @@
           <div class="body theme-body-example">
 
             <text-field v-model="foo" :placeholder="'Big text field'" class="sample-input" 
-              regularfont>
+              regularfont :nobox="nobox">
             </text-field>
             <text-field v-model="foo" :placeholder="'Text field w/ an icon'" class="sample-input" icon
-              regularfont>
+              regularfont :nobox="nobox">
               <search-icon></search-icon>
             </text-field>
             <div class="input-container">
               <text-field v-model="foo" :placeholder="'Text field'" class="sample-input" 
-                smallfont>
+                smallfont :nobox="nobox">
               </text-field>
               <text-field v-model="foo" :placeholder="'Text field w/ an icon'" class="sample-input" icon
-                smallfont>
+                smallfont :nobox="nobox">
                 <edit-icon></edit-icon>
               </text-field>
             </div>
             <div class="input-container">
               <text-field v-model="bar" :placeholder="'Text field'" class="sample-input" 
-                smallfont>
+                smallfont :nobox="nobox">
               </text-field>
               <text-field v-model="bar" :placeholder="'Text field w/ an icon'" class="sample-input" icon
-                smallfont>
+                smallfont :nobox="nobox">
                 <person-icon></person-icon>
               </text-field>
             </div>
@@ -171,10 +172,7 @@ export default {
     return {
       themeDraft: {},
 
-      logo: this.$store.state.logo,
-      bg: this.$store.state.bg,
-      bg_text: this.$store.state.bg_text,
-      bg_text2: this.$store.state.bg_text2,
+      nobox: true,
 
       // Sample data for inputs:
       sampleOptions: ['Option 1!', 'Option 2 :)', 'option 3 ;o', 'option 4??'],
