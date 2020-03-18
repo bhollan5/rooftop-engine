@@ -282,10 +282,8 @@ export default {
       // Getting our hue canvas:
       let sliderEl = this.$refs['canvas-slider1' + this.id];
       if (!sliderEl) {
-        console.warn("updateSlider() - no slider, id: " + this.id)
         return;
       }
-      console.log("Updating slider for id: " + this.id);
 
       // Grabbing our canvas variables:
       let canvasContext = sliderEl.getContext('2d');
@@ -376,6 +374,7 @@ $margin-size: 10px;
   position: relative;
   width: 100%;  
   width: 400px;
+  box-shadow: 0px 0px 10px rgba(0,0,0,.5);
 }
 
 // Color display:

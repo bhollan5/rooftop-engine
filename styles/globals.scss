@@ -74,13 +74,14 @@ h5 {
   font-weight: normal;
   font-size: 15px;
 }
-p {
+p, .p {
   font-size: var(--regular-font-size);
 }
-a {
+a, .a {
   color: var(--link);
   font-weight: bold;
   text-decoration: none;
+  cursor: pointer;
   &:hover {
     text-decoration: underline;
   }
@@ -154,6 +155,7 @@ button {
   display: flex;
   justify-content: space-around;
 }
+
 .bold, .b {
   font-weight: bold;
 }
@@ -162,6 +164,21 @@ button {
 }
 .byline {
   font-size: var(--small-font-size);
+}
+.centered {
+  text-align: center;
+}
+
+.body {
+  background: var(--bg);
+  color: var(--bg-text);
+}
+.header {
+  background: var(--bg2);
+  color: var(--bg-text);
+  h4 {
+    color: var(--bg-text2);
+  }
 }
 
 

@@ -1,10 +1,16 @@
 <template>
-<div class="text-field" :class="{ 'has-input': hasInput, 'nobox': nobox}" @click="$emit('click')">
+<div class="text-field" @click="$emit('click')" 
+  :class="{ 
+    'has-input': hasInput, 
+    'nobox': nobox, 
+    'small-icon': smallfont}">
   <slot></slot>
   <input :value="value" @input="$emit('input', $event.target.value)"
     :placeholder="placeholder"
     :class="{ 'icon-padding': icon,
-              'underline': underline }"
+              'underline': underline,
+              'p': regularfont,
+              'small-font': smallfont }"
     v-on:keyup.enter="$emit('enter')"
     v-if="!textarea">
     
@@ -12,7 +18,9 @@
     :placeholder="placeholder"
     v-on:keyup.enter="$emit('enter')"
     :class="{ 'icon-padding': icon,
-              'underline': underline }"></textarea>
+              'underline': underline,
+              'p': regularfont,
+              'small-font': smallfont }"></textarea>
 </div>
 </template>
 
@@ -45,6 +53,15 @@ export default {
       type: Boolean,
       default: false,
     },
+
+    regularfont: {
+      type: Boolean,
+      default: false,
+    },
+    smallfont: {
+      type: Boolean,
+      default: false,
+    },
     
     // Make sure to set this to "true" if your input uses an icon!
     icon: {
@@ -66,7 +83,8 @@ export default {
 .text-field {
   position: relative;
   width: 100%;
-  margin: 10px 0px;
+  margin: 0px;
+  padding-bottom: 10px;
 }
 
 input, textarea {
@@ -77,7 +95,7 @@ input, textarea {
   color: var(--input-text);
   border: none;
   transition-duration: .5s;
-  box-shadow: 0px 0px var(--box-shading) rgba(0,0,0,.7);
+  box-shadow: 0px 0px var(--box-shading) rgba(0,0,0,.2);
 }
 input::placeholder, textarea::placeholder {
   color: var(--input-text2);
@@ -90,6 +108,9 @@ textarea {
 
 // This goes away if :icon="false"
 .icon-padding {
+  padding-left: 35px;
+}
+.small-icon .icon-padding {
   padding-left: 30px;
 }
 // This  goes away if :underline="false"
@@ -102,11 +123,16 @@ textarea {
 
 // Icon styling:
 svg {
-  height: 16px;
-  width: 16px;
+  height: var(--regular-font-size);
+  width: var(--regular-font-size);
   position: absolute;
-  top: 8px;
-  left: 8px;
+  top: 9px;
+  left: 9px;
+}
+.small-icon svg {
+  height: var(--small-font-size);
+  width: var(--small-font-size);
+  position: absolute;
 }
 
 // These chunks change the icon's color depending on if an input is present. 

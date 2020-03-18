@@ -13,6 +13,7 @@
     <!-- In the "customizer" div, we use temporary styling. -->
     <div id="customizer" :style="cssDraftStyleObj">
 
+      <h2>Headers, bodies, and text: </h2>
       <!-- Logo and Text section -->
       <div id="logo-and-text" class="flex-container">
 
@@ -25,21 +26,25 @@
 
           <color-picker v-model="themeDraft.bg" name="Background color" :textcolor="themeDraft.bg_text"
             id="bg" description="The main background color.">
-            </color-picker>
-
+          </color-picker>
           <color-picker v-model="themeDraft.bg2" name="Background color 2" :textcolor="themeDraft.bg_text"
             id="bg" description="Used for the background of headers and stuff.">
-
-          </color-picker>
+          </color-picker><br><br>
+  
           <color-picker v-model="themeDraft.bg_text" name="Background text" :textcolor="themeDraft.bg"
             id="bg_text" description="For regular text.">
           </color-picker>
           <color-picker v-model="themeDraft.bg_text2" name="Background text 2" :textcolor="themeDraft.bg"
             id="bg_text2" description="For secondary text.">
           </color-picker>
+          <color-picker v-model="themeDraft.link" name="Link" :textcolor="themeDraft.bg"
+            id="link" description="">
+          </color-picker>
+
         </div>
+
         <div class="theme-example">
-          <div class="theme-header-example">
+          <div class="header theme-header-example">
             <logo id="logo"></logo>
             <div class="flex-container">
               <media-decor></media-decor>
@@ -48,21 +53,14 @@
               <merch-decor></merch-decor>
             </div>
           </div>
-          <div class="theme-body-example">
+          <div class="body theme-body-example">
             <h1>Page Title</h1>
             <h2>Subtitle, in secondary color.</h2>
             <p>Totally regular text that would appear in the body of a paragraph on a page on  the website. Hey!</p><br>
             <p>Important parts of a text passage might be highlighted to show importance. </p><br>
-            <p><a href="#">Here's a link to another page →</a></p>
+            <p><div class="a">Here's a link to another page →</div></p>
+            <br><br><br>
           </div>
-        </div>
-      </div>
-
-      <!-- Color & Illustration section -->
-      <div id="Color & Illustration" class="flex-container">
-        <div class="theme-options">
-        </div>
-        <div class="theme-example">
         </div>
       </div>
 
@@ -72,22 +70,74 @@
       <div id="inputs" class="flex-container">
         <div class="theme-options">
 
+          <br><br>
+          <color-picker v-model="themeDraft.input" name="Input background color" :textcolor="themeDraft.input_text"
+            id="input" description="">
+          </color-picker><br><br>
+          <color-picker v-model="themeDraft.input_text" name="Input text" :textcolor="themeDraft.input"
+            id="input-text" description="The color as you type in an input">
+          </color-picker>
+          <color-picker v-model="themeDraft.input_text2" name="Input text 2" :textcolor="themeDraft.input"
+            id="input-text2" description="Placeholders and other secondary text">
+          </color-picker><br><br>
+
         </div>
-        <div class="theme-example" :style="{color: bg_text}">
+        <div id="input-example" class="theme-example">
 
-        <!-- Some info about custom inputs from https://www.smashingmagazine.com/2017/08/creating-custom-inputs-vue-js/
+          <div class="header">
+            <h3>Inputs</h3>
+          </div>
+          <div class="body theme-body-example">
 
-          <my-custom-component v-model="myProperty" /> 
-            is the same as 
-            <my-custom-component :value="myProperty" @input="val => myProperty = val" />
-          -->
+            <text-field v-model="foo" :placeholder="'Big text field'" class="sample-input" 
+              regularfont>
+            </text-field>
+            <text-field v-model="foo" :placeholder="'Text field w/ an icon'" class="sample-input" icon
+              regularfont>
+              <search-icon></search-icon>
+            </text-field>
+            <div class="input-container">
+              <text-field v-model="foo" :placeholder="'Text field'" class="sample-input" 
+                smallfont>
+              </text-field>
+              <text-field v-model="foo" :placeholder="'Text field w/ an icon'" class="sample-input" icon
+                smallfont>
+                <edit-icon></edit-icon>
+              </text-field>
+            </div>
+            <div class="input-container">
+              <text-field v-model="bar" :placeholder="'Text field'" class="sample-input" 
+                smallfont>
+              </text-field>
+              <text-field v-model="bar" :placeholder="'Text field w/ an icon'" class="sample-input" icon
+                smallfont>
+                <person-icon></person-icon>
+              </text-field>
+            </div>
+            <text-field textarea smallfont :placeholder="'Multiline textarea'" v-model="foo"
+            v-if="0"></text-field>
 
-          <text-field v-model="foo" :placeholder="'Text Field'" class="sample-input" icon>
-            <search-icon></search-icon>
-          </text-field>
-          <dropdown :options="sampleOptions"></dropdown>
+            <button>A button!</button>
+
+            <dropdown :options="sampleOptions"></dropdown>
+            
+          </div>
+
+          
         </div>
       </div>
+
+      <h2>Cards</h2>
+      <!-- Cards section -->
+      <div id="cards" class="flex-container">
+        <div class="theme-options">
+        </div>
+        <div class="theme-example">
+        </div>
+      </div>
+
+
+      
 
     </div>
 
@@ -128,7 +178,8 @@ export default {
 
       // Sample data for inputs:
       sampleOptions: ['Option 1!', 'Option 2 :)', 'option 3 ;o', 'option 4??'],
-      foo: ''
+      foo: '',
+      bar: 'An input with text'
     }
   },
 
@@ -222,6 +273,7 @@ h2 {
 // Adding extra padding to the top:
 #logo-and-text {
   margin-top: 25px;
+  align-items: flex-start;
 }
 
 
@@ -233,8 +285,12 @@ h2 {
   }
 }
 .theme-example {
+  width: 500px;
   background: var(--bg);
   box-shadow: 0px 0px 10px rgba(0,0,0,.6);
+  .header {
+    padding: 25px;
+  }
 }
 
 // Theme header
@@ -254,11 +310,24 @@ h2 {
 }
 .theme-body-example {
   padding: 25px;
+  .text-field {
+    // margin: 5px 0px;
+  }
 }
 
-.sample-input {
-  width: 100%;
+.input-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px;
+  margin: 0px;
+  height: 30px;
+  margin-bottom: 10px;
+  div {
+    width: 48%;
+    height: 100%;
+  }
 }
+
 
 
 
