@@ -4,27 +4,51 @@
     <h2>Customize Rooftop's theme here!</h2>
     <p class="centered">Below, you can try out different options to build your own theme for Rooftop.</p>
     
-    <div class="big-br"></div><div class="big-br"></div>
+    <div class="big-br"></div>
+    <line-break style="width: 40%;margin-left: 30%"></line-break>
 
+
+
+        <!-- Custom styling begines! -->
     <!-- In the "customizer" div, we use temporary styling. -->
-    <div id="customizer" :style="{background: bg}">
+    <div id="customizer" :style="cssDraftStyleObj">
 
       <!-- Logo and Text section -->
       <div id="logo-and-text" class="flex-container">
-        <div class="theme-options">
-          --logo:<color-picker v-model="themeDraft.logo" name="Logo Color" description=""></color-picker><br><br>
-          <!--
-          --bg:<input type="color" v-model="bg"><br>
-          --bg-text:<input type="color" v-model="bg_text"><br>
-          --bg-text2:<input type="color" v-model="bg_text2"><br>-->
+
+        <!-- Color pickers for the logo & text -->
+        <div class="theme-options"><br><br>
+
+          <color-picker v-model="themeDraft.logo" name="Logo color" :textcolor="themeDraft.bg"
+            id="logo" description="The primary color for illustrations in the header.">
+          </color-picker><br><br>
+
+          <color-picker v-model="themeDraft.bg" name="Background color" :textcolor="themeDraft.bg_text"
+            id="bg" description="The main background color.">
+            </color-picker><br><br>
+
+          <color-picker v-model="themeDraft.bg2" name="Background color 2" :textcolor="themeDraft.bg_text"
+            id="bg" description="Used for the background of headers and stuff.">
+
+          </color-picker>
+          <color-picker v-model="themeDraft.bg_text" name="Background text" :textcolor="themeDraft.bg"
+            id="bg_text" description="For regular text.">
+          </color-picker>
+          <color-picker v-model="themeDraft.bg_text2" name="Background text 2" :textcolor="themeDraft.bg"
+            id="bg_text2" description="For secondary text.">
+          </color-picker>
         </div>
-        <div class="theme-example" :style="{color: bg_text}">
-          <logo></logo>
-          <h1 :style="{color: bg_text}">Page Title!</h1>
-          <h2 :style="{color: bg_text2}">Subtitle, in secondary color</h2>
-          <p>Totally regular text that would appear in the body of a paragraph on a page on  the website. Hi!</p><br>
-          <p>Important parts of a text passage might be highlighted to show importance. </p><br>
-          <p>Here's a link to another page →</p>
+        <div class="theme-example">
+          <div class="theme-header-example">
+            <logo id="logo"></logo>
+          </div>
+          <div class="theme-body-example">
+            <h1>Page Title!</h1>
+            <h2>Subtitle, in secondary color</h2>
+            <p>Totally regular text that would appear in the body of a paragraph on a page on  the website. Hi!</p><br>
+            <p>Important parts of a text passage might be highlighted to show importance. </p><br>
+            <p>Here's a link to another page →</p>
+          </div>
         </div>
       </div>
 
@@ -41,7 +65,6 @@
       <!-- Inputs section -->
       <div id="inputs" class="flex-container">
         <div class="theme-options">
-          <color-picker></color-picker>
 
         </div>
         <div class="theme-example" :style="{color: bg_text}">
@@ -110,12 +133,51 @@ export default {
   },
 
   mounted() {
-    this.themeDraft = JSON.parse(JSON.stringify(this.$store.getters.themeScriptObj));
+    this.themeDraft = JSON.parse(JSON.stringify(this.currentTheme));
   },
 
   computed: {
-    
-  },
+    currentTheme: {
+      // Found this format here: https://vuejs.org/v2/guide/computed.html#Computed-Setter
+      get() {
+        return this.$store.getters.themeScriptObj;
+      },
+      set (newValue) {
+        this.themeDraft = JSON.parse(JSON.stringify(newValue));
+      }
+    },
+
+    // This is copied straight from themeCSSObj in the store.
+    // I considered finding a way to reuse that code, but I'm not sure it's worth it. 
+    cssDraftStyleObj() {
+      if (!this.themeDraft.logo) {
+        return {};
+      }
+      // Because our colors are stored as hsl arrays, we need to iterate thru them
+      //   and change them to 'hsl(x,x%,x%)' format
+      let styleObj = {};
+      let fields = [
+        'logo',
+        'header_bg',
+        'bg', 'bg2', 'bg_text', 'bg_text2',
+        'card', 'card2', 'card_text', 'card_text2',
+        'link',
+        'bg2_input', 'bg2_input_text', 'bg2_input_text2',
+        'c1', 'c1_light', 'c2', 'c2_light', 'c3', 'c3_light',
+        'input', 'input_text', 'input_text2',
+        'input_h', 'input_h_text',
+      ]
+      for (let i in fields) {
+        // Turning 'bg_text' into '--bg-text':
+        let cssVarName = '--' + fields[i].replace(/_/g, "-");
+        // Assigning that css var to our hsl string:
+        styleObj[cssVarName] = 'hsl(' + this.themeDraft[fields[i]][0] + ','
+                                            + this.themeDraft[fields[i]][1] + '%,'
+                                            + this.themeDraft[fields[i]][2] + '%)';
+      }
+    return styleObj;
+    }
+  }
   
 }
 </script>
@@ -128,6 +190,7 @@ export default {
 }
 h2 {
   text-align: center;
+  color: var(--bg-text2);
 }
 
 // This div contains ALL the customization sections.
@@ -148,11 +211,34 @@ h2 {
 .theme-options, .theme-example {
   max-width: 500px;
   min-width: 250px;
+  p {
+    color: var(--bg-text);
+  }
+}
+.theme-example {
+  background: var(--bg);
+  box-shadow: 0px 0px 10px rgba(0,0,0,.6);
+}
+
+// Theme header
+.theme-header-example {
+  background: var(--bg2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 25px;
+  #logo {
+    max-width: 200px;
+  }
+}
+.theme-body-example {
+  padding: 25px;
 }
 
 .sample-input {
   width: 100%;
 }
+
 
 
 </style>

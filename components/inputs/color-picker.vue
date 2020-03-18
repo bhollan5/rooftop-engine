@@ -1,10 +1,11 @@
 <template>
-<div class="color-picker" >
+<div class="color-picker">
 
   <!-- This is the color display, ready to be clicked on :O -->
   <div class="color-display" @click="focus=!focus"
     :style="{
-      background: 'hsl(' + hsl[0] + ',' + hsl[1] + '%,' + hsl[2] + '%)'
+      background: 'hsl(' + hsl[0] + ',' + hsl[1] + '%,' + hsl[2] + '%)',
+      color: 'hsl(' + textcolor[0] + ',' + textcolor[1] + '%,' + textcolor[2] + '%)'
     }">
     <p class="color-name">{{name}}</p>
     <p class="color-description">{{description}}</p>
@@ -15,7 +16,7 @@
 
     <!-- The big gradient canvas: -->
     <div id="color-canvas-container">
-      <canvas class="color-canvas" ref="color-canvas"
+      <canvas class="color-canvas" :ref="'color-canvas' + id"
         @mousemove="canvasClick($event)"
         @mousedown="canvasDrag = true" @mouseup="canvasDrag = false"></canvas>
       <div class="color-indicator canvas-indicator"
@@ -40,7 +41,7 @@
         </div>
 
         <!-- Canvas and indicator: -->
-        <canvas class="canvas-slider" ref="canvas-slider1" 
+        <canvas class="canvas-slider" :ref="'canvas-slider1' + id" 
           @mousedown="sliderDrag[0] = true"
           @mousemove="sliderMove($event)" @mouseup="noSlidersDragging()"></canvas>
         <!-- The math for the indicator position is a little  weird. The slider is 200px, but it's offset by the 60px gradient-input box. -->
@@ -59,7 +60,7 @@
             :max="values[1]" min="0"><br>
         </div>
 
-        <canvas class="canvas-slider" ref="canvas-slider2"
+        <canvas class="canvas-slider" :ref="'canvas-slider2' + id"
           @mousedown="sliderDrag[1] = true"
           @mousemove="sliderMove($event)" @mouseup="noSlidersDragging()"></canvas>
         <div class="color-indicator canvas-indicator"
@@ -76,7 +77,7 @@
             :max="values[2]" min="0"><br>
         </div>
 
-        <canvas class="canvas-slider" ref="canvas-slider3"
+        <canvas class="canvas-slider" :ref="'canvas-slider3' + id"
           @mousedown="sliderDrag[2] = true"
           @mousemove="sliderMove($event)" @mouseup="noSlidersDragging()"></canvas>
         <div class="color-indicator canvas-indicator"
@@ -104,7 +105,7 @@ export default {
     return {
       hsl: [50,50,50],
 
-      focus: true,        // Expanded popup
+      focus: false,        // Expanded popup
 
       canvasDrag: false,  // Indicates if the mouse is down over the canvas
       sliderDrag: [false, false, false]
@@ -127,9 +128,20 @@ export default {
       type: String,
       default: 'My Color'
     },
+    // Unique id, for ref's
+    id: {
+      type: String,
+    },
+    // Not currently implemented.
     description: {
       type: String,
       default: 'A quick description here.'
+    },
+    textcolor: {
+      type: Array,
+      default() {
+        return [225, 100, 100]
+      },
     },
     // The value incoming from the v-model variable.
     value: {
@@ -161,9 +173,20 @@ export default {
   },
 
   watch: {
+    value() {
+      // Making sure our hsl stays up to date as the current theme loads.
+      this.hsl = this.value;
+    },
+    // Called anytime the hsl sliders change.
     hsl() {
       this.updateColorPicker();
       this.updateSlider();
+    },
+    // Called when the focus changes.
+    focus() {
+      // TODO: this is hacky, but even THIS isn't working. Maybe i need an async thing?
+      setTimeout(this.updateColorPicker(), 100);
+      setTimeout(this.updateSlider(), 100);
     }
   },
 
@@ -183,6 +206,7 @@ export default {
       newY = -Math.floor(newY * this.values[2].max) + 100;
 
       Vue.set(this.hsl, 1, newX);
+      // Changing the value of the v-model'd var
       this.$emit('input', this.hsl)
       this.hsl[1] = newX;
       this.hsl[2] = newY;
@@ -213,8 +237,10 @@ export default {
     // Updating the big square canvas:
     updateColorPicker() {
       // Getting our canvas:
-      let canvasEl = this.$refs['color-canvas'];
-      if (!canvasEl) return;
+      let canvasEl = this.$refs['color-canvas' + this.id];
+      if (!canvasEl) {
+        return
+      };
 
       // Grabbing our canvas variables:
       let canvasContext = canvasEl.getContext('2d');
@@ -252,7 +278,12 @@ export default {
       // HUE:
       //
       // Getting our hue canvas:
-      let sliderEl = this.$refs['canvas-slider1'];
+      let sliderEl = this.$refs['canvas-slider1' + this.id];
+      if (!sliderEl) {
+        console.warn("updateSlider() - no slider, id: " + this.id)
+        return;
+      }
+      console.log("Updating slider for id: " + this.id);
 
       // Grabbing our canvas variables:
       let canvasContext = sliderEl.getContext('2d');
@@ -277,7 +308,7 @@ export default {
       // SATURATION
       //
       // Getting our saturation canvas:
-      sliderEl = this.$refs['canvas-slider2'];
+      sliderEl = this.$refs['canvas-slider2' + this.id];
 
       // Grabbing our canvas variables:
       canvasContext = sliderEl.getContext('2d');
@@ -304,7 +335,7 @@ export default {
       // LIGHTNESS:
       //
       // Getting our lightness canvas:
-      sliderEl = this.$refs['canvas-slider3'];
+      sliderEl = this.$refs['canvas-slider3' + this.id];
 
       // Grabbing our canvas variables:
       canvasContext = sliderEl.getContext('2d');
@@ -364,7 +395,7 @@ $margin-size: 10px;
 
 // Popup picker:
 #color-picker-popup {
-  position: absolute;
+  position: relative;
   width: 400px;
   height: 325px;
   background: var(--card);
@@ -434,6 +465,8 @@ $margin-size: 10px;
     .canvas-slider {
       width: 200px;
       height: 10px;
+      cursor: pointer;
+
     }
   }
   
