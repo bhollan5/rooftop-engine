@@ -12,6 +12,7 @@
   </div>
 
   <!-- Absolutely-positioned, popup color picker -->
+  <transition name="color-picker-popup">
   <div id="color-picker-popup" v-if="focus">
 
     <!-- The big gradient canvas: -->
@@ -90,6 +91,7 @@
 
     </div>
   </div>
+  </transition>
   
 </div>
 </template>
@@ -393,11 +395,24 @@ $margin-size: 10px;
   }
 }
 
+
+// Color picker popup transitions:
+.color-picker-popup-enter, .color-picker-popup-leave-to{
+  max-height: 0px;
+}
+.color-picker-popup-enter-active, .color-picker-popup-leave-active {
+  transition: max-height .5s;
+}
+.color-picker-popup-enter-to,  /* .fade-leave-active below version 2.1.8 */ {
+  max-height: 325px;
+}
+
 // Popup picker:
 #color-picker-popup {
   position: relative;
   width: 400px;
   height: 325px;
+  overflow: hidden;
   background: var(--card);
   color: var(--card-text);
 
@@ -487,5 +502,6 @@ $margin-size: 10px;
   margin-top: -5px;
   margin-left: -5px;
 }
+
 
 </style>

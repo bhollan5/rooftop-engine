@@ -127,7 +127,6 @@ import mediaDecor from '~/components/link-decor/media-decor.vue';
 import nonficDecor from '~/components/link-decor/non-fic-decor.vue';
 import servicesDecor from '~/components/link-decor/services-decor.vue';
 import merchDecor from '~/components/link-decor/merch-decor.vue';
-import aboutUsDecor from '~/components/link-decor/about-us-decor.vue';
 
 
 // Our vue component
@@ -150,7 +149,6 @@ export default {
     nonficDecor,
     servicesDecor,
     merchDecor,
-    aboutUsDecor
   },
   data() {
     return {

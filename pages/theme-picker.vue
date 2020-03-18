@@ -25,7 +25,7 @@
 
           <color-picker v-model="themeDraft.bg" name="Background color" :textcolor="themeDraft.bg_text"
             id="bg" description="The main background color.">
-            </color-picker><br><br>
+            </color-picker>
 
           <color-picker v-model="themeDraft.bg2" name="Background color 2" :textcolor="themeDraft.bg_text"
             id="bg" description="Used for the background of headers and stuff.">
@@ -41,13 +41,19 @@
         <div class="theme-example">
           <div class="theme-header-example">
             <logo id="logo"></logo>
+            <div class="flex-container">
+              <media-decor></media-decor>
+              <nonfic-decor></nonfic-decor>
+              <services-decor></services-decor>
+              <merch-decor></merch-decor>
+            </div>
           </div>
           <div class="theme-body-example">
-            <h1>Page Title!</h1>
-            <h2>Subtitle, in secondary color</h2>
-            <p>Totally regular text that would appear in the body of a paragraph on a page on  the website. Hi!</p><br>
+            <h1>Page Title</h1>
+            <h2>Subtitle, in secondary color.</h2>
+            <p>Totally regular text that would appear in the body of a paragraph on a page on  the website. Hey!</p><br>
             <p>Important parts of a text passage might be highlighted to show importance. </p><br>
-            <p>Here's a link to another page →</p>
+            <p><a href="#">Here's a link to another page →</a></p>
           </div>
         </div>
       </div>
@@ -100,7 +106,11 @@ import textField from '~/components/inputs/text-field.vue';
 import dropdown from '~/components/inputs/dropdown.vue';
 import colorPicker from '~/components/inputs/color-picker.vue';
 
-
+// Decoration for the desktop menu:
+import mediaDecor from '~/components/link-decor/media-decor.vue';
+import nonficDecor from '~/components/link-decor/non-fic-decor.vue';
+import servicesDecor from '~/components/link-decor/services-decor.vue';
+import merchDecor from '~/components/link-decor/merch-decor.vue';
 
 
 // Our vue component:
@@ -130,6 +140,12 @@ export default {
     textField,
     dropdown,
     colorPicker,
+
+    // Desktop menu decor:
+    mediaDecor,
+    nonficDecor,
+    servicesDecor,
+    merchDecor,
   },
 
   mounted() {
@@ -190,6 +206,7 @@ export default {
 }
 h2 {
   text-align: center;
+  margin-bottom: 20px;
   color: var(--bg-text2);
 }
 
@@ -229,6 +246,10 @@ h2 {
   padding: 25px;
   #logo {
     max-width: 200px;
+  }
+  // contains the nav options:
+  .flex-container {
+    padding: 15px 0px 0px;
   }
 }
 .theme-body-example {
