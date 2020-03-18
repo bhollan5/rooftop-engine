@@ -187,8 +187,8 @@ export default {
     // Called when the focus changes.
     focus() {
       // TODO: this is hacky, but even THIS isn't working. Maybe i need an async thing?
-      setTimeout(this.updateColorPicker(), 100);
-      setTimeout(this.updateSlider(), 100);
+      this.$nextTick(() => this.updateColorPicker());
+      this.$nextTick(() => this.updateSlider());
     }
   },
 
