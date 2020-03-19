@@ -13,6 +13,13 @@
     <!-- In the "customizer" div, we use temporary styling. -->
     <div id="customizer" :style="cssDraftStyleObj">
 
+      <div id="theme-details">
+        <h2>Theme details: </h2>
+        <text-field regularfont v-model="themeDraft.theme_name" placeholder="Theme name"></text-field>
+        <text-field regularfont v-model="themeDraft._id" placeholder="Theme id"></text-field>
+        <br><br>
+      </div>
+
       <h2>Headers, bodies, and text: </h2>
       <!-- Logo and Text section -->
       <div id="logo-and-text" class="flex-container">
@@ -20,24 +27,24 @@
         <!-- Color pickers for the logo & text -->
         <div class="theme-options"><br><br>
 
-          <color-picker v-model="themeDraft.logo" name="Logo color" :textcolor="themeDraft.bg"
+          <color-picker v-model="themeDraft.colors.logo" name="Logo color" :textcolor="themeDraft.colors.bg"
             id="logo" description="The primary color for illustrations in the header.">
           </color-picker><br><br>
 
-          <color-picker v-model="themeDraft.bg" name="Background color" :textcolor="themeDraft.bg_text"
+          <color-picker v-model="themeDraft.colors.bg" name="Background color" :textcolor="themeDraft.colors.bg_text"
             id="bg" description="The main background color.">
           </color-picker>
-          <color-picker v-model="themeDraft.bg2" name="Background color 2" :textcolor="themeDraft.bg_text"
+          <color-picker v-model="themeDraft.colors.bg2" name="Background color 2" :textcolor="themeDraft.colors.bg_text"
             id="bg" description="Used for the background of headers and stuff.">
           </color-picker><br><br>
   
-          <color-picker v-model="themeDraft.bg_text" name="Background text" :textcolor="themeDraft.bg"
+          <color-picker v-model="themeDraft.colors.bg_text" name="Background text" :textcolor="themeDraft.colors.bg"
             id="bg_text" description="For regular text.">
           </color-picker>
-          <color-picker v-model="themeDraft.bg_text2" name="Background text 2" :textcolor="themeDraft.bg"
+          <color-picker v-model="themeDraft.colors.bg_text2" name="Background text 2" :textcolor="themeDraft.colors.bg"
             id="bg_text2" description="For secondary text.">
           </color-picker>
-          <color-picker v-model="themeDraft.link" name="Link" :textcolor="themeDraft.bg"
+          <color-picker v-model="themeDraft.colors.link" name="Link" :textcolor="themeDraft.colors.bg"
             id="link" description="">
           </color-picker>
 
@@ -71,14 +78,14 @@
         <div class="theme-options">
 
           <br><br>
-          <color-picker v-model="themeDraft.input" name="Input background color" :textcolor="themeDraft.input_text"
-            id="input" description="">
+          <color-picker v-model="themeDraft.colors.input" name="Input background color" 
+          :textcolor="themeDraft.colors.input_text" id="input" description="">
           </color-picker><br><br>
-          <color-picker v-model="themeDraft.input_text" name="Input text" :textcolor="themeDraft.input"
-            id="input-text" description="The color as you type in an input">
+          <color-picker v-model="themeDraft.colors.input_text" name="Input text" 
+          :textcolor="themeDraft.colors.input" id="input-text" description="The color as you type in an input">
           </color-picker>
-          <color-picker v-model="themeDraft.input_text2" name="Input text 2" :textcolor="themeDraft.input"
-            id="input-text2" description="Placeholders and other secondary text">
+          <color-picker v-model="themeDraft.colors.input_text2" name="Input text 2" 
+          :textcolor="themeDraft.colors.input" id="input-text2" description="Placeholders and other secondary text">
           </color-picker><br><br>
 
           <input type="checkbox" v-model="nobox">
@@ -120,7 +127,7 @@
 
             <button>A button!</button>
 
-            <dropdown :options="sampleOptions"></dropdown>
+            <dropdown :options="sampleOptions" v-if="0"></dropdown>
             
           </div>
 
@@ -132,10 +139,43 @@
       <!-- Cards section -->
       <div id="cards" class="flex-container">
         <div class="theme-options">
+          <br><br>
+          <color-picker v-model="themeDraft.colors.card" name="Card backgound color" 
+          :textcolor="themeDraft.colors.card_text" id="card" description="The background for secondary 'card' containers.">
+          </color-picker>
+          <color-picker v-model="themeDraft.colors.card2" name="Card backgound color 2" 
+          :textcolor="themeDraft.colors.card_text" id="card2" description="The background for secondary 'card' containers.">
+          </color-picker><br><br>
+
+          <color-picker v-model="themeDraft.colors.card_text" name="Card backgound color" 
+          :textcolor="themeDraft.colors.card" id="card-text" description="The background for secondary 'card' containers.">
+          </color-picker>
+          <color-picker v-model="themeDraft.colors.card_text2" name="Card backgound color 2" 
+          :textcolor="themeDraft.colors.card" id="card-text2" description="The background for secondary 'card' containers.">
+          </color-picker><br><br>
         </div>
+
         <div class="theme-example">
+          <div class="header">
+            <h3>Cards</h3>
+          </div>
+
+          <collection :collection="collectionOfAllArticles"></collection>
+
         </div>
       </div>
+
+      <h2>Theme Icon:</h2>
+
+      <div class="flex-container">
+        <svg-uploader v-model="themeDraft.icon" :height="40" :width="120" class="icon-uploader">
+        </svg-uploader>
+      </div>
+      <br><br>
+      <div class="flex-container">
+        <button @click="submitTheme()">Add theme!</button>
+      </div>
+      
 
 
       
@@ -170,9 +210,11 @@ export default {
 
   data() {
     return {
-      themeDraft: {},
+      themeDraft: {
+        colors: {}
+      },
 
-      nobox: true,
+      nobox: false,
 
       // Sample data for inputs:
       sampleOptions: ['Option 1!', 'Option 2 :)', 'option 3 ;o', 'option 4??'],
@@ -198,7 +240,12 @@ export default {
   },
 
   mounted() {
+        console.log(this.themeDraft);
+
     this.themeDraft = JSON.parse(JSON.stringify(this.currentTheme));
+
+    this.$store.dispatch("articles/readArticles");
+
   },
 
   computed: {
@@ -215,7 +262,7 @@ export default {
     // This is copied straight from themeCSSObj in the store.
     // I considered finding a way to reuse that code, but I'm not sure it's worth it. 
     cssDraftStyleObj() {
-      if (!this.themeDraft.logo) {
+      if (!this.themeDraft.colors.logo) {
         return {};
       }
       // Because our colors are stored as hsl arrays, we need to iterate thru them
@@ -236,11 +283,22 @@ export default {
         // Turning 'bg_text' into '--bg-text':
         let cssVarName = '--' + fields[i].replace(/_/g, "-");
         // Assigning that css var to our hsl string:
-        styleObj[cssVarName] = 'hsl(' + this.themeDraft[fields[i]][0] + ','
-                                            + this.themeDraft[fields[i]][1] + '%,'
-                                            + this.themeDraft[fields[i]][2] + '%)';
+        styleObj[cssVarName] = 'hsl(' + this.themeDraft.colors[fields[i]][0] + ','
+                                            + this.themeDraft.colors[fields[i]][1] + '%,'
+                                            + this.themeDraft.colors[fields[i]][2] + '%)';
       }
-    return styleObj;
+      return styleObj;
+    },
+
+    // For our sample collection
+    collectionOfAllArticles() {
+      return this.$store.getters['collections/collectionOfAllArticles']
+    }
+  }, 
+
+  methods: {
+    submitTheme() {
+      this.$store.dispatch('themes/createTheme', this.themeDraft);
     }
   }
   
@@ -259,9 +317,17 @@ h2 {
   color: var(--bg-text2);
 }
 
+
 // This div contains ALL the customization sections.
 #customizer {
   padding-top: 50px;
+}
+
+#theme-details {
+  width: 350px;
+  margin-left: 50%;
+  transform: translatex(-50%);
+
 }
 
 // Note that this edit is scoped:
@@ -326,7 +392,9 @@ h2 {
   }
 }
 
-
+.icon-uploader {
+  border: solid var(--bg-text2) 2px;
+}
 
 
 </style>

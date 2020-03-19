@@ -87,41 +87,6 @@ a, .a {
   }
 }
 
-button {
-  font-family: crimsonText, serif;
-  background: var(--input);
-  color: var(--input-text2);
-  border: 1px solid var(--input-text2);
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: var(--small-font-size);
-  font-weight: bold;
-  // Button icons:
-  svg {
-    fill: var(--input-text2);
-    margin: 0px 5px;
-  }
-  &:hover {
-    color: var(--input-text);
-    border: 1px solid var(--input-text);
-    svg {
-      fill: var(--input-text);
-    }
-  }
-  
-  &.bg2-button {
-    background: var(--bg2);
-    color: var(--bg-text2);
-    border: 1px solid var(--bg-text2);
-    &:hover {
-      color: var(--bg-text);
-      border: 1px solid var(--bg-text);
-    }
-  }
-}
-
 .small-square, .small-icon {
   height: var(--small-font-size);
   width: var(--small-font-size);

@@ -1,7 +1,12 @@
 // Used to import all our global components at once. 
 
 import textField from './inputs/text-field.vue';
+import colorPicker from './inputs/color-picker.vue';
+import svgUploader from './inputs/svg-uploader.vue';
+
 import lineBreak from './misc/line-break.vue';
+
+import collection from './misc/collection.vue';
 
 import checkIcon from './icons/check-icon.vue';
 import editIcon from './icons/edit-icon.vue';
@@ -18,8 +23,16 @@ import servicesIcon from './icons/services-icon.vue';
 import trashIcon from './icons/trash-icon.vue';
 
 export default {
+  // Inputs
+  colorPicker,
   textField,
+  svgUploader,
+
+  // Misc:
   lineBreak,
+  collection,
+
+  // Icons
   editIcon,
   checkIcon,
   personIcon,

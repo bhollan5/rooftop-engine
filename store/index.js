@@ -6,41 +6,44 @@ import Vue from 'vue';
 export const state = () => ({
   theme_name: 'Golden Night',
   _id: 'golden-night',
+  thumbnail: '', 
 
-  logo: [0,0,96],
-  header_bg: [248,19,26],
+  colors: {
+    logo: [0,0,96],
+    header_bg: [248,19,26],
 
-  bg: [248,19,31],
-  bg2: [248,19,26],
-  bg_text: [0,0,96],
-  bg_text2: [230,19,60],
-  
+    bg: [248,19,31],
+    bg2: [248,19,26],
+    bg_text: [0,0,96],
+    bg_text2: [230,19,60],
+    
 
-  card: [255,14,19],
-  card2: [255,16,15],
-  card_text: [0,0,96],
-  card_text2: [257,7,63],
-
-
-  link: [43,78,81],
+    card: [255,14,19],
+    card2: [255,16,15],
+    card_text: [0,0,96],
+    card_text2: [257,7,63],
 
 
-  bg2_input: [248,19,35],
-  bg2_input_text: [0,0,91],
-  bg2_input_text2: [230,19,55],
+    link: [43,78,81],
 
-  c1: [43,78,76],
-  c1_light: [43,78,86],
-  c2: [43,78,81],
-  c2_light: [43,78,86],
-  c3: [43,78,81],
-  c3_light: [43,78,86],
 
-  input: [248,19,40],
-  input_text: [0,0,96],
-  input_text2: [230,19,60],
-  input_h: '#F4DEA7',
-  input_h_text: 'black;',
+    bg2_input: [248,19,35],
+    bg2_input_text: [0,0,91],
+    bg2_input_text2: [230,19,55],
+
+    c1: [43,78,76],
+    c1_light: [43,78,86],
+    c2: [43,78,81],
+    c2_light: [43,78,86],
+    c3: [43,78,81],
+    c3_light: [43,78,86],
+
+    input: [248,19,40],
+    input_text: [0,0,96],
+    input_text2: [230,19,60],
+    input_h: '#F4DEA7',
+    input_h_text: 'black;',
+  },
 
 })
 
@@ -74,9 +77,9 @@ export const getters = {
       // Turning 'bg_text' into '--bg-text':
       let cssVarName = '--' + fields[i].replace(/_/g, "-");
       // Assigning that css var to our hsl string:
-      styleObj[cssVarName] = 'hsl(' + state[fields[i]][0] + ','
-                                           + state[fields[i]][1] + '%,'
-                                           + state[fields[i]][2] + '%)';
+      styleObj[cssVarName] = 'hsl(' + state.colors[fields[i]][0] + ','
+                                           + state.colors[fields[i]][1] + '%,'
+                                           + state.colors[fields[i]][2] + '%)';
     }
     return styleObj;
   },
@@ -123,9 +126,9 @@ export const mutations = {
     ]
     for (let i in fields) {
       if (payload[fields[i]]){
-        Vue.set(state[fields[i]], 0, payload[fields[i]][0])
-        Vue.set(state[fields[i]], 1, payload[fields[i]][1])
-        Vue.set(state[fields[i]], 2, payload[fields[i]][2])
+        Vue.set(state.colors[fields[i]], 0, payload[fields[i]][0])
+        Vue.set(state.colors[fields[i]], 1, payload[fields[i]][1])
+        Vue.set(state.colors[fields[i]], 2, payload[fields[i]][2])
       }
     }
   },

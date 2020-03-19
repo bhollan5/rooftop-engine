@@ -9,7 +9,7 @@
     width: width + 'px',
     }">
     
-  <input type="file" accept="image/svg" ref="fileInput1" style="display: none;">
+  <input type="file" accept="image/svg" :ref="'fileInput' + id" style="display: none;">
   <p v-if="!value">+ Upload SVG</p>
   <div v-html="value" v-else class="svg-image"></div>
 
@@ -37,6 +37,10 @@ export default {
     width: {
       type: Number,
       default: 100
+    },
+    // 
+    id: {
+      type: String,
     }
   },
 
@@ -51,7 +55,7 @@ export default {
 
     // Clicks on the hidden input so we can use our custom-styled input
     openSVGInput() {
-      this.$refs['fileInput1'].click()
+      this.$refs['fileInput' + this.id].click()
     },
 
     // Called when a file is uploaded
@@ -87,7 +91,6 @@ export default {
   cursor: pointer;
 }
 p {
-  margin-top: 40%;
   font-size: var(--small-font-size);
   text-align: center;
 }

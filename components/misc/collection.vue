@@ -111,9 +111,10 @@ export default {
 // Container for collections of media.
 .collection-display {
   display: flex;
-  width: 100%;
+  min-width: 100%;
   height: 180px; // Setting this to the same height as the cards, plus 30px for padding
-  padding: 15px 50px;
+  padding: 15px 0px 0px 50px;
+  overflow: hidden;
   background: var(--bg2);
   box-shadow: inset 0px 0px 4px rgba(0,0,0,.4);
 }
@@ -133,9 +134,13 @@ export default {
   margin-bottom: 5px;
   
   max-width: 50%;
+  color: var(--bg-text2);
   font-size: var(--small-font-size);
   input {
     font-size: var(--small-font-size);
   }
+}
+.collection-container:hover .collection-description {
+  color: var(--bg-text);
 }
 </style>

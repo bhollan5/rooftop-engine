@@ -11,20 +11,6 @@
       </p>
     </div>
 
-    <!-- Model coll (delete)
-    <div id="collection-container" 
-      :style="{background: $store.state.bg}">
-
-      <h3 class="collection-label">Rooftop Policy</h3>
-      <hr class="collection-underline">
-      <div class="collection">
-
-        <article-card v-for="(article, article_i) in articles" :article="article" :key="'article-' + article_i">
-        </article-card>
-
-      </div>
-    </div>-->
-
     <!-- List of collections -->
     <collection v-for="(collection, collection_i) in collections"
       :collection="collection" :key="'collection' + collection_i" >
@@ -47,14 +33,12 @@
 
 <script>
 import placeholderSpread from '@/components/landing_spreads/placeholder_spread.vue';
-import collection from '@/components/misc/collection.vue';
 import nonFicHeader from '@/components/non-fic/non-fic-header.vue';
 
 export default {
   name: 'non-fic',
   components: {
     placeholderSpread,
-    collection,
 
     nonFicHeader,
   },
@@ -76,7 +60,9 @@ export default {
 
   mounted() {
     // When the page loads, we load in the articles. 
-    this.getArticles();
+
+    // Uncomment this to make sure you're loading in all the articles in the bottom collection
+    // this.getArticles(); 
     this.getCollections();
   },
 

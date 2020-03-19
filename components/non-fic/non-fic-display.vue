@@ -162,7 +162,6 @@ h1 {
 }
 #article-subheader {
   font-weight: normal;
-  font-style: italic;
 }
 .section-title {
   margin-bottom: 20px;

@@ -68,6 +68,7 @@ export default {
 
 .article-card {
   width: 275px;
+  min-width: 275px;
   height: 150px;
   position: relative;
   background: var(--card);

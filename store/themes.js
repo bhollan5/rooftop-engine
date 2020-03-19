@@ -58,34 +58,17 @@ export const getters = {
 //  this.$store.dispatch('actionName', {playloadData: data });
 export const actions = {
 
-  // Creating a new article:
+  // Creating a new theme:
   createTheme({commit}, payload) {
+    console.warn("Yes");
+
     // Creating a new article:
-  app.post('/create-theme', (req, res) => {
-    console.log("\n 🗣 Called to create a theme!")
 
-    let newTheme = new Theme(req.body);
-    newTheme.save(function (err, result) {
-      if (err) return console.error(err);
-      console.log(' 💾 Saved theme to database!');
-      res.send(result)
-    });
-  })
-
-    axios.post("/api/create-theme", {
-      articleTitle: payload.articleTitle,
-      articleData: payload.articleData
-    })
+    axios.post("/api/create-theme", payload)
     .then((response) => {
-      console.log(" 💾 Successfully created an article titled " + payload.articleTitle + "!");
-      console.log(" > The article's id is: " + response.data._id);
+      console.log(" 💾 Successfully created a theme titled " + payload.theme_name + "!");
+      console.log(" > The themes's id is: " + response.data._id);
 
-      this.articleId = response.data._id
-
-      // Moving the user to the correct page.
-      this.$router.push({
-        path: '/non-fic/' + this.articleId + '/edit'
-      })
     }, (error) => {
       console.warn(error);
     });

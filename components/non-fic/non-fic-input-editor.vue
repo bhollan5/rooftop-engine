@@ -317,7 +317,6 @@ export default {
 }
 #article-subheader input {
   font-size: var(--regular-font-size);
-  font-style: italic;
 }
 
 .tab-container {
