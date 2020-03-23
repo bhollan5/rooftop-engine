@@ -73,6 +73,7 @@
       <div id="theme-picker" class="user-option">
         <button v-for="theme in theme_options"
           style="margin-bottom:10px;" @click="applyTheme(theme)">{{theme.theme_name}}</button>
+        <router-link to="/theme-picker">Theme Editor</router-link>
       </div>
 
     </div>
