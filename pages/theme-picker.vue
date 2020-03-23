@@ -3,7 +3,7 @@
     <h1 id="theming-header">Dynamic Theming</h1>
     <h2>Customize Rooftop's theme here!</h2>
     <p class="centered">Below, you can try out different options to build your own theme for Rooftop.</p>
-    <button @click="resetTheme()">Reset theme</button>
+    <button @click="resetTheme()" style="margin-left: 50%;transform:translatex(-50%);">Reset theme</button>
     
     <div class="big-br"></div>
     <line-break style="width: 40%;margin-left: 30%"></line-break>

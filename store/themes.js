@@ -139,7 +139,7 @@ export const actions = {
 
   // Creating a new theme:
   createTheme({commit}, payload) {
-    console.warn("Yes");
+    console.log(" 🗣 Calling the API to create a new theme.")
 
     // Creating a new article:
 
@@ -154,14 +154,14 @@ export const actions = {
 
   },
 
-  // Getting all articles:
-  readArticles({commit}) {
-    console.log(" 🗣 Calling the API to load all articles.")
+  // Getting all themes:
+  readAllThemes({commit}) {
+    console.log(" 🗣 Calling the API to load all themes.")
 
-    return axios.get("/api/articles")
+    return axios.get("/api/read-themes")
       .then((response) => {
-        console.log(" 📦 Loaded " + response.data.length + " articles.");
-        commit('setArticles', response.data);
+        console.log(" 📦 Loaded " + response.data.length + " themes.");
+        commit('setThemes', response.data);
       }, (error) => {
         console.warn(error);
       });
@@ -267,8 +267,8 @@ export const mutations = {
   
   // Setting article array:
   setThemes(state, payload) {
-    state.articles = payload;
-    console.log(" ✨ Articles updated in the Vuex store:", payload);
+    state.themes = payload;
+    console.log(" ✨ Themes updated in the Vuex store:", payload);
   },
   
   // Deleting an article by id: 

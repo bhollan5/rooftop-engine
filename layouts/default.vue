@@ -71,8 +71,8 @@
       </div>
 
       <div id="theme-picker" class="user-option">
-        <div style="cursor:pointer;" @click="themeGoldenNight()">Golden Night</div>
-        <div style="cursor:pointer;" @click="themeMondrian()">Mondrian</div>
+        <button v-for="theme in theme_options"
+          style="margin-bottom:10px;" @click="applyTheme(theme)">{{theme.theme_name}}</button>
       </div>
 
     </div>
@@ -162,7 +162,11 @@ export default {
 
     // Grabbing our dynamic theme variables from the store:
     theme_style() {
-      return this.$store.getters['themes/themeCSSObj']
+      return this.$store.getters['themes/themeCSSObj'];
+    },
+
+    theme_options() {
+      return this.$store.getters['themes/allThemes'];
     }
 
   },
@@ -172,7 +176,7 @@ export default {
     this.handleScroll();
     window.addEventListener('scroll', this.handleScroll);
 
-    this.themeMondrian();
+    this.$store.dispatch('themes/readAllThemes');
   },
   methods: {
     
@@ -198,6 +202,10 @@ export default {
 
       // This scrollPos variable lets us check if we're going up or down. 
       this.scrollPos = -window.scrollY;
+    },
+
+    applyTheme(theme) {
+      this.$store.commit("themes/setThemeColor", theme);
     },
 
     themeGoldenNight() {

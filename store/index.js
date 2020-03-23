@@ -15,12 +15,6 @@ export const state = () => ({
 //   this.$store.getters.getterWithParamName(paramData)
 export const getters = {
 
-  // Returning the colors as arrays
-  themeScriptObj(state) {
-    if (state._id == state._id){
-      return state;
-    }
-  },
 
 }
 

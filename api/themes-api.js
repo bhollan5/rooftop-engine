@@ -22,16 +22,18 @@ module.exports = function(app, mongoose){
   app.post('/create-theme', (req, res) => {
     console.log("\n 🗣 Called to create a theme!")
 
-    let newTheme = new Theme(req.body);
-    newTheme.save(function (err, result) {
-      if (err) return console.error(err);
-      console.log(' 💾 Saved theme to database!');
-      res.send(result)
-    });
+    let update = req.body;
+    let id = req.body._id;
+
+      // The upsert option lets us create or update at once. 
+    Theme.updateOne({_id: id}, update, {upsert: true}, (result) => {
+      console.log(" ⬆️ Created/updated an article!")
+      res.send(result);
+    })
   })
 
-  // Getting all articles:
-  app.get('/themes', (req, res) => {
+  // Getting all themes:
+  app.get('/read-themes', (req, res) => {
     console.log("\n 🗣 Called to read all themes!")
 
     Theme.find(function (err, result) {
