@@ -10,12 +10,7 @@
 
 // Global vars:
 :root {
-  // These color scheme vars can be changed dynamically with the theme_color() function
-  // --bg: white;
-  // --bg-text: black;
-  // --bg-text2: hsl(248,19%,40%);
-  // --bg-lighter: hsl(230,19%,60%);
-  // --fg: hsl(0,0%,96%);
+  // Global color scheme vars can be changed dynamically through the vuex store. 
 
   --box-shading: 5px;
 
@@ -144,62 +139,6 @@ a, .a {
   h4 {
     color: var(--bg-text2);
   }
-}
-
-
-
-
-// SVG classes
-.fill-bg {
-  fill: var(--bg);
-}
-.fill-bg2 {
-  fill: var(--bg2);
-}
-.fill-card {
-  fill: var(--card);
-}
-.fill-card2 {
-  fill: var(--card2);
-}
-.fill-bg-text {
-  fill: var(--bg-text);
-}
-svg .hover-fill-bg-text {
-  fill: var(--bg-text2);
-}
-svg:hover .hover-fill-bg-text {
-  fill: var(--bg-text);
-}
-svg .hover-stroke-bg-text {
-  stroke: var(--bg-text2);
-}
-svg:hover .hover-stroke-bg-text {
-  stroke: var(--bg-text);
-}
-
-svg .hover-fill-c1 {
-  fill: var(--bg-text2);
-}
-svg:hover .hover-fill-c1 {
-  fill: var(--c1);
-}
-svg .hover-stroke-c1 {
-  stroke: var(--bg-text2);
-}
-svg:hover .hover-stroke-c1 {
-  stroke: var(--c1);
-}
-
-svg .logo-fill {
-  fill: var(--logo);
-}
-svg .logo-stroke {
-  stroke: var(--logo);
-}
-
-svg .bg-text-fill {
-  fill: var(--bg-text)
 }
 
 // Add this to a <div> to make a bigger line break.

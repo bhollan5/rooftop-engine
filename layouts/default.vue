@@ -285,7 +285,7 @@ export default {
 <style lang="scss">
 @import '@/styles/inputs.scss';
 @import '@/styles/globals.scss';
-
+@import '@/styles/svg-classes.scss';
 
 
 // Breakpoints, to make the site responsive to different screen sizes.
@@ -417,6 +417,7 @@ $tablet-bp: 400px;
       // For active links in the header
       .nuxt-link-active svg {
         font-weight: bold;
+
         .hover-stroke-c1 {
           stroke: var(--c1);
         }
@@ -426,6 +427,11 @@ $tablet-bp: 400px;
         .hover-stroke-c3 {
           stroke: var(--c1);
         }
+        .hover-fill-bg-text {
+          fill: var(--bg-text);
+        }
+
+
       }
       
     }
