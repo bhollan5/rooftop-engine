@@ -2,7 +2,7 @@
   <div class="page-content flex-container">
 
     <div id="side-bar">
-      <h3 v-if="articleData[0].content">
+      <h3 v-if="articleData.length">
         {{articleData[0].content}}
       </h3>
       <h3 v-else class="card-text2">
@@ -20,7 +20,8 @@
 
     <!-- The content container, which holds the entire editor -->
     <div id="content">
-      <non-fic-display :data="articleData"></non-fic-display>
+      <non-fic-loading v-if="!articleData.length"></non-fic-loading>
+      <non-fic-display v-else :data="articleData"></non-fic-display>
     </div>
     
   </div>
@@ -35,7 +36,7 @@ import gearIcon from '@/components/icons/gear-icon.vue';
 import editIcon from '@/components/icons/edit-icon.vue';
 
 // Display pages:
-import nonFicInputEditor from '@/components/non-fic/non-fic-input-editor.vue';
+import nonFicLoading from '@/components/non-fic/non-fic-loading.vue';
 import nonFicDisplay from '@/components/non-fic/non-fic-display.vue';
 
 // For our db calls
@@ -52,7 +53,7 @@ export default {
     gearIcon,
     editIcon,
 
-    nonFicInputEditor,
+    nonFicLoading,
     nonFicDisplay
   },
 
@@ -63,57 +64,7 @@ export default {
       // The ID of the article we're on -- initially, the URL id.
       articleId: this.$route.params.articleId,
 
-      articleData: [
-        {
-          type: 'header',
-          content: 'My Article Title',
-        },
-        {
-          type: 'subheader',
-          content: 'This is a subheader, too!',
-        },
-        {
-          type: 'tabs',
-          selectedTab: 0,
-          tabs: [
-            {
-              name: 'Main Paper',
-              content: [
-                {
-                  type: 'section-title',
-                  content: '',
-                },
-                {
-                  type: 'subsection-title',
-                  index: '1.1',
-                  content: ''
-                },
-                {
-                  type: 'paragraph',
-                  content: ''
-                },
-              ]
-            },
-            {
-              name: 'Definitions',
-              content: [
-                {
-                  type: 'paragraph',
-                  content: 'def',
-                },
-                {
-                  type: 'subsection-title',
-                  content: ''
-                },
-                {
-                  type: 'paragraph',
-                  content: ''
-                },
-              ]
-            }
-          ]
-        },
-      ],
+      articleData: [],
 
       // Storing data for different section types.
       // This is mostly just to save html space w/ a v-for

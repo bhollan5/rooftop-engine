@@ -5,22 +5,25 @@
     <!-- The side bar, with the outline and stuff -->
     <div id="side-bar">
       <!-- The header of the side bar is colored differently. -->
-      <div id="side-bar-header">
-        <text-field nobox class="h3-input" v-model="articleData[0].content" ></text-field>
+      <div id="side-bar-header" >
+        <text-field nobox class="h3-input" v-if="articleData.length" 
+          v-model="articleData[0].content" ></text-field>
+        <div v-else style="height: 45px;"></div>
 
         <div class="id-container">
           <h4 id="id-label" class="card-text2">id:</h4>
           <text-field v-model="articleId" nobox></text-field>
         </div>
 
-        <div class="byline">by <router-link to="/">Ben H</router-link></div>
+        <div class="byline" v-if="articleData.length" >by <router-link to="/">Ben H</router-link></div>
+        <div v-else style="height: 25px"></div>
     
-        <div class="thumbnail" v-if="0"></div>
-        <svg-uploader v-model="articleThumbnail" class="thumbnail" v-else></svg-uploader>
+        <svg-uploader v-model="articleThumbnail" class="thumbnail" v-if="articleData.length"></svg-uploader>
+        <div class="thumbnail" v-else></div>
 
       </div>
 
-      <div id="side-bar-content">
+      <div id="side-bar-content" v-if="articleData.length">
         <!-- Article description. -->
         <text-field textarea nobox class="article-description"
           v-model="articleDescription">
@@ -43,7 +46,9 @@
         <button @click="saveChanges()">Save</button>
 
       </div>
-      <non-fic-input-editor :data="articleData" :articleId="articleId" v-if="editMode"></non-fic-input-editor>
+
+      <non-fic-loading v-if="!articleData.length"></non-fic-loading>
+      <non-fic-input-editor :data="articleData" :articleId="articleId" v-else-if="editMode"></non-fic-input-editor>
       <non-fic-display :data="articleData" v-else></non-fic-display>
     </div>
     
@@ -63,6 +68,8 @@ import editIcon from '@/components/icons/edit-icon.vue';
 // Display pages:
 import nonFicInputEditor from '@/components/non-fic/non-fic-input-editor.vue';
 import nonFicDisplay from '@/components/non-fic/non-fic-display.vue';
+import nonFicLoading from '@/components/non-fic/non-fic-loading.vue';
+
 
 // For our db calls
 import axios from 'axios';
@@ -80,7 +87,8 @@ export default {
     editIcon,
 
     nonFicInputEditor,
-    nonFicDisplay
+    nonFicDisplay,
+    nonFicLoading
   },
 
   data() {
@@ -93,7 +101,8 @@ export default {
       articleDescription: 'Add a description here.',
       articleThumbnail: '',
 
-      articleData: [
+      articleData: [],
+      newArticleTemplate: [
         {
           type: 'header',
           content: '',
@@ -177,6 +186,8 @@ export default {
     // When the page loads, get the articles, then load them in. 
     if (this.articleId != 'new') {
       this.loadDoc();
+    } else {
+      this.articleData = this.newArticleTemplate;
     }
   },
 
