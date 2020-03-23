@@ -162,7 +162,7 @@ export default {
 
     // Grabbing our dynamic theme variables from the store:
     theme_style() {
-      return this.$store.getters.themeCSSObj
+      return this.$store.getters['themes/themeCSSObj']
     }
 
   },
@@ -172,20 +172,7 @@ export default {
     this.handleScroll();
     window.addEventListener('scroll', this.handleScroll);
 
-    return; // Comment this line for the alternate scheme!
-    // Changing our theme colors:
-    this.$store.commit("setThemeColor", {
-      logo: '#111111',
-
-      bg: '#EAEAEA',
-      bg_text: '#111111',
-      bg_text2: '#4E4E4E',
-
-      input: '#F6F6F6',
-      input_text: '#111111',
-      input_text_2: '#939393',
-      input_h: "#C21B7A",
-    })
+    this.themeMondrian();
   },
   methods: {
     
@@ -214,67 +201,85 @@ export default {
     },
 
     themeGoldenNight() {
-      this.$store.commit("setThemeColor", {
-        logo: 'white',
+      this.$store.commit("themes/setThemeColor", {
+        _id: 'golden-night',
+        theme_name: 'Golden Night',
 
-        bg: 'hsl(248,19%,31%)',
-        bg_text: 'hsl(0,0%,96%)',
-        bg_text2: 'hsl(230,19%,60%)',
+        colors: {
+          logo: [0,0,96],
+          header_bg: [248,19,26],
 
-        link: 'hsl(43,78%,81%)',
+          bg: [248,19,31],
+          bg2: [248,19,26],
+          bg_text: [0,0,96],
+          bg_text2: [230,19,60],
+          
 
-        bg2: '#2B2736',
-        bg2_text: '#F6F6F6',
-        bg2_text2: '#A3A2A6',
+          card: [255,14,19],
+          card2: [255,16,15],
+          card_text: [0,0,96],
+          card_text2: [257,7,63],
 
-        c1: 'hsl(43,78%,81%)',
-        c1_light: '',
-        c2: 'hsl(43,78%,81%)',
-        c2_light: '',
-        c3: 'hsl(43,78%,81%)',
-        c3_light: '',
 
-        input: 'hsl(248,19%,40%)',
-        input_text: 'hsl(0,0%,96%)',
-        input_text2: 'hsl(230,19%,60%)',
-        input_h: '#F4DEA7',
-        input_h_text: 'black;',
+          link: [43,78,81],
+
+
+          bg2_input: [248,19,35],
+          bg2_input_text: [0,0,91],
+          bg2_input_text2: [230,19,55],
+
+          c1: [43,78,76],
+          c1_light: [43,78,86],
+          c2: [43,78,81],
+          c2_light: [43,78,86],
+          c3: [43,78,81],
+          c3_light: [43,78,86],
+
+          input: [248,19,40],
+          input_text: [0,0,96],
+          input_text2: [230,19,60]
+        }
       })
 
       
     },
     themeMondrian() {
-      this.$store.commit("setThemeColor", {
-        logo: [0,0,7],
-        header_bg: [0,0,85],
+      this.$store.commit("themes/setThemeColor", {
+        _id: 'mondrian',
+        theme_name: 'Mondrian',
 
-        bg: [0,0,92],
-        bg2: [0,0,85],
-        bg_text: [0,0,7],
-        bg_text2: [0,0,17],
+        colors: {
+          logo: [0,0,7],
+          header_bg: [0,0,85],
 
-        card: [0,0,7],
-        card2: [0,0,20],
-        card_text: [0,0,92],
-        card_text2: [0,0,50],
+          bg: [0,0,92],
+          bg2: [0,0,85],
+          bg_text: [0,0,7],
+          bg_text2: [0,0,17],
 
-        link: [43,78,81],
+          card: [0,0,7],
+          card2: [0,0,20],
+          card_text: [0,0,92],
+          card_text2: [0,0,50],
+
+          link: [43,78,81],
 
 
-        bg2_input: [0,0,98],
-        bg2_input_text: [0,0,7],
-        bg2_input_text2: [0,0,17],
+          bg2_input: [0,0,98],
+          bg2_input_text: [0,0,7],
+          bg2_input_text2: [0,0,17],
 
-        c1: [43,78,76],
-        c1_light: [43,78,86],
-        c2: [43,78,81],
-        c2_light: [43,78,86],
-        c3: [43,78,81],
-        c3_light: [43,78,86],
+          c1: [43,78,76],
+          c1_light: [43,78,86],
+          c2: [43,78,81],
+          c2_light: [43,78,86],
+          c3: [43,78,81],
+          c3_light: [43,78,86],
 
-        input: [248,19,40],
-        input_text: [0,0,96],
-        input_text2: [230,19,60],
+          input: [248,19,40],
+          input_text: [0,0,96],
+          input_text2: [230,19,60],
+        }
       })
     }
 

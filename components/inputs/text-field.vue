@@ -151,7 +151,8 @@ svg {
     padding: 0px;
   }
   &:hover {
-    outline: 1px solid var(--bg-text2);
+    border-bottom: 1px solid var(--bg-text2);
+    margin-bottom: -1px; // so the whole field doesn't move
   }
 }
 </style>

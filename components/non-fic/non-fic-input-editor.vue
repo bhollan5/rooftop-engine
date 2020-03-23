@@ -291,7 +291,9 @@ export default {
   transition-duration: .5s;
   &.expanded-container {
     min-height: 200px;
-
+  }
+  input:hover, input:active, textarea:hover, textarea:active {
+    // background: var(--input); // todo: I want to uncomment this but the padding/margins would need changed
   }
 }
 
@@ -464,7 +466,7 @@ export default {
     cursor: pointer;
   }
   &:hover {
-    outline: solid 1px var(--bg-text2);
+    background: var(--input);
   }
 }
 
@@ -473,5 +475,9 @@ export default {
   margin-top: 20px;
   width: 100%;
   padding: 10px;
+}
+
+input:active, input:hover {
+  background: var(--input);
 }
 </style>

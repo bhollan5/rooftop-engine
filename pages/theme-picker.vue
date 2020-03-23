@@ -3,6 +3,7 @@
     <h1 id="theming-header">Dynamic Theming</h1>
     <h2>Customize Rooftop's theme here!</h2>
     <p class="centered">Below, you can try out different options to build your own theme for Rooftop.</p>
+    <button @click="resetTheme()">Reset theme</button>
     
     <div class="big-br"></div>
     <line-break style="width: 40%;margin-left: 30%"></line-break>
@@ -19,6 +20,9 @@
         <text-field regularfont v-model="themeDraft._id" placeholder="Theme id"></text-field>
         <br><br>
       </div>
+
+
+      <!-- primary elements -->
 
       <h2>Headers, bodies, and text: </h2>
       <!-- Logo and Text section -->
@@ -70,6 +74,48 @@
           </div>
         </div>
       </div>
+
+
+
+
+      <h2>Illustration & alternate backgrounds: </h2>
+      <!-- Logo and Text section -->
+      <div id="logo-and-text" class="flex-container">
+
+        <!-- Color pickers for the logo & text -->
+        <div class="theme-options"><br><br>
+
+          <color-picker v-model="themeDraft.colors.c1" name="Design color 1" :textcolor="themeDraft.colors.bg"
+            id="c1" description="">
+          </color-picker>
+          <color-picker v-model="themeDraft.colors.c2" name="Design color 2" :textcolor="themeDraft.colors.bg"
+            id="c2" description="">
+          </color-picker>
+          <color-picker v-model="themeDraft.colors.c3" name="Design color 3" :textcolor="themeDraft.colors.bg"
+            id="c3" description="">
+          </color-picker><br><br>
+
+        </div>
+
+        <div class="theme-example">
+          <div class="header theme-header-example">
+            <h3>Design Highlights</h3>
+          </div>
+          <div class="body theme-body-example">
+            <h1>Page Title</h1>
+            <h2>Subtitle, in secondary color.</h2>
+            <p>Totally regular text that would appear in the body of a paragraph on a page on  the website. Hey!</p><br>
+            <p>Important parts of a text passage might be highlighted to show importance. </p><br>
+            <p><div class="a">Here's a link to another page →</div></p>
+            <br><br><br>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
 
       <h2>Inputs: </h2>
 
@@ -240,8 +286,6 @@ export default {
   },
 
   mounted() {
-        console.log(this.themeDraft);
-
     this.themeDraft = JSON.parse(JSON.stringify(this.currentTheme));
 
     this.$store.dispatch("articles/readArticles");
@@ -252,9 +296,10 @@ export default {
     currentTheme: {
       // Found this format here: https://vuejs.org/v2/guide/computed.html#Computed-Setter
       get() {
-        return this.$store.getters.themeScriptObj;
+        return this.$store.getters['themes/themeScriptObj'];
       },
       set (newValue) {
+        console.log("whay")
         this.themeDraft = JSON.parse(JSON.stringify(newValue));
       }
     },
@@ -298,7 +343,12 @@ export default {
 
   methods: {
     submitTheme() {
+      console.log(this.themeDraft);
       this.$store.dispatch('themes/createTheme', this.themeDraft);
+    },
+
+    resetTheme() {
+      this.themeDraft = JSON.parse(JSON.stringify(this.currentTheme));
     }
   }
   
