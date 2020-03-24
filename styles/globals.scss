@@ -115,6 +115,17 @@ a, .a {
   display: flex;
   justify-content: space-around;
 }
+.space-between {
+  justify-content: space-between;
+}
+.input-flex-container {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap;
+  .text-field {
+    width: 47%;
+  }
+}
 
 .bold, .b {
   font-weight: bold;

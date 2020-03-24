@@ -94,7 +94,6 @@ export default {
 // The entire component:
 .text-field {
   position: relative;
-  width: 100%;
   margin: 0px;
   padding-bottom: 10px;
 }
