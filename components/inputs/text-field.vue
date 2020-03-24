@@ -4,7 +4,12 @@
     'has-input': hasInput, 
     'nobox': nobox, 
     'small-icon': smallfont}">
+
+  <div class="title">{{title}}</div>
+
+  <!-- The slot is used for icons -->
   <slot></slot>
+
   <input :value="value" @input="$emit('input', $event.target.value)"
     :placeholder="placeholder"
     :class="{ 'icon-padding': icon,
@@ -40,9 +45,16 @@ export default {
       type: String,
       default: '',
     },
+    // Placeholder:
     placeholder: {
       type: String
     },
+    // Title: 
+    title: {
+      type: String
+    },
+
+
     // Turns it into a multi-line text area
     textarea: {
       type: Boolean,
@@ -87,6 +99,13 @@ export default {
   padding-bottom: 10px;
 }
 
+.title {
+  font-size: var(--small-font-size);
+  color: var(--bg-text2);
+  margin-bottom: -3px;
+  margin-left: 3px;
+}
+
 input, textarea {
   padding: 5px;
   width: 100%;
@@ -126,13 +145,14 @@ svg {
   height: var(--regular-font-size);
   width: var(--regular-font-size);
   position: absolute;
-  top: 9px;
+  bottom: 19px;
   left: 9px;
 }
 .small-icon svg {
   height: var(--small-font-size);
   width: var(--small-font-size);
   position: absolute;
+  bottom: 19px;
 }
 
 // These chunks change the icon's color depending on if an input is present. 

@@ -139,28 +139,28 @@
           </div>
           <div class="body theme-body-example">
 
-            <text-field v-model="foo" :placeholder="'Big text field'" class="sample-input" 
-              regularfont :nobox="nobox">
+            <text-field v-model="foo" :placeholder="'Placeholder text...'" class="sample-input" 
+              regularfont :nobox="nobox" :title="'Big text field'">
             </text-field>
-            <text-field v-model="foo" :placeholder="'Text field w/ an icon'" class="sample-input" icon
-              regularfont :nobox="nobox">
+            <text-field v-model="foo" :title="'Big icon text field'" class="sample-input" icon
+              regularfont :nobox="nobox" :placeholder="'Placeholder text...'">
               <search-icon></search-icon>
             </text-field>
             <div class="input-container">
-              <text-field v-model="foo" :placeholder="'Text field'" class="sample-input" 
-                smallfont :nobox="nobox">
+              <text-field v-model="foo" :placeholder="'Placeholder text...'" class="sample-input" 
+                smallfont :nobox="nobox" :title="'Small text field'">
               </text-field>
-              <text-field v-model="foo" :placeholder="'Text field w/ an icon'" class="sample-input" icon
-                smallfont :nobox="nobox">
+              <text-field v-model="foo" :title="'Small icon text field'" class="sample-input" icon
+                smallfont :nobox="nobox" :placeholder="'Placeholder text...'">
                 <edit-icon></edit-icon>
               </text-field>
             </div>
             <div class="input-container">
-              <text-field v-model="bar" :placeholder="'Text field'" class="sample-input" 
-                smallfont :nobox="nobox">
+              <text-field v-model="bar" :title="'Text field with text'" class="sample-input" 
+                smallfont :nobox="nobox" :placeholder="'Placeholder text...'">
               </text-field>
-              <text-field v-model="bar" :placeholder="'Text field w/ an icon'" class="sample-input" icon
-                smallfont :nobox="nobox">
+              <text-field v-model="bar" :title="'Icon text field with text'" class="sample-input" icon
+                smallfont :nobox="nobox" :placeholder="'Placeholder text...'">
                 <person-icon></person-icon>
               </text-field>
             </div>
@@ -422,8 +422,6 @@ h2 {
   justify-content: space-between;
   padding: 0px;
   margin: 0px;
-  height: 30px;
-  margin-bottom: 10px;
   div {
     width: 48%;
     height: 100%;
