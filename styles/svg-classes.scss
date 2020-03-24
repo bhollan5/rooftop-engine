@@ -1,56 +1,119 @@
 // SVG classes
 // 
-// Contents:
-// - Classes to change fill
-// - Classes to change fill on hover
-// - Classes to change stroke
-// - Classes to change stroke on hover
+// Each color has 4 classes:
+// - A class to change fill
+// - A class to change fill on hover
+// - A class to change stroke
+// - A class to change stroke on hover
 
-// Fill classes:
+// bg
 svg .fill-bg {
   fill: var(--bg);
 }
+svg:hover .hover-fill-bg {
+  fill: var(--bg);
+}
+svg .stroke-bg {
+  stroke: var(--bg);
+}
+svg:hover .hover-stroke-bg {
+  stroke: var(--bg);
+}
+
+// bg2
 svg .fill-bg2 {
   fill: var(--bg2);
 }
-svg .fill-card {
-  fill: var(--card);
+svg:hover .hover-fill-bg2 {
+  fill: var(--bg2);
 }
-svg .fill-card2 {
-  fill: var(--card2);
+svg .stroke-bg2 {
+  stroke: var(--bg2);
 }
+svg:hover .hover-stroke-bg2 {
+  stroke: var(--bg2);
+}
+
+// bg-text
 svg .fill-bg-text {
   fill: var(--bg-text);
 }
-svg .fill-bg-text2 {
-  fill: var(--bg-text2);
-}
-
-// Hover fill classes
 svg:hover .hover-fill-bg-text {
   fill: var(--bg-text);
+}
+svg .stroke-bg-text {
+  stroke: var(--bg-text);
 }
 svg:hover .hover-stroke-bg-text {
   stroke: var(--bg-text);
 }
 
-svg .hover-fill-c1 {
+// bg-text2
+svg .fill-bg-text2 {
   fill: var(--bg-text2);
+}
+svg:hover .hover-fill-bg-text2 {
+  fill: var(--bg-text2);
+}
+svg .stroke-bg-text2 {
+  stroke: var(--bg-text2);
+}
+svg:hover .hover-stroke-bg-text2 {
+  stroke: var(--bg-text2);
+}
+
+// Card:
+svg .fill-card {
+  fill: var(--card);
+}
+
+// Card2:
+svg .fill-card2 {
+  fill: var(--card2);
+}
+
+// Color 1:
+svg .fill-c1 {
+  fill: var(--c1);
 }
 svg:hover .hover-fill-c1 {
   fill: var(--c1);
 }
-
-// Stroke classes:
-svg .stroke-bg-text2 {
-  stroke: var(--bg-text2);
+svg .stroke-c1 {
+  stroke: var(--c1);
 }
-
-
 svg:hover .hover-stroke-c1 {
   stroke: var(--c1);
 }
+// Color 2:
+svg .fill-c2 {
+  fill: var(--c2);
+}
+svg:hover .hover-fill-c2 {
+  fill: var(--c2);
+}
+svg .stroke-c2 {
+  stroke: var(--c2);
+}
+svg:hover .hover-stroke-c2 {
+  stroke: var(--c2);
+}
+// Color 3:
+svg .fill-c3 {
+  fill: var(--c3);
+}
+svg:hover .hover-fill-c3 {
+  fill: var(--c3);
+}
+svg .stroke-c3 {
+  stroke: var(--c3);
+}
+svg:hover .hover-stroke-c3 {
+  stroke: var(--c3);
+}
 
+
+// Logo stuff:
 svg .logo-fill {
   fill: var(--logo);
 }

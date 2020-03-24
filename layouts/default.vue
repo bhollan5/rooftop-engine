@@ -44,9 +44,16 @@
 
     </div><!-- end of header -->
 
+
+
+    <!-- Darkener, followed by popup menus -->
+
     <transition name="fade">
-      <div id="user-options-darkener" v-if="userOptions" @click="userOptions = false"></div>
+      <div id="user-options-darkener" v-if="userOptions || svgEditorOpen" @click="userOptions = false"></div>
     </transition>
+
+
+    <!-- User option menu -->
 
     <transition name="menu-popup">
     <div id="user-options" v-if="userOptions">
@@ -78,6 +85,11 @@
 
     </div>
     </transition>
+
+
+    <!-- svg editor menu --> 
+
+    <svg-editor v-if="svgEditorOpen"></svg-editor>
 
 
     <!-- This is where other pages get inserted: -->
@@ -129,6 +141,8 @@ import nonficDecor from '~/components/link-decor/non-fic-decor.vue';
 import servicesDecor from '~/components/link-decor/services-decor.vue';
 import merchDecor from '~/components/link-decor/merch-decor.vue';
 
+// Components for this page
+import svgEditor from '~/components/inputs/svg-editor.vue';
 
 // Our vue component
 export default {
@@ -150,6 +164,9 @@ export default {
     nonficDecor,
     servicesDecor,
     merchDecor,
+
+    // svg editor
+    svgEditor
   },
   data() {
     return {
@@ -166,8 +183,14 @@ export default {
       return this.$store.getters['themes/themeCSSObj'];
     },
 
+    // Loading all theme options, for the user options menu
     theme_options() {
       return this.$store.getters['themes/allThemes'];
+    },
+
+    // Is the svg-editor open?
+    svgEditorOpen() {
+      return this.$store.getters['svg/svgEditorOpen'];
     }
 
   },

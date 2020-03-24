@@ -4,10 +4,7 @@
 -->
 <template>
 <div class="image-uploader" @change="uploadFile($event)" 
-  enctype="multipart/form-data" @click="openSVGInput()" :style="{
-    height: height + 'px',
-    width: width + 'px',
-    }">
+  enctype="multipart/form-data" @click="openSVGInput()">
     
   <input type="file" accept="image/svg" :ref="'fileInput' + id" style="display: none;">
   <p v-if="!value">+ Upload SVG</p>
@@ -29,14 +26,6 @@ export default {
     // Calling this 'value' so we can use v-model
     value: {
       type: String,
-    },
-    height: {
-      type: Number,
-      default: 100
-    },
-    width: {
-      type: Number,
-      default: 100
     },
     // 
     id: {
@@ -62,9 +51,13 @@ export default {
     uploadFile(event) {
       let _file = event.target.files[0];
       let fileName = _file.name;
+
       // Reading the file's contents
       this.readFileContent(_file).then(fileContent => {
+
+        this.$store.commit("svg/openEditor", fileContent);
         this.$emit('input', fileContent); // Grab this data from the parent with @upload="x"
+
       }).catch(error => console.log(error))
 
     },

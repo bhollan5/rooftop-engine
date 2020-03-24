@@ -89,12 +89,18 @@
         </div>
 
         <!-- Images: -->
+        <!--
         <div class="image-section" v-else-if="dataEl.type == 'image'" @change="uploadFile($event, dataEl_i)" enctype="multipart/form-data"
               @click="openSVGInput(dataEl_i)">
             
           <input type="file" accept="image/svg" ref="fileInput" style="display: none;">
           <p v-if="!dataEl.content">+ Upload an Image</p>
           <div v-html="dataEl.content" v-else></div>
+
+        </div>-->
+        <div class="image-section" v-else-if="dataEl.type == 'image'">
+            
+          <svg-uploader v-model="dataEl.content"></svg-uploader>
 
         </div>
 
@@ -467,6 +473,10 @@ export default {
   }
   &:hover {
     background: var(--input);
+  }
+  .image-uploader {
+    width: 100%;
+    height: 100%;
   }
 }
 

@@ -99,14 +99,10 @@
 
         <div class="theme-example">
           <div class="header theme-header-example">
-            <h3>Design Highlights</h3>
+            <design-highlights></design-highlights>
           </div>
           <div class="body theme-body-example">
-            <h1>Page Title</h1>
-            <h2>Subtitle, in secondary color.</h2>
-            <p>Totally regular text that would appear in the body of a paragraph on a page on  the website. Hey!</p><br>
-            <p>Important parts of a text passage might be highlighted to show importance. </p><br>
-            <p><div class="a">Here's a link to another page →</div></p>
+            
             <br><br><br>
           </div>
         </div>
@@ -235,19 +231,14 @@
 // importing the logo svg:
 import logo from '~/components/logo.vue';
 
-// Icons:
-import searchIcon from '~/components/icons/search-icon.vue';
-
-// inputs:
-import textField from '~/components/inputs/text-field.vue';
-import dropdown from '~/components/inputs/dropdown.vue';
-import colorPicker from '~/components/inputs/color-picker.vue';
-
 // Decoration for the desktop menu:
 import mediaDecor from '~/components/link-decor/media-decor.vue';
 import nonficDecor from '~/components/link-decor/non-fic-decor.vue';
 import servicesDecor from '~/components/link-decor/services-decor.vue';
 import merchDecor from '~/components/link-decor/merch-decor.vue';
+
+// Theme picker components:
+import designHighlights from '~/components/style_guide/design-highlights.vue';
 
 
 // Our vue component:
@@ -272,17 +263,14 @@ export default {
   components: {
     logo,
 
-    searchIcon,
-
-    textField,
-    dropdown,
-    colorPicker,
-
     // Desktop menu decor:
     mediaDecor,
     nonficDecor,
     servicesDecor,
     merchDecor,
+
+    // Theme picker components:
+    designHighlights
   },
 
   mounted() {

@@ -112,9 +112,8 @@ export default {
 .collection-display {
   display: flex;
   min-width: 100%;
-  height: 180px; // Setting this to the same height as the cards, plus 30px for padding
-  padding: 15px 0px 0px 50px;
-  overflow: hidden;
+  height: 150px; // Setting this to the same height as the cards. Increase if you add padding
+  padding: 0px 0px 0px 50px; 
   background: var(--bg2);
   box-shadow: inset 0px 0px 4px rgba(0,0,0,.4);
 }
