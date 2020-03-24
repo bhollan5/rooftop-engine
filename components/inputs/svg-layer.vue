@@ -15,8 +15,9 @@
     {{layer.nodeName}} - {{layer.childNodes.length}} kids
   </div>
 
-  <svg-layer v-if="expanded && hasChildren"
-    v-for="(childnode, node_i) in layer.childNodes" :layer="childnode" :key="'sublayer' + node_i"></svg-layer>
+  <svg-layer v-for="(childnode, node_i) in layer.childNodes" 
+              v-if="expanded && hasChildren && childnode.nodeName != '#text'" 
+    @layerselect="$emit('layerselect', $event)" :layer="childnode" :key="'sublayer' + node_i"></svg-layer>
 
 </div>
 </template>
@@ -53,8 +54,10 @@ export default {
   },
   methods: {
     logInfo() {
-      console.log(this.layer);
-      console.log("Attributes:", this.layer.style);
+      this.$emit('layerselect', this.layer)
+      if (this.layer.style){
+        console.log(this.layer.transform)
+      }
     }
   }
 }
@@ -86,5 +89,10 @@ export default {
   width:  20px;
   font-size: var(--small-font-size);
   cursor: pointer;
+}
+
+svg g {
+  width: 100%;
+  height: 100%;
 }
 </style>

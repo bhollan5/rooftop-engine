@@ -3,9 +3,17 @@
 
   <div class="flex-container">
     <div id="svg-layers">
-      <svg-layer v-for="(node, node_i) in nodeTree" :layer="node" :key="'layer' + node_i"></svg-layer>
+      <svg-layer v-for="(node, node_i) in nodeTree" v-if="node.nodeName != '#text'" :layer="node" :key="'layer' + node_i"
+        @layerselect="selectedLayer = $event" ></svg-layer>
     </div>
     <div id="svg-canvas" v-html="rawSvgData">
+    </div>
+  </div>
+  <div id="layer-examiner">
+    Layer select: {{selectedLayer.nodeName}}
+    <div v-if="selectedLayer.style">
+      <p class="flex-container">Fill: <text-field v-model="selectedLayer.style.fill"></text-field></p>
+      <p class="flex-container">Stroke: <text-field v-model="selectedLayer.style.stroke"></text-field></p>
     </div>
   </div>
 
@@ -18,7 +26,8 @@ import svgLayer from '~/components/inputs/svg-layer.vue';
 export default {
   data() {
     return {
-      nodeTree: []
+      nodeTree: [],
+      selectedLayer: {},
     }
   },
   components: {
@@ -47,7 +56,7 @@ export default {
 <style lang="scss" scoped>
 #svg-editor {
   border: solid 2px coral;
-  position: absolute; 
+  position: fixed; 
   z-index: 12;
   left: 50%;
   top: 200px;
@@ -66,5 +75,17 @@ export default {
   width: 300px;
   height: 300px;
   background: var(--bg);
+}
+
+#layer-examiner {
+  height: 100px;
+  width: 100%;
+  background: var(--bg2);
+  color: var(--bg-text);
+  padding: 10px;
+  font-size: var(--small-font-size);
+  p {
+    font-size: var(--small-font-size);
+  }
 }
 </style>

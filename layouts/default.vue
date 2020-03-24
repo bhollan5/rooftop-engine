@@ -49,7 +49,8 @@
     <!-- Darkener, followed by popup menus -->
 
     <transition name="fade">
-      <div id="user-options-darkener" v-if="userOptions || svgEditorOpen" @click="userOptions = false"></div>
+      <div id="darkener" v-if="userOptions || svgEditorOpen" @click="closePopup()"></div>
+
     </transition>
 
 
@@ -232,87 +233,9 @@ export default {
       this.$store.commit("themes/setThemeColor", theme);
     },
 
-    themeGoldenNight() {
-      this.$store.commit("themes/setThemeColor", {
-        _id: 'golden-night',
-        theme_name: 'Golden Night',
-
-        colors: {
-          logo: [0,0,96],
-          header_bg: [248,19,26],
-
-          bg: [248,19,31],
-          bg2: [248,19,26],
-          bg_text: [0,0,96],
-          bg_text2: [230,19,60],
-          
-
-          card: [255,14,19],
-          card2: [255,16,15],
-          card_text: [0,0,96],
-          card_text2: [257,7,63],
-
-
-          link: [43,78,81],
-
-
-          bg2_input: [248,19,35],
-          bg2_input_text: [0,0,91],
-          bg2_input_text2: [230,19,55],
-
-          c1: [43,78,76],
-          c1_light: [43,78,86],
-          c2: [43,78,81],
-          c2_light: [43,78,86],
-          c3: [43,78,81],
-          c3_light: [43,78,86],
-
-          input: [248,19,40],
-          input_text: [0,0,96],
-          input_text2: [230,19,60]
-        }
-      })
-
-      
-    },
-    themeMondrian() {
-      this.$store.commit("themes/setThemeColor", {
-        _id: 'mondrian',
-        theme_name: 'Mondrian',
-
-        colors: {
-          logo: [0,0,7],
-          header_bg: [0,0,85],
-
-          bg: [0,0,92],
-          bg2: [0,0,85],
-          bg_text: [0,0,7],
-          bg_text2: [0,0,17],
-
-          card: [0,0,7],
-          card2: [0,0,20],
-          card_text: [0,0,92],
-          card_text2: [0,0,50],
-
-          link: [43,78,81],
-
-
-          bg2_input: [0,0,98],
-          bg2_input_text: [0,0,7],
-          bg2_input_text2: [0,0,17],
-
-          c1: [43,78,76],
-          c1_light: [43,78,86],
-          c2: [43,78,81],
-          c2_light: [43,78,86],
-          c3: [43,78,81],
-          c3_light: [43,78,86],
-
-          input: [248,19,40],
-          input_text: [0,0,96],
-          input_text2: [230,19,60],
-        }
-      })
+    closePopup() {
+      this.$store.commit("svg/closeEditor");
+      this.userOptions = false;
     }
 
   }
@@ -542,10 +465,10 @@ $tablet-bp: 400px;
 
  
 // Dark box that closes the page:
-#user-options-darkener {
+#darkener {
   width: 100%;
   height: 100%;
-  position: absolute;
+  position: fixed;
   top: 0px;
   background: rgba(0,0,0,.7);
   z-index: 11;

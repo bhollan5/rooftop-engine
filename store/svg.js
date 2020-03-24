@@ -46,8 +46,8 @@ export const actions = {
 // Calling mutations from Vue is weird, you need to do this:
 //    this.$store.commit("mutationName", { payloadData: data })
 export const mutations = {
-  toggleSvgEditor(state) {
-    state.svgEditorOpen = !state.svgEditorOpen;
+  closeEditor(state) {
+    state.svgEditorOpen = false;
   },
 
   openEditor(state, payload) {
