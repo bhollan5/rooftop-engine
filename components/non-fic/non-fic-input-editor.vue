@@ -63,7 +63,8 @@
             </text-field>
             <div class="tab add-tab" @click="addTab(dataEl)">+ Add Tab</div>
           </div>
-          <non-fic-input-editor :data="dataEl.tabs[dataEl.selectedTab].content" :articleId="articleId">
+          <non-fic-input-editor :data="dataEl.tabs[dataEl.selectedTab].content" 
+            :articleId="articleId + '_' + dataEl.selectedTab">
           </non-fic-input-editor>
         </div>
 
@@ -99,9 +100,7 @@
 
         </div>-->
         <div class="image-section" v-else-if="dataEl.type == 'image'">
-            
-          <svg-uploader v-model="dataEl.content"></svg-uploader>
-
+          <svg-uploader v-model="dataEl.content" :ref="articleId + 'svg_uploader_' + dataEl_i"></svg-uploader>
         </div>
 
       </div>

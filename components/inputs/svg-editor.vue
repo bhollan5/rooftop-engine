@@ -18,11 +18,12 @@
 
     <div class="svg-update">
       <div class="input-flex-container">
-        <text-field v-model="attributeToChange" :title="'Attribute to Change'" :placeholder="'fill or stroke'"></text-field>
-        <text-field v-model="valueToLookFor" :title="'Value to look for'" :placeholder="'Some color'"></text-field>
+        <text-field v-model="attributeToChange" :title="'Attribute to Change:'" :placeholder="'fill or stroke'"></text-field>
+        <text-field v-model="valueToLookFor" :title="'Value to look for:'" :placeholder="'Some color'"></text-field>
       </div>
       <div class="color-selector">
-        <div class="color-option" v-for="(color, i) in themeColors" @click="variableColor = i"
+        <div class="color-option" v-for="(color, i) in themeColors" 
+          @click="variableColor = i.replace(/_/g, '-');"
           :style="{ background: 'hsl(' + color[0] + ',' + color[1] + '%,' + color[2] + '%)' }"></div>
           <br>
       </div>
@@ -48,9 +49,10 @@
           @click="valueToLookFor = selectedLayer.style.stroke.replace(/\s/g, '');attributeToChange='stroke'"
         class="menu-input" readonly></text-field>
       </div>
+      
     </div>
 
-    <!-- This section has text fields for various properties. Maybe todo later
+    <!-- This section has text fields for various properties. Maybe later we can look into this more.
     <div v-if="selectedLayer.style && 0" class="input-flex-container">
       <text-field v-model="selectedLayer.style.fill" :title="'Fill'" :placeholder="'None'" 
         class="menu-input" v-if="0"></text-field>
@@ -61,6 +63,9 @@
       :title="styleEl.key" :placeholder="'None'" :key="'styleEl' + styleEl_i"
         class="menu-input"></text-field>
     </div>-->
+
+    <text-field v-model="svgString" :title="'Full svg string:'" :placeholder="'No svg string!'" 
+        readonly></text-field>
 
   </div>
 
@@ -157,7 +162,8 @@ export default {
         }
       }
       let xmlString = this.xml2string(xmlDoc);
-      this.updateObjFromString(xmlString)
+      this.updateObjFromString(xmlString);
+      this.$store.commit("svg/setRawSvgData", xmlString)
     },
 
     // Iterate thru the dom, make necessary changes
@@ -219,7 +225,8 @@ export default {
       let parser = new DOMParser();
       let xmlDoc = parser.parseFromString(xmlString,"text/xml");    
       this.xmlDoc = xmlDoc;
-    }
+    },
+
     
   }
 }
@@ -231,7 +238,7 @@ export default {
   position: fixed; 
   z-index: 12;
   left: 50%;
-  top: 200px;
+  top: 100px;
   transform: translatex(-50%);
   overflow-y: scroll;
 }
@@ -263,13 +270,13 @@ export default {
 }
 
 .input-flex-container {
-  width: 300px;
+  width: 100%;
 }
 
 .color-selector {
   display: flex;
   flex-flow: row wrap;
-  width: 300px;;
+  width: 450px;;
 }
 // Small selectable color options
 .color-option {

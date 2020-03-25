@@ -103,6 +103,7 @@ export default {
 // All collections
 .collection-container {
   padding-top: 25px;
+  padding-bottom: 25px;
   width: 100%;
   box-shadow: var(--box-shading);
   color: var(--bg-text);

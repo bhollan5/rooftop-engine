@@ -110,6 +110,10 @@ export const getters = {
     return state.currentTheme;
   },
 
+  themeId(state) {
+    return state.currentTheme._id;
+  },
+
 
   // This notation is the same as 
   //  getterName() { return function (articleId) { ... } }

@@ -79,9 +79,17 @@
       </div>
 
       <div id="theme-picker" class="user-option">
-        <button v-for="theme in theme_options"
-          style="margin-bottom:10px;" @click="applyTheme(theme)">{{theme.theme_name}}</button>
+
+        <div class="flex-container row-wrap">
+          <div class="theme-thumbnail" v-for="theme in theme_options" @click="applyTheme(theme)"
+            :class="{ 'selected-theme': theme._id == theme_id }">
+            <div v-if="theme.thumbnail" v-html="theme.thumbnail"></div>
+            <div v-else>{{theme.theme_name}}</div>
+          </div>
+        </div>
+
         <router-link to="/theme-picker">Theme Editor</router-link>
+
       </div>
 
     </div>
@@ -178,6 +186,10 @@ export default {
     }
   },
   computed: {
+
+    theme_id() {
+      return this.$store.getters['themes/themeId'];
+    },
 
     // Grabbing our dynamic theme variables from the store:
     theme_style() {
@@ -461,6 +473,26 @@ $tablet-bp: 400px;
 }
 .menu-popup-enter-to,  /* .fade-leave-active below version 2.1.8 */ {
   transform: translatex(0px);
+}
+
+// Theme thumbnail
+.theme-thumbnail {
+  width: 100px;
+  height: 40px;
+  padding: 0px;
+  margin-right: 10px;
+  margin-bottom: 25px;
+  cursor: pointer;
+  box-shadow: 0px 0px 5px black;
+  text-align: center;
+  font-size: var(--small-font-size);
+  transition: .1s;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+.selected-theme {
+  box-shadow: 0px 0px 5px white;
 }
 
  

@@ -113,11 +113,17 @@ a, .a {
 }
 .flex-container {
   display: flex;
+}
+.space-around {
   justify-content: space-around;
 }
 .space-between {
   justify-content: space-between;
 }
+.row-wrap {
+  flex-flow: row wrap;
+}
+
 .input-flex-container {
   display: flex;
   justify-content: space-between;
@@ -178,5 +184,17 @@ a, .a {
 .highlight {
   color: var(--c1);
   font-weight: bold;
+}
+
+.color-thumbnail {
+  width: 15px;
+  height: 15px;
+  margin: 5px;
+  transition: .1s;
+  box-shadow: 0px 0px 3px black;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0px 0px 5px white;
+  }
 }
 

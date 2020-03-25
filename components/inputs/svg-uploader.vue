@@ -18,7 +18,8 @@ export default {
 
   data() {
     return {
-      svgData: ''
+      svgData: '',
+      openInEditor: false, // Indicates if we're waiting on the editor. 
     }
   },
 
@@ -37,6 +38,19 @@ export default {
   computed: {
     hasInput() {
       return this.value.length > 0;
+    },
+    svgEditorOpen() {
+      return this.$store.getters['svg/svgEditorOpen'];
+    }
+  },
+
+  watch: {
+    // When a file is open in the editor, we wait for it to close, then snag it's file.
+    svgEditorOpen() {
+      if (this.openInEditor && !this.svgEditorOpen) {
+        this.openInEditor = false,
+        this.getFileFromEditor();
+      }
     }
   },
 
@@ -52,14 +66,24 @@ export default {
       let _file = event.target.files[0];
       let fileName = _file.name;
 
-      // Reading the file's contents
+      // Reading the file's contents as text
       this.readFileContent(_file).then(fileContent => {
 
         this.$store.commit("svg/openEditor", fileContent);
         this.$emit('input', fileContent); // Grab this data from the parent with @upload="x"
 
+        // When this is true, we watch to see when the editor closes, and grab
+        // the contents when it closes
+        this.openInEditor = true; 
+
       }).catch(error => console.log(error))
 
+    },
+
+    // Updating based on changes in the editor
+    getFileFromEditor() {
+      let newFile = this.$store.getters['svg/rawSvgData'];
+      this.$emit('input', newFile);
     },
 
     // This function takes an svg file and returns the actual XML code of that SVG as a string.

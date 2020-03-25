@@ -66,10 +66,16 @@ svg:hover .hover-stroke-bg-text2 {
 svg .fill-card {
   fill: var(--card);
 }
+svg:hover .hover-fill-card {
+  fill: var(--card);
+}
 
 // Card2:
 svg .fill-card2 {
   fill: var(--card2);
+}
+svg:hover .hover-fill-card2 {
+  fill: var(--card);
 }
 
 // Color 1:

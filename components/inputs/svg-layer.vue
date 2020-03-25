@@ -8,13 +8,23 @@
       <span v-else>▼</span>
     </div>
 
-    <div class="layer-thumb">
+    <div class="layer-thumb" v-if="0">
       <svg viewBox="0 0 150 150" width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg"  
         xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"  
         style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;fill:white;"
         v-html="svgString"></svg>
     </div>
-    {{layer.nodeName}} 
+
+    <div class="layer-text">
+      <div> <span :class="{ bold: (layer.style.fill || layer.style.stroke)}">{{layer.nodeName}}</span> </div>
+      <div class="flex-container" v-if="layer.style.fill || layer.style.stroke">
+        <div class="color-preview" :style="{ background: layer.style.fill }"
+          :class="{'no-color': !layer.style.fill }"></div> 
+        <div class="color-preview" :style="{ background: layer.style.stroke }"
+          :class="{'no-color': !layer.style.stroke }"></div>
+      </div>
+    </div>
+
   </div>
 
   <svg-layer v-for="(childnode, node_i) in layer.childNodes" 
@@ -68,13 +78,18 @@ export default {
   padding-left: 10px;
 }
 .layer-info {
+  box-shadow: 0px 0px 10px rgba(0,0,0,.5);
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 5px;
   padding-left: 5px;
   user-select: none;
   font-size: var(--small-font-size);
   border-bottom: solid 2px var(--card2);
+  cursor: pointer;
+  &:hover {
+    background: var(--card2);
+  }
 }
 .layer-thumb {
   background: var(--bg);
@@ -102,5 +117,29 @@ export default {
 svg g {
   width: 100%;
   height: 100%;
+}
+
+// Small selectable color options
+.color-preview {
+  width: 10px;
+  height: 10px;
+  margin: 2px;
+  position: relative;
+  overflow: hidden;
+  transition: .1s;
+  box-shadow: 0px 0px 3px black;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0px 0px 5px white;
+  }
+}
+.no-color::after {
+  content: '';
+  position: absolute;
+  width: 20px; 
+  border: solid red .5px;
+  transform: rotate(45deg);
+  left: -3px;
+  top: 5px;
 }
 </style>

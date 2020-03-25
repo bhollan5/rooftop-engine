@@ -15,9 +15,14 @@
     <div id="customizer" :style="cssDraftStyleObj">
 
       <div id="theme-details">
-        <h2>Theme details: </h2>
+        <h2>Theme overview: </h2>
         <text-field regularfont v-model="themeDraft.theme_name" placeholder="Theme name"></text-field>
         <text-field regularfont v-model="themeDraft._id" placeholder="Theme id"></text-field>
+        <div class="flex-container row-wrap">
+          <div class="color-thumbnail" v-for="(color, i) in cssDraftStyleObj" 
+            :style="{ background: color }"></div>
+            <br>
+        </div>
         <br><br>
       </div>
 
@@ -26,7 +31,7 @@
 
       <h2>Headers, bodies, and text: </h2>
       <!-- Logo and Text section -->
-      <div id="logo-and-text" class="flex-container">
+      <div id="logo-and-text" class="flex-container space-around">
 
         <!-- Color pickers for the logo & text -->
         <div class="theme-options"><br><br>
@@ -80,7 +85,7 @@
 
       <h2>Illustration & alternate backgrounds: </h2>
       <!-- Logo and Text section -->
-      <div id="logo-and-text" class="flex-container">
+      <div id="logo-and-text" class="flex-container space-around">
 
         <!-- Color pickers for the logo & text -->
         <div class="theme-options"><br><br>
@@ -99,10 +104,10 @@
 
         <div class="theme-example">
           <div class="header theme-header-example">
-            <design-highlights></design-highlights>
+            <design-highlights></design-highlights> 
           </div>
           <div class="body theme-body-example">
-            
+            <design-highlight-example></design-highlight-example>
             <br><br><br>
           </div>
         </div>
@@ -116,7 +121,7 @@
       <h2>Inputs: </h2>
 
       <!-- Inputs section -->
-      <div id="inputs" class="flex-container">
+      <div id="inputs" class="flex-container space-around">
         <div class="theme-options">
 
           <br><br>
@@ -179,7 +184,7 @@
 
       <h2>Cards</h2>
       <!-- Cards section -->
-      <div id="cards" class="flex-container">
+      <div id="cards" class="flex-container space-around">
         <div class="theme-options">
           <br><br>
           <color-picker v-model="themeDraft.colors.card" name="Card backgound color" 
@@ -202,20 +207,20 @@
             <h3>Cards</h3>
           </div>
 
-          <collection :collection="collectionOfAllArticles"></collection>
+          <collection :collection="collectionOfAllArticles" v-if="0"></collection>
 
         </div>
       </div>
 
       <h2>Theme Icon:</h2>
 
-      <div class="flex-container">
-        <svg-uploader v-model="themeDraft.icon" :height="40" :width="120" class="icon-uploader">
+      <div class="flex-container space-around">
+        <svg-uploader v-model="themeDraft.thumbnail" :height="40" :width="120" class="icon-uploader">
         </svg-uploader>
       </div>
       <br><br>
-      <div class="flex-container">
-        <button @click="submitTheme()">Add theme!</button>
+      <div class="flex-container space-around">
+        <button @click="submitTheme()">Save theme!</button>
       </div>
       
 
@@ -239,6 +244,7 @@ import merchDecor from '~/components/link-decor/merch-decor.vue';
 
 // Theme picker components:
 import designHighlights from '~/components/style_guide/design-highlights.vue';
+import designHighlightExample from '~/components/style_guide/design-highlight-example.vue';
 
 
 // Our vue component:
@@ -270,26 +276,25 @@ export default {
     merchDecor,
 
     // Theme picker components:
-    designHighlights
+    designHighlights,
+    designHighlightExample,
   },
 
   mounted() {
-    this.themeDraft = JSON.parse(JSON.stringify(this.currentTheme));
+    this.resetTheme();
 
     this.$store.dispatch("articles/readArticles");
 
   },
 
   computed: {
-    currentTheme: {
-      // Found this format here: https://vuejs.org/v2/guide/computed.html#Computed-Setter
-      get() {
-        return this.$store.getters['themes/themeScriptObj'];
-      },
-      set (newValue) {
-        console.log("whay")
-        this.themeDraft = JSON.parse(JSON.stringify(newValue));
-      }
+    // The theme currently being used, which we copy for our theme draft.
+    currentTheme() {
+      return this.$store.getters['themes/themeScriptObj'];
+    },
+    // We compute this separately because we can use it in a watch function.
+    theme_id() {
+      return this.$store.getters['themes/themeId'];
     },
 
     // This is copied straight from themeCSSObj in the store.
@@ -328,6 +333,14 @@ export default {
       return this.$store.getters['collections/collectionOfAllArticles']
     }
   }, 
+  
+  watch: {
+    theme_id() {
+      if (confirm("If you change the theme now, you'll lose the changes you've made to your theme draft.")){
+        this.resetTheme();
+      }
+    }
+  },
 
   methods: {
     submitTheme() {

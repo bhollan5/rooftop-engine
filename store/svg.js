@@ -58,8 +58,8 @@ export const mutations = {
     state.rawSvgData = payload;
   },
 
-  setNodeTree(state, payload) {
-    state.nodeTree = payload;
+  setRawSvgData(state, payload) {
+    state.rawSvgData = payload;
   }
 
 }
