@@ -1,27 +1,8 @@
 <template>
-  <div class="container" scoped>
+  <div class="container" id="media">
 
-    <!-- The "non-fic promo" is the banner spread at the top of the landing page. -->
-    <div id="non-fic-promo">
-    </div>
-
-    <!-- -->
-    <div id="media-suggestions" 
-      :style="{background: $store.state.bg}">
-
-      <h3 class="collection-label">Rooftop Policy</h3>
-      <div class="collection">
-        <div v-for="article in articles" class="article-card">
-          <div class="article-card-title">{{article.articleTitle}}</div>
-          <div class="article-byline">by <router-link to="/">Ben H</router-link></div>
-          <router-link :to="'/non-fic/' + article._id + '/edit/'" tag="button" class="edit-button">
-            Edit<edit-icon class="small-icon"></edit-icon>
-            </router-link>
-          <button class="edit-button" @click="deleteArticle(article)">Delete</button>
-        </div>
-
-      </div>
-    </div>
+    <h2>Media </h2>
+    <h3 class="color-bg-text2 centered">This page is still under construction.</h3>
 
     <router-link tag="button" to="/non-fic/new/edit" id="new-article-button">
       + New Article
@@ -81,11 +62,10 @@ export default {
 }
 </script>
 
-<style lang="scss">
-#non-fic-promo {
-  width: 100%;
-  height: 20vh;
-  background: #4E5264;
+<style lang="scss" >
+#media {
+  padding-top: 100px;
+  padding-left: 10%;
 }
 
 #media-suggestions {

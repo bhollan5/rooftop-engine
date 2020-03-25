@@ -73,7 +73,7 @@ export default {
   position: relative;
   background: var(--card);
   margin-right: 20px;
-  box-shadow: 0px 0px 2px rgba(0,0,0,.5); // Set blur to 2 so we can animate it
+  box-shadow: 0px 0px 0px rgba(0,0,0,.5); // Set blur to 2 so we can animate it
   transition-duration: .5s;
   z-index: 2;
 

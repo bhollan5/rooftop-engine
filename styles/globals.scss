@@ -51,7 +51,6 @@ input, textarea {
 }
 
 h1, .h1-input input {
-  text-align: center;
   color: var(--bg-text);
   font-weight: bold;
   font-size: var(--h1-font-size);
@@ -158,6 +157,10 @@ a, .a {
   }
 }
 
+.color-bg-text2 {
+  color: var(--bg-text2);
+}
+
 // Add this to a <div> to make a bigger line break.
 .big-br {
   height: 50px;
@@ -169,6 +172,7 @@ a, .a {
 .container {
   min-height: 100vh;
   background: var(--bg);
+  color: var(--bg-text);
 }
 
 // Thumbnail for cards
