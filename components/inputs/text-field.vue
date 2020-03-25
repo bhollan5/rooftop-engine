@@ -11,7 +11,7 @@
   <slot></slot>
 
   <input :value="value" @input="$emit('input', $event.target.value)"
-    :placeholder="placeholder"
+    :placeholder="placeholder" :readonly="readonly"
     :class="{ 'icon-padding': icon,
               'underline': underline,
               'p': regularfont,
@@ -20,7 +20,7 @@
     v-if="!textarea">
     
   <textarea v-else :value="value" @input="$emit('input', $event.target.value)"
-    :placeholder="placeholder"
+    :placeholder="placeholder" :readonly="readonly"
     v-on:keyup.enter="$emit('enter')"
     :class="{ 'icon-padding': icon,
               'underline': underline,
@@ -62,6 +62,11 @@ export default {
     },
     // Removes the box around the input
     nobox: {
+      type: Boolean,
+      default: false,
+    },
+    // Readonly:
+    readonly: {
       type: Boolean,
       default: false,
     },

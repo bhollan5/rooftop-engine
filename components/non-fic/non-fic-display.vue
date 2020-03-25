@@ -41,6 +41,11 @@
           <p>{{dataEl.content}}</p>
         </div>
 
+        <!-- Images: -->
+        <div class="image-section" v-else-if="dataEl.type == 'image'">
+          <div v-html="dataEl.content"></div>
+        </div>
+
       </div>
 </div>
 </template>
@@ -173,6 +178,19 @@ h1 {
 .paragraph-section {
   margin-bottom: 10px;
   font-size: var(--regular-font-size);
+}
+.image-section {
+  width: 100%;
+  display: flex;
+  min-height: 100px;
+  cursor: default;
+  &:hover {
+    background: var(--bg);
+  }
+  svg {
+    height: 100%;
+    width: 100%;
+  }
 }
 
 </style>

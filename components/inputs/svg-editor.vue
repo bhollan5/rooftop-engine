@@ -15,28 +15,45 @@
     </div>
   </div>
   <div id="layer-examiner">
-    Layer select: <b>{{selectedLayer.nodeName}}</b>
-    <div v-if="layerTransformInfo">Transform info: <b>matrix(
-      {{Math.round(layerTransformInfo.a)}},{{Math.round(layerTransformInfo.b)}},
-      {{Math.round(layerTransformInfo.c)}},{{Math.round(layerTransformInfo.d)}},
-      {{Math.round(layerTransformInfo.e)}},{{Math.round(layerTransformInfo.f)}} )
-      </b>
+
+    <div class="svg-update">
+      <div class="input-flex-container">
+        <text-field v-model="fillFinder" :title="'Fill selector:'" :placeholder="'Type color here'"></text-field>
+        <text-field v-model="strokeFinder" :title="'Stroke selector:'" :placeholder="'Type color here'"></text-field>
+      </div>
+      <button @click="changeXMLDocFill('red', 'pink', xmlDoc)"> Change fill</button>
     </div>
 
-    <div v-if="selectedLayer.style" class="input-flex-container">
+    <br><hr><br>
 
-      <button @click="fillChanger('red', 'pink', xmlDoc.documentElement)"></button>
+    <div class="layer-info" v-if="selectedLayer.nodeName">
+      <h4>Layer info for: <b>{{selectedLayer.nodeName}}</b></h4>
+      <div v-if="layerTransformInfo">Transform info: <b>matrix(
+        {{Math.round(layerTransformInfo.a)}},{{Math.round(layerTransformInfo.b)}},
+        {{Math.round(layerTransformInfo.c)}},{{Math.round(layerTransformInfo.d)}},
+        {{Math.round(layerTransformInfo.e)}},{{Math.round(layerTransformInfo.f)}} )
+        </b>
+      </div>
+      <div v-if="selectedLayer.style" class="input-flex-container">
+        <text-field v-model="selectedLayer.style.fill" :title="'Fill:'" :placeholder="'None'" 
+        class="menu-input" readonly></text-field>
+        <text-field v-model="selectedLayer.style.stroke" :title="'Stroke:'" :placeholder="'None'" 
+        class="menu-input" readonly></text-field>
+      </div>
+    </div>
 
+    <!-- This section has text fields for various properties. Maybe todo later
+    <div v-if="selectedLayer.style && 0" class="input-flex-container">
       <text-field v-model="selectedLayer.style.fill" :title="'Fill'" :placeholder="'None'" 
-        class="menu-input"></text-field>
+        class="menu-input" v-if="0"></text-field>
       <text-field v-model="selectedLayer.style.stroke" :title="'Stroke'" :placeholder="'None'" 
-        class="menu-input"></text-field>
-        
-      <!-- Any other attributes that have data are displayed here: -->
-      <text-field v-for="(styleEl, styleEl_i) in layerStyleInfo" v-if="styleEl.value" v-model="styleEl.value" 
+        class="menu-input" v-if="0"></text-field>
+      <!-- Any other attributes that have data are displayed here. Hidden for now 
+      <text-field v-for="(styleEl, styleEl_i) in layerStyleInfo" v-if="styleEl.value && 0" v-model="styleEl.value" 
       :title="styleEl.key" :placeholder="'None'" :key="'styleEl' + styleEl_i"
         class="menu-input"></text-field>
-    </div>
+    </div>-->
+
   </div>
 
 </div>
@@ -51,6 +68,9 @@ export default {
       // xmlDoc docs: https://www.w3schools.com/xml/dom_intro.asp
       xmlDoc: [],
       selectedLayer: {},
+
+      fillFinder: '',
+      strokeFinder: '',
     }
   },
   components: {
@@ -105,36 +125,56 @@ export default {
     let xmlDoc = parser.parseFromString(rawSvgString,"text/xml");    
 
     this.xmlDoc = xmlDoc;
+
   },
 
   methods: {
-    changeFill(fillStart, fillUpdate) {
-      for (let i in this.xmlDoc.documentElement.childNodes) {
-        if (this.xmlDoc.documentElement.childNodes[i].childNodes.length > 0) {
-          this.fillChanger(fillStart, fillUpdate, this.xmlDoc.documentElement.childNodes[i])
+    // Call this to replace a fill attribute with a new color!  
+    changeXMLDocFill(fillStart, fillUpdate, xmlDoc) {
+      // Iterate thru each node in the tree
+      for (let i in xmlDoc.documentElement.childNodes) {
+        if (xmlDoc.documentElement.childNodes.hasOwnProperty(i)){
+          // Call this on the next node
+          this.nodeFillChanger(fillStart, fillUpdate, xmlDoc.documentElement.childNodes[i]);
         }
       }
+      let xmlString = this.xml2string(xmlDoc);
+      this.updateObjFromString(xmlString)
     },
+
     // Iterate thru the dom, make necessary changes
-    fillChanger(fillStart, fillUpdate, node) {
+    nodeFillChanger(fillStart, fillUpdate, node) {
       // Iterate thru each node in the tree
       for (let i in node.childNodes) {
         if (node.childNodes.hasOwnProperty(i)){
-          // if the node has kids, call this on each kid
-          console.log("Traversing..." + node.nodeName)
-          if (node.childNodes[i].childNodes && node.childNodes[i].childNodes.length > 0) {
-            this.fillChanger(fillStart, fillUpdate, node.childNodes[i]);
-          }
-
+          // Call this on the next node
+          let updatedNode = this.nodeFillChanger(fillStart, fillUpdate, node.childNodes[i]);
+          node.replaceChild(node.childNodes[i], updatedNode); 
         }
       }
-      // change the attributes of *this* node
-      console.log(" style b4: ");
-      console.warn(node.getAttribute("style"))
-      node.setAttribute("style", "fill:pink;");
-      console.log(" style after: ");
-      console.warn(node.getAttribute("style"))
-      this.$forceUpdate(); 
+      // change the attributes of *this* node, if it has a style attribute
+      if (node.style){
+        node.setAttribute("style", "fill:pink;");
+      }
+      return node;
+    },
+
+    // Turns the xml obj to a string
+    xml2string(xmlObj) {
+      if (!xmlObj.documentElement) {
+        return 'Not a valid xml doc';
+      }
+      let serializer = new XMLSerializer();
+      let str = serializer.serializeToString(xmlObj);
+      return str;
+    },
+
+    // Pass in a string to update the svg image
+    updateObjFromString(xmlString) {
+      // Making a DOMParser to parse the string into an XML doc
+      let parser = new DOMParser();
+      let xmlDoc = parser.parseFromString(xmlString,"text/xml");    
+      this.xmlDoc = xmlDoc;
     }
     
   }
