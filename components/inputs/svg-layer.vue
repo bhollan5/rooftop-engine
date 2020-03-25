@@ -2,10 +2,12 @@
 <div class="layer" >
 
   <div class="layer-info" @click="logInfo()">
-    <div class="expander" @click="expanded = !expanded">
-      <span v-if="!expanded && hasChildren">▶</span>
-      <span v-else-if="hasChildren">▼</span>
+  
+    <div class="expander" v-if="hasChildren" @click="expanded = !expanded">
+      <span v-if="!expanded">▶</span>
+      <span v-else>▼</span>
     </div>
+
     <div class="layer-thumb">
       <svg viewBox="0 0 150 150" width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg"  
         xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/"  
@@ -54,10 +56,8 @@ export default {
   },
   methods: {
     logInfo() {
+      console.log(this.layer.getAttribute("style"))
       this.$emit('layerselect', this.layer)
-      if (this.layer.style){
-        console.log(this.layer.transform)
-      }
     }
   }
 }

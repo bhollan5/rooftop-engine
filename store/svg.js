@@ -1,3 +1,6 @@
+// This document doesn't interface w the DB or anything, it's just here to help SVG-uploader components
+// talk to the svg-editor component 
+
 // Info about this layout: https://nuxtjs.org/guide/vuex-store/
 
 import Vue from 'vue';
@@ -53,6 +56,10 @@ export const mutations = {
   openEditor(state, payload) {
     state.svgEditorOpen = true;
     state.rawSvgData = payload;
+  },
+
+  setNodeTree(state, payload) {
+    state.nodeTree = payload;
   }
 
 }
