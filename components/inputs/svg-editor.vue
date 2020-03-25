@@ -18,10 +18,16 @@
 
     <div class="svg-update">
       <div class="input-flex-container">
-        <text-field v-model="fillFinder" :title="'Fill selector:'" :placeholder="'Type color here'"></text-field>
-        <text-field v-model="strokeFinder" :title="'Stroke selector:'" :placeholder="'Type color here'"></text-field>
+        <text-field v-model="attributeToChange" :title="'Attribute to Change'" :placeholder="'fill or stroke'"></text-field>
+        <text-field v-model="valueToLookFor" :title="'Value to look for'" :placeholder="'Some color'"></text-field>
       </div>
-      <button @click="changeXMLDocFill('red', 'pink', xmlDoc)"> Change fill</button>
+      <div class="color-selector">
+        <div class="color-option" v-for="(color, i) in themeColors" @click="variableColor = i"
+          :style="{ background: 'hsl(' + color[0] + ',' + color[1] + '%,' + color[2] + '%)' }"></div>
+          <br>
+      </div>
+      <text-field v-model="newClass" :title="'New class:'" :placeholder="'This will appear'" readonly></text-field>
+      <button @click="changeXMLDocStyle(xmlDoc)"> Change fill</button>
     </div>
 
     <br><hr><br>
@@ -36,8 +42,10 @@
       </div>
       <div v-if="selectedLayer.style" class="input-flex-container">
         <text-field v-model="selectedLayer.style.fill" :title="'Fill:'" :placeholder="'None'" 
-        class="menu-input" readonly></text-field>
+        class="menu-input" readonly 
+          @click="valueToLookFor = selectedLayer.style.fill.replace(/\s/g, '');attributeToChange='fill'"></text-field>
         <text-field v-model="selectedLayer.style.stroke" :title="'Stroke:'" :placeholder="'None'" 
+          @click="valueToLookFor = selectedLayer.style.stroke.replace(/\s/g, '');attributeToChange='stroke'"
         class="menu-input" readonly></text-field>
       </div>
     </div>
@@ -69,14 +77,25 @@ export default {
       xmlDoc: [],
       selectedLayer: {},
 
-      fillFinder: '',
-      strokeFinder: '',
+      attributeToChange: '',
+      valueToLookFor: '',
+      variableColor: '',
     }
   },
   components: {
     svgLayer
   },
   computed: {
+
+    // New class, computed based on attribute 
+    newClass() {
+      return this.attributeToChange + '-' + this.variableColor;
+    },
+
+    // To display various options
+    themeColors() {
+      return this.$store.getters['themes/themeScriptObj'].colors;
+    },
 
     // Takes the node tree and turns it into a string!
     svgString() {
@@ -111,7 +130,6 @@ export default {
         return;
       }
       let transformInfo = this.selectedLayer.transform.baseVal[0].matrix;
-      console.log(transformInfo);
       return transformInfo;
     },
 
@@ -130,12 +148,12 @@ export default {
 
   methods: {
     // Call this to replace a fill attribute with a new color!  
-    changeXMLDocFill(fillStart, fillUpdate, xmlDoc) {
+    changeXMLDocStyle(xmlDoc) {
       // Iterate thru each node in the tree
       for (let i in xmlDoc.documentElement.childNodes) {
         if (xmlDoc.documentElement.childNodes.hasOwnProperty(i)){
           // Call this on the next node
-          this.nodeFillChanger(fillStart, fillUpdate, xmlDoc.documentElement.childNodes[i]);
+          this.nodeFillChanger(xmlDoc.documentElement.childNodes[i]);
         }
       }
       let xmlString = this.xml2string(xmlDoc);
@@ -143,18 +161,44 @@ export default {
     },
 
     // Iterate thru the dom, make necessary changes
-    nodeFillChanger(fillStart, fillUpdate, node) {
-      // Iterate thru each node in the tree
+    nodeFillChanger(node) {
+
+      // If this node has children, iterate recursively thru each node in the tree.
       for (let i in node.childNodes) {
         if (node.childNodes.hasOwnProperty(i)){
           // Call this on the next node
-          let updatedNode = this.nodeFillChanger(fillStart, fillUpdate, node.childNodes[i]);
+          let updatedNode = this.nodeFillChanger(node.childNodes[i]);
           node.replaceChild(node.childNodes[i], updatedNode); 
         }
       }
-      // change the attributes of *this* node, if it has a style attribute
-      if (node.style){
-        node.setAttribute("style", "fill:pink;");
+
+      // Change the attributes of *this* node.
+      // If it has a style attribute, we need to search for & remove the original fill/stroke. 
+      if (node.style && node.getAttribute('style')){
+        // styleString will look like this: "fill:pink;stroke:black;other-attribute:value"
+        let styleString = node.getAttribute('style');
+        // parsedStyles is an array of strings like this: ["fill:pink", "stroke:black"]
+        let parsedStyles = styleString.split(';');
+        // The target style string:
+        let updatedStyleString = "";
+  
+        for (let styleAttribute in parsedStyles) {
+          if (parsedStyles[styleAttribute]){
+            let styleTuple = parsedStyles[styleAttribute].split(':')
+            
+            // This if statement handles when we find a value we need to change.
+            // We don't add it back to updatedStyleString, thus removing it.
+            if (styleTuple[0] == this.attributeToChange && styleTuple[1] == this.valueToLookFor) {
+              node.setAttribute("class", this.newClass);
+            } else {
+              // If the attribute DOESN'T match, put it back the way it was. 
+              updatedStyleString += styleTuple[0] + ":" + styleTuple[1] + ";"
+            }
+
+          }
+        }
+        node.setAttribute("style", updatedStyleString);
+        
       }
       return node;
     },
@@ -222,4 +266,21 @@ export default {
   width: 300px;
 }
 
+.color-selector {
+  display: flex;
+  flex-flow: row wrap;
+  width: 300px;;
+}
+// Small selectable color options
+.color-option {
+  width: 15px;
+  height: 15px;
+  margin: 5px;
+  transition: .1s;
+  box-shadow: 0px 0px 3px black;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0px 0px 5px white;
+  }
+}
 </style>

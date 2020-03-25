@@ -31,7 +31,7 @@ export default {
   name: 'svg-layer',
   data() {
     return {
-      expanded: false
+      expanded: true
     }
   },
   props: {
