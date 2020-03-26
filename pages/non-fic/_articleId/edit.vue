@@ -1,6 +1,6 @@
 <!-- /nonfic/edit, where users can edit their nonfic articles! -->
 <template>
-  <div class="page-content flex-container">
+  <div class="page-content flex-container space-around">
 
     <!-- The side bar, with the outline and stuff -->
     <div id="side-bar">

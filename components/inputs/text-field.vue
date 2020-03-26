@@ -117,8 +117,12 @@ input, textarea {
   background: var(--input);
   color: var(--input-text);
   border: none;
+  border-bottom: solid 2px var(--input-text2);
   transition-duration: .5s;
   box-shadow: 0px 0px var(--box-shading) rgba(0,0,0,.2);
+  &:focus {
+    border-bottom: solid 2px var(--c1);
+  }
 }
 input::placeholder, textarea::placeholder {
   color: var(--input-text2);
