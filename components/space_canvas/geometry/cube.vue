@@ -17,7 +17,7 @@
   <div class="plane" :style="{
     transform: 'translatey(-' + data.width / 2 + 'px)' +
                 'rotatex(90deg);',
-    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] - 15) + '%)' }">
+    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] - 10) + '%)' }">
     <!-- Top -->
   </div>
 
@@ -31,14 +31,14 @@
   <div class="plane" :style="{
     transform: 'translatex(-' + data.width / 2 + 'px) ' +
                 'rotatey(90deg);',
-    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] - 10) + '%)' }">
+    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] + 10) + '%)' }">
     <!-- side 1 -->
   </div>
 
   <div class="plane" :style="{
     transform: 'translatex(' + data.width / 2 + 'px) ' +
                 'rotatey(90deg);',
-    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] - 5) + '%)' }">
+    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2]) + '%)' }">
     <!-- side 2 -->
   </div>
 

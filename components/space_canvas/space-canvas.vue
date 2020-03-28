@@ -1,35 +1,16 @@
 <template>
 
-<div class="space-canvas"
-  :style="{ perspective: perspective + 'px' }">
-
-  <!-- canvas info display -->
-  <div class="canvas-info card small-font-size card-padding"
-    :class="{ 'expanded': expand_canvas_editor }">
-    <div class="card-header" @click="expand_canvas_editor = !expand_canvas_editor">
-      Canvas settings:
-    </div>
-    <div class="card-body" v-if="expand_canvas_editor">
-      <div class="flex-container row-wrap">
-        <text-field title="Perspective:" v-model="perspective" nopadding number ></text-field>
-        <input type="range" min="10" max="1000" v-model="perspective" v-if="show_sliders">
-      </div>
-
-      <div class="flex-container">
-        Show sliders:
-        <input type="checkbox" v-model="show_sliders">
-      </div>
-      
-    </div>
-  </div>
+<div class="space-canvas-container">
 
   <!-- Object info display -->
-  <div class="object-info card small-font-size card-padding"
+  <div class="object-info card small-font-size card-padding" v-if="edit_mode"
     :class="{ 'expanded': expand_object_editor }">
     <div class="card-header" @click="expand_object_editor = !expand_object_editor">
       Object settings:
     </div>
+
     <div class="card-body" v-if="expand_object_editor">
+
       <div class="flex-container row-wrap">
         <text-field title="xRot:" v-model="cube1.xRot" nopadding number ></text-field>
         <input type="range" min="-360" max="360" v-model="cube1.xRot" v-if="show_sliders">
@@ -50,11 +31,45 @@
         <text-field title="zPos:" v-model="cube1.z" nopadding number ></text-field>
         <input type="range" min="-100" max="100" v-model="cube1.z" v-if="show_sliders">
       </div>
+
     </div>
 
   </div>
 
-  <cube :data="cube1" :color="colors.c1"></cube>
+  <!-- canvas info display -->
+  <div class="canvas-info card small-font-size card-padding" v-if="edit_mode"
+    :class="{ 'expanded': expand_canvas_editor }">
+
+    <div class="card-header" @click="expand_canvas_editor = !expand_canvas_editor">
+      Canvas settings:
+    </div>
+
+    <div class="card-body" v-if="expand_canvas_editor">
+
+      <div class="flex-container row-wrap">
+        <text-field title="Perspective:" v-model="perspective" nopadding number ></text-field>
+        <input type="range" min="10" max="1000" v-model="perspective" v-if="show_sliders">
+      </div>
+
+      <div class="flex-container">
+        <div>Sliders:</div>
+        <input type="checkbox" v-model="show_sliders">
+      </div>
+
+      <div class="flex-container">
+        <div>Edit mode:</div>
+        <input type="checkbox" v-model="edit_mode">
+      </div>
+      
+    </div>
+  </div>
+
+  
+
+  <div class="space-canvas" 
+    :style="{ perspective: perspective + 'px' }">
+    <cube :data="cube1" :color="colors.c1"></cube>
+  </div>
 
 </div>
 
@@ -69,6 +84,8 @@ export default {
 
   data() { 
     return {
+      edit_mode: true,
+      
       perspective: 500,
       show_sliders: false,
 
@@ -124,6 +141,7 @@ export default {
 .space-canvas {
   position: relative;
   transform-style: preserve-3d;
+  z-index: 0;
 }
 
 .object {
@@ -133,21 +151,23 @@ export default {
 }
 
 // For the canvas info editor
-.object-info {
-  left: 160px;
+.canvas-info {
+  left: 210px;
 }
 
 .object-info, .canvas-info {
   position: absolute;
   margin: 10px;
+  z-index: 11;
   opacity: .3;
-  width: 150px;
+  width: 200px;
   cursor: pointer;
-  &:hover, &.expanded {
+  &:hover {
     opacity: 1;
   }
   // slider:
-  input {
+  input[type="range"] {
+    width: 100%;
     margin-right: 20px;
   }
  .text-field {
