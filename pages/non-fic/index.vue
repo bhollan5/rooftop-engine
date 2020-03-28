@@ -109,7 +109,8 @@ export default {
   svg {
     margin-top: 40px;
     margin-bottom: 20px;
-    width: 350px;
+    width: 100%;
+    max-width: 350px;
   }
 }
 

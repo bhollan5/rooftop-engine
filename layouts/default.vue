@@ -219,7 +219,7 @@ export default {
     
     // This function happens when the user scrolls. 
     handleScroll(e) {
-
+      return 0
       // Keeps the bar at the top when we're at the top
       if (window.scrollY == 0) {
         this.searchbarPos = 0;
@@ -280,7 +280,7 @@ $tablet-bp: 400px;
   #header-logo {
     height: 30px;
     margin-top: 10px;
-    margin-left: 10px;
+    margin-left: 20px;
   }
 
   // This contains both the search bar and the desktop menu options.
@@ -380,6 +380,7 @@ $tablet-bp: 400px;
       min-width: 500px;
       // Styling for individual nav options
       svg {
+        
         height: 50px;
         width: 120px;
         top: -6px;
@@ -417,6 +418,7 @@ $tablet-bp: 400px;
   position: fixed;
   height: 100%;
   width:  400px;
+  max-width: 90vw;
   top: 0px;
   right: 0px;
   z-index: 12;
@@ -457,6 +459,10 @@ $tablet-bp: 400px;
     // Login button 
     .login-button {
       cursor: pointer;
+      color: var(--bg-text2);
+      &:hover {
+        color: var(--c1);
+      }
     }
   }
   // For the various options in the menu.
@@ -525,14 +531,16 @@ $tablet-bp: 400px;
   bottom: 0px;
   display: flex;
   justify-content: space-around;
+  z-index: 11;
 
-  background: var(--bg);
-  box-shadow: var(--box-shading);
+  background: var(--bg2);
+  box-shadow: 0px 0px 5px rgba(0,0,0,.5);
   
   // Desktop footer:
   @media only screen and (min-width: $desktop-bp){
     display: none;
   }
+  
   
   // Footer buttons:
   .footer-option {
@@ -542,6 +550,15 @@ $tablet-bp: 400px;
     width: 25%;
     flex-direction: column;
     align-items: center;
+    svg {
+      fill: var(--bg-text2);
+    }
+  }
+  .nuxt-link-active {
+    color: var(--c1);
+    svg {
+      fill: var(--c1);
+    }
   }
 
   // Menu icons:

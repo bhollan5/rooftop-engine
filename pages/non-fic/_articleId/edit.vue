@@ -246,11 +246,19 @@ export default {
 
 <style lang="scss">
 
+$desktop-bp: 800px;
+$tablet-bp: 400px;
+
 // The side bar with the table of contents:
 #side-bar {
   width: 275px;
   background: var(--card);
   height: 400px;
+
+  // TODO: make this an expandable tab at the top!
+  @media only screen and (max-width: $desktop-bp) {
+    display: none;
+  }
   
   // The sidebar header has the title and article ID
   #side-bar-header {
@@ -319,6 +327,10 @@ export default {
   width: 100%;
   max-width: 600px;
   align-content:flex-start;
+
+  @media only screen and (max-width: $desktop-bp) {
+    margin-top: 50px;
+  }
 }
 
 

@@ -23,7 +23,7 @@
 }
 
 // Breakpoints, to make the site responsive to different screen sizes.
-// These are sass variables so we can use them in media queries.
+// These are sass variables so we can use them in media queries - plus, they don't change with the theme. 
 $desktop-bp: 800px;
 $tablet-bp: 400px;
 
