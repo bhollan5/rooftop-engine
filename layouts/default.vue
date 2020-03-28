@@ -258,6 +258,7 @@ export default {
 @import '@/styles/inputs.scss';
 @import '@/styles/globals.scss';
 @import '@/styles/svg-classes.scss';
+// @import '@/styles/transitions.scss';
 
 
 // Breakpoints, to make the site responsive to different screen sizes.

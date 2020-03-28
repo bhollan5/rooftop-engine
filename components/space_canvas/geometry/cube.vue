@@ -4,41 +4,41 @@
 
   <div class="plane" :style="{
     transform: 'translatez(' + data.width / 2 + 'px)',
-    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] + 5) + '%)'}">
+    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] + 5) + '%)'}">
     <!-- Front -->
   </div>
 
   <div class="plane" :style="{
     transform: 'translatez(-' + data.width / 2 + 'px)',
-    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] - 5) + '%)' }">
+    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] - 5) + '%)' }">
     <!-- Back -->
   </div>
 
   <div class="plane" :style="{
     transform: 'translatey(-' + data.width / 2 + 'px)' +
                 'rotatex(90deg);',
-    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] - 10) + '%)' }">
+    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] - 10) + '%)' }">
     <!-- Top -->
   </div>
 
   <div class="plane" :style="{
     transform: 'translatey(' + data.width / 2 + 'px)' +
                 'rotatex(90deg);',
-    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] - 10) + '%)' }">
+    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] - 10) + '%)' }">
     <!-- Bottom -->
   </div>
 
   <div class="plane" :style="{
     transform: 'translatex(-' + data.width / 2 + 'px) ' +
                 'rotatey(90deg);',
-    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] + 10) + '%)' }">
+    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] + 10) + '%)' }">
     <!-- side 1 -->
   </div>
 
   <div class="plane" :style="{
     transform: 'translatex(' + data.width / 2 + 'px) ' +
                 'rotatey(90deg);',
-    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2]) + '%)' }">
+    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2]) + '%)' }">
     <!-- side 2 -->
   </div>
 

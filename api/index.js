@@ -2,6 +2,7 @@
 // https://medium.com/@mitsuyawatanabe/how-to-start-express-project-in-nuxt-2-x-d3406c92a8ca
 // https://www.reddit.com/r/vuejs/comments/aayav5/any_examplestutorial_on_a_nuxt_app_with/
 
+console.log(" 🌈 Initializing server...")
 
 const fs = require('fs');               // GridFS lets Mongo upload files
 const mongodb = require('mongodb');     // The MongoDB library

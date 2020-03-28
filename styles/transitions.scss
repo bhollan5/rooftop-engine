@@ -1,0 +1,26 @@
+
+// This CSS effects ALL PAGES, GLOBALLY. All other CSS should be scoped. 
+// This file is imported into the project in ~/layouts/default.vue.
+
+
+// This file is styling for transition components
+
+// NOT USED FOR NOW, turns out it's hard to style transitions to be reusable.
+
+
+// Apply this as a class to the inner div.
+.slide-down {
+  overflow: hidden;
+}
+// Slide-down transition, used in color picker, etc:
+.slide-down-enter, .slide-down-leave-to{
+  max-height: 0px;
+  padding: 0px;
+}
+.slide-down-enter-active, .slide-down-leave-active {
+  transition: max-height .5s;
+}
+.slide-down-enter-to  /* .fade-leave-active below version 2.1.8 */ {
+  max-height: 400px;
+  padding: 0px;
+}

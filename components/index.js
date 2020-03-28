@@ -6,6 +6,7 @@ import textField from './inputs/text-field.vue';
 import colorPicker from './inputs/color-picker.vue';
 import svgUploader from './inputs/svg-uploader.vue';
 import dropdown from './inputs/dropdown.vue';
+import colorPalette from './inputs/color-palette.vue';
 
 import lineBreak from './misc/line-break.vue';
 
@@ -31,6 +32,7 @@ export default {
   textField,
   svgUploader,
   dropdown,
+  colorPalette,
 
   // Misc:
   lineBreak,

@@ -35,7 +35,6 @@ export default {
 #landing-promo {
   width: 100%;
   height: 90vh;
-  background: #4E5264;
 }
 
 #media-suggestions {
