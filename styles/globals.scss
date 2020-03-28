@@ -22,6 +22,11 @@
   --h3-font-size: 24px;
 }
 
+// Breakpoints, to make the site responsive to different screen sizes.
+// These are sass variables so we can use them in media queries.
+$desktop-bp: 800px;
+$tablet-bp: 400px;
+
 html {
   font-family: crimsonText, serif;
   font-size: var(--regular-font-size);
@@ -171,9 +176,14 @@ a, .a {
 
 // Container for pages and page content.
 .container {
+  width: 100%;
   min-height: 100vh;
   background: var(--bg);
   color: var(--bg-text);
+  // Accounts for extra space from sticky header on mobile
+  @media only screen and (max-width: $desktop-bp) {
+    padding-top: 50px;
+  }
 }
 
 // Thumbnail for cards

@@ -107,6 +107,7 @@ export default {
   width: 100%;
   box-shadow: var(--box-shading);
   color: var(--bg-text);
+  overflow: hidden;
 }
 
 // Container for collections of media. 
