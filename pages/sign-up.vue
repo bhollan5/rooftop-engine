@@ -1,16 +1,17 @@
 <template>
-<div class="container" id="sign-in">
-  <h1>Sign In</h1>
+<div class="container" id="sign-up">
+  <h1>Sign Up</h1>
   <line-break class="line-break"></line-break>
-
-  <text-field class="input username" placeholder="User ID" title="User id:"></text-field>
-  <text-field class="input pass" placeholder="pass" title="Password:"></text-field>
+  <br>
+  <text-field class="input username" placeholder="@pheobeppeabodybb" title="user id:"></text-field>
+  <text-field class="input pass" placeholder="This is a secret!" title="password:"></text-field>
+  <text-field class="input pass" placeholder="The same thing as above." title="retype password:"></text-field>
   <button>Sign In</button>
 
   <div class="info">
-    <p>While Rooftop gets off the ground, accounts are only available for staff & creators, on a case-by-case basis.</p>
+    <p>For now, you'll only be able to sign users up if you have admin permissions.</p>
     <br>
-    <p>If you'd like to get involved as a staff member or creator, feel free to join our <a href="https://discord.gg/qCjmpwC" target="_blank"> discord</a>.</p>
+    <p>If you have an account, try  <router-link to="/sign-in"> signing in</router-link>!</p>
   </div>
 </div>
 </template>
@@ -33,7 +34,7 @@ export default {
 </script>
 
 <style lang="scss">
-#sign-in {
+#sign-up {
   display: flex;
   flex-direction: column;
   align-items: center;

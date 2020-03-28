@@ -13,7 +13,7 @@ module.exports = function(app, mongoose){
     articleDescription: String,
     articleThumbnail: String,
     articleData: Array,
-  });
+  }, {timestamps: true});
 
   let Article = mongoose.model('Article', articleSchema);
 

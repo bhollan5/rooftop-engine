@@ -203,3 +203,21 @@ a, .a {
   }
 }
 
+.card {
+  background: var(--card);
+  color: var(--card-text);
+  box-shadow: 0px 0px 5px rgba(0,0,0,.8);
+  .header, .card-header {
+    background: var(--card2);
+  }
+  h4 {
+    color: var(--card-text2);
+  }
+}
+// To give cards a nice little 15px padding
+.card-padding {
+  .header, .card-header, .card-body {
+    padding: 10px 15px;
+  }
+}
+

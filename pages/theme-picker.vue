@@ -100,6 +100,20 @@
             id="c3" description="">
           </color-picker><br><br>
 
+          <color-picker v-model="themeDraft.colors.card" name="Card backgound color" 
+          :textcolor="themeDraft.colors.card_text" id="card" description="The background for secondary 'card' containers.">
+          </color-picker>
+          <color-picker v-model="themeDraft.colors.card2" name="Card backgound color 2" 
+          :textcolor="themeDraft.colors.card_text" id="card2" description="The background for secondary 'card' containers.">
+          </color-picker><br><br>
+
+          <color-picker v-model="themeDraft.colors.card_text" name="Card backgound color" 
+          :textcolor="themeDraft.colors.card" id="card-text" description="The background for secondary 'card' containers.">
+          </color-picker>
+          <color-picker v-model="themeDraft.colors.card_text2" name="Card backgound color 2" 
+          :textcolor="themeDraft.colors.card" id="card-text2" description="The background for secondary 'card' containers.">
+          </color-picker><br><br>
+
         </div>
 
         <div class="theme-example">
@@ -108,6 +122,19 @@
           </div>
           <div class="body theme-body-example">
             <design-highlight-example></design-highlight-example>
+
+            <div class="card card-padding">
+              <div class="card-header">
+                <h3>Card containers</h3>
+                <h4>Used to section off content!</h4>
+              </div>
+              <div class="card-body">
+                <div>Various content containers might use a secondary background color palette. </div>
+              </div>
+              <hr style="border: solid 3px var(--c1);">
+              <br style="height: 15px;">
+            </div>
+
             <br><br><br>
           </div>
         </div>
@@ -182,40 +209,12 @@
         </div>
       </div>
 
-      <h2>Cards</h2>
-      <!-- Cards section -->
-      <div id="cards" class="flex-container space-around">
-        <div class="theme-options">
-          <br><br>
-          <color-picker v-model="themeDraft.colors.card" name="Card backgound color" 
-          :textcolor="themeDraft.colors.card_text" id="card" description="The background for secondary 'card' containers.">
-          </color-picker>
-          <color-picker v-model="themeDraft.colors.card2" name="Card backgound color 2" 
-          :textcolor="themeDraft.colors.card_text" id="card2" description="The background for secondary 'card' containers.">
-          </color-picker><br><br>
 
-          <color-picker v-model="themeDraft.colors.card_text" name="Card backgound color" 
-          :textcolor="themeDraft.colors.card" id="card-text" description="The background for secondary 'card' containers.">
-          </color-picker>
-          <color-picker v-model="themeDraft.colors.card_text2" name="Card backgound color 2" 
-          :textcolor="themeDraft.colors.card" id="card-text2" description="The background for secondary 'card' containers.">
-          </color-picker><br><br>
-        </div>
-
-        <div class="theme-example">
-          <div class="header">
-            <h3>Cards</h3>
-          </div>
-
-          <collection :collection="collectionOfAllArticles" v-if="0"></collection>
-
-        </div>
-      </div>
 
       <h2>Theme Icon:</h2>
 
       <div class="flex-container space-around">
-        <svg-uploader v-model="themeDraft.thumbnail" :height="40" :width="120" class="icon-uploader">
+        <svg-uploader v-model="themeDraft.thumbnail" :height="40" :width="120" class="icon-uploader" :id="'theme-icon-upload'">
         </svg-uploader>
       </div>
       <br><br>
@@ -443,6 +442,19 @@ h2 {
 
 .icon-uploader {
   border: solid var(--bg-text2) 2px;
+}
+
+
+.card {
+  margin-top: 25px;
+  width: 45%;
+  h4 {
+    font-size: var(--small-font-size);
+  }
+}
+.card-body {
+  font-size: var(--small-font-size);
+  padding-bottom: 50px;
 }
 
 

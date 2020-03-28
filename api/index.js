@@ -7,6 +7,8 @@ const fs = require('fs');               // GridFS lets Mongo upload files
 const mongodb = require('mongodb');     // The MongoDB library
 let mongoose = require('mongoose');     // Mongoose gives us object oriented tools, like schema defining
 
+mongoose.set('useCreateIndex', true); // Resolves a deprecation issue.
+
 
 let express = require('express');       // The Express library
 
@@ -23,6 +25,8 @@ let ObjectID = mongodb.ObjectID;        // This tool lets us convert object id's
 const articlesRoutes = require('./articles-api.js');
 const themesRoutes = require('./themes-api.js');
 const collectionsRoutes = require('./collections-api.js');
+const userRoutes = require('./users-api.js');
+
 
 
 
@@ -56,6 +60,7 @@ function (err, client) {
   articlesRoutes(app, mongoose);
   themesRoutes(app, mongoose);
   collectionsRoutes(app, mongoose);
+  userRoutes(app, mongoose);
 
 
 })
