@@ -97,7 +97,7 @@ export default {
 // The banner image
 #non-fic-banner {
   width: 100%;
-  height: 20vh;
+  min-height: 20vh;
   background: var(--bg);
   color: var(--bg-text);
   transform-style: preserve3d;
