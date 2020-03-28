@@ -34,7 +34,7 @@ export default {
 <style lang="scss">
 #landing-promo {
   width: 100%;
-  height: 90vh;
+  position: relative;
 }
 
 #media-suggestions {

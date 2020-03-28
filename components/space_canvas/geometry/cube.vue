@@ -2,44 +2,73 @@
 <div class="object"
   :style="css_string">
 
+  <div class="grab-point"></div>
+
   <div class="plane" :style="{
-    transform: 'translatez(' + data.width / 2 + 'px)',
-    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] + 5) + '%)'}">
+    transform: 
+    'translatex(-' + data.width / 2 + 'px)' + 
+    'translatey(-' + data.height / 2 + 'px)' +
+    'translatez(' + data.depth / 2 + 'px)',
+    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] + 5) + '%)',
+    height: data.height + 'px',
+    width: data.width + 'px'}">
     <!-- Front -->
   </div>
 
   <div class="plane" :style="{
-    transform: 'translatez(-' + data.width / 2 + 'px)',
-    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] - 5) + '%)' }">
+    transform: 
+    'translatex(-' + data.width / 2 + 'px) ' +
+    'translatey(-' + data.height / 2 + 'px)' +
+    'translatez(-' + data.depth / 2 + 'px) ',
+    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] - 5) + '%)',
+    height: data.height + 'px',
+    width: data.width + 'px' }">
     <!-- Back -->
   </div>
 
+  <!-- TODO: there's a rendering problem when a cube's height is bigger than it's depth... -->
   <div class="plane" :style="{
-    transform: 'translatey(-' + data.width / 2 + 'px)' +
-                'rotatex(90deg);',
-    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] - 10) + '%)' }">
-    <!-- Top -->
+    transform: 
+    'translatex(-' + data.width / 2 + 'px) ' +
+    'translatey(' + -((data.depth / 2) + (data.height / 2)) + 'px)' +
+    'translatez(-' + 0 + 'px) ' + 'rotatex(90deg)',
+    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] - 10) + '%)',
+    height: data.depth + 'px',
+    width: data.width + 'px' }">
+    <!-- top -->
   </div>
 
   <div class="plane" :style="{
-    transform: 'translatey(' + data.width / 2 + 'px)' +
-                'rotatex(90deg);',
-    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] - 10) + '%)' }">
-    <!-- Bottom -->
+    transform: 
+    'translatex(-' + data.width / 2 + 'px) ' +
+    'translatey(-' + ((data.depth / 2) - (data.height / 2)) + 'px)' +
+    'translatez(-' + 0 + 'px) ' + 'rotatex(90deg)',
+    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] - 10) + '%)',
+    height: data.depth + 'px',
+    width: data.width + 'px' }">
+    <!-- bottom -->
   </div>
 
   <div class="plane" :style="{
-    transform: 'translatex(-' + data.width / 2 + 'px) ' +
-                'rotatey(90deg);',
-    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] + 10) + '%)' }">
+    transform: 
+    'translatex(' + ((data.width / 2) - (data.depth / 2)) + 'px) ' +
+    'translatey(-' + data.height / 2 + 'px)' +
+    'translatez(-' + 0 + 'px) ' + 'rotatey(90deg)',
+    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] + 10) + '%)',
+    height: data.height + 'px',
+    width: data.depth + 'px' }">
     <!-- side 1 -->
   </div>
 
   <div class="plane" :style="{
-    transform: 'translatex(' + data.width / 2 + 'px) ' +
-                'rotatey(90deg);',
-    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2]) + '%)' }">
-    <!-- side 2 -->
+    transform: 
+    'translatex(' + (-(data.width / 2) - (data.depth / 2)) + 'px) ' +
+    'translatey(-' + data.height / 2 + 'px)' +
+    'translatez(-' + 0 + 'px) ' + 'rotatey(90deg)',
+    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] + 10) + '%)',
+    height: data.height + 'px',
+    width: data.depth + 'px' }">
+    <!-- side 1 -->
   </div>
 
 </div>
@@ -58,11 +87,6 @@ export default {
       type: Object,
       required: true,
     },
-
-    color: {
-      type: Array,
-      default: [50, 50, 50]
-    }
   },
   computed: {
     css_string() {
@@ -83,8 +107,6 @@ export default {
       transform_css += ';';
 
       css_string += transform_css;
-      css_string += ' height: ' + this.data.height + 'px;'
-      css_string += ' width: ' + this.data.width + 'px;'
 
       return css_string;
     }
@@ -96,9 +118,15 @@ export default {
 .plane {
   width: 100%;
   height: 100%;
-  background: var(--c1);
   position: absolute;
   transform-style: preserve-3d;
   color: black;
+  opacity: 1;
+}
+.grab-point {
+  width: 4px;
+  height: 4px;
+  background: red;
+  border-radius: 50%;
 }
 </style>

@@ -14,33 +14,36 @@
 
     <div class="card-body slide-down" v-if="expand_object_editor">
 
-      <color-palette :margin="1" v-model="cube1.color"></color-palette>
+      <color-palette :margin="1" v-model="objects[o_i].color"></color-palette>
 
       <div class="flex-container row-wrap">
-        <text-field title="xRot:" v-model="cube1.xRot" nopadding number ></text-field>
-        <input type="range" min="-360" max="360" v-model="cube1.xRot" v-if="show_sliders">
-        <text-field title="xPos:" v-model="cube1.x" nopadding number ></text-field>
-        <input type="range" min="-100" max="100" v-model="cube1.x" v-if="show_sliders">
-        <text-field title="Width:" v-model="cube1.width" nopadding number ></text-field>
-        <input type="range" min="-100" max="100" v-model="cube1.width" v-if="show_sliders">
+        <text-field title="xRot:" v-model="objects[o_i].xRot" nopadding number >
+        </text-field>
+        <input type="range" min="-360" max="360" v-model="objects[o_i].xRot" v-if="show_sliders">
+        <text-field title="xPos:" v-model="objects[o_i].x" nopadding number >
+        </text-field>
+        <input type="range" min="-400" max="100" v-model="objects[o_i].x" v-if="show_sliders">
+        <text-field title="Width:" v-model="objects[o_i].width" nopadding number>
+        </text-field>
+        <input type="range" min="0" max="400" v-model="objects[o_i].width" v-if="show_sliders">
       </div>
       
       <div class="flex-container row-wrap">
-        <text-field title="yRot:" v-model="cube1.yRot" nopadding number ></text-field>
-        <input type="range" min="-360" max="360" v-model="cube1.yRot" v-if="show_sliders">
-        <text-field title="yPos:" v-model="cube1.y" nopadding number ></text-field>
-        <input type="range" min="-100" max="100" v-model="cube1.y" v-if="show_sliders">
-        <text-field title="Height:" v-model="cube1.height" nopadding number ></text-field>
-        <input type="range" min="-100" max="100" v-model="cube1.height" v-if="show_sliders">
+        <text-field title="yRot:" v-model="objects[o_i].yRot" nopadding number ></text-field>
+        <input type="range" min="-360" max="360" v-model="objects[o_i].yRot" v-if="show_sliders">
+        <text-field title="yPos:" v-model="objects[o_i].y" nopadding number ></text-field>
+        <input type="range" min="-400" max="100" v-model="objects[o_i].y" v-if="show_sliders">
+        <text-field title="Height:" v-model="objects[o_i].height" nopadding number ></text-field>
+        <input type="range" min="0" max="400" v-model="objects[o_i].height" v-if="show_sliders">
       </div>
       
       <div class="flex-container row-wrap">
-        <text-field title="zRot:" v-model="cube1.zRot" nopadding number > </text-field>
-        <input type="range" min="0" max="360" v-model="cube1.zRot" v-if="show_sliders">
-        <text-field title="zPos:" v-model="cube1.z" nopadding number ></text-field>
-        <input type="range" min="-100" max="100" v-model="cube1.z" v-if="show_sliders">
-        <text-field title="Depth:" v-model="cube1.depth" nopadding number ></text-field>
-        <input type="range" min="-100" max="100" v-model="cube1.depth" v-if="show_sliders">
+        <text-field title="zRot:" v-model="objects[o_i].zRot" nopadding number > </text-field>
+        <input type="range" min="0" max="360" v-model="objects[o_i].zRot" v-if="show_sliders">
+        <text-field title="zPos:" v-model="objects[o_i].z" nopadding number ></text-field>
+        <input type="range" min="-400" max="100" v-model="objects[o_i].z" v-if="show_sliders">
+        <text-field title="Depth:" v-model="objects[o_i].depth" nopadding number ></text-field>
+        <input type="range" min="0" max="400" v-model="objects[o_i].depth" v-if="show_sliders">
       </div>
 
     </div>
@@ -83,9 +86,13 @@
   <div class="space-canvas" 
     :style="{ perspective: perspective + 'px',
       background: 'hsl(' + bg_color[0] + ',' +bg_color[1] + '%,' + bg_color[2] + '%)' }">
-    <div class="space-canvas-coordinate-positioner">
+    <div class="space-canvas-coordinate-positioner"
+      :style="{ perspective: perspective + 'px' }">
 
-    <cube :data="cube1" :color="colors.c1"></cube>
+    
+    <cube v-for="(cube, cube_i) in objects" v-if="cube.type == 'cube'"
+      :data="cube" :key="cube_i" @click=""
+      @click="object_to_edit = cube"></cube>
 
     </div>
   </div>
@@ -112,8 +119,32 @@ export default {
       bg_color: [28, 19, 31], // a computed property
 
       // Object editor settings
-      object_to_edit: {},
+      o_i: 0, // The index of the selected object
       expand_object_editor: false,
+
+      objects: [
+        {
+          type: 'cube',
+          _id: 'cube1',
+          color: [20, 50, 50],
+
+          x: -50,
+          y: -50,
+          z: -50,
+
+          // Position unit
+          p_unit: '%',
+
+          xRot: -15,
+          yRot: 0,
+          zRot: 0,
+
+          height: 100,
+          width: 200,
+          depth: 300,
+          
+        }
+      ],
 
       cube1: {
         color: [20, 50, 50],
@@ -125,7 +156,7 @@ export default {
         // Position unit
         p_unit: '%',
 
-        xRot: 0,
+        xRot: 45,
         yRot: 0,
         zRot: 0,
 
@@ -145,16 +176,17 @@ export default {
   },
   
   mounted() {
-  //  this.bg_color = this.colors.bg;
-    //this.anim_frame();
+    this.bg_color = this.colors.bg;
+    this.cube1.color = this.colors.c1;
+    // this.anim_frame();
   },
 
   methods: {
     anim_frame() {
-      this.cube1.xRot += 1.5;
-      this.cube1.yRot += 1.5;
-      this.cube1.zRot += 1.5;
-      setTimeout(this.anim_frame, 100);
+      this.cube1.xRot += .5;
+      this.cube1.yRot += .5;
+      this.cube1.zRot += .5;
+      setTimeout(this.anim_frame, 10);
     }
   }
   
@@ -164,8 +196,8 @@ export default {
 <style lang="scss">
 
 .space-canvas-container {
-  width: 100%;
-  height: 100%;
+  display: flex;
+  height: 600px;
   position: relative;
 }
 
@@ -174,22 +206,33 @@ export default {
   transform-style: preserve-3d;
   z-index: 0;
   width: 100%;
-  height: 100%;
+  height: 600px;
 }
   // This lets us make the center of the stage 0,0,0
   //   We couldn't do this directly to .space-canvas without moving the vanishing pt
 .space-canvas-coordinate-positioner {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 100%;
-  height: 100%;
+  transform: translate(0px);
+  padding-left: 50%;
+  padding-top: 300px;
+  width: 50%;
+  height: 600px;
 }
 
 .object {
   position: absolute;
   transform-style: preserve-3d;
   // div {border: solid 2px red;}
+  cursor: pointer;
+}
+.object:hover::after {
+  content: '';
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  margin: -10px 0px 0px -10px;
+  background: rgba(255,255,255,.5);
+  box-shadow: 0px 0px 10px rgba(255,255,255,.5);
+  transform: translatez(-40px);
 }
 
 // For the canvas info editor
@@ -209,8 +252,7 @@ export default {
   }
   // slider:
   input[type="range"] {
-    width: 100%;
-    margin-right: 20px;
+    width: calc(100% - 50px);
   }
  .text-field {
    width: 40px;
