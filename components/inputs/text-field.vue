@@ -11,6 +11,26 @@
   <!-- The slot is used for icons -->
   <slot></slot>
 
+  
+
+  <input :value="value" @input="$emit('input', $event.target.value)"
+    :placeholder="placeholder" :readonly="readonly" type="number"
+    :class="{ 'icon-padding': icon,
+              'underline': underline,
+              'p': regularfont,
+              'small-font': smallfont }"
+    v-on:keyup.enter="$emit('enter')"
+    v-if="number">
+    
+  <textarea :value="value" @input="$emit('input', $event.target.value)"
+    :placeholder="placeholder" :readonly="readonly"
+    v-on:keyup.enter="$emit('enter')"
+    :class="{ 'icon-padding': icon,
+              'underline': underline,
+              'p': regularfont,
+              'small-font': smallfont }"
+    v-else-if="textarea"></textarea>
+
   <input :value="value" @input="$emit('input', $event.target.value)"
     :placeholder="placeholder" :readonly="readonly"
     :class="{ 'icon-padding': icon,
@@ -18,15 +38,7 @@
               'p': regularfont,
               'small-font': smallfont }"
     v-on:keyup.enter="$emit('enter')"
-    v-if="!textarea">
-    
-  <textarea v-else :value="value" @input="$emit('input', $event.target.value)"
-    :placeholder="placeholder" :readonly="readonly"
-    v-on:keyup.enter="$emit('enter')"
-    :class="{ 'icon-padding': icon,
-              'underline': underline,
-              'p': regularfont,
-              'small-font': smallfont }"></textarea>
+    v-else>
 </div>
 </template>
 
@@ -43,7 +55,6 @@ export default {
   props: {
     // The value incoming from the v-model variable.
     value: {
-      type: String,
       default: '',
     },
     // Placeholder:
@@ -61,6 +72,11 @@ export default {
       type: Boolean,
       default: false
     },
+    // Turns it into a number input 
+    number: {
+      type: Boolean
+    },
+
     // Removes the box around the input
     nobox: {
       type: Boolean,
@@ -117,7 +133,7 @@ export default {
   margin-left: 3px;
 }
 
-input, textarea {
+input:not(.number), textarea {
   padding: 5px;
   width: 100%;
   outline: none;
