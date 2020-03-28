@@ -3,7 +3,8 @@
   :class="{ 
     'has-input': hasInput, 
     'nobox': nobox, 
-    'small-icon': smallfont}">
+    'small-icon': smallfont,
+    'no-padding': nopadding}">
 
   <div class="title">{{title}}</div>
 
@@ -79,6 +80,12 @@ export default {
       type: Boolean,
       default: false,
     },
+
+    // Reduces padding: 
+    nopadding: {
+      type: Boolean,
+      default: false
+    },
     
     // Make sure to set this to "true" if your input uses an icon!
     icon: {
@@ -146,6 +153,10 @@ textarea {
 }
 .underline:focus {
   border-bottom: 3px solid var(--input-h);
+}
+
+.no-padding {
+  padding: 0px;
 }
 
 // Icon styling:

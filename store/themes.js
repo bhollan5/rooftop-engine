@@ -106,7 +106,7 @@ export const getters = {
   },
 
   // Returning the colors as arrays
-  themeScriptObj(state) {
+  theme_object(state) {
     return state.currentTheme;
   },
 

@@ -289,7 +289,7 @@ export default {
   computed: {
     // The theme currently being used, which we copy for our theme draft.
     currentTheme() {
-      return this.$store.getters['themes/themeScriptObj'];
+      return this.$store.getters['themes/theme_object'];
     },
     // We compute this separately because we can use it in a watch function.
     theme_id() {

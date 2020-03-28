@@ -280,7 +280,7 @@ $tablet-bp: 400px;
   #header-logo {
     height: 30px;
     margin-top: 10px;
-    margin-left: 20px;
+    margin-left: 10px;
   }
 
   // This contains both the search bar and the desktop menu options.
@@ -526,7 +526,7 @@ $tablet-bp: 400px;
 // Footer: 
 #footer {
   width: 100%;
-  height: 70px;
+  height: 50px;
   position: fixed;
   bottom: 0px;
   display: flex;
@@ -534,7 +534,7 @@ $tablet-bp: 400px;
   z-index: 11;
 
   background: var(--bg2);
-  box-shadow: 0px 0px 5px rgba(0,0,0,.5);
+  box-shadow: 0px 0px 10px rgba(0,0,0,.8);
   
   // Desktop footer:
   @media only screen and (min-width: $desktop-bp){
@@ -545,14 +545,16 @@ $tablet-bp: 400px;
   // Footer buttons:
   .footer-option {
     color: var(--bg-text2);
-    font-size: 20px;
+    font-size: var(--small-font-size);
     display: flex;
     width: 25%;
     flex-direction: column;
     align-items: center;
     svg {
       fill: var(--bg-text2);
+      transform: scale(1.5);
     }
+    border-right: 1px solid var(--bg);
   }
   .nuxt-link-active {
     color: var(--c1);

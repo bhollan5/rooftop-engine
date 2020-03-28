@@ -99,7 +99,7 @@ export default {
 
     // To display various options
     themeColors() {
-      return this.$store.getters['themes/themeScriptObj'].colors;
+      return this.$store.getters['themes/theme_object'].colors;
     },
 
     // Takes the node tree and turns it into a string!

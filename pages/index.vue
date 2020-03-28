@@ -4,7 +4,7 @@
 
     <!-- The "landing promo" is the banner spread at the top of the landing page. -->
     <div id="landing-promo">
-      <placeholder-spread></placeholder-spread>
+      <space-canvas></space-canvas>
     </div>
 
     <!-- -->
@@ -17,11 +17,11 @@
 </template>
 
 <script>
-import placeholderSpread from '@/components/landing_spreads/placeholder_spread.vue';
+import spaceCanvas from '@/components/space_canvas/space-canvas.vue';
 
 export default {
   components: {
-    placeholderSpread
+    spaceCanvas
   },
   data() {
     return {
@@ -34,7 +34,7 @@ export default {
 <style lang="scss">
 #landing-promo {
   width: 100%;
-  height: 60vh;
+  height: 90vh;
   background: #4E5264;
 }
 
