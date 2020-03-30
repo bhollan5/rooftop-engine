@@ -9,7 +9,7 @@
   <div class="object-info card small-font-size card-padding" v-if="edit_mode"
     :class="{ 'expanded': expand_object_editor }">
     <div class="card-header" @click="expand_object_editor = !expand_object_editor">
-      Object settings:
+      Object settings: {{objects[o_i]._id}}
     </div>
 
     <div class="card-body slide-down" v-if="expand_object_editor">
@@ -61,7 +61,7 @@
 
     <div class="card-body" v-if="expand_canvas_editor">
 
-      <color-palette :margin="1" v-model="bg_color"></color-palette>
+      <color-palette :margin="1" v-model="bg_color_var"></color-palette>
 
       <div class="flex-container row-wrap">
         <text-field title="Perspective:" v-model="perspective" nopadding number ></text-field>
@@ -77,6 +77,8 @@
         <div>Edit mode:</div>
         <input type="checkbox" v-model="edit_mode">
       </div>
+
+      <button @click="add_cube()">add cube</button>
       
     </div>
   </div>
@@ -85,14 +87,14 @@
 
   <div class="space-canvas" 
     :style="{ perspective: perspective + 'px',
-      background: 'hsl(' + bg_color[0] + ',' +bg_color[1] + '%,' + bg_color[2] + '%)' }">
+      background: 'hsl(' + bg_color[0] + ',' + bg_color[1] + '%,' + bg_color[2] + '%)' }">
     <div class="space-canvas-coordinate-positioner"
       :style="{ perspective: perspective + 'px' }">
 
     
     <cube v-for="(cube, cube_i) in objects" v-if="cube.type == 'cube'"
-      :data="cube" :key="cube_i" @click=""
-      @click="object_to_edit = cube"></cube>
+      :data="cube" :key="cube_i"
+      @click="o_i = cube_i"></cube>
 
     </div>
   </div>
@@ -114,9 +116,10 @@ export default {
       
       // Canvas settings:
       expand_canvas_editor: false,
-      perspective: 500,
+      perspective: 1000,
       show_sliders: true,
-      bg_color: [28, 19, 31], // a computed property
+      absolute_color: false, // Set to false if yr using a variable color
+      bg_color_var: 'bg', // turns into an array in computed bg_color
 
       // Object editor settings
       o_i: 0, // The index of the selected object
@@ -126,7 +129,7 @@ export default {
         {
           type: 'cube',
           _id: 'cube1',
-          color: [20, 50, 50],
+          color: 'c1',
 
           x: -50,
           y: -50,
@@ -172,21 +175,52 @@ export default {
     colors() {
       let theme_obj = this.$store.getters['themes/theme_object'];
       return theme_obj.colors;
-    }
+    },
+
+    bg_color() {
+      if (typeof(this.bg_color_var) != 'string') {
+        return this.bg_color_var;
+      }
+      return this.$store.getters['themes/color_styling'](this.bg_color_var);
+    } 
+
   },
   
   mounted() {
-    this.bg_color = this.colors.bg;
-    this.cube1.color = this.colors.c1;
-    // this.anim_frame();
+    this.anim_frame();
   },
 
   methods: {
     anim_frame() {
-      this.cube1.xRot += .5;
-      this.cube1.yRot += .5;
-      this.cube1.zRot += .5;
+      this.objects[0].xRot += .2;
+      this.objects[0].yRot += .2;
+      this.objects[0].zRot += .2;
       setTimeout(this.anim_frame, 10);
+    },
+
+    add_cube() {
+      let _id = 'cube' + this.objects.length;
+      this.objects.push({
+        type: 'cube',
+        _id: _id,
+        color: 'c1',
+
+        x: -50,
+        y: -50,
+        z: -50,
+
+        // Position unit
+        p_unit: '%',
+
+        xRot: -15,
+        yRot: 0,
+        zRot: 0,
+
+        height: 100,
+        width: 200,
+        depth: 300,
+        
+      })
     }
   }
   

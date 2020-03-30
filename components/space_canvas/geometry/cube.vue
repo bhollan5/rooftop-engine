@@ -9,7 +9,7 @@
     'translatex(-' + data.width / 2 + 'px)' + 
     'translatey(-' + data.height / 2 + 'px)' +
     'translatez(' + data.depth / 2 + 'px)',
-    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] + 5) + '%)',
+    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] + 3) + '%)',
     height: data.height + 'px',
     width: data.width + 'px'}">
     <!-- Front -->
@@ -20,7 +20,7 @@
     'translatex(-' + data.width / 2 + 'px) ' +
     'translatey(-' + data.height / 2 + 'px)' +
     'translatez(-' + data.depth / 2 + 'px) ',
-    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] - 5) + '%)',
+    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] - 3) + '%)',
     height: data.height + 'px',
     width: data.width + 'px' }">
     <!-- Back -->
@@ -32,7 +32,7 @@
     'translatex(-' + data.width / 2 + 'px) ' +
     'translatey(' + -((data.depth / 2) + (data.height / 2)) + 'px)' +
     'translatez(-' + 0 + 'px) ' + 'rotatex(90deg)',
-    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] - 10) + '%)',
+    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] - 5) + '%)',
     height: data.depth + 'px',
     width: data.width + 'px' }">
     <!-- top -->
@@ -43,7 +43,7 @@
     'translatex(-' + data.width / 2 + 'px) ' +
     'translatey(-' + ((data.depth / 2) - (data.height / 2)) + 'px)' +
     'translatez(-' + 0 + 'px) ' + 'rotatex(90deg)',
-    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] - 10) + '%)',
+    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] - 5) + '%)',
     height: data.depth + 'px',
     width: data.width + 'px' }">
     <!-- bottom -->
@@ -54,7 +54,7 @@
     'translatex(' + ((data.width / 2) - (data.depth / 2)) + 'px) ' +
     'translatey(-' + data.height / 2 + 'px)' +
     'translatez(-' + 0 + 'px) ' + 'rotatey(90deg)',
-    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] + 10) + '%)',
+    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] + 5) + '%)',
     height: data.height + 'px',
     width: data.depth + 'px' }">
     <!-- side 1 -->
@@ -65,7 +65,7 @@
     'translatex(' + (-(data.width / 2) - (data.depth / 2)) + 'px) ' +
     'translatey(-' + data.height / 2 + 'px)' +
     'translatez(-' + 0 + 'px) ' + 'rotatey(90deg)',
-    background: 'hsl(' + data.color[0] + ',' + data.color[1] + '%,' + (data.color[2] + 10) + '%)',
+    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] + 5) + '%)',
     height: data.height + 'px',
     width: data.depth + 'px' }">
     <!-- side 1 -->
@@ -109,6 +109,13 @@ export default {
       css_string += transform_css;
 
       return css_string;
+    },
+    // turning the string into an array corresponding to that key
+    color() {
+      if (typeof(this.data.color) != 'string') {
+        return this.data.color;
+      }
+      return this.$store.getters['themes/color_styling'](this.data.color);
     }
   }
 }

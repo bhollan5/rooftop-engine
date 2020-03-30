@@ -4,6 +4,9 @@
 
 ## Build Setup
 
+We manage Rooftop's deployment using PM2.
+https://pm2.keymetrics.io/docs/usage/process-management/
+
 ``` bash
 # install dependencies
 $ npm install

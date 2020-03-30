@@ -27,9 +27,9 @@
 
   <!-- Area displaying the content of the collection. -->
   <div class="collection-display">
-    <article-card v-for="(article, article_i) in collection.collectionData" :article="article" 
+    <article-thumb v-for="(article, article_i) in collection.collectionData" :article="article" 
       :key="'article-' + article_i" v-if="!collection.loading">
-    </article-card>
+    </article-thumb>
 
     <div class="add-a-file" v-if="editCollection">
       <text-field v-model="articleIdToAdd"></text-field>
@@ -45,6 +45,8 @@ import editIcon from '@/components/icons/edit-icon.vue';
 import checkIcon from '@/components/icons/check-icon.vue';
 
 import articleCard from '@/components/non-fic/article-card.vue';
+import articleThumb from '@/components/non-fic/article-thumb.vue';
+
 
 import textField from '@/components/inputs/text-field.vue';
 
@@ -56,7 +58,7 @@ export default {
   components: {
     editIcon,
     textField,
-    articleCard,
+    articleThumb,
     checkIcon
   },
   data() {

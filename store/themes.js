@@ -105,13 +105,19 @@ export const getters = {
     return styleObj;
   },
 
-  // Returning the colors as arrays
+  // Object of all colors as arrays
   theme_object(state) {
     return state.currentTheme;
   },
 
+  // Just the theme id
   themeId(state) {
     return state.currentTheme._id;
+  },
+
+  // Takes a variable id, returns an array
+  color_styling: (state) => (color_key) => {
+    return state.currentTheme.colors[color_key];
   },
 
 

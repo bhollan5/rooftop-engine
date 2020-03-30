@@ -173,6 +173,9 @@ textarea {
 
 .no-padding {
   padding: 0px;
+  input {
+    padding: 0px;
+  }
 }
 
 // Icon styling:

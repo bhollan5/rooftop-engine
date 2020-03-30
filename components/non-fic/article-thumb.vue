@@ -1,21 +1,25 @@
 <template>
-<div class="article-card">
+<router-link class="article-thumb" :to="'/non-fic/' + article._id + '/edit/'"
+  tag="div">
 
   <!-- The  header of the card. -->
-  <router-link class="article-card-header" tag="div" router-link :to="'/non-fic/' + article._id + '/edit/'">
-    <div class="article-card-title">{{article.articleTitle}}</div>
-    <div class="byline">by <router-link to="/">Ben H</router-link></div>
+  <div class="article-header">
+    <div class="article-title">{{article.articleTitle}}</div>
 
     <!-- The thumbnail image. 
       It's inside the header because it's positioned relative to the bottom of the header. -->
-    <div class="thumbnail" v-html="article.articleThumbnail"></div>
+    <div class="thumbnail" v-html="article.articleThumbnail" ></div>
 
-  </router-link>
-
-  <!-- Article description. -->
-  <div class="article-description">
-    {{article.articleDescription}}
   </div>
+
+  <div class="article-card">
+    <div class="byline">by <router-link to="/">Ben H</router-link></div>
+    <div class="article-description">
+      {{article.articleDescription}}
+    </div>
+  </div>
+  <!-- Article description. -->
+  
 
   
 
@@ -29,7 +33,7 @@
     </div>
   </div>
   
-</div>
+</router-link>
 </template>
 
 <script>
@@ -64,62 +68,103 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
-.article-card {
-  width: 275px;
-  min-width: 275px;
-  height: 150px;
+.article-thumb {
+  width: 250px;
+  min-width: 250px;
+  height: 154px;
   position: relative;
-  background: var(--card);
+  background: var(--card2);
   margin-right: 20px;
-  box-shadow: 0px 0px 0px rgba(0,0,0,.5); // Set blur to 2 so we can animate it
+  box-shadow: 0px 0px 10px rgba(0,0,0,.5); // Set blur to 2 so we can animate it
   transition-duration: .5s;
   z-index: 2;
+  overflow: hidden;
+  cursor: pointer;
 
-  .article-card-header {
+  .article-header {
     position: relative;
     padding: 5px 10px;
-    background: var(--card2);
     cursor: pointer;
+    height: 100%;
+    width: 100%;
+  }
+  // The little card peeking up
+  .article-card {
+    position: absolute;
+    bottom: -145px;
+    width: 100%;
+    height: 150px;
+    background: var(--card);
+    font-size: var(--small-font-size);
+    padding: 5px 10px;
+    transition-duration: .5s;
+  }
+  &:hover .article-card {
+    bottom: -65px;
   }
 
-  .article-card-title {
+  // The article title 
+  .article-title {
+    position: absolute;
+    bottom: 35px;
+    z-index: 11;
     font-size: var(--regular-font-size);
     color: var(--card-text);
     font-weight: bold;
+    transition-duration: .5s;
   }
+  // Move the title up when we hover over the card
+  &:hover .article-title {
+    bottom: 120px;
+  }
+
+
   .byline {
+    position: absolute;
+    background: var(--card);
+    top: -25px;
+    right: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    width: 100px;
+    text-align: left;
     color: var(--card-text2);
-    // Styled in global.scss
+    // Size styled in global.scss
   }
   .article-description {
     font-size: var(--small-font-size);
-    padding: 5px 10px;
-    width: calc(100% - 110px);
     line-spacing: 0px;
     line-height: 1;
     color: var(--card-text2);
   }
 
   // Thumbnail image
- // Thumbnail for cards
-.thumbnail {
-  width: 100px;
-    height: 100px;
+  .thumbnail {
+    width: 200px;
+    height: 120px;
     position: absolute;
-    background: var(--bg);
-    right: 10px;
-    bottom: -85px;
-}
+    background: var(--card2);
+    left: 0px;
+    top: 0px;
+    transition-duration: .5s;
+  }
+  &:hover .thumbnail {
+    top: 25px;
+    height: 50px;
+    width: 100px;
+    opacity: .5;
+  }
 
   // The container for the edit and delete buttons in the article cards
   .action-container {
     display: flex;
     position: absolute;  
     left: 0px;
-    bottom: 0px;  
+    bottom: -50px;  
     padding: 5px 10px;
+    transition-duration: .5s;
     .action-button {
       cursor: pointer;
       display: flex;
@@ -127,7 +172,10 @@ export default {
       align-items: center;
       margin-right: 10px;
       svg {
-        display: none;
+        fill: var(--card-text2);
+        &:hover {
+          fill: var(--card-text);
+        }
         height: var(--small-font-size);
         width: var(--small-font-size);
       }
@@ -135,20 +183,12 @@ export default {
   }
 }
 
-.article-card:hover {
-  transform: scale(1.1);
-  // height: 200px;
-  z-index: 3;
-  box-shadow: 0px 0px 10px rgba(0,0,0,.5);
+.article-thumb:hover {
   .article-description {
     color:var(--card-text);
   }
-  .action-button svg {
-    display: block;
-    fill: var(--card-text2);
-    &:hover {
-      fill: var(--card-text);
-    }
+  .action-container {
+    bottom: 0px;  
   }
 }
 </style>

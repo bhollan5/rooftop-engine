@@ -1,8 +1,8 @@
 <template>
 <div class="color-palette flex-container row-wrap">
   <div class="color-option" v-for="(color, color_i) in colors" 
-    :class="{'selected': same_color(color)}"
-    @click="$emit('input', color)"
+    :class="{'selected': value == color_i}"
+    @click="$emit('input', color_i)"
     :style="{ 
       background: 'hsl(' + color[0] + ',' + color[1] + '%,' + color[2] + '%)',
       height: size + 'px', 
@@ -25,7 +25,7 @@ export default {
   props: {
     // Pass a string corresponding to a key for a given color var!
     value: {
-      type: Array,
+      type: String,
       default: 'bg'
     },
 
@@ -55,6 +55,7 @@ export default {
   methods: {
     same_color(color_to_compare) {
       // if if if
+      // deprecated until we do absolute colors
 
       if (color_to_compare[0] == this.value[0]) {
         if (color_to_compare[1] == this.value[1]) {
