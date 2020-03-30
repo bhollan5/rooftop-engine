@@ -1,5 +1,7 @@
 <template>
-<div class="text-field" @click="$emit('click')" 
+<!-- The container div has padding, and displays the input background. -->
+<div class="text-field" 
+@click="$emit('click')" 
   :class="{ 
     'has-input': hasInput, 
     'nobox': nobox, 
@@ -13,26 +15,47 @@
 
   
 
-  <input :value="value" @input="$emit('input', $event.target.value)"
-    :placeholder="placeholder" :readonly="readonly" type="number"
+  <input v-if="number"
+    :value="value" 
+    @input="$emit('input', $event.target.value)"
+    :placeholder="placeholder" 
+    :readonly="readonly" 
+    type="number"
     :class="{ 'icon-padding': icon,
               'underline': underline,
               'p': regularfont,
               'small-font': smallfont }"
-    v-on:keyup.enter="$emit('enter')"
-    v-if="number">
+    v-on:keyup.enter="$emit('enter')">
     
-  <textarea :value="value" @input="$emit('input', $event.target.value)"
-    :placeholder="placeholder" :readonly="readonly"
+  <textarea v-else-if="textarea"
+    :value="value" 
+    @input="$emit('input', $event.target.value)"
+    :placeholder="placeholder" 
+    :readonly="readonly"
     v-on:keyup.enter="$emit('enter')"
     :class="{ 'icon-padding': icon,
               'underline': underline,
               'p': regularfont,
-              'small-font': smallfont }"
-    v-else-if="textarea"></textarea>
+              'small-font': smallfont }"></textarea>
 
-  <input :value="value" @input="$emit('input', $event.target.value)"
-    :placeholder="placeholder" :readonly="readonly"
+    <!-- This is the default input option, for single line text. -->
+  <input v-else-if="password"
+    type="password"
+    :value="value" 
+    @input="$emit('input', $event.target.value)"
+    :placeholder="placeholder" 
+    :readonly="readonly" 
+    :class="{ 'icon-padding': icon,
+              'underline': underline,
+              'p': regularfont,
+              'small-font': smallfont }"
+    v-on:keyup.enter="$emit('enter')">
+
+  <!-- This is the default input option, for single line text. -->
+  <input :value="value" 
+    @input="$emit('input', $event.target.value)"
+    :placeholder="placeholder" 
+    :readonly="readonly" 
     :class="{ 'icon-padding': icon,
               'underline': underline,
               'p': regularfont,
@@ -53,19 +76,28 @@ export default {
   },
 
   props: {
-    // The value incoming from the v-model variable.
+
+    //
+    // Values to display:
+    //
+
+    // The value incoming from the v-model variable. This is what actually gets changed!
     value: {
       default: '',
     },
-    // Placeholder:
+    // Placeholder text:
     placeholder: {
       type: String
     },
-    // Title: 
+    // Title text, above the input: 
     title: {
       type: String
     },
+    
 
+    //
+    // Input type options:
+    //
 
     // Turns it into a multi-line text area
     textarea: {
@@ -74,40 +106,51 @@ export default {
     },
     // Turns it into a number input 
     number: {
-      type: Boolean
+      type: Boolean,
+      default: false
     },
+    // Hides the text with little * things
+    password: {
+      type: Boolean,
+      default: false
+    },
+    // Makes the input readonly:
+    readonly: {
+      type: Boolean,
+      default: false,
+    },
+
+
+    //
+    // Styling options:
+    //
 
     // Removes the box around the input
     nobox: {
       type: Boolean,
       default: false,
     },
-    // Readonly:
-    readonly: {
-      type: Boolean,
-      default: false,
-    },
-
+    // Regular font: 
     regularfont: {
       type: Boolean,
       default: false,
     },
+    // Small font:
     smallfont: {
       type: Boolean,
       default: false,
     },
-
     // Reduces padding: 
     nopadding: {
       type: Boolean,
       default: false
     },
-    
     // Make sure to set this to "true" if your input uses an icon!
     icon: {
       type: Boolean,
       default: false
     },
+    // I'm not sure if we need this:
     underline: {
       type: Boolean,
       default: false

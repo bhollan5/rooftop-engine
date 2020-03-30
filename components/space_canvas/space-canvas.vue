@@ -79,6 +79,12 @@
       </div>
 
       <button @click="add_cube()">add cube</button>
+
+      <h3>Objects:</h3>
+
+      <div v-for="object in  objects" class="object-display">
+        {{ object._id }}
+      </div>
       
     </div>
   </div>
@@ -187,7 +193,7 @@ export default {
   },
   
   mounted() {
-    this.anim_frame();
+    // this.anim_frame();
   },
 
   methods: {
@@ -270,7 +276,7 @@ export default {
 }
 
 // For the canvas info editor
-.canvas-info {
+.object-info {
   left: 210px;
 }
 

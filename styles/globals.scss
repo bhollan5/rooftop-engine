@@ -189,16 +189,6 @@ a, .a {
   }
 }
 
-// Thumbnail for cards
-.thumbnail {
-  width: 100px;
-    height: 100px;
-    position: absolute;
-    background: var(--bg);
-    right: 10px;
-    bottom: -85px;
-}
-
 .highlight {
   color: var(--c1);
   font-weight: bold;

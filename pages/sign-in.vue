@@ -4,7 +4,7 @@
   <line-break class="line-break"></line-break>
 
   <text-field class="input username" placeholder="User ID" title="User id:"></text-field>
-  <text-field class="input pass" placeholder="pass" title="Password:"></text-field>
+  <text-field class="input pass" placeholder="pass" title="Password:" :password="true"></text-field>
   <button>Sign In</button>
 
   <div class="info">
