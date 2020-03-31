@@ -55,8 +55,10 @@ export const state = () => ({
       input: [248,19,40],
       input_text: [0,0,96],
       input_text2: [230,19,60],
-      input_h: '#F4DEA7',
-      input_h_text: 'black;',
+      
+      action: [53,78,76],
+      good: [63, 78, 76],
+      bad: [73, 78, 76],
     },
   },
 
@@ -90,9 +92,16 @@ export const getters = {
       'link',
       'bg2_input', 'bg2_input_text', 'bg2_input_text2',
       'c1', 'c1_light', 'c2', 'c2_light', 'c3', 'c3_light',
-      'input', 'input_text', 'input_text2'
+      'input', 'input_text', 'input_text2',
+      'action', 'good', 'bad'
     ]
     for (let i in fields) {
+
+      if (!state.currentTheme.colors[fields[i]]) {
+        console.error("This theme is missing a color: " + fields[i]);
+        break;
+      }
+
       // Turning 'bg_text' into '--bg-text':
       let cssVarName = '--' + fields[i].replace(/_/g, "-");
       // Assigning that css var to our hsl string:
@@ -257,7 +266,8 @@ export const mutations = {
       'link',
       'bg2_input', 'bg2_input_text', 'bg2_input_text2',
       'c1', 'c1_light', 'c2', 'c2_light', 'c3', 'c3_light',
-      'input', 'input_text', 'input_text2'
+      'input', 'input_text', 'input_text2',
+      'action', 'good', 'bad',
     ]
     for (let i in fields) {
       if (payload.colors[fields[i]]){

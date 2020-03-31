@@ -187,6 +187,10 @@ export default {
   },
   computed: {
 
+    current_user() {
+      return this.$store.getters['users/current_user'];
+    },
+
     theme_id() {
       return this.$store.getters['themes/themeId'];
     },
@@ -214,6 +218,7 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
 
     this.$store.dispatch('themes/readAllThemes');
+    
   },
   methods: {
     

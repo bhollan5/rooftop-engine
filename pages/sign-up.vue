@@ -56,6 +56,7 @@ export default {
     this.$parent.$parent.userOptions = false;
   },
   methods: {
+    // Sign up
     add_account() {
       if (!this.username) {
         alert("No uusername found!");
@@ -70,7 +71,9 @@ export default {
         email: this.email,
         password: this.user_pass,
       })
-    }
+    },
+
+    
   }
 }
 </script>

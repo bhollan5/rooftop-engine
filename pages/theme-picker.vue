@@ -1,5 +1,7 @@
 <template>
+  <!-- The theme picker lets users edit the colors & stylings of a theme. -->
   <div class="page-content">
+
     <h1 id="theming-header">Dynamic Theming</h1>
     <h2>Customize Rooftop's theme here!</h2>
     <p class="centered">Below, you can try out different options to build your own theme for Rooftop.</p>
@@ -141,26 +143,40 @@
       </div>
 
 
-
-
+    <!--                -->
+    <!-- Inputs section -->
+    <!--                -->
 
 
       <h2>Inputs: </h2>
-
-      <!-- Inputs section -->
       <div id="inputs" class="flex-container space-around">
         <div class="theme-options">
 
+            <!-- Input background -->
           <br><br>
           <color-picker v-model="themeDraft.colors.input" name="Input background color" 
           :textcolor="themeDraft.colors.input_text" id="input" description="">
           </color-picker><br><br>
+
+            <!-- Input text -->
           <color-picker v-model="themeDraft.colors.input_text" name="Input text" 
           :textcolor="themeDraft.colors.input" id="input-text" description="The color as you type in an input">
           </color-picker>
+
+            <!-- Secondary input text -->
           <color-picker v-model="themeDraft.colors.input_text2" name="Input text 2" 
           :textcolor="themeDraft.colors.input" id="input-text2" description="Placeholders and other secondary text">
           </color-picker><br><br>
+
+          <color-picker v-model="themeDraft.colors.action" name="Action color" 
+          :textcolor="themeDraft.colors.input" id="action" description="For buttons and active fields.">
+          </color-picker>
+          <color-picker v-model="themeDraft.colors.good" name="Positive color" 
+          :textcolor="themeDraft.colors.input" id="input-text2" description="To indicate something affirmative.">
+          </color-picker>
+          <color-picker v-model="themeDraft.colors.bad" name="Negative color" 
+          :textcolor="themeDraft.colors.input" id="input-text2" description="For errors and other negative stuff.">
+          </color-picker>
 
           <input type="checkbox" v-model="nobox">
         </div>
@@ -199,7 +215,10 @@
             <text-field textarea smallfont :placeholder="'Multiline textarea'" v-model="foo"
             v-if="0"></text-field>
 
-            <button>A button!</button>
+            <button>
+              <gear-icon></gear-icon>
+              A button!
+            </button>
 
             <dropdown :options="sampleOptions" v-if="0"></dropdown>
             
@@ -313,9 +332,14 @@ export default {
         'bg2_input', 'bg2_input_text', 'bg2_input_text2',
         'c1', 'c1_light', 'c2', 'c2_light', 'c3', 'c3_light',
         'input', 'input_text', 'input_text2',
-        'input_h', 'input_h_text',
+        'action', 'good', 'bad',
       ]
       for (let i in fields) {
+        if (!this.themeDraft.colors[fields[i]]) {
+          console.error("This theme is missing a color: " + fields[i]);
+          break;
+        }
+
         // Turning 'bg_text' into '--bg-text':
         let cssVarName = '--' + fields[i].replace(/_/g, "-");
         // Assigning that css var to our hsl string:

@@ -36,6 +36,10 @@ export const state = () => ({
 
 export const getters = {
 
+  current_user(state) {
+    return this.current_user;
+  },
+
   // This notation is the same as 
   //  getterName() { return function (articleId) { ... } }
   articleById: (state) => (articleId) => {
@@ -84,6 +88,31 @@ export const actions = {
       });
     }, (error) => {
       console.warn("Error creating user:")
+      console.warn(error.response.data);
+    });
+
+  },
+
+  // Creating a new user:
+  authenticate_user({commit}, payload) {
+
+    axios.get("/api/read-user-auth", {
+      username: payload.username,
+      password: payload.password
+    })
+    .then((response) => {
+      console.log(" 📦 Loaded " + response.data.length + " user.");
+  
+      commit('set_current_user', {
+        username: payload.username,
+      })
+
+      // Moving the user to the correct page.
+      this.$router.push({
+        path: '/'
+      });
+    }, (error) => {
+      console.warn("Error logging in:")
       console.warn(error.response.data);
     });
 

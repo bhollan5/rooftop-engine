@@ -104,7 +104,20 @@ module.exports = function(app, mongoose){
       console.log(' 💾 Saved a new user to the database!');
       res.send(result)
     });
-  })
+  });
+
+  // Getting user auth:
+  app.get('/read-user-auth', (req, res) => {
+    console.log("\n 🗣 Called to check a user's auth!")
+
+    let username = req.body.username;
+    User.find({ username: username }, (err, result) => {
+      console.log("Found this:");
+      console.log(result);
+      res.send(result);
+    });
+    
+  });
 
   // // Getting all collections:
   // app.get('/read-all-collections', (req, res) => {

@@ -200,7 +200,7 @@ textarea {
 }
 
 // This goes away if :icon="false"
-.icon-padding, .nobox .icon-padding {
+input.icon-padding, .nobox .icon-padding {
   padding-left: 35px;
 }
 .small-icon .icon-padding {

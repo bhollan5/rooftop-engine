@@ -5,7 +5,7 @@
 
   <text-field class="input username" placeholder="User ID" title="User id:"></text-field>
   <text-field class="input pass" placeholder="pass" title="Password:" :password="true"></text-field>
-  <button>Sign In</button>
+  <button @click="sign_in()">Sign In</button>
 
   <div class="info">
     <p>While Rooftop gets off the ground, accounts are only available for staff & creators, on a case-by-case basis.</p>
@@ -27,7 +27,12 @@ export default {
     this.$parent.$parent.userOptions = false;
   },
   methods: {
-    
+    sign_in() {
+      this.$store.dispatch('users/authenticate_user', {
+        username: this.username,
+        password: this.password
+      })
+    }
   }
 }
 </script>
