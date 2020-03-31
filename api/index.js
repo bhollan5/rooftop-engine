@@ -63,5 +63,11 @@ function (err, client) {
   collectionsRoutes(app, mongoose);
   userRoutes(app, mongoose);
 
+  // // See all routes, for debugging
+  // app._router.stack.forEach(function(r){
+  //   if (r.route && r.route.path){
+  //     console.log(r.route.path)
+  //   }
+  // })
 
 })

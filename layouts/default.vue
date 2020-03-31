@@ -268,7 +268,7 @@ $tablet-bp: 400px;
 
 // Header:
 #header {
-  background: var(--header-bg);
+  background: var(--bg2);
   height: 50px;
   width: 100%;
   display: flex;

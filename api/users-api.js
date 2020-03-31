@@ -1,8 +1,10 @@
 
 
-let uniqueValidator = require('mongoose-unique-validator'); // npm installed
 let crypto = require('crypto');  // comes as a default in npm
+
+let uniqueValidator = require('mongoose-unique-validator'); // npm installed
 let jwt = require('jsonwebtoken');  // npm installed
+
 let secret = require('../config').secret; // in the ./config file, which you may need to  add
 
 // Using this tutorial a lot on this file: https://thinkster.io/tutorials/node-json-api/creating-the-user-model 
@@ -39,12 +41,22 @@ module.exports = function(app, mongoose){
   }, {timestamps: true});
 
   // Adding our imported library to this schema, so we can use the 'unique' validator
-  userSchema.plugin(uniqueValidator, { message: 'is already taken.' });
+  userSchema.plugin(uniqueValidator, { message: ' is already taken as a username!' });
 
   // Adding a hashing function for user's passwords:
   userSchema.methods.setPassword = function(password){
+
     this.salt = crypto.randomBytes(16).toString('hex');
-    this.hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
+
+    this.hash = crypto.pbkdf2Sync(
+      password, 
+      this.salt, 
+      10000, 
+      512, 
+      'sha512'
+    ).toString('hex');
+
+    console.log(" 🔏 Stored hash & salt for new password!")
   };
 
   // Function for validating submitted pass's:
@@ -68,19 +80,31 @@ module.exports = function(app, mongoose){
     }, secret);
   };
 
-  let Users = mongoose.model('Users', userSchema);
-  
+  let User = mongoose.model('Users', userSchema);
 
 
-  // // Creating a new collection:
-  // app.post('/create-collection', (req, res) => {
-  //   let newCollection = new Collection(req.body);
-  //   newCollection.save(function (err, result) {
-  //     if (err) return console.error(err);
-  //     console.log(' 💾 Saved a new collection to the database!');
-  //     res.send(result)
-  //   });
-  // })
+  // Creating a new user:
+  app.post('/create-user', (req, res) => {
+    console.log("\n 🗣 Called to add a user!")
+    let newUser = new User({
+      display_name: req.body.display_name,
+      username: req.body.username,
+      email: req.body.email,
+      bio: '',
+      image: '',
+    });
+    console.log("What's this:")
+    console.log(req.body.password)
+    newUser.setPassword(req.body.password);
+    newUser.save(function (err, result) {
+      if (err) {
+        console.error(err)
+        res.status(500).send(err) // Passes the error to the frontend.
+      };
+      console.log(' 💾 Saved a new user to the database!');
+      res.send(result)
+    });
+  })
 
   // // Getting all collections:
   // app.get('/read-all-collections', (req, res) => {

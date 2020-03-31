@@ -25,7 +25,6 @@ export const state = () => ({
   
     colors: {
       logo: [0,0,96],
-      header_bg: [248,19,26],
   
       bg: [248,19,31],
       bg2: [248,19,26],
@@ -86,7 +85,6 @@ export const getters = {
     let styleObj = {};
     let fields = [
       'logo',
-      'header_bg',
       'bg', 'bg2', 'bg_text', 'bg_text2',
       'card', 'card2', 'card_text', 'card_text2',
       'link',
@@ -254,7 +252,6 @@ export const mutations = {
 
     let fields = [
       'logo',
-      'header_bg',
       'bg', 'bg2', 'bg_text', 'bg_text2',
       'card', 'card2', 'card_text', 'card_text2',
       'link',

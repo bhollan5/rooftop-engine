@@ -307,7 +307,6 @@ export default {
       let styleObj = {};
       let fields = [
         'logo',
-        'header_bg',
         'bg', 'bg2', 'bg_text', 'bg_text2',
         'card', 'card2', 'card_text', 'card_text2',
         'link',

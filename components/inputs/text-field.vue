@@ -217,7 +217,7 @@ textarea {
 .no-padding {
   padding: 0px;
   input {
-    padding: 0px;
+    padding: 1px 5px;
   }
 }
 
