@@ -37,7 +37,7 @@ export const state = () => ({
 export const getters = {
 
   current_user(state) {
-    return this.current_user;
+    return state.current_user;
   },
 
   // This notation is the same as 
@@ -95,22 +95,28 @@ export const actions = {
 
   // Creating a new user:
   authenticate_user({commit}, payload) {
-
+    console.log(payload);
     axios.get("/api/read-user-auth", {
-      username: payload.username,
-      password: payload.password
+      params: {
+        username: payload.username,
+        password: payload.password
+      }
     })
     .then((response) => {
+
+      if (!response.data.length) {
+        console.log(" Couldn't find user!");
+        return;
+      }
       console.log(" 📦 Loaded " + response.data.length + " user.");
   
       commit('set_current_user', {
+        display_name: payload.display_name,
         username: payload.username,
+        email: payload.email,
       })
 
-      // Moving the user to the correct page.
-      this.$router.push({
-        path: '/'
-      });
+      
     }, (error) => {
       console.warn("Error logging in:")
       console.warn(error.response.data);
@@ -210,6 +216,11 @@ export const mutations = {
   set_current_user(state, payload) {
     state.current_user = payload;
     console.log(" ✨ Set the current user in the Vuex store");
+    console.log("  Sending user back to the home page.");
+    // Moving the user to the correct page.
+    this.$router.push({
+      path: '/'
+    });
   },
   
   // Setting article array:

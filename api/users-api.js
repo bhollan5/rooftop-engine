@@ -110,11 +110,24 @@ module.exports = function(app, mongoose){
   app.get('/read-user-auth', (req, res) => {
     console.log("\n 🗣 Called to check a user's auth!")
 
-    let username = req.body.username;
+    let username = req.query.username;
+    console.log("Searching username:", username);
     User.find({ username: username }, (err, result) => {
-      console.log("Found this:");
-      console.log(result);
-      res.send(result);
+      let found_user = result[0];
+      if (!found_user) {
+        console.log("No users found :/ ")
+        res.send(result);
+        return [];
+      }
+
+      console.log("Found user: " + found_user.username);
+      if (found_user.validPassword(req.query.password)) {
+        console.log("Logged in!");
+        res.send(result);
+      } else {
+        console.log("Not logged in.")
+        res.status(500).send(result);
+      }
     });
     
   });

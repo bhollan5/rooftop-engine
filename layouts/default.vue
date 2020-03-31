@@ -20,10 +20,21 @@
           <input type="text" id="header-searchbar" placeholder="Search Media">
           
           <!-- options button -->
-          <div id="options-button" @click="userOptions = true">
+          <div id="user-button" @click="userOptions = true"
+            v-if="current_user.username">
+            <person-icon id="header-icon"></person-icon>
+            <div class="user-info tablet-only">
+              <span>{{current_user.display_name}}</span>
+              <span>{{current_user.username}}</span>
+            </div>
+          </div>
+
+          <div id="options-button" @click="userOptions = true"
+            v-else>
             <hamburger-icon id="header-icon"></hamburger-icon>
             <span class="tablet-only">Options</span>
           </div>
+
         </div>
 
         <!-- This appears on desktop only: -->
@@ -63,10 +74,10 @@
           X
         </button>
 
-        <div class="user-info" v-if="0">
+        <div class="user-info" v-if="current_user.username">
           <div class="user-info-text">
-            <div>Ben Holland</div>
-            <div class="secondary">@benholland</div>
+            <div>{{current_user.display_name}}</div>
+            <div class="secondary">@{{current_user.username}}</div>
           </div>
           <div class="user-icon">
             <img src="@/assets/misc/frog-pic.svg">
@@ -333,7 +344,7 @@ $tablet-bp: 400px;
   }
   
   // Header login button:
-  #options-button {
+  #options-button, #user-button {
     font-size: 16px;
     cursor: pointer;
     background: var(--bg2-input);

@@ -3,8 +3,18 @@
   <h1>Sign In</h1>
   <line-break class="line-break"></line-break>
 
-  <text-field class="input username" placeholder="User ID" title="User id:"></text-field>
-  <text-field class="input pass" placeholder="pass" title="Password:" :password="true"></text-field>
+  <text-field class="input username" 
+    v-model="username"
+    placeholder="User ID" 
+    title="User id:"
+  ></text-field>
+  <text-field class="input pass" 
+    v-model="password"
+    placeholder="pass" 
+    title="Password:" 
+    :password="true"
+  ></text-field>
+
   <button @click="sign_in()">Sign In</button>
 
   <div class="info">
@@ -20,7 +30,8 @@
 export default {
   data() {
     return {
-
+      username: '',
+      password: '',
     }
   },
   mounted() {
