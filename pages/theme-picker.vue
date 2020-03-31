@@ -5,6 +5,7 @@
     <h1 id="theming-header">Dynamic Theming</h1>
     <h2>Customize Rooftop's theme here!</h2>
     <p class="centered">Below, you can try out different options to build your own theme for Rooftop.</p>
+    <br>
     <button @click="resetTheme()" style="margin-left: 50%;transform:translatex(-50%);">Reset theme</button>
     
     <div class="big-br"></div>
@@ -36,7 +37,7 @@
       <div id="logo-and-text" class="flex-container space-around">
 
         <!-- Color pickers for the logo & text -->
-        <div class="theme-options"><br><br>
+        <div class="theme-options" v-if="0"><br><br>
 
           <color-picker v-model="themeDraft.colors.logo" name="Logo color" :textcolor="themeDraft.colors.bg"
             id="logo" description="The primary color for illustrations in the header.">
@@ -169,13 +170,24 @@
           </color-picker><br><br>
 
           <color-picker v-model="themeDraft.colors.action" name="Action color" 
-          :textcolor="themeDraft.colors.input" id="action" description="For buttons and active fields.">
+          :textcolor="themeDraft.colors.action_text" id="action" description="For buttons and active fields.">
           </color-picker>
-          <color-picker v-model="themeDraft.colors.good" name="Positive color" 
-          :textcolor="themeDraft.colors.input" id="input-text2" description="To indicate something affirmative.">
+          <color-picker v-model="themeDraft.colors.action_text" name="Action text" 
+          :textcolor="themeDraft.colors.action" id="action" description="For buttons and active fields.">
           </color-picker>
-          <color-picker v-model="themeDraft.colors.bad" name="Negative color" 
-          :textcolor="themeDraft.colors.input" id="input-text2" description="For errors and other negative stuff.">
+
+          <color-picker v-model="themeDraft.colors.confirm" name="Confirm color" 
+          :textcolor="themeDraft.colors.confirm_text" id="input-text2" description="To indicate something affirmative.">
+          </color-picker>
+          <color-picker v-model="themeDraft.colors.confirm_text" name="Confirm text" 
+          :textcolor="themeDraft.colors.confirm" id="input-text2" description="Text that works over the confirm color.">
+          </color-picker>
+
+          <color-picker v-model="themeDraft.colors.danger" name="Danger Color" 
+          :textcolor="themeDraft.colors.danger_text" id="input-text2" description="For errors and other negative stuff.">
+          </color-picker>
+          <color-picker v-model="themeDraft.colors.danger_text" name="Danger text" 
+          :textcolor="themeDraft.colors.danger" id="input-text2" description="Text that works over the confirm color.">
           </color-picker>
 
           <input type="checkbox" v-model="nobox">
@@ -332,7 +344,8 @@ export default {
         'bg2_input', 'bg2_input_text', 'bg2_input_text2',
         'c1', 'c1_light', 'c2', 'c2_light', 'c3', 'c3_light',
         'input', 'input_text', 'input_text2',
-        'action', 'good', 'bad',
+        'action', 'confirm', 'danger',
+        'action_text', 'confirm_text', 'danger_text',
       ]
       for (let i in fields) {
         if (!this.themeDraft.colors[fields[i]]) {
@@ -415,7 +428,7 @@ h2 {
 
 
 .theme-options, .theme-example {
-  max-width: 500px;
+  max-width: 90%;
   min-width: 250px;
   p {
     color: var(--bg-text);

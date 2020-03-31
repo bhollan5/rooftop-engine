@@ -56,9 +56,12 @@ export const state = () => ({
       input_text: [0,0,96],
       input_text2: [230,19,60],
       
-      action: [53,78,76],
-      good: [63, 78, 76],
-      bad: [73, 78, 76],
+      action: [180,78,76],
+      action_text: [0,0,0],
+      confirm: [111, 78, 76],
+      confirm_text: [0,0,0],
+      danger: [4, 78, 76],
+      danger_text: [0,0,0],
     },
   },
 
@@ -93,7 +96,8 @@ export const getters = {
       'bg2_input', 'bg2_input_text', 'bg2_input_text2',
       'c1', 'c1_light', 'c2', 'c2_light', 'c3', 'c3_light',
       'input', 'input_text', 'input_text2',
-      'action', 'good', 'bad'
+      'action', 'confirm', 'danger',
+      'action_text', 'confirm_text', 'danger_text',
     ]
     for (let i in fields) {
 
@@ -267,7 +271,8 @@ export const mutations = {
       'bg2_input', 'bg2_input_text', 'bg2_input_text2',
       'c1', 'c1_light', 'c2', 'c2_light', 'c3', 'c3_light',
       'input', 'input_text', 'input_text2',
-      'action', 'good', 'bad',
+      'action', 'confirm', 'danger',
+      'action_text', 'confirm_text', 'danger_text',
     ]
     for (let i in fields) {
       if (payload.colors[fields[i]]){

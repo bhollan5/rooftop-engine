@@ -1,7 +1,21 @@
+
+
+// Applies to all button tags
 button {
   font-family: crimsonText, serif;
-  background: var(--action);
+
+  background: var(--input);
   color: var(--input-text);
+  &.action {
+    background: var(--action);
+    color: var(--action-text);
+  }
+  &.action {
+    background: var(--action);
+    color: var(--action-text);
+  }
+
+
   display: flex;
   align-items: center;
   cursor: pointer;
