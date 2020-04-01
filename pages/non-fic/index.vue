@@ -1,5 +1,5 @@
 <template>
-  <div class="container" scoped>
+  <div class="body" scoped>
 
     <!-- The "non-fic promo" is the banner spread at the top of the landing page. -->
     <div id="non-fic-banner">

@@ -1,5 +1,5 @@
 <template>
-  <div class="page-content flex-container">
+  <div class="body flex-container">
 
     <div id="side-bar">
       <h3 v-if="articleData.length">

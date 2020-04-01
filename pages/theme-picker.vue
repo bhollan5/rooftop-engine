@@ -1,6 +1,6 @@
 <template>
   <!-- The theme picker lets users edit the colors & stylings of a theme. -->
-  <div class="page-content">
+  <div class="body">
 
     <h1 id="theming-header">Dynamic Theming</h1>
     <h2>Customize Rooftop's theme here!</h2>

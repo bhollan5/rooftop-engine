@@ -279,7 +279,7 @@ export default {
 
 // Breakpoints, to make the site responsive to different screen sizes.
 // These are sass variables so we can use them in media queries.
-$desktop-bp: 800px;
+$desktop-bp: 1000px;
 $tablet-bp: 400px;
 
 // Header:

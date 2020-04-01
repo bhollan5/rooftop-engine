@@ -1,5 +1,5 @@
 <template>
-  <div class="container" id="media">
+  <div class="body" id="media">
 
     <h2>Media </h2>
     <h3 class="color-bg-text2 centered">This page is still under construction.</h3>

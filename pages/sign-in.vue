@@ -1,5 +1,5 @@
 <template>
-<div class="container" id="sign-in">
+<div class="body" id="sign-in">
   <h1>Sign In</h1>
   <line-break class="line-break"></line-break>
 

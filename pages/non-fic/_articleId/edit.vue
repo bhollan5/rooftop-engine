@@ -1,58 +1,71 @@
 <!-- /nonfic/edit, where users can edit their nonfic articles! -->
 <template>
-  <div class="page-content flex-container space-around">
+<div class="body flex-container">
 
-    <!-- The side bar, with the outline and stuff -->
-    <div id="side-bar">
-      <!-- The header of the side bar is colored differently. -->
-      <div id="side-bar-header" >
-        <text-field nobox class="h3-input" v-if="articleData.length" 
-          v-model="articleData[0].content" ></text-field>
-        <div v-else style="height: 45px;"></div>
+  <!-- The side bar, with the outline and stuff -->
+  <div id="side-bar">
+  
+    <!-- The header of the side bar is colored differently. -->
+    <div id="side-bar-header" >
+      <!-- This flex container holds the title, id, and thumb. -->
+      <div class="flex-container">
 
-        <div class="id-container">
-          <h4 id="id-label" class="card-text2">id:</h4>
-          <text-field v-model="articleId" nobox></text-field>
-        </div>
-
-        <div class="byline" v-if="articleData.length" >by <router-link to="/">Ben H</router-link></div>
-        <div v-else style="height: 25px"></div>
-    
+        <!-- Thumbnail/uploader -->
         <svg-uploader v-model="articleThumbnail" class="thumbnail" v-if="articleData.length"></svg-uploader>
         <div class="thumbnail" v-else></div>
 
-      </div>
+        <!-- title and id: -->
+        <div>
+          <text-field nobox class="h3-input" v-if="articleData.length" 
+            v-model="articleData[0].content" ></text-field>
+          <div v-else style="height: 45px;"></div>
 
-      <div id="side-bar-content" v-if="articleData.length">
-        <!-- Article description. -->
-        <text-field textarea nobox class="article-description"
-          v-model="articleDescription">
-        </text-field>
-
-        <div class="tab-container">
-          <h4>Tab:</h4><dropdown :options="articleData[2].tabs" property="name"></dropdown>
+          <div class="id-container">
+            <h4 id="id-label" class="card-text2">id:</h4>
+            <text-field v-model="articleId" nobox></text-field>
+          </div>
         </div>
-        <hr>
-
-      </div>
-    </div>
-
-    <!-- The content container, which holds the entire editor -->
-    <div id="content">
-      <div id="content-options">
-        <button @click="editMode = false" v-if="editMode">Preview</button>
-        <button @click="editMode = true" v-else>Edit <edit-icon class="small-icon"></edit-icon></button>
-
-        <button @click="saveChanges()">Save</button>
 
       </div>
 
-      <non-fic-loading v-if="!articleData.length"></non-fic-loading>
-      <non-fic-input-editor :data="articleData" :articleId="articleId" v-else-if="editMode"></non-fic-input-editor>
-      <non-fic-display :data="articleData" v-else></non-fic-display>
+      <div class="byline" v-if="articleData.length" >by <router-link to="/">Ben H</router-link></div>
+      <div v-else style="height: 25px"></div>
+  
+      
+      
+
     </div>
-    
+
+    <div id="side-bar-content" v-if="articleData.length">
+      <!-- Article description. -->
+      <text-field textarea nobox class="article-description"
+        v-model="articleDescription">
+      </text-field>
+
+      <div class="tab-container">
+        <h4>Tab:</h4><dropdown :options="articleData[2].tabs" property="name"></dropdown>
+      </div>
+      <hr>
+
+    </div>
   </div>
+
+  <!-- The content container, which holds the entire editor -->
+  <div id="content">
+    <div id="content-options">
+      <button @click="editMode = false" v-if="editMode">Preview</button>
+      <button @click="editMode = true" v-else>Edit <edit-icon class="small-icon"></edit-icon></button>
+
+      <button @click="saveChanges()">Save</button>
+
+    </div>
+
+    <non-fic-loading v-if="!articleData.length"></non-fic-loading>
+    <non-fic-input-editor :data="articleData" :articleId="articleId" v-else-if="editMode"></non-fic-input-editor>
+    <non-fic-display :data="articleData" v-else></non-fic-display>
+  </div>
+  
+</div>
 </template>
 
 <script>
@@ -246,16 +259,18 @@ export default {
 
 <style lang="scss">
 
-$desktop-bp: 800px;
+$desktop-bp: 1000px;
 $tablet-bp: 400px;
 
 // The side bar with the table of contents:
 #side-bar {
-  width: 275px;
+  grid-column: 1 / 2;
   background: var(--card);
-  height: 400px;
+  height: 100vh;
+  width: 360px;
+  position: sticky;
+  box-shadow: 0px 0px 5px rgba(0,0,0,.5);
 
-  // TODO: make this an expandable tab at the top!
   @media only screen and (max-width: $desktop-bp) {
     display: none;
   }
@@ -278,6 +293,10 @@ $tablet-bp: 400px;
         font-size: var(--small-font-size);
         // padding: 2px;
       }
+    }
+
+    .thumbnail {
+      width: 100px;
     }
   }
   
@@ -325,6 +344,9 @@ $tablet-bp: 400px;
 
 #content {
   width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 20px 20px; // Making the total width 640!
   max-width: 600px;
   align-content:flex-start;
 
