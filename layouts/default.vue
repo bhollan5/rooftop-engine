@@ -274,6 +274,7 @@ export default {
 @import '@/styles/inputs.scss';
 @import '@/styles/globals.scss';
 @import '@/styles/svg-classes.scss';
+@import '@/styles/components.scss';
 // @import '@/styles/transitions.scss';
 
 

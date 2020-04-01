@@ -5,6 +5,51 @@
       background: 'hsl(' + bg_color[0] + ',' +bg_color[1] + '%,' + bg_color[2] + '%)' 
       }">
 
+  <!-- The side bar, with the settings -->
+  <div id="side-bar">
+  
+    <!-- The header of the side bar is colored differently. -->
+    <div id="side-bar-header" >
+      <!-- This flex container holds the title, id, and thumb. -->
+      <div class="flex-container">
+        Canvas settings:
+      </div>
+
+    </div>
+
+    <div id="side-bar-content" >
+      <div class="card-body" >
+
+      <color-palette :margin="1" v-model="bg_color_var"></color-palette>
+
+      <div class="flex-container row-wrap">
+        <text-field title="Perspective:" v-model="perspective" nopadding number ></text-field>
+        <input type="range" min="10" max="2000" v-model="perspective" v-if="show_sliders">
+      </div>
+
+      <div class="flex-container">
+        <div>Sliders:</div>
+        <input type="checkbox" v-model="show_sliders">
+      </div>
+
+      <div class="flex-container">
+        <div>Edit mode:</div>
+        <input type="checkbox" v-model="edit_mode">
+      </div>
+
+      <button @click="add_cube()">add cube</button>
+
+      <h3>Objects:</h3>
+
+      <div v-for="object in  objects" class="object-display">
+        {{ object._id }}
+      </div>
+      
+    </div>
+
+    </div>
+  </div>
+
   <!-- Object info display -->
   <div class="object-info card small-font-size card-padding" v-if="edit_mode"
     :class="{ 'expanded': expand_object_editor }">
@@ -51,48 +96,9 @@
   </div>
   
 
-  <!-- canvas info display -->
-  <div class="canvas-info card small-font-size card-padding" v-if="edit_mode"
-    :class="{ 'expanded': expand_canvas_editor }">
-
-    <div class="card-header" @click="expand_canvas_editor = !expand_canvas_editor">
-      Canvas settings:
-    </div>
-
-    <div class="card-body" v-if="expand_canvas_editor">
-
-      <color-palette :margin="1" v-model="bg_color_var"></color-palette>
-
-      <div class="flex-container row-wrap">
-        <text-field title="Perspective:" v-model="perspective" nopadding number ></text-field>
-        <input type="range" min="10" max="1000" v-model="perspective" v-if="show_sliders">
-      </div>
-
-      <div class="flex-container">
-        <div>Sliders:</div>
-        <input type="checkbox" v-model="show_sliders">
-      </div>
-
-      <div class="flex-container">
-        <div>Edit mode:</div>
-        <input type="checkbox" v-model="edit_mode">
-      </div>
-
-      <button @click="add_cube()">add cube</button>
-
-      <h3>Objects:</h3>
-
-      <div v-for="object in  objects" class="object-display">
-        {{ object._id }}
-      </div>
-      
-    </div>
-  </div>
-
   
   
   <div class="space-canvas" 
-    :style="{ perspective: perspective + 'px',}"
     @mousedown="mouse_down"
     @mouseup="mouse_up"
     @mousemove="mouse_drag">
@@ -101,6 +107,7 @@
         transform: 'rotatex(' + canvas_rotate_x + 'deg) ' + 
           'rotatey(' + canvas_rotate_y + 'deg) ' }">
 
+    <div class="origin-indicator"></div>
     <div class="grid object"></div>
     <cube v-for="(cube, cube_i) in objects" v-if="cube.type == 'cube'"
       :data="cube" :key="cube_i"
@@ -318,7 +325,7 @@ export default {
 
 // For the canvas info editor
 .object-info {
-  left: 210px;
+  left: 285px;
 }
 
 .object-info, .canvas-info {

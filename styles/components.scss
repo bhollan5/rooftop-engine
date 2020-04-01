@@ -1,0 +1,63 @@
+// The side bar with the table of contents:
+#side-bar {
+  grid-column: 1 / 2;
+  background: var(--card);
+  height: 100vh;
+  width: 360px;
+  position: sticky;
+  box-shadow: 0px 0px 5px rgba(0,0,0,.5);
+
+  @media only screen and (max-width: $desktop-bp) {
+    display: none;
+  }
+  
+  // The sidebar header has the title and article ID
+  #side-bar-header {
+    padding: 10px;
+    background: var(--card2);
+    position: relative;
+
+    // Contains the article ID
+    .id-container {
+      display: flex;
+      align-items: center;
+      h4 {
+        font-size: var(--small-font-size);
+        width: 25px;
+      }
+      .text-field, .text-field input {
+        font-size: var(--small-font-size);
+        // padding: 2px;
+      }
+    }
+
+    .thumbnail {
+      width: 100px;
+    }
+  }
+  
+  #side-bar-content {
+    padding: 10px 10px;
+    .article-description {
+      width: 100%;
+      line-height: 1;
+      color: var(--card-text2);
+      height: 80px;
+      textarea {
+        font-size: var(--small-font-size);
+        height: 100%;
+      }
+    }
+    .tab-container {
+      h4 {
+        margin-right: 10px;
+      }
+      display: flex;
+      align-items: center;
+    }
+  }
+  
+  .card-text2 {
+    color: var(--card-text2);
+  }
+}
