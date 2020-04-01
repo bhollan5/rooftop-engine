@@ -9,6 +9,7 @@
     'translatex(-' + data.width / 2 + 'px)' + 
     'translatey(-' + data.height / 2 + 'px)' +
     'translatez(' + data.depth / 2 + 'px)',
+    opacity: data.opacity,
     background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] + 3) + '%)',
     height: data.height + 'px',
     width: data.width + 'px'}">
@@ -20,6 +21,7 @@
     'translatex(-' + data.width / 2 + 'px) ' +
     'translatey(-' + data.height / 2 + 'px)' +
     'translatez(-' + data.depth / 2 + 'px) ',
+    opacity: data.opacity,
     background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] - 3) + '%)',
     height: data.height + 'px',
     width: data.width + 'px' }">
@@ -32,6 +34,7 @@
     'translatex(-' + data.width / 2 + 'px) ' +
     'translatey(' + -((data.depth / 2) + (data.height / 2)) + 'px)' +
     'translatez(-' + 0 + 'px) ' + 'rotatex(90deg)',
+    opacity: data.opacity,
     background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] - 5) + '%)',
     height: data.depth + 'px',
     width: data.width + 'px' }">
@@ -43,6 +46,7 @@
     'translatex(-' + data.width / 2 + 'px) ' +
     'translatey(-' + ((data.depth / 2) - (data.height / 2)) + 'px)' +
     'translatez(-' + 0 + 'px) ' + 'rotatex(90deg)',
+    opacity: data.opacity,
     background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] - 5) + '%)',
     height: data.depth + 'px',
     width: data.width + 'px' }">
@@ -54,6 +58,7 @@
     'translatex(' + ((data.width / 2) - (data.depth / 2)) + 'px) ' +
     'translatey(-' + data.height / 2 + 'px)' +
     'translatez(-' + 0 + 'px) ' + 'rotatey(90deg)',
+    opacity: data.opacity,
     background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] + 5) + '%)',
     height: data.height + 'px',
     width: data.depth + 'px' }">
@@ -65,6 +70,7 @@
     'translatex(' + (-(data.width / 2) - (data.depth / 2)) + 'px) ' +
     'translatey(-' + data.height / 2 + 'px)' +
     'translatez(-' + 0 + 'px) ' + 'rotatey(90deg)',
+    opacity: data.opacity,
     background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] + 5) + '%)',
     height: data.height + 'px',
     width: data.depth + 'px' }">
@@ -105,7 +111,6 @@ export default {
       transform_css += ' rotatez(' + this.data.zRot + 'deg)',
 
       transform_css += ';';
-
       css_string += transform_css;
 
       return css_string;

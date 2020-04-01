@@ -22,7 +22,7 @@
 
       <color-palette :margin="1" v-model="bg_color_var"></color-palette>
 
-      <div class="flex-container row-wrap">
+      <div class="flex-container row-wrap space-between align-center">
         <text-field title="Perspective:" v-model="perspective" nopadding number ></text-field>
         <input type="range" min="10" max="2000" v-model="perspective" v-if="show_sliders">
       </div>
@@ -37,12 +37,26 @@
         <input type="checkbox" v-model="edit_mode">
       </div>
 
+      <div class="flex-container">
+        <div>Show grid:</div>
+        <input type="checkbox" v-model="show_grid">
+      </div>
+
+      <div class="flex-container">
+        <div>Show origin:</div>
+        <input type="checkbox" v-model="show_origin">
+      </div>
+
       <button @click="add_cube()">add cube</button>
 
       <h3>Objects:</h3>
 
-      <div v-for="object in  objects" class="object-display">
-        {{ object._id }}
+      <div v-for="(object, obj_i) in objects" class="object-thumb"
+        :class="{ selected: obj_i == o_i }"
+        @click="o_i = obj_i">
+        <div class="thumbnail"
+          :style="{ background: 'var(--' + object.color + ')' }"></div>
+        {{ object.name }}
       </div>
       
     </div>
@@ -54,12 +68,23 @@
   <div class="object-info card small-font-size card-padding" v-if="edit_mode"
     :class="{ 'expanded': expand_object_editor }">
     <div class="card-header" @click="expand_object_editor = !expand_object_editor">
-      Object settings: {{objects[o_i]._id}}
+      Object settings: {{objects[o_i].name}}
     </div>
 
     <div class="card-body slide-down" v-if="expand_object_editor">
 
       <color-palette :margin="1" v-model="objects[o_i].color"></color-palette>
+
+      <div class="flex-container row-wrap">
+        <text-field title="Opacity:" v-model="objects[o_i].opacity" nopadding number >
+        </text-field>
+        <input type="range" 
+          min="0" 
+          max="1" 
+          step=".1"
+          v-model="objects[o_i].opacity" 
+          v-if="show_sliders">
+      </div>
 
       <div class="flex-container row-wrap">
         <text-field title="xRot:" v-model="objects[o_i].xRot" nopadding number >
@@ -101,14 +126,16 @@
   <div class="space-canvas" 
     @mousedown="mouse_down"
     @mouseup="mouse_up"
-    @mousemove="mouse_drag">
+    @mousemove="mouse_drag"
+    :style="{ perspective: perspective + 'px', }">
     <div class="canvas-camera"
-      :style="{ perspective: perspective + 'px',
-        transform: 'rotatex(' + canvas_rotate_x + 'deg) ' + 
-          'rotatey(' + canvas_rotate_y + 'deg) ' }">
+      :style="{ transform: 'rotatex(' + camera_rotate_x + 'deg) ' + 
+        'rotatey(' + camera_rotate_y + 'deg) ' }">
 
-    <div class="origin-indicator"></div>
-    <div class="grid object"></div>
+    <div class="origin-indicator object" v-if="show_origin"></div>
+
+    <div class="grid object" v-if="show_grid"></div>
+
     <cube v-for="(cube, cube_i) in objects" v-if="cube.type == 'cube'"
       :data="cube" :key="cube_i"
       @click="o_i = cube_i"></cube>
@@ -138,12 +165,14 @@ export default {
       absolute_color: false, // Set to false if yr using a variable color
       bg_color_var: 'bg', // turns into an array in computed bg_color
       drag_canvas: false,
+      show_grid: true,
+      show_origin: false,
 
       // For keeping track of the initial click point,  for click and drag:
       previous_x_click: 0,
       previous_y_click: 0,
-      canvas_rotate_x: 0,
-      canvas_rotate_y: 0,
+      camera_rotate_x: -10,
+      camera_rotate_y: 10,
 
       // Object editor settings
       o_i: 0, // The index of the selected object
@@ -151,47 +180,33 @@ export default {
 
       objects: [
         {
+          // Info:
           type: 'cube',
+          name: 'Cube 1',
           _id: 'cube1',
-          color: 'c1',
 
+          // Rendering:
+          color: 'c1',
+          opacity: 1,
+
+          // Coordinates:
           x: -50,
           y: -50,
           z: -50,
 
-          // Position unit
-          p_unit: '%',
-
-          xRot: -15,
+          // Rotation:
+          xRot: 0,
           yRot: 0,
           zRot: 0,
 
-          height: 100,
-          width: 200,
-          depth: 300,
+          // Dimensions:
+          height: 50,
+          width: 50,
+          depth: 100,
           
         }
       ],
 
-      cube1: {
-        color: [20, 50, 50],
-
-        x: -50,
-        y: -50,
-        z: -50,
-
-        // Position unit
-        p_unit: '%',
-
-        xRot: 45,
-        yRot: 0,
-        zRot: 0,
-
-        height: 100,
-        width: 100,
-        depth: 100,
-        
-      }
     }
   },
 
@@ -211,7 +226,13 @@ export default {
   },
   
   mounted() {
+    window.addEventListener('scroll', this.handleScroll);
     // this.anim_frame();
+  },
+
+  destroyed() {
+    // So we don't keep trying to call this on other pages
+    window.removeEventListener('scroll', this.handleScroll);
   },
 
   methods: {
@@ -223,28 +244,45 @@ export default {
     },
 
     add_cube() {
-      let _id = 'cube' + this.objects.length;
+      let _id = 'cube' + (this.objects.length + 1);
+      let name = 'Cube ' + (this.objects.length + 1);
+
+      let random_x = Math.floor((Math.random() * 600) - 300);
+      let random_y = Math.floor((Math.random() * 600) - 300);
+      let random_z = Math.floor((Math.random() * 600) - 300);
+
+      let random_height = Math.floor(Math.random() * 100);
+      let random_width = Math.floor(Math.random() * 100);
+      let random_depth = Math.floor(Math.random() * 100);
+
       this.objects.push({
         type: 'cube',
+        name: name,
         _id: _id,
+
         color: 'c1',
+        opacity: 1,
 
-        x: -50,
-        y: -50,
-        z: -50,
+        x: random_x,
+        y: random_y,
+        z: random_z,
 
-        // Position unit
-        p_unit: '%',
-
-        xRot: -15,
+        xRot: 0,
         yRot: 0,
         zRot: 0,
 
-        height: 100,
-        width: 200,
-        depth: 300,
+        height: random_height,
+        width: random_width,
+        depth: random_depth,
         
       })
+    },
+
+    // When the user scrolls: 
+    // todo: this
+    handleScroll(evt) {
+      // evt.preventDefault();
+      // console.log(window.scrollY)
     },
 
     // When the user clicks on the canvas:
@@ -266,8 +304,8 @@ export default {
         this.previous_x_click = evt.x;
         // We add the y mouse change rotate_x because the y mouse change is 
         // vertical, and rotating around x is also vertical. 
-        this.canvas_rotate_x += y_change;
-        this.canvas_rotate_y += x_change;
+        this.camera_rotate_x += y_change;
+        this.camera_rotate_y += x_change;
       }
     },
     // When the user releases:
@@ -291,9 +329,11 @@ export default {
   position: relative;
   transform-style: preserve-3d;
   z-index: 0;
+  overflow: hidden;
   
   width: 100%;
   height: 600px;
+  box-shadow: 0px 0px 5px inset rgba(0,0,0,.5);
 }
   // This lets us make the center of the stage 0,0,0
   //   We couldn't do this directly to .space-canvas without moving the vanishing pt
@@ -301,8 +341,9 @@ export default {
   transform: rotatex(0deg);
   padding-left: 50%;
   padding-top: 300px;
-  width: 50%;
-  height: 600px;
+  width: 100%;
+  height: 100%;
+  // border: solid 1px white;
   transform-style: preserve-3d;
 }
 
@@ -314,6 +355,7 @@ export default {
 }
 .object:hover::after {
   content: '';
+  display: none;
   position: absolute;
   width: 120px;
   height: 120px;
@@ -330,13 +372,13 @@ export default {
 
 .object-info, .canvas-info {
   position: absolute;
-  margin: 10px;
+  margin-top: 10px;
   z-index: 11;
   opacity: .3;
   width: 200px;
   cursor: pointer;
   &:hover {
-    opacity: .8;
+    opacity: 1;
   }
   // slider:
   input[type="range"] {
@@ -354,13 +396,13 @@ export default {
 .grid {
   // taken from https://codepen.io/jasonadelia/pen/DnrAe
   position: absolute;
-  width: 200px;
-  height: 200px;
+  width: 800px;
+  height: 800px;
   // Centering it
-  margin-top: -100px;
-  margin-left: -100px;
+  margin-top: -400px;
+  margin-left: -400px;
 
-  transform: rotatex(80deg);
+  transform: rotatex(90deg);
 
   background-color: transparent;
   background-image: linear-gradient(0deg, 
@@ -386,9 +428,41 @@ export default {
 }
 
 
+.origin-indicator {
+  border: solid 4px red;
+  left: 50%;
+  top: 50%;
+}
+.origin-indicator::after {
+  content: '';
+  position: absolute;
+  margin-top: -4px;
+  margin-left: -4px;
+  transform: rotatey(90deg);
+  border: solid 4px blue;
+  left: 50%;
+  top: 50%;
+}
 
 .cube {
 
+}
+
+.object-thumb {
+  font-size: var(--small-font-size);
+  padding: 10px;
+  width: calc(100% + 20px);
+  margin-left: -10px;
+  display: flex;
+  cursor: pointer;
+  &:hover, &.selected {
+    background: var(--card-light);
+  }
+  .thumbnail {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+  }
 }
 
 </style>

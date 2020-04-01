@@ -18,6 +18,18 @@ import Vue from 'vue';
 // Setting up our state variables:
 export const state = () => ({
 
+  color_fields: [
+    'logo',
+    'bg', 'bg2', 'bg_text', 'bg_text2',
+    'card', 'card2', 'card_text', 'card_text2',
+    'link',
+    'bg2_input', 'bg2_input_text', 'bg2_input_text2',
+    'c1', 'c1_light', 'c2', 'c2_light', 'c3', 'c3_light',
+    'input', 'input_text', 'input_text2',
+    'action', 'confirm', 'danger',
+    'action_text', 'confirm_text', 'danger_text',
+  ],
+
   currentTheme: {
     theme_name: 'Golden Night',
     _id: 'golden-night',
@@ -88,17 +100,10 @@ export const getters = {
     // Because our colors are stored as hsl arrays, we need to iterate thru them
     //   and change them to 'hsl(x,x%,x%)' format
     let styleObj = {};
-    let fields = [
-      'logo',
-      'bg', 'bg2', 'bg_text', 'bg_text2',
-      'card', 'card2', 'card_text', 'card_text2',
-      'link',
-      'bg2_input', 'bg2_input_text', 'bg2_input_text2',
-      'c1', 'c1_light', 'c2', 'c2_light', 'c3', 'c3_light',
-      'input', 'input_text', 'input_text2',
-      'action', 'confirm', 'danger',
-      'action_text', 'confirm_text', 'danger_text',
-    ]
+
+    // Iterating thru an array of all color fields. 
+    // We grab a fresh copy just for the smaller var name.
+    let fields = JSON.parse(JSON.stringify(state.color_fields));
     for (let i in fields) {
 
       if (!state.currentTheme.colors[fields[i]]) {
@@ -107,11 +112,24 @@ export const getters = {
       }
 
       // Turning 'bg_text' into '--bg-text':
-      let cssVarName = '--' + fields[i].replace(/_/g, "-");
+      let css_var_name = '--' + fields[i].replace(/_/g, "-");
       // Assigning that css var to our hsl string:
-      styleObj[cssVarName] = 'hsl(' + state.currentTheme.colors[fields[i]][0] + ','
-                                           + state.currentTheme.colors[fields[i]][1] + '%,'
-                                           + state.currentTheme.colors[fields[i]][2] + '%)';
+      styleObj[css_var_name] = 'hsl('
+                                + state.currentTheme.colors[fields[i]][0] + ','
+                                + state.currentTheme.colors[fields[i]][1] + '%,'
+                                + state.currentTheme.colors[fields[i]][2] + '%)';
+
+      // Giving them each a '-light' and '-dark' option:
+      styleObj[css_var_name + '-light'] = 'hsl(' 
+                            + state.currentTheme.colors[fields[i]][0] + ','
+                            + state.currentTheme.colors[fields[i]][1] + '%,'
+                            + (state.currentTheme.colors[fields[i]][2] + 5) + '%)';
+
+      // Giving them each a '-light' and '-dark' option:
+      styleObj[css_var_name + '-dark'] = 'hsl(' 
+                            + state.currentTheme.colors[fields[i]][0] + ','
+                            + state.currentTheme.colors[fields[i]][1] + '%,'
+                            + (state.currentTheme.colors[fields[i]][2] - 5) + '%)';
     }
     return styleObj;
   },
@@ -263,17 +281,9 @@ export const mutations = {
     state.currentTheme._id = payload._id;
     state.currentTheme.theme_name = payload.theme_name;
 
-    let fields = [
-      'logo',
-      'bg', 'bg2', 'bg_text', 'bg_text2',
-      'card', 'card2', 'card_text', 'card_text2',
-      'link',
-      'bg2_input', 'bg2_input_text', 'bg2_input_text2',
-      'c1', 'c1_light', 'c2', 'c2_light', 'c3', 'c3_light',
-      'input', 'input_text', 'input_text2',
-      'action', 'confirm', 'danger',
-      'action_text', 'confirm_text', 'danger_text',
-    ]
+    // Iterating thru an array of all color fields. 
+    // We grab a fresh copy just for the smaller var name.
+    let fields = JSON.parse(JSON.stringify(state.color_fields));
     for (let i in fields) {
       if (payload.colors[fields[i]]){
         Vue.set(state.currentTheme.colors[fields[i]], 0, payload.colors[fields[i]][0])
