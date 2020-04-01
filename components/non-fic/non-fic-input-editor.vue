@@ -120,6 +120,7 @@
           <div v-html="dataEl.content" v-else></div>
 
         </div>-->
+        
         <div class="image-section" v-else-if="dataEl.type == 'image'">
           <svg-uploader v-model="dataEl.content" :ref="articleId + 'svg_uploader_' + dataEl_i"></svg-uploader>
         </div>
@@ -354,7 +355,7 @@ export default {
   display: flex;
   margin-top: 50px;
   border-bottom: solid 2px var(--bg-text2);
-  margin-bottom: 0px;
+  margin-bottom: 20px;
 
   .tab {
     font-size: var(--small-font-size);
@@ -386,7 +387,6 @@ export default {
 
 
 .section-title {
-  margin-top: 20px;
   input {
     font-weight: bold;
     text-align: center;

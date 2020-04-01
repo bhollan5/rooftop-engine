@@ -39,7 +39,7 @@
 
     <div id="side-bar-content" v-if="articleData.length">
       <!-- Article description. -->
-      <text-field textarea nobox class="article-description"
+      <text-field textarea nobox class="article-description" nounderline
         v-model="articleDescription">
       </text-field>
 
@@ -302,9 +302,9 @@ $tablet-bp: 400px;
   }
   
   #side-bar-content {
-    padding: 5px 10px;
+    padding: 10px 10px;
     .article-description {
-      width: calc(100% - 110px);
+      width: 100%;
       line-height: 1;
       color: var(--card-text2);
       height: 80px;

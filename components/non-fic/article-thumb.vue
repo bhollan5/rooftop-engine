@@ -5,6 +5,7 @@
   <!-- The  header of the card. -->
   <div class="article-header">
     <div class="article-title">{{article.articleTitle}}</div>
+    <div class="byline">by <router-link to="/">Ben H</router-link></div>
 
     <!-- The thumbnail image. 
       It's inside the header because it's positioned relative to the bottom of the header. -->
@@ -13,7 +14,7 @@
   </div>
 
   <div class="article-card">
-    <div class="byline">by <router-link to="/">Ben H</router-link></div>
+    
     <div class="article-description">
       {{article.articleDescription}}
     </div>
@@ -75,6 +76,7 @@ export default {
   min-width: 250px;
   height: 154px;
   position: relative;
+  border-top: solid 8px var(--card);
   background: var(--card2);
   margin-right: 20px;
   box-shadow: 0px 0px 10px rgba(0,0,0,.5); // Set blur to 2 so we can animate it
@@ -85,7 +87,9 @@ export default {
 
   .article-header {
     position: relative;
-    padding: 5px 10px;
+    z-index: 11;
+    top: 20px;
+    padding: 0px 10px;
     cursor: pointer;
     height: 100%;
     width: 100%;
@@ -93,22 +97,22 @@ export default {
   // The little card peeking up
   .article-card {
     position: absolute;
-    bottom: -145px;
+    z-index: 11;
+    top: 80px;
+    opacity: 0;
     width: 100%;
     height: 150px;
-    background: var(--card);
     font-size: var(--small-font-size);
-    padding: 5px 10px;
+    padding: 0px 10px;
     transition-duration: .5s;
   }
   &:hover .article-card {
-    bottom: -65px;
+    top: 70px;
+    opacity: 1;
   }
 
   // The article title 
   .article-title {
-    position: absolute;
-    bottom: 35px;
     z-index: 11;
     font-size: var(--regular-font-size);
     color: var(--card-text);
@@ -123,10 +127,7 @@ export default {
 
   .byline {
     position: absolute;
-    background: var(--card);
-    top: -25px;
-    right: 10px;
-    padding: 5px 10px;
+    z-index: 11;
     border-radius: 5px;
     width: 100px;
     text-align: left;
@@ -146,12 +147,12 @@ export default {
     height: 120px;
     position: absolute;
     background: var(--card2);
-    left: 0px;
-    top: 0px;
+    right: 0px;
+    bottom: 0px;
     transition-duration: .5s;
   }
   &:hover .thumbnail {
-    top: 25px;
+    bottom: 20px;
     height: 50px;
     width: 100px;
     opacity: .5;
