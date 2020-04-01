@@ -90,14 +90,18 @@
   </div>
 
   
-
+  
   <div class="space-canvas" 
-    :style="{ perspective: perspective + 'px',
-      background: 'hsl(' + bg_color[0] + ',' + bg_color[1] + '%,' + bg_color[2] + '%)' }">
-    <div class="space-canvas-coordinate-positioner"
-      :style="{ perspective: perspective + 'px' }">
+    :style="{ perspective: perspective + 'px',}"
+    @mousedown="mouse_down"
+    @mouseup="mouse_up"
+    @mousemove="mouse_drag">
+    <div class="canvas-camera"
+      :style="{ perspective: perspective + 'px',
+        transform: 'rotatex(' + canvas_rotate_x + 'deg) ' + 
+          'rotatey(' + canvas_rotate_y + 'deg) ' }">
 
-    
+    <div class="grid object"></div>
     <cube v-for="(cube, cube_i) in objects" v-if="cube.type == 'cube'"
       :data="cube" :key="cube_i"
       @click="o_i = cube_i"></cube>
@@ -122,10 +126,17 @@ export default {
       
       // Canvas settings:
       expand_canvas_editor: false,
-      perspective: 1000,
+      perspective: 1200,
       show_sliders: true,
       absolute_color: false, // Set to false if yr using a variable color
       bg_color_var: 'bg', // turns into an array in computed bg_color
+      drag_canvas: false,
+
+      // For keeping track of the initial click point,  for click and drag:
+      previous_x_click: 0,
+      previous_y_click: 0,
+      canvas_rotate_x: 0,
+      canvas_rotate_y: 0,
 
       // Object editor settings
       o_i: 0, // The index of the selected object
@@ -227,6 +238,34 @@ export default {
         depth: 300,
         
       })
+    },
+
+    // When the user clicks on the canvas:
+    mouse_down(evt) {
+      // We want to find the difference between the initial click & the drag,
+      // instead of the actual coordinate
+      this.previous_y_click = evt.y;
+      this.previous_x_click = evt.x;
+      this.drag_canvas = true;
+    },
+    // When the user drags with the mouse down:
+    mouse_drag(evt) {
+      if (this.drag_canvas) {
+        // Calculating the difference between the previous & current coord
+        let y_change = this.previous_y_click - evt.y;
+        let x_change = this.previous_x_click - evt.x;
+
+        this.previous_y_click = evt.y;
+        this.previous_x_click = evt.x;
+        // We add the y mouse change rotate_x because the y mouse change is 
+        // vertical, and rotating around x is also vertical. 
+        this.canvas_rotate_x += y_change;
+        this.canvas_rotate_y += x_change;
+      }
+    },
+    // When the user releases:
+    mouse_up() {
+      this.drag_canvas = false;
     }
   }
   
@@ -245,17 +284,19 @@ export default {
   position: relative;
   transform-style: preserve-3d;
   z-index: 0;
+  
   width: 100%;
   height: 600px;
 }
   // This lets us make the center of the stage 0,0,0
   //   We couldn't do this directly to .space-canvas without moving the vanishing pt
-.space-canvas-coordinate-positioner {
-  transform: translate(0px);
+.canvas-camera {
+  transform: rotatex(0deg);
   padding-left: 50%;
   padding-top: 300px;
   width: 50%;
   height: 600px;
+  transform-style: preserve-3d;
 }
 
 .object {
@@ -301,6 +342,40 @@ export default {
      padding: 0px;
    }
  }
+}
+
+.grid {
+  // taken from https://codepen.io/jasonadelia/pen/DnrAe
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  // Centering it
+  margin-top: -100px;
+  margin-left: -100px;
+
+  transform: rotatex(80deg);
+
+  background-color: transparent;
+  background-image: linear-gradient(0deg, 
+    transparent 24%, 
+      rgba(255, 255, 255, .2) 25%, 
+      rgba(255, 255, 255, .2) 26%, 
+      transparent 27%, 
+      transparent 74%, 
+      rgba(255, 255, 255, .2) 75%, 
+      rgba(255, 255, 255, .2) 76%, 
+      transparent 77%, transparent), 
+    linear-gradient(90deg, 
+      transparent 24%, 
+      rgba(255, 255, 255, .2) 25%, 
+      rgba(255, 255, 255, .2) 26%, 
+      transparent 27%, 
+      transparent 74%, 
+      rgba(255, 255, 255, .2) 75%, 
+      rgba(255, 255, 255, .2) 76%, 
+      transparent 77%, 
+      transparent);
+  background-size: 50px 50px;
 }
 
 

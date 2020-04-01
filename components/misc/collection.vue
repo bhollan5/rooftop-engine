@@ -118,8 +118,8 @@ export default {
   min-width: 100%;
   height: 170px; // Setting this to the same height as the cards. Increase if you add padding
   padding: 10px 0px 10px 50px; 
-  background: var(--bg2);
-  box-shadow: inset 0px 0px 4px rgba(0,0,0,.4);
+  // background: var(--bg2);
+  // box-shadow: inset 0px 0px 4px rgba(0,0,0,.4);
 }
 .collection-header {
   margin: 0px 45px;
