@@ -6,7 +6,8 @@
     'has-input': hasInput, 
     'nobox': nobox, 
     'small-icon': smallfont,
-    'no-padding': nopadding}">
+    'no-padding': nopadding,
+  }">
 
   <div class="title">{{title}}</div>
 
@@ -24,7 +25,8 @@
     :class="{ 'icon-padding': icon,
               'underline': underline,
               'p': regularfont,
-              'small-font': smallfont }"
+              'small-font': smallfont,
+              'no-underline': nounderline }"
     v-on:keyup.enter="$emit('enter')">
     
   <textarea v-else-if="textarea"
@@ -36,7 +38,8 @@
     :class="{ 'icon-padding': icon,
               'underline': underline,
               'p': regularfont,
-              'small-font': smallfont }"></textarea>
+              'small-font': smallfont,
+              'no-underline': nounderline }"></textarea>
 
     <!-- This is the default input option, for single line text. -->
   <input v-else-if="password"
@@ -48,7 +51,8 @@
     :class="{ 'icon-padding': icon,
               'underline': underline,
               'p': regularfont,
-              'small-font': smallfont }"
+              'small-font': smallfont,
+              'no-underline': nounderline }"
     v-on:keyup.enter="$emit('enter')">
 
   <!-- This is the default input option, for single line text. -->
@@ -59,7 +63,8 @@
     :class="{ 'icon-padding': icon,
               'underline': underline,
               'p': regularfont,
-              'small-font': smallfont }"
+              'small-font': smallfont,
+              'no-underline': nounderline }"
     v-on:keyup.enter="$emit('enter')"
     v-else>
 </div>
@@ -130,6 +135,11 @@ export default {
       type: Boolean,
       default: false,
     },
+    // Removes the underline
+    nounderline: {
+      type: Boolean,
+      default: false,
+    },
     // Regular font: 
     regularfont: {
       type: Boolean,
@@ -182,10 +192,19 @@ input:not(.number), textarea {
   outline: none;
   background: var(--input);
   color: var(--input-text);
+  transition-duration: .2s;
+  box-shadow: 0px 0px var(--box-shading) rgba(0,0,0,.2);
+}
+// Handling underline
+input, textarea {
   border: none;
   border-bottom: solid 2px var(--input-text2);
-  transition-duration: .5s;
-  box-shadow: 0px 0px var(--box-shading) rgba(0,0,0,.2);
+  &:focus {
+    border-bottom: solid 2px var(--c1);
+  }
+}
+input.no-underline, textarea.no-underline {
+  border-bottom: solid 2px rgba(0,0,0,0);
   &:focus {
     border-bottom: solid 2px var(--c1);
   }
@@ -250,10 +269,14 @@ svg {
     background: none;
     box-shadow: none;
     padding: 0px;
+    &:hover {
+      background: var(--input);
+    }
   }
-  &:hover {
-    border-bottom: 1px solid var(--bg-text2);
-    margin-bottom: -1px; // so the whole field doesn't move
-  }
+}
+
+// no underline 
+.no-underline {
+
 }
 </style>

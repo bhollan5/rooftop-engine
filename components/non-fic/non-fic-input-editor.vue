@@ -45,21 +45,31 @@
         <!-- Various input types: -->
 
         <!-- Article header: -->
-        <text-field id="article-header" v-if="dataEl.type == 'header'"
-          v-model="dataEl.content" :nobox="noboxes"
-          placeholder="Article Title"></text-field>
+        <text-field id="article-header" 
+          v-if="dataEl.type == 'header'"
+          v-model="dataEl.content" 
+          :nobox="noboxes"
+          placeholder="Article Title" 
+          nounderline></text-field>
 
         <!-- Article subheader: -->
-        <text-field id="article-subheader" v-else-if="dataEl.type == 'subheader'"
-          v-model="dataEl.content" :nobox="noboxes"
+        <text-field id="article-subheader" 
+          v-else-if="dataEl.type == 'subheader'"
+          v-model="dataEl.content" 
+          :nobox="noboxes" 
+          nounderline
           placeholder="Article Subheader (optional)"></text-field>
 
         <!-- Tabs: -->
         <div class="tab-container" v-else-if="dataEl.type == 'tabs'">
           <div class="tabs" >
-            <text-field class="tab" v-for="(tab, tabindex) in dataEl.tabs" 
-              :class="{ 'bold': dataEl.selectedTab == tabindex}" nobox
-              @click="dataEl.selectedTab = tabindex" v-model="tab.name" :key="'tab-' + tabindex">
+            <text-field class="tab" 
+              v-for="(tab, tabindex) in dataEl.tabs" 
+              :class="{ 'bold': dataEl.selectedTab == tabindex}" 
+              nobox 
+              @click="dataEl.selectedTab = tabindex" 
+              v-model="tab.name" 
+              :key="'tab-' + tabindex">
             </text-field>
             <div class="tab add-tab" @click="addTab(dataEl)">+ Add Tab</div>
           </div>
@@ -70,23 +80,34 @@
 
         <!-- Section titles: -->
         <div class="section-title" v-else-if="dataEl.type =='section-title'">
-          <text-field v-model="dataEl.content" :nobox="noboxes"
+          <text-field v-model="dataEl.content" 
+            :nobox="noboxes"
+            nounderline
             placeholder="1. Section Title">
           </text-field>
         </div>
 
         <!-- Subsection title, with bullet:  -->
         <div class="subsection-title-container" v-else-if="dataEl.type =='subsection-title'">
-          <text-field class="subsection-number" placeholder="1.1"
-            v-model="dataEl.num" :nobox="noboxes"></text-field>
-          <text-field class="subsection-title" placeholder="Subsection Header"
-            v-model="dataEl.content" :nobox="noboxes"></text-field>
+          <text-field class="subsection-number" 
+            placeholder="1.1" 
+            nounderline
+            v-model="dataEl.num" 
+            :nobox="noboxes"></text-field>
+          <text-field class="subsection-title" 
+            placeholder="Subsection Header"
+            v-model="dataEl.content" 
+            :nobox="noboxes"
+            nounderline></text-field>
         </div>
         
         <!-- Paragraphs: -->
         <div class="paragraph-section" v-else-if="dataEl.type == 'paragraph'">
-          <text-field placeholder="Regular paragraphs go here!" textarea
-            v-model="dataEl.content" :nobox="noboxes"></text-field>
+          <text-field placeholder="Regular paragraphs go here!" 
+            textarea 
+            nounderline
+            v-model="dataEl.content" 
+            :nobox="noboxes"></text-field>
         </div>
 
         <!-- Images: -->
@@ -332,28 +353,29 @@ export default {
 .tabs {
   display: flex;
   margin-top: 50px;
-  margin-bottom: 40px;
   border-bottom: solid 2px var(--bg-text2);
+  margin-bottom: 0px;
 
   .tab {
     font-size: var(--small-font-size);
     width: 150px;
+    padding: 0px;
     text-align: center;
     position: relative;
     cursor: pointer;
     margin-top: -2px;
     transform: translatey(2px); // This offset lets the border-bottoms line up
-    &.bold {
-      border-bottom: solid 2px var(--bg-text);
-    }
     input {
       text-align: center;
+      padding: 10px 0px;
+      margin: 0px;
     }
   }
   .add-tab {
     color: var(--bg-text2);
     font-size: var(--small-font-size);
     &:hover {
+      
       color: var(--bg-text);
     }
   }

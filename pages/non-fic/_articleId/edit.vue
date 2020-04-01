@@ -15,14 +15,15 @@
         <div class="thumbnail" v-else></div>
 
         <!-- title and id: -->
-        <div>
+        <div style="margin-top:10px;">
           <text-field nobox class="h3-input" v-if="articleData.length" 
-            v-model="articleData[0].content" ></text-field>
+            v-model="articleData[0].content" nounderline></text-field>
           <div v-else style="height: 45px;"></div>
 
           <div class="id-container">
             <h4 id="id-label" class="card-text2">id:</h4>
-            <text-field v-model="articleId" nobox></text-field>
+            <text-field v-model="articleId" nobox nounderline
+              nopadding></text-field>
           </div>
         </div>
 
