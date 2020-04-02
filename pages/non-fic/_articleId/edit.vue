@@ -343,18 +343,5 @@ $tablet-bp: 400px;
   }
 }
 
-#content {
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-  padding: 20px 20px; // Making the total width 640!
-  max-width: 600px;
-  align-content:flex-start;
-
-  @media only screen and (max-width: $desktop-bp) {
-    margin-top: 50px;
-  }
-}
-
 
 </style>

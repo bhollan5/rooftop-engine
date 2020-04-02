@@ -78,6 +78,7 @@
 
         <!-- User info - pfp, display name, username -->
         <div id="user-info" v-if="$auth.loggedIn">
+
           <div class="user-info-text">
             <div>{{$auth.user.display_name}}</div>
             <div class="secondary">@{{$auth.user.username}}</div>
@@ -91,8 +92,23 @@
           Sign In
         </router-link>
 
-      </div>
+      </div> <!-- End of header -->
 
+      <div class="project-display">
+        <div class="project-option">
+          <div>Rooftop Frontend</div>
+          <div class="byline">by Rooftop Media</div>
+        </div>
+        <div class="project-option">
+          <div>Canyons</div>
+          <div class="byline">by Rooftop Media</div>
+        </div>
+      </div>
+      <router-link tag="button" :to="'new-project'" class="action" style="margin-left: 15px;">
+        + Start new project
+      </router-link>
+
+      <!-- Theme picker -->
       <div id="theme-picker" class="user-option">
 
         <div class="flex-container row-wrap">

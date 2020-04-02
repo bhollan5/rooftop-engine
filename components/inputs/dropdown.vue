@@ -44,6 +44,7 @@ export default {
     // A list of the incoming options:
     options: {
       type: Array,
+      required: true,
     },
 
     // If an array of objects is passed in, we can access a specific property.
@@ -82,6 +83,7 @@ export default {
 .dropdown {
   position: relative;
   width: 100%;  
+  min-height: 30px;
   margin: 10px auto;
 
 }
@@ -91,6 +93,7 @@ export default {
   width: 100%;
   min-width: 100px;
   padding: 2px;
+  min-height: 30px;
   padding-left: 32px;
   border-radius: 5px;
   border-top: solid 1px var(--input-text2);

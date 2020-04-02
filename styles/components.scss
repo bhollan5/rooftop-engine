@@ -1,3 +1,22 @@
+
+
+// 
+@import '@/styles/style_components/project-display.scss';
+
+// 2 column content, like the text of an article. Note that it's an id - there should only be one per page.
+#content {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 20px 20px; // Making the total width 640!
+  max-width: 600px;
+  align-content:flex-start;
+
+  @media only screen and (max-width: $desktop-bp) {
+    margin-top: 50px;
+  }
+}
+
 // The side bar with the table of contents:
 #side-bar {
   grid-column: 1 / 2;
