@@ -27,24 +27,11 @@
         <input type="range" min="10" max="2000" v-model="perspective" v-if="show_sliders">
       </div>
 
-      <div class="flex-container">
-        <div>Sliders:</div>
-        <input type="checkbox" v-model="show_sliders">
-      </div>
-
-      <div class="flex-container">
-        <div>Edit mode:</div>
-        <input type="checkbox" v-model="edit_mode">
-      </div>
-
-      <div class="flex-container">
-        <div>Show grid:</div>
-        <input type="checkbox" v-model="show_grid">
-      </div>
-
-      <div class="flex-container">
-        <div>Show origin:</div>
-        <input type="checkbox" v-model="show_origin">
+      <div class="canvas-options-container">
+        <checkbox title="Sliders:" v-model="show_sliders"></checkbox>
+        <checkbox title="Edit mode:" v-model="edit_mode"></checkbox>
+        <checkbox title="Show grid:" v-model="show_grid"></checkbox>
+        <checkbox title="Show origin:" v-model="show_origin"></checkbox>
       </div>
 
       <button @click="add_cube()">add cube</button>
@@ -463,6 +450,10 @@ export default {
     height: 20px;
     margin-right: 5px;
   }
+}
+
+.canvas-options-container {
+  padding: 10px;
 }
 
 </style>

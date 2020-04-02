@@ -3,6 +3,7 @@
 
 // Inputs: 
 import textField from './inputs/text-field.vue';
+import checkbox from './inputs/check-box.vue';
 import colorPicker from './inputs/color-picker.vue';
 import svgUploader from './inputs/svg-uploader.vue';
 import dropdown from './inputs/dropdown.vue';
@@ -33,6 +34,7 @@ export default {
   svgUploader,
   dropdown,
   colorPalette,
+  checkbox,
 
   // Misc:
   lineBreak,
