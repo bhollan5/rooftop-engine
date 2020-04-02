@@ -76,10 +76,11 @@ export const actions = {
     .then((response) => {
       console.log(" 💾 Successfully created a user: " + payload.username + "!");
 
-      commit('set_current_user', {
-        display_name: payload.display_name,
-        username: payload.username,
-        email: payload.email,
+      this.$auth.loginWith('local', {
+        data: {
+          username: payload.username,
+          password: payload.password,
+        }
       })
 
       // Moving the user to the correct page.

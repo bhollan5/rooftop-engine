@@ -19,16 +19,18 @@
           <search-icon id="header-search-icon"> </search-icon>
           <input type="text" id="header-searchbar" placeholder="Search Media">
           
-          <!-- options button -->
-          <div id="user-button" @click="userOptions = true"
+          <!-- User options button - pfp, display name, username -->
+          <div id="user-options-button" @click="userOptions = true"
             v-if="$auth.loggedIn">
-            <person-icon id="header-icon"></person-icon>
-            <div class="user-info tablet-only">
-              <span>{{ $auth.user.display_name}}</span>
-              <span>{{ $auth.user.username }}</span>
+            <div class="user-info-text tablet-only">
+              <div class="small-font secondary">{{ $auth.user.display_name}}</div>
+              <div class="secondary" v-if="0">{{ $auth.user.username }}</div>
+            </div>
+            <div class="user-icon">
+              <img src="@/assets/misc/frog-pic.svg">
             </div>
           </div>
-
+          <!-- "Options" button, if the user isn't logged in. -->
           <div id="options-button" @click="userOptions = true"
             v-else>
             <hamburger-icon id="header-icon"></hamburger-icon>
@@ -74,7 +76,8 @@
           X
         </button>
 
-        <div class="user-info" v-if="$auth.user.username">
+        <!-- User info - pfp, display name, username -->
+        <div id="user-info" v-if="$auth.loggedIn">
           <div class="user-info-text">
             <div>{{$auth.user.display_name}}</div>
             <div class="secondary">@{{$auth.user.username}}</div>
@@ -83,6 +86,7 @@
             <img src="@/assets/misc/frog-pic.svg">
           </div>
         </div>
+        <!-- Sign-in button, if the user isn't logged in. -->
         <router-link to="/sign-in" tag="div" class="login-button" v-else>
           Sign In
         </router-link>
@@ -100,6 +104,8 @@
         </div>
 
         <router-link to="/theme-picker">Theme Editor</router-link>
+        <div class="a" style="color:var(--danger)" v-if="$auth.loggedIn"
+          @click="$auth.logout()">Log Out</div>
 
       </div>
 
@@ -341,7 +347,7 @@ $tablet-bp: 400px;
   }
   
   // Header login button:
-  #options-button, #user-button {
+  #options-button, #user-options-button {
     font-size: 16px;
     cursor: pointer;
     background: var(--bg2-input);
@@ -351,10 +357,22 @@ $tablet-bp: 400px;
     display: flex;
     align-items: center;
     padding: 5px 10px;
-    #header-icon {
-      fill: var(--bg2-input-text2);
-      height: 15px;
-      width: 15px;
+    .user-icon {
+      width: 20px; 
+      height: 20px;
+      border-radius: 50%;
+      background: #CEFDFE;
+      overflow: hidden;
+    }
+    .user-info-text {
+      text-align: right;
+      margin-right: 10px;
+      color: var(--bg-text);
+      font-size: var(--regular-font-size);
+      .secondary {
+        color: var(--bg-text2);
+        font-size: var(--small-font-size);
+      }
     }
     span {
       color: var(--bg2-input-text2);
@@ -449,7 +467,7 @@ $tablet-bp: 400px;
     justify-content: space-between;
     align-items: flex-start;
     // User icon and text
-    .user-info {
+    #user-info {
       display: flex;
       .user-info-text {
         text-align: right;

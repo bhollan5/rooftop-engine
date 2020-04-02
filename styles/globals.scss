@@ -129,6 +129,9 @@ a, .a {
 
 
 // Font sizes
+.very-small-font {
+  font-size: var(--very-small-font-size);
+}
 .small-font-size {
   font-size: var(--small-font-size);
 }

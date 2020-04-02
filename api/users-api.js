@@ -34,6 +34,7 @@ module.exports = function(app, mongoose){
       match: [/\S+@\S+\.\S+/, 'is invalid'], 
       index: true
     },
+    display_name: String,
     bio: String,
     image: String,
     hash: String,
@@ -162,6 +163,13 @@ module.exports = function(app, mongoose){
         });
       }
     });
+  });
+
+  // Getting a user based on their password token (stored locally to keep people logged in)
+  app.delete('/logout', (req, res) => {
+    console.log("\n 🗣 Called to log user out!");
+
+    res.send("No actions taken.");
   });
   
   // // Update a collection. Takes an object with query information

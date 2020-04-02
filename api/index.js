@@ -2,7 +2,7 @@
 // https://medium.com/@mitsuyawatanabe/how-to-start-express-project-in-nuxt-2-x-d3406c92a8ca
 // https://www.reddit.com/r/vuejs/comments/aayav5/any_examplestutorial_on_a_nuxt_app_with/
 
-console.log(" 🌈 Initializing server...")
+console.log(" 🌈🏠 Initializing Rooftop server...")
 
 const fs = require('fs');               // GridFS lets Mongo upload files
 const mongodb = require('mongodb');     // The MongoDB library
@@ -51,7 +51,7 @@ db.once('open',
 function (err, client) {
   
   if (err) throw err;
-  console.log(" 🔗 Connected to database!")
+  console.log(" 🔗⚡️ Connected to database!")
 
   // These let express parse json
   app.use(express.urlencoded({ extended: true }));

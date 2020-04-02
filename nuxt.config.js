@@ -51,14 +51,14 @@ export default {
   ],
   /*
   ** Auth module configuration
-  ** See https://auth.nuxtjs.org/api/options.html#redirect
+  ** Docs: https://auth.nuxtjs.org/api/options.html#redirect
   */
   auth: {
     strategies: {
       local: {
         endpoints: {
           login: { url: '/api/login', method: 'post', propertyName: 'token' },
-          logout: { url: '/api/logout', method: 'post' },
+          logout: { url: '/api/logout', method: 'delete' },
           user: { url: '/api/read-user', method: 'get', propertyName: 'user' }
         },
         // tokenRequired: true,
