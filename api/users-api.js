@@ -59,12 +59,6 @@ module.exports = function(app, mongoose){
     console.log(" 🔏 Stored hash & salt for new password!")
   };
 
-  // Function for validating submitted pass's:
-  userSchema.methods.validPassword = function(password) {
-    let hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
-    return this.hash === hash;
-  };
-
   // Making a JSON Web Token to authenticate that this server should be able to sign people in!
   // More: https://en.wikipedia.org/wiki/JSON_Web_Token
   userSchema.methods.generateJWT = function() {
@@ -93,8 +87,6 @@ module.exports = function(app, mongoose){
       bio: '',
       image: '',
     });
-    console.log("What's this:")
-    console.log(req.body.password)
     newUser.setPassword(req.body.password);
     newUser.save(function (err, result) {
       if (err) {
@@ -106,43 +98,71 @@ module.exports = function(app, mongoose){
     });
   });
 
-  // Getting user auth:
-  app.get('/read-user-auth', (req, res) => {
-    console.log("\n 🗣 Called to check a user's auth!")
+  // Logging user in, returning their hash:
+  app.post('/login', (req, res) => {
+    console.log("\n 🗣 Called to log a user in!")
 
-    let username = req.query.username;
+    // Finding the user
+    let username = req.body.username;
     console.log("Searching username:", username);
     User.find({ username: username }, (err, result) => {
       let found_user = result[0];
+
+      // Handling if no user was found:
       if (!found_user) {
         console.log("No users found :/ ")
         res.send(result);
         return [];
+      } else {
+        console.log("Found user: " + found_user.username);
       }
 
-      console.log("Found user: " + found_user.username);
-      if (found_user.validPassword(req.query.password)) {
+      // Validating & returning pass
+      let submitted_pass = req.body.password;
+      // pbkdf2 is a crypto method that comes w Node
+      let pass_hash = crypto.pbkdf2Sync(submitted_pass, 
+        found_user.salt, 
+        10000, 
+        512, 
+        'sha512').toString('hex');
+      if (pass_hash === found_user.hash) {
         console.log("Logged in!");
-        res.send(result);
+        res.send({
+           token: pass_hash 
+        });
       } else {
         console.log("Not logged in.")
-        res.status(500).send(result);
+        res.status(500).send('Error logging in.');
       }
     });
     
   });
 
-  // // Getting all collections:
-  // app.get('/read-all-collections', (req, res) => {
-  //   console.log("\n 🗣 Called to read all collections!")
+  // Getting a user based on their password token (stored locally to keep people logged in)
+  app.get('/read-user', (req, res) => {
+    console.log("\n 🗣 Called to read the user!")
 
-  //   Collection.find(function (err, result) {
-  //     if (err) return console.error(err);
-  //     console.log(" 💌 Sent  " + result.length + " collections to the frontend!")
-  //     res.send(result);
-  //   })
-  // });
+    // It took me forever to figure out that nuxt auth sends the token in headers.authorization
+    let auth = req.headers.authorization;
+    let token = auth.split(' ')[1];
 
+    //
+    User.find({ hash: token }, (err, result) => {
+      let found_user = result[0];
+
+      // Handling if no user was found:
+      if (!found_user) {
+        console.log("No users found :/ ")
+        res.send(result);
+        return [];
+      } else {
+        console.log("Found user: " + found_user.username);
+        res.send({
+          user: found_user 
+        });
+      }
+    });
+  });
   
   // // Update a collection. Takes an object with query information
   // app.post('/update-collection', (req, res) => {

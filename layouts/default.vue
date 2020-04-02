@@ -21,11 +21,11 @@
           
           <!-- options button -->
           <div id="user-button" @click="userOptions = true"
-            v-if="current_user.username">
+            v-if="$auth.loggedIn">
             <person-icon id="header-icon"></person-icon>
             <div class="user-info tablet-only">
-              <span>{{current_user.display_name}}</span>
-              <span>{{current_user.username}}</span>
+              <span>{{ $auth.user.display_name}}</span>
+              <span>{{ $auth.user.username }}</span>
             </div>
           </div>
 
@@ -74,10 +74,10 @@
           X
         </button>
 
-        <div class="user-info" v-if="current_user.username">
+        <div class="user-info" v-if="$auth.user.username">
           <div class="user-info-text">
-            <div>{{current_user.display_name}}</div>
-            <div class="secondary">@{{current_user.username}}</div>
+            <div>{{$auth.user.display_name}}</div>
+            <div class="secondary">@{{$auth.user.username}}</div>
           </div>
           <div class="user-icon">
             <img src="@/assets/misc/frog-pic.svg">
@@ -197,10 +197,6 @@ export default {
     }
   },
   computed: {
-
-    current_user() {
-      return this.$store.getters['users/current_user'];
-    },
 
     theme_id() {
       return this.$store.getters['themes/themeId'];

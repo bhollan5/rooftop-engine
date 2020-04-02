@@ -85,6 +85,17 @@ export default {
   overflow: hidden;
   cursor: pointer;
 
+// todo: i want to make a little tab at the top of the files, but overflow:hidden :(
+  &::after {
+    content: '';
+    display: none;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 0px;
+    background: var(--card);
+  }
+
   .article-header {
     position: relative;
     z-index: 11;

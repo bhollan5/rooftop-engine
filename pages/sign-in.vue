@@ -1,7 +1,7 @@
 <template>
 <div class="body" id="sign-in">
   <h1>Sign In</h1>
-  <line-break class="line-break"></line-break>
+  <line-break class="line-break"></line-break><br>
 
   <text-field class="input username" 
     v-model="username"
@@ -39,6 +39,14 @@ export default {
   },
   methods: {
     sign_in() {
+      this.$auth.loginWith('local', {
+        data: {
+          username: this.username,
+          password: this.password
+        }
+      })
+      return;
+      
       this.$store.dispatch('users/authenticate_user', {
         username: this.username,
         password: this.password
