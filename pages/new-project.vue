@@ -8,8 +8,8 @@
     <hr><br>
 
     <h3>Owner:</h3>
-    <div class="flex-container">
-      <dropdown :options="['you', 'an org you own']" :property="'0'"></dropdown>
+    <div class="flex-container align-center">
+      <dropdown :options="owner_options" :property="'0'"></dropdown> /
       <text-field class="input" 
         v-model="project._id"
         placeholder="my-project-id" 
@@ -18,15 +18,15 @@
     </div>
 
 
-    <text-field class="input pass" 
-      v-model="password"
-      placeholder="pass" 
-      title="Password:" 
-      :password="true"
+    <text-field class="input" 
+      v-model="project.description"
+      placeholder="This project is about x y z..." 
+      title="Description:" 
     ></text-field>
     
-
-    <button @click="sign_in()">Sign In</button>
+    <br>
+    <button @click="add_project()" class="action">Make Project</button>
+    <br>
 
     <div class="info">
       <p>While Rooftop gets off the ground, accounts are only available for staff & creators, on a case-by-case basis.</p>
@@ -52,20 +52,16 @@ export default {
   mounted() {
     this.$parent.$parent.userOptions = false;
   },
+  computed: {
+    owner_options() {
+      let owner_options = [];
+      owner_options.push(this.$auth.user.username);
+      return owner_options
+    }
+  },
   methods: {
-    sign_in() {
-      this.$auth.loginWith('local', {
-        data: {
-          username: this.username,
-          password: this.password
-        }
-      })
-      return;
+    add_project() {
       
-      this.$store.dispatch('users/authenticate_user', {
-        username: this.username,
-        password: this.password
-      })
     }
   }
 }
@@ -86,5 +82,9 @@ export default {
     color: var(--bg-text2);
     font-size: var(--small-font-size);
   }
+  .dropdown {
+    width: 150px;
+  }
 }
+
 </style>

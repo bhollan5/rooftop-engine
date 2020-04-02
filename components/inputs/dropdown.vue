@@ -11,7 +11,7 @@
         }">
       <div class="option" v-for="(option, i) in options" @click="selectOption(i)">
         <check-icon class="option-icon" v-if="i == currentOption"></check-icon>
-          {{option[property]}}
+          {{option}}
       </div>
     </div>
   </transition>
@@ -19,7 +19,7 @@
   <!-- This is the drop down display, ready to be clicked on :O -->
   <div class="chosen-option" @click="focus=true">
     <expand-icon class="option-icon"></expand-icon>
-    {{options[currentOption][property]}}
+    {{options[currentOption]}}
   </div>
   
 </div>
@@ -84,7 +84,7 @@ export default {
   position: relative;
   width: 100%;  
   min-height: 30px;
-  margin: 10px auto;
+  margin: 10px 0px;
 
 }
 
