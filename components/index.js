@@ -8,11 +8,14 @@ import colorPicker from './inputs/color-picker.vue';
 import svgUploader from './inputs/svg-uploader.vue';
 import dropdown from './inputs/dropdown.vue';
 import colorPalette from './inputs/color-palette.vue';
+import slider from './inputs/slider.vue';
 
+// Misc:
 import lineBreak from './misc/line-break.vue';
-
 import collection from './misc/collection.vue';
+import card from './side_bar/card.vue';
 
+// Icons:
 import checkIcon from './icons/check-icon.vue';
 import editIcon from './icons/edit-icon.vue';
 import expandIcon from './icons/expand-icon.vue';
@@ -35,10 +38,13 @@ export default {
   dropdown,
   colorPalette,
   checkbox,
+  slider,
 
   // Misc:
   lineBreak,
   collection,
+  card,
+
 
   // Icons
   editIcon,
@@ -46,5 +52,6 @@ export default {
   personIcon,
   searchIcon,
   gearIcon,
-  expandIcon
+  expandIcon,
+
 };

@@ -5,38 +5,52 @@
       background: 'hsl(' + bg_color[0] + ',' +bg_color[1] + '%,' + bg_color[2] + '%)' 
       }">
 
+
   <!-- The side bar, with the settings -->
   <div id="side-bar">
-  
-    <!-- The header of the side bar is colored differently. -->
-    <div id="side-bar-header" >
-      <!-- This flex container holds the title, id, and thumb. -->
-      <div class="flex-container">
-        Canvas settings:
-      </div>
 
-    </div>
 
-    <div id="side-bar-content" >
-      <div class="card-body" >
-
+    <!-- Settings for the entire project: -->
+    <card title="Canvas settings:">
+      <!-- Canvas bg color: -->
       <color-palette :margin="1" v-model="bg_color_var"></color-palette>
-
-      <div class="flex-container row-wrap space-between align-center">
-        <text-field title="Perspective:" v-model="perspective" nopadding number ></text-field>
-        <input type="range" min="10" max="2000" v-model="perspective" v-if="show_sliders">
-      </div>
 
       <div class="canvas-options-container">
         <checkbox title="Sliders:" v-model="show_sliders"></checkbox>
-        <checkbox title="Edit mode:" v-model="edit_mode"></checkbox>
+        <checkbox title="Floating menu:" v-model="floating_menu"></checkbox>
         <checkbox title="Show grid:" v-model="show_grid"></checkbox>
         <checkbox title="Show origin:" v-model="show_origin"></checkbox>
       </div>
 
-      <button @click="add_cube()">add cube</button>
+    </card>
 
-      <h3>Objects:</h3>
+    <card title="Camera settings: ">
+      <div class="flex-container row-wrap">
+        <slider :min="0" :max="360" v-model="camera_rotate_x"></slider><br>
+        <!-- Camera x rotation: -->
+        <text-field title="camera_rotate_x:" v-model="camera_rotate_x" nopadding number >
+        </text-field>
+        <input type="range" min="-360" max="360" v-model="camera_rotate_x" v-if="show_sliders">
+        <!-- Upsidedown lock: --> 
+        <checkbox title="upside down?" v-model="upsidedown_camera"></checkbox>
+        <!-- camera y rotation: -->
+        <text-field title="camera_rotate_y:" v-model="camera_rotate_y" nopadding number >
+        </text-field>
+        <input type="range" min="-400" max="100" v-model="camera_rotate_y" v-if="show_sliders">
+        <!-- Camera perspective -->
+        <text-field title="Perspective:" v-model="perspective" nopadding number ></text-field>
+        <input type="range" min="10" max="2000" v-model="perspective" v-if="show_sliders">
+        
+      </div>
+    </card>
+
+    <card title="Object generation:" min>
+
+      <button @click="add_cube()">add cube</button>
+    </card>
+
+
+    <card title="Object select:">
 
       <div v-for="(object, obj_i) in objects" class="object-thumb"
         :class="{ selected: obj_i == o_i }"
@@ -45,67 +59,66 @@
           :style="{ background: 'var(--' + object.color + ')' }"></div>
         {{ object.name }}
       </div>
-      
-    </div>
+
+    </card>
+
+    <!-- Object info display -->
+    <div class="side-bar-hover" v-if="floating_menu">
+
+      <card :title="'Object settings: ' + objects[o_i].name" min>
+
+
+        <color-palette :margin="1" v-model="objects[o_i].color"></color-palette>
+
+        <div class="flex-container row-wrap">
+          <text-field title="Opacity:" v-model="objects[o_i].opacity" nopadding number >
+          </text-field>
+          <input type="range" 
+            min="0" 
+            max="1" 
+            step=".1"
+            v-model="objects[o_i].opacity" 
+            v-if="show_sliders">
+        </div>
+
+        <div class="flex-container row-wrap">
+          <text-field title="xRot:" v-model="objects[o_i].xRot" nopadding number >
+          </text-field>
+          <input type="range" min="-360" max="360" v-model="objects[o_i].xRot" v-if="show_sliders">
+          <text-field title="xPos:" v-model="objects[o_i].x" nopadding number >
+          </text-field>
+          <input type="range" min="-400" max="100" v-model="objects[o_i].x" v-if="show_sliders">
+          <text-field title="Width:" v-model="objects[o_i].width" nopadding number>
+          </text-field>
+          <input type="range" min="0" max="400" v-model="objects[o_i].width" v-if="show_sliders">
+        </div>
+        
+        <div class="flex-container row-wrap">
+          <text-field title="yRot:" v-model="objects[o_i].yRot" nopadding number ></text-field>
+          <input type="range" min="-360" max="360" v-model="objects[o_i].yRot" v-if="show_sliders">
+          <text-field title="yPos:" v-model="objects[o_i].y" nopadding number ></text-field>
+          <input type="range" min="-400" max="100" v-model="objects[o_i].y" v-if="show_sliders">
+          <text-field title="Height:" v-model="objects[o_i].height" nopadding number ></text-field>
+          <input type="range" min="0" max="400" v-model="objects[o_i].height" v-if="show_sliders">
+        </div>
+        
+        <div class="flex-container row-wrap">
+          <text-field title="zRot:" v-model="objects[o_i].zRot" nopadding number > </text-field>
+          <input type="range" min="0" max="360" v-model="objects[o_i].zRot" v-if="show_sliders">
+          <text-field title="zPos:" v-model="objects[o_i].z" nopadding number ></text-field>
+          <input type="range" min="-400" max="100" v-model="objects[o_i].z" v-if="show_sliders">
+          <text-field title="Depth:" v-model="objects[o_i].depth" nopadding number ></text-field>
+          <input type="range" min="0" max="400" v-model="objects[o_i].depth" v-if="show_sliders">
+        </div>
+
+      </card>
 
     </div>
+      
+
   </div>
 
-  <!-- Object info display -->
-  <div class="object-info card small-font-size card-padding" v-if="edit_mode"
-    :class="{ 'expanded': expand_object_editor }">
-    <div class="card-header" @click="expand_object_editor = !expand_object_editor">
-      Object settings: {{objects[o_i].name}}
-    </div>
-
-    <div class="card-body slide-down" v-if="expand_object_editor">
-
-      <color-palette :margin="1" v-model="objects[o_i].color"></color-palette>
-
-      <div class="flex-container row-wrap">
-        <text-field title="Opacity:" v-model="objects[o_i].opacity" nopadding number >
-        </text-field>
-        <input type="range" 
-          min="0" 
-          max="1" 
-          step=".1"
-          v-model="objects[o_i].opacity" 
-          v-if="show_sliders">
-      </div>
-
-      <div class="flex-container row-wrap">
-        <text-field title="xRot:" v-model="objects[o_i].xRot" nopadding number >
-        </text-field>
-        <input type="range" min="-360" max="360" v-model="objects[o_i].xRot" v-if="show_sliders">
-        <text-field title="xPos:" v-model="objects[o_i].x" nopadding number >
-        </text-field>
-        <input type="range" min="-400" max="100" v-model="objects[o_i].x" v-if="show_sliders">
-        <text-field title="Width:" v-model="objects[o_i].width" nopadding number>
-        </text-field>
-        <input type="range" min="0" max="400" v-model="objects[o_i].width" v-if="show_sliders">
-      </div>
-      
-      <div class="flex-container row-wrap">
-        <text-field title="yRot:" v-model="objects[o_i].yRot" nopadding number ></text-field>
-        <input type="range" min="-360" max="360" v-model="objects[o_i].yRot" v-if="show_sliders">
-        <text-field title="yPos:" v-model="objects[o_i].y" nopadding number ></text-field>
-        <input type="range" min="-400" max="100" v-model="objects[o_i].y" v-if="show_sliders">
-        <text-field title="Height:" v-model="objects[o_i].height" nopadding number ></text-field>
-        <input type="range" min="0" max="400" v-model="objects[o_i].height" v-if="show_sliders">
-      </div>
-      
-      <div class="flex-container row-wrap">
-        <text-field title="zRot:" v-model="objects[o_i].zRot" nopadding number > </text-field>
-        <input type="range" min="0" max="360" v-model="objects[o_i].zRot" v-if="show_sliders">
-        <text-field title="zPos:" v-model="objects[o_i].z" nopadding number ></text-field>
-        <input type="range" min="-400" max="100" v-model="objects[o_i].z" v-if="show_sliders">
-        <text-field title="Depth:" v-model="objects[o_i].depth" nopadding number ></text-field>
-        <input type="range" min="0" max="400" v-model="objects[o_i].depth" v-if="show_sliders">
-      </div>
-
-    </div>
-
-  </div>
+  
   
 
   
@@ -123,9 +136,12 @@
 
     <div class="grid object" v-if="show_grid"></div>
 
-    <cube v-for="(cube, cube_i) in objects" v-if="cube.type == 'cube'"
-      :data="cube" :key="cube_i"
-      @click="o_i = cube_i"></cube>
+    <cube v-for="(obj, obj_i) in objects" v-if="obj.type == 'cube'"
+      :data="obj" :key="obj_i"
+      @click="o_i = obj_i"></cube>
+
+    <plane v-for="(obj, obj_i) in objects" v-if="obj.type == 'plane'"
+      :data="obj" :key="obj_i" @click="o_i = obj_i"></plane>
 
     </div>
   </div>
@@ -136,17 +152,19 @@
 
 <script>
 import cube from '@/components/space_canvas/geometry/cube.vue';
+import plane from '@/components/space_canvas/geometry/plane.vue';
+
 export default {
   components: {
-    cube
+    cube,
+    plane,
   },
 
   data() { 
     return {
-      edit_mode: true,
+      floating_menu: true,
       
       // Canvas settings:
-      expand_canvas_editor: false,
       perspective: 1200,
       show_sliders: true,
       absolute_color: false, // Set to false if yr using a variable color
@@ -155,18 +173,23 @@ export default {
       show_grid: true,
       show_origin: false,
 
-      // For keeping track of the initial click point,  for click and drag:
+      // For keeping track of the initial click point for click and drag:
       previous_x_click: 0,
       previous_y_click: 0,
-      camera_rotate_x: -10,
+
+      // Camera settings
+      camera_rotate_x: 30,
       camera_rotate_y: 10,
+      upsidedown_camera: false,
+
+      // Generator: 
+
 
       // Object editor settings
       o_i: 0, // The index of the selected object
-      expand_object_editor: false,
 
       objects: [
-        {
+        { //   Sample cube:
           // Info:
           type: 'cube',
           name: 'Cube 1',
@@ -190,6 +213,32 @@ export default {
           height: 50,
           width: 50,
           depth: 100,
+          
+        },
+        {   // Sample plane:
+          // Info:
+          type: 'plane',
+          name: 'Plane 1',
+          _id: 'plane2',
+
+          // Rendering:
+          color: 'card',
+          opacity: 1,
+
+          // Coordinates:
+          x: 0,
+          y: 0,
+          z: 0,
+
+          // Rotation:
+          xRot: 0,
+          yRot: 0,
+          zRot: 0,
+
+          // Dimensions:
+          height: 200,
+          width: 200,
+          depth: 200,
           
         }
       ],
@@ -289,9 +338,13 @@ export default {
 
         this.previous_y_click = evt.y;
         this.previous_x_click = evt.x;
-        // We add the y mouse change rotate_x because the y mouse change is 
-        // vertical, and rotating around x is also vertical. 
-        this.camera_rotate_x += y_change;
+
+        // Finally, we apply our changes. The camera rotate x is locked so it can't go upside down. 
+        if (Math.abs(this.camera_rotate_x + y_change) < 90 || this.upsidedown_camera){
+          // We add the y mouse change rotate_x because the y mouse change is 
+          // vertical, and rotating around x is also vertical. 
+          this.camera_rotate_x += y_change;
+        }
         this.camera_rotate_y += x_change;
       }
     },
@@ -352,42 +405,14 @@ export default {
   transform: translatez(-40px);
 }
 
-// For the canvas info editor
-.object-info {
-  left: 285px;
-}
-
-.object-info, .canvas-info {
-  position: absolute;
-  margin-top: 10px;
-  z-index: 11;
-  opacity: .3;
-  width: 200px;
-  cursor: pointer;
-  &:hover {
-    opacity: 1;
-  }
-  // slider:
-  input[type="range"] {
-    width: calc(100% - 50px);
-  }
- .text-field {
-   width: 40px;
-   margin-right: 10px;
-   input {
-     padding: 0px;
-   }
- }
-}
-
 .grid {
   // taken from https://codepen.io/jasonadelia/pen/DnrAe
   position: absolute;
-  width: 800px;
-  height: 800px;
+  width: 2000px;
+  height: 2000px;
   // Centering it
-  margin-top: -400px;
-  margin-left: -400px;
+  margin-top: -1000px;
+  margin-left: -1000px;
 
   transform: rotatex(90deg);
 

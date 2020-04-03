@@ -102,13 +102,13 @@ export default {
       // Transform information
       let transform_css = 'transform:';
 
-      transform_css += ' translatex(' + this.data.x + 'px)',
-      transform_css += ' translatey(' + this.data.y + 'px)',
-      transform_css += ' translatez(' + this.data.z + 'px)',
+      transform_css += ' translatex(' + this.data.x + 'px)';
+      transform_css += ' translatey(' + this.data.y + 'px)';
+      transform_css += ' translatez(' + this.data.z + 'px)';
 
-      transform_css += ' rotatex(' + this.data.xRot + 'deg)',
-      transform_css += ' rotatey(' + this.data.yRot + 'deg)',
-      transform_css += ' rotatez(' + this.data.zRot + 'deg)',
+      transform_css += ' rotatex(' + this.data.xRot + 'deg)';
+      transform_css += ' rotatey(' + this.data.yRot + 'deg)';
+      transform_css += ' rotatez(' + this.data.zRot + 'deg)';
 
       transform_css += ';';
       css_string += transform_css;

@@ -44,7 +44,7 @@
       </text-field>
 
       <div class="tab-container">
-        <h4>Tab:</h4><dropdown :options="articleData[2].tabs" property="name"></dropdown>
+        <h4>Tab:</h4><dropdown :options="articleData[2].tabs" property="name" v-if="0"></dropdown>
       </div>
       <hr>
 

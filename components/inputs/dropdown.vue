@@ -29,8 +29,6 @@ export default {
 
   data() {
     return {
-      // TODO: Unfocus when the user clicks away from the component
-      //  This might help: https://stackoverflow.com/questions/36170425/detect-click-outside-element
       focus: false
     }
   },
