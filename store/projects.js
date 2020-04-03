@@ -36,10 +36,15 @@ export const getters = {
   // This notation is the same as 
   //  getterName() { return function (id) { ... } }
   project_by_id: (state) => (project_id) => {
+    console.log("Getting project by id:" + project_id);
     // This filter format is how we can query an array of objs. 
-    return state.projects.filter( function(proj) {
+    let filtered_projects = state.projects.filter( function(proj) {
       return (proj._id == project_id);
     });
+    if (filtered_projects.length > 1) {
+      console.warn("Multiple projects with the same id found")
+    }
+    return filtered_projects[0];
   },
 
 
@@ -87,11 +92,11 @@ export const actions = {
 
   // Creating a new project:
   create_project({commit}, payload) {
+    console.log(" 🗣 Called to create a new project ")
 
     axios.post("/api/create-project", {
       title: payload.title,
       _id: payload._id,
-      id: payload._id,
       owner: payload.owner,
       description: payload.description,
       type: payload.type,
@@ -108,13 +113,13 @@ export const actions = {
 
   // Creating a new project:
   read_project({commit}, payload) {
-    console.warn(payload);
+    console.log(" 🗣 Called to read a project ");
 
     axios.get("/api/read-project", { params: payload })
     .then((response) => {
       console.log(" 💾 Successfully loaded a project!");
-      console.log(" > The project's id is: " + response.data);
-      commit('add_project', response.data);
+      console.log(response.data);
+      commit('add_project', response.data[0]);
     }, (error) => {
       console.warn(error);
     });
@@ -230,6 +235,8 @@ export const mutations = {
   // Adding project array.
   add_project(state, payload) {
     state.projects.push(payload);
+    console.log('state.projects:')
+    console.log(state.projects);
   },
 
   // update a collection byID:

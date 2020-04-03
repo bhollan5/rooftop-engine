@@ -74,7 +74,16 @@ export default {
   },
   methods: {
     add_project() {
+      for (let key in this.project) {
+        if (!this.project[key]) {
+          console.error("Missing this field: " + key);
+          return;
+        }
+      }
       this.$store.dispatch('projects/create_project', this.project)
+      .then(() => {
+        this.$router.push('/projects/' + this.project._id);
+      })
     }
   }
 }

@@ -1,9 +1,15 @@
 <!-- /nonfic/edit, where users can edit their nonfic articles! -->
 <template>
 <div class="body flex-container">
-  projectid: {{project_id}}
-  <br>
-  {{project}}
+  <div id="content" v-if="project">
+    <h1>{{project.title}}</h1>
+    
+    <br>
+    {{project}}
+  </div>
+  <div id="project-page-loading" v-else>
+  
+  </div>
 </div>
 </template>
 
@@ -27,7 +33,7 @@ import nonFicLoading from '@/components/non-fic/non-fic-loading.vue';
 import axios from 'axios';
 
 export default {
-  name: 'article-editor',
+  name: 'new-project',
 
   components: {
 
@@ -43,6 +49,12 @@ export default {
     nonFicLoading
   },
 
+  computed: {
+    project() {
+      return this.$store.getters['projects/project_by_id'](this.project_id);
+    }
+  },
+
   data() {
     return {
       editMode: true,
@@ -50,7 +62,6 @@ export default {
 
       // The ID of the article we're on -- loaded from the URL id.
       project_id: this.$route.params.projectId,
-      project: {},
 
       articleData: [],
 
@@ -67,15 +78,7 @@ export default {
     loadProj() {
       // Getting the article from the store, setting the current article to that article's data. 
       this.$store.dispatch("projects/read_project", { _id: this.project_id }).then(() => {
-        // This gets an array containing a single object: the result based on that idea.
-        let articleList = this.$store.getters['projects/project_by_id'](this.project_id);
-
-        // // We need to do the json.parse thing to copy the article (since getters are immutable).
-        // let articleObj = JSON.parse(JSON.stringify(articleList)); 
-        // // The articleData object is local, and only updates the database when you save. 
-        // this.articleDescription = articleObj.articleDescription;
-        // this.articleThumbnail = articleObj.articleThumbnail;
-        // this.articleData = articleObj.articleData;
+        
 
       })
 

@@ -13,14 +13,6 @@ module.exports = function(app, mongoose){
   let projectSchema = new mongoose.Schema({
     title: String,
     _id: String,
-    id: {
-      type: String, 
-      lowercase: true, 
-      unique: true, // Only available bc of our plugin
-      required: [true, "can't be blank"], 
-      match: [/^[a-zA-Z0-9]+$/, 'is invalid'], 
-      index: true
-    },
     owner: String,
     description: String,
     collectionData: Array,
