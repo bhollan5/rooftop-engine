@@ -246,7 +246,9 @@ export default {
     this.handleScroll();
     window.addEventListener('scroll', this.handleScroll);
 
+    // For the user options menu:
     this.$store.dispatch('themes/readAllThemes');
+    this.$store.dispatch('projects/read_project', { owner: this.$auth.user._id })
     
   },
   methods: {

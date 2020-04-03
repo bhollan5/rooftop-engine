@@ -5,7 +5,6 @@
   :class="{ 
     'has-input': hasInput, 
     'nobox': nobox, 
-    'small-icon': smallfont,
     'no-padding': nopadding,
   }">
 
@@ -236,7 +235,7 @@ input.icon-padding, .nobox .icon-padding {
 .no-padding {
   padding: 0px;
   input {
-    padding: 1px 5px;
+    padding: 1px;
   }
 }
 
@@ -249,7 +248,6 @@ svg {
   left: 9px;
 }
 .small-icon svg {
-  height: var(--small-font-size);
   width: var(--small-font-size);
   position: absolute;
   bottom: 19px;

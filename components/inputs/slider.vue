@@ -3,16 +3,19 @@
 
   <div class="title">{{title}}</div>
   
-  <div class="slider-bar" ref="slider-bar"
-    @click="move($event)">
+  <div class="slider-bar" ref="slider-bar" @mousedown="grab($event)">
+
     <div class="slider-grab"
-    :style="{
-      left: slider_grab_pos + '%'
-    }" 
-    @mousedown="grab($event)"></div>
+      :style="{ left: slider_grab_pos + '%' }" 
+      @mousedown="grab($event)">
+    </div>
+
+    <div class="slider-fill" :style="{width: slider_grab_pos + '%'}"
+    ></div>
+
   </div>
 
-  <text-field :value="value" 
+  <text-field :value="value" :min="min" :max="max"
     @input="(newVal) => $emit('input', Number(newVal))"
     nopadding smallfont number></text-field>
   
@@ -41,7 +44,7 @@ export default {
       } else if (this.value < this.min) {
         return 0;
       }
-      return Math.floor((this.value / this.max) * 100);
+      return Math.floor(((this.value - this.min) / this.range) * 100);
     },
 
     range() {
@@ -90,6 +93,7 @@ export default {
     // On mousedown on the indicator
     grab(evt) {
       this.grabbed = true;
+      this.move(evt);
       window.addEventListener('mousemove', this.move);
       window.addEventListener('mouseup', this.ungrab);
     },
@@ -126,35 +130,42 @@ export default {
 }
 
 .slider-bar {
-  width: calc(100% - 60px);
-  height: 4px;
+  width: calc(100% - 120px);
+  height: 6px;
   background: var(--input-dark);
   position: relative;
 
   .slider-grab {
-    width: 10px;
-    height: 10px;
+    width: 14px;
+    height: 14px;
     position: absolute;
     // Centering it:
-    margin-top: -3px;
-    margin-left: -3px;
+    margin-top: -4px;
+    margin-left: -4px;
 
-    cursor: grab;
+    cursor: pointer;
     background: var(--input-text);
     border-radius: 50%;
+  }
+
+  .slider-fill {
+    height: 100%;
+    background: var(--input-text2-dark);
   }
 }
 
 .text-field {
-  width: 40px;
-  margin-left: 20px;
+  width: 60px;
+  margin-left: 10px;
+  margin-right: 0px;
+  padding-right: 0px;
 }
 
 
 .title {
   font-size: var(--small-font-size);
-  color: var(--bg-text2);
-  margin-bottom: -3px;
-  margin-left: 3px;
+  color: var(--card-text);
+  margin: 0px;
+  width: 50px;
 }
 </style>

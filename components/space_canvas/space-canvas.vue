@@ -26,20 +26,15 @@
 
     <card title="Camera settings: ">
       <div class="flex-container row-wrap">
-        <slider :min="0" :max="360" v-model="camera_rotate_x"></slider><br>
+        
         <!-- Camera x rotation: -->
-        <text-field title="camera_rotate_x:" v-model="camera_rotate_x" nopadding number >
-        </text-field>
-        <input type="range" min="-360" max="360" v-model="camera_rotate_x" v-if="show_sliders">
+        <slider :min="-90" :max="90" v-model="camera_rotate_x" title='x rot:'></slider><br>
         <!-- Upsidedown lock: --> 
         <checkbox title="upside down?" v-model="upsidedown_camera"></checkbox>
         <!-- camera y rotation: -->
-        <text-field title="camera_rotate_y:" v-model="camera_rotate_y" nopadding number >
-        </text-field>
-        <input type="range" min="-400" max="100" v-model="camera_rotate_y" v-if="show_sliders">
+        <slider :min="-360" :max="360" v-model="camera_rotate_y" title='y rot:'></slider><br>
         <!-- Camera perspective -->
-        <text-field title="Perspective:" v-model="perspective" nopadding number ></text-field>
-        <input type="range" min="10" max="2000" v-model="perspective" v-if="show_sliders">
+        <slider :min="20" :max="2000" v-model="perspective" title='persp:'></slider><br>
         
       </div>
     </card>
@@ -71,44 +66,29 @@
         <color-palette :margin="1" v-model="objects[o_i].color"></color-palette>
 
         <div class="flex-container row-wrap">
-          <text-field title="Opacity:" v-model="objects[o_i].opacity" nopadding number >
-          </text-field>
-          <input type="range" 
-            min="0" 
-            max="1" 
-            step=".1"
-            v-model="objects[o_i].opacity" 
-            v-if="show_sliders">
+          <slider :min="0" :max="1" v-model="objects[o_i].opacity" title="opacity:" nopadding number></slider>
         </div>
 
+        <!-- Position -->
         <div class="flex-container row-wrap">
-          <text-field title="xRot:" v-model="objects[o_i].xRot" nopadding number >
-          </text-field>
-          <input type="range" min="-360" max="360" v-model="objects[o_i].xRot" v-if="show_sliders">
-          <text-field title="xPos:" v-model="objects[o_i].x" nopadding number >
-          </text-field>
-          <input type="range" min="-400" max="100" v-model="objects[o_i].x" v-if="show_sliders">
-          <text-field title="Width:" v-model="objects[o_i].width" nopadding number>
-          </text-field>
-          <input type="range" min="0" max="400" v-model="objects[o_i].width" v-if="show_sliders">
+          <slider :min="-500" :max="500" v-model="objects[o_i].x" title='x pos:'></slider><br>
+          <slider :min="-500" :max="500" v-model="objects[o_i].y" title='y pos:'></slider><br>
+          <slider :min="-500" :max="500" v-model="objects[o_i].z" title='z pos:'></slider><br>
         </div>
         
+        <!-- Rotation -->
         <div class="flex-container row-wrap">
-          <text-field title="yRot:" v-model="objects[o_i].yRot" nopadding number ></text-field>
-          <input type="range" min="-360" max="360" v-model="objects[o_i].yRot" v-if="show_sliders">
-          <text-field title="yPos:" v-model="objects[o_i].y" nopadding number ></text-field>
-          <input type="range" min="-400" max="100" v-model="objects[o_i].y" v-if="show_sliders">
-          <text-field title="Height:" v-model="objects[o_i].height" nopadding number ></text-field>
-          <input type="range" min="0" max="400" v-model="objects[o_i].height" v-if="show_sliders">
+          <slider :min="-360" :max="360" v-model="objects[o_i].xRot" title='x rot:'></slider><br>
+          <slider :min="-500" :max="500" v-model="objects[o_i].yRot" title='y rot:'></slider><br>
+          <slider :min="-500" :max="500" v-model="objects[o_i].zRot" title='z rot:'></slider><br>
         </div>
         
+        <!-- Dimensions -->
         <div class="flex-container row-wrap">
-          <text-field title="zRot:" v-model="objects[o_i].zRot" nopadding number > </text-field>
-          <input type="range" min="0" max="360" v-model="objects[o_i].zRot" v-if="show_sliders">
-          <text-field title="zPos:" v-model="objects[o_i].z" nopadding number ></text-field>
-          <input type="range" min="-400" max="100" v-model="objects[o_i].z" v-if="show_sliders">
-          <text-field title="Depth:" v-model="objects[o_i].depth" nopadding number ></text-field>
-          <input type="range" min="0" max="400" v-model="objects[o_i].depth" v-if="show_sliders">
+          <slider :min="0" :max="500" v-model="objects[o_i].width" title='width:'></slider><br>
+          <slider :min="0" :max="500" v-model="objects[o_i].height" title='height:'></slider><br>
+          <slider :min="0" :max="500" v-model="objects[o_i].depth" title='depth:'
+            v-if="objects[o_i].type != 'plane'"></slider><br>
         </div>
 
       </card>
@@ -178,7 +158,7 @@ export default {
       previous_y_click: 0,
 
       // Camera settings
-      camera_rotate_x: 30,
+      camera_rotate_x: -10,
       camera_rotate_y: 10,
       upsidedown_camera: false,
 

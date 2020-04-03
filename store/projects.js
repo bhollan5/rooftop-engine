@@ -48,25 +48,6 @@ export const getters = {
   },
 
 
-  // Gets all loaded collections (probably just for debugging.)
-  allCollections(state, getters, rootState, rootGetters) {
-    let collections_with_data = JSON.parse(JSON.stringify(state.collections));
-    
-    collections_with_data.forEach((collection, col_i) => {
-      collection.collectionData.forEach((item, item_i) => {
-        
-        let item_data = rootGetters['articles/articleById'](item);
-        if (!item_data) {
-          collection.loading = true;
-        } else {
-          collections_with_data[col_i].collectionData[item_i] = item_data
-        }
-      })
-      collection.editable = true;
-    })
-    return collections_with_data;
-  },
-
   collectionOfAllArticles(state, getters, rootState, rootGetters) {
     let allArticles = rootGetters['articles/allArticles'];
     let allArticleCollection = {
@@ -111,15 +92,21 @@ export const actions = {
 
   },
 
-  // Creating a new project:
+  // Reading a project, probably by  id::
   read_project({commit}, payload) {
     console.log(" 🗣 Called to read a project ");
 
     axios.get("/api/read-project", { params: payload })
     .then((response) => {
-      console.log(" 💾 Successfully loaded a project!");
+      if (response.data.length) {
+        console.log(" 💾 Successfully loaded a project!");
+        commit('add_project', response.data[0]);
+
+      } else {
+        console.log("No projects loaded.")
+      }
       console.log(response.data);
-      commit('add_project', response.data[0]);
+      
     }, (error) => {
       console.warn(error);
     });

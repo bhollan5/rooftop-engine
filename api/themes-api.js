@@ -44,7 +44,7 @@ module.exports = function(app, mongoose){
   });
 
   
-  // Update an article. Takes an object with query information
+  // Update a theme. Takes an object with query information
   app.post('/update-theme', (req, res) => {
 
     console.log("\n 🗣 Called to update an theme!")

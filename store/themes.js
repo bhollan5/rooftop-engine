@@ -68,7 +68,7 @@ export const state = () => ({
       input_text: [0,0,96],
       input_text2: [230,19,60],
       
-      action: [180,78,76],
+      action: [41,56,76],
       action_text: [0,0,0],
       confirm: [111, 78, 76],
       confirm_text: [0,0,0],

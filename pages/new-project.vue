@@ -14,7 +14,7 @@
         regularfont
       ></text-field>
 
-    <h3>Owner:</h3>
+    <h3>Owner: {{project.owner}}</h3>
     <div class="flex-container align-center">
       <dropdown :options="owner_options" :property="'0'" :title="'Owner:'"></dropdown> /
       <text-field class="input" 
@@ -64,6 +64,7 @@ export default {
   },
   mounted() {
     this.$parent.$parent.userOptions = false;
+    this.project.owner = this.$auth.user.username;
   },
   computed: {
     owner_options() {
