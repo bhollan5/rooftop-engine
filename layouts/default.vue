@@ -374,8 +374,8 @@ $tablet-bp: 400px;
     align-items: center;
     padding: 5px 10px;
     .user-icon {
-      width: 20px; 
-      height: 20px;
+      width: 15px; 
+      height: 15px;
       border-radius: 50%;
       background: #CEFDFE;
       overflow: hidden;

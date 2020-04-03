@@ -3,7 +3,7 @@
 let crypto = require('crypto');  // comes as a default in npm
 
 let uniqueValidator = require('mongoose-unique-validator'); // npm installed
-let jwt = require('jsonwebtoken');  // npm installed
+let jwt = require('jsonwebtoken');  // npm installed, but not used! todo: uninstall
 
 let secret = require('../config').secret; // in the ./config file, which you may need to  add
 

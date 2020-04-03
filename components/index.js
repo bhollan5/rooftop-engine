@@ -45,5 +45,6 @@ export default {
   checkIcon,
   personIcon,
   searchIcon,
-  gearIcon
+  gearIcon,
+  expandIcon
 };

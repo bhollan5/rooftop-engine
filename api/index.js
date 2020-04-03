@@ -27,6 +27,8 @@ const articlesRoutes = require('./articles-api.js');
 const themesRoutes = require('./themes-api.js');
 const collectionsRoutes = require('./collections-api.js');
 const userRoutes = require('./users-api.js');
+const projectRoutes = require('./projects-api.js');
+
 
 
 
@@ -62,6 +64,7 @@ function (err, client) {
   themesRoutes(app, mongoose);
   collectionsRoutes(app, mongoose);
   userRoutes(app, mongoose);
+  projectRoutes(app, mongoose);
 
   // // See all routes, for debugging
   // app._router.stack.forEach(function(r){

@@ -7,13 +7,21 @@
     <br>
     <hr><br>
 
+    <text-field class="input" 
+        v-model="project.title"
+        placeholder="My Project Title" 
+        title="Project title:"
+        regularfont
+      ></text-field>
+
     <h3>Owner:</h3>
     <div class="flex-container align-center">
-      <dropdown :options="owner_options" :property="'0'"></dropdown> /
+      <dropdown :options="owner_options" :property="'0'" :title="'Owner:'"></dropdown> /
       <text-field class="input" 
         v-model="project._id"
         placeholder="my-project-id" 
         title="Project id:"
+        regularfont
       ></text-field>
     </div>
 
@@ -23,6 +31,9 @@
       placeholder="This project is about x y z..." 
       title="Description:" 
     ></text-field>
+
+    <dropdown :options="['music', 'visual art', 'development']"
+      v-model="project.type"></dropdown>
     
     <br>
     <button @click="add_project()" class="action">Make Project</button>
@@ -43,9 +54,11 @@ export default {
   data() {
     return {
       project: {
-        disp_name: '',
-        _id: '',
-        description: '',
+        title: 'Rooftop Website',
+        _id: 'rooftop-website',
+        owner: '',
+        description: 'The website used by Rooftop Media.',
+        type: 'development',
       },
     }
   },
@@ -61,7 +74,7 @@ export default {
   },
   methods: {
     add_project() {
-      
+      this.$store.dispatch('projects/create_project', this.project)
     }
   }
 }
