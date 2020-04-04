@@ -36,7 +36,6 @@ export const getters = {
   // This notation is the same as 
   //  getterName() { return function (id) { ... } }
   project_by_id: (state) => (project_id) => {
-    console.log("Getting project by id:" + project_id);
     // This filter format is how we can query an array of objs. 
     let filtered_projects = state.projects.filter( function(proj) {
       return (proj._id == project_id);
@@ -48,17 +47,13 @@ export const getters = {
   },
 
 
-  collectionOfAllArticles(state, getters, rootState, rootGetters) {
-    let allArticles = rootGetters['articles/allArticles'];
-    let allArticleCollection = {
-      _id: 'all-articles',
-      collectionDescription: "This displays all published articles",
-      collectionTitle: "All Articles",
-      collectionData: allArticles,
-      editable: false,
-    }
-    return allArticleCollection;
-  }
+  get_user_projects: (state) => (user_id) => {
+    // This filter format is how we can query an array of objs. 
+    let filtered_projects = state.projects.filter( function(proj) {
+      return (proj.owner == user_id);
+    });
+    return filtered_projects;
+  },
 
 }
 
@@ -95,15 +90,16 @@ export const actions = {
   // Reading a project, probably by  id::
   read_project({commit}, payload) {
     console.log(" 🗣 Called to read a project ");
+    console.log(payload);
 
     axios.get("/api/read-project", { params: payload })
     .then((response) => {
       if (response.data.length) {
         console.log(" 💾 Successfully loaded a project!");
-        commit('add_project', response.data[0]);
+        commit('load_project', response.data[0]);
 
       } else {
-        console.log("No projects loaded.")
+        console.log(" ⛔️ No projects loaded.")
       }
       console.log(response.data);
       
@@ -220,10 +216,19 @@ export const actions = {
 export const mutations = {
   
   // Adding project array.
-  add_project(state, payload) {
-    state.projects.push(payload);
-    console.log('state.projects:')
-    console.log(state.projects);
+  load_project(state, payload) {
+
+    let proj_found = false;
+    state.projects.forEach((project, proj_i, proj_arr) => { 
+
+      if (payload._id == project._id) {
+        proj_arr[proj_i] = payload;
+        proj_found = true;
+      }
+    })
+    if (!proj_found){
+      state.projects.push(payload);
+    }
   },
 
   // update a collection byID:

@@ -1,180 +1,182 @@
 <template>
-  <!-- We pass the dynamic style object in here, so it's available globally! -->
-  <div :style="theme_style">
-
-    <!-- Header: -->
-    <div id="header">
-
-      <!-- Logo: -->
-      <router-link to="/">
-        <logo id="header-logo"></logo>
-      </router-link>
-
-      <!-- We use this container to separate the logo from the content. -->
-      <div id="header-right-side-container">
-
-        <!-- This appears on both mobile and desktop: -->
-        <div id="header-upper-menu">
-          <!-- Searchbar and searchbar icon: -->
-          <search-icon id="header-search-icon"> </search-icon>
-          <input type="text" id="header-searchbar" placeholder="Search Media">
-          
-          <!-- User options button - pfp, display name, username -->
-          <div id="user-options-button" @click="userOptions = true"
-            v-if="$auth.loggedIn">
-            <div class="user-info-text tablet-only">
-              <div class="small-font secondary">{{ $auth.user.display_name}}</div>
-              <div class="secondary" v-if="0">{{ $auth.user.username }}</div>
-            </div>
-            <div class="user-icon">
-              <img src="@/assets/misc/frog-pic.svg">
-            </div>
-          </div>
-          <!-- "Options" button, if the user isn't logged in. -->
-          <div id="options-button" @click="userOptions = true"
-            v-else>
-            <hamburger-icon id="header-icon"></hamburger-icon>
-            <span class="tablet-only">Options</span>
-          </div>
-
-        </div>
-
-        <!-- This appears on desktop only: -->
-        <div id="header-desktop-menu">
-
-          <router-link tag="div" to="/media">
-            <media-decor></media-decor>
-          </router-link>
-          <router-link tag="div" to="/non-fic">
-            <nonfic-decor></nonfic-decor>
-          </router-link>
-          <services-decor></services-decor>
-          <merch-decor></merch-decor>
-          <!--<about-us-decor></about-us-decor>-->
-        </div>
-
-      </div> <!-- End of right-hand-side-container-->
-
-    </div><!-- end of header -->
+<div :style="theme_style">
+  <!-- That :style attribute loads the custom theming for the entire site -->
 
 
 
-    <!-- Darkener, followed by popup menus -->
+    <!--                -->
+  <!--       Header:      -->
+    <!--                -->
 
-    <transition name="fade">
-      <div id="darkener" v-if="userOptions || svgEditorOpen" @click="closePopup()"></div>
+  <div id="header">
 
-    </transition>
+    <!-- Logo: -->
+    <router-link to="/">
+      <logo id="header-logo"></logo>
+    </router-link>
 
+    <!-- We use this container to separate the logo from the content. -->
+    <div id="header-right-side-container">
 
-    <!-- User option menu -->
-
-    <transition name="menu-popup">
-    <div id="user-options" v-if="userOptions">
-      <div id="user-options-header">
-        <button id="user-options-close" class="bg2-button" @click="userOptions = false">
-          X
-        </button>
-
-        <!-- User info - pfp, display name, username -->
-        <div id="user-info" v-if="$auth.loggedIn">
-
-          <div class="user-info-text">
-            <div>{{$auth.user.display_name}}</div>
-            <div class="secondary">@{{$auth.user.username}}</div>
-          </div>
-          <div class="user-icon">
-            <img src="@/assets/misc/frog-pic.svg">
-          </div>
-        </div>
-        <!-- Sign-in button, if the user isn't logged in. -->
-        <router-link to="/sign-in" tag="div" class="login-button" v-else>
-          Sign In
+      <!-- This appears on desktop only: -->
+      <div id="header-desktop-menu">
+        <router-link tag="div" to="/media">
+          <media-decor></media-decor>
         </router-link>
+        <router-link tag="div" to="/non-fic">
+          <nonfic-decor></nonfic-decor>
+        </router-link>
+        <services-decor></services-decor>
+        <merch-decor></merch-decor>
+      </div>
 
-      </div> <!-- End of header -->
-
-      <div class="project-display">
-        <div class="project-option">
-          <div>Rooftop Frontend</div>
-          <div class="byline">by Rooftop Media</div>
+      <!-- Searchbar and searchbar icon: -->
+      <text-field title="" placeholder="Search Media" icon smallfont>
+        <search-icon> </search-icon>
+      </text-field>
+      
+      <!-- User options button - pfp, display name, username -->
+      <div id="user-options-button" @click="userOptions = true"
+        v-if="$auth.loggedIn">
+        <div class="user-info-text tablet-only">
+          <div class="small-font secondary">{{ $auth.user.display_name}}</div>
+          <div class="secondary" v-if="0">{{ $auth.user.username }}</div>
         </div>
-        <div class="project-option">
-          <div>Canyons</div>
-          <div class="byline">by Rooftop Media</div>
+        <div class="user-icon">
+          <img src="@/assets/misc/frog-pic.svg">
         </div>
       </div>
-      <router-link tag="button" :to="'new-project'" class="action" style="margin-left: 15px;">
-        + Start new project
+      <!-- "Options" button, if the user isn't logged in. -->
+      <div id="options-button" @click="userOptions = true"
+        v-else>
+        <hamburger-icon id="header-icon"></hamburger-icon>
+        <span class="tablet-only">Options</span>
+      </div>
+
+    </div> <!-- End of right-hand-side-container-->
+
+  </div><!-- end of header -->
+
+
+  <!--                  -->
+<!--       Darkener:      -->
+  <!--                  -->
+
+  <transition name="fade">
+    <div id="darkener" v-if="userOptions || svgEditorOpen" @click="closePopup()"></div>
+  </transition>
+
+
+  <!--                            -->
+<!--       User options menu:       -->
+  <!--          (popup)           -->
+
+  <transition name="menu-popup">
+  <div id="user-options" v-if="userOptions">
+    <div id="user-options-header">
+      <button id="user-options-close" class="bg2-button" @click="userOptions = false">
+        X
+      </button>
+
+      <!-- User info - pfp, display name, username -->
+      <div id="user-info" v-if="$auth.loggedIn">
+
+        <div class="user-info-text">
+          <div>{{$auth.user.display_name}}</div>
+          <div class="secondary">@{{$auth.user.username}}</div>
+        </div>
+        <div class="user-icon">
+          <img src="@/assets/misc/frog-pic.svg">
+        </div>
+      </div>
+      <!-- Sign-in button, if the user isn't logged in. -->
+      <router-link to="/sign-in" tag="div" class="login-button" v-else>
+        Sign In
       </router-link>
 
-      <!-- Theme picker -->
-      <div id="theme-picker" class="user-option">
+    </div> <!-- End of header -->
 
-        <div class="flex-container row-wrap">
-          <div class="theme-thumbnail" v-for="theme in theme_options" @click="applyTheme(theme)"
-            :class="{ 'selected-theme': theme._id == theme_id }">
-            <div v-if="theme.thumbnail" v-html="theme.thumbnail"></div>
-            <div v-else>{{theme.theme_name}}</div>
-          </div>
-        </div>
+    <!-- project display -->
+    <h3>Projects:</h3>
+    <div class="project-display">
 
-        <router-link to="/theme-picker">Theme Editor</router-link>
-        <div class="a" style="color:var(--danger)" v-if="$auth.loggedIn"
-          @click="$auth.logout()">Log Out</div>
-
-      </div>
+      <router-link class="project-option" tag="div"
+      v-for="(project, proj_i) in user_projects" :key="proj_i"
+      :to="'/projects/' + project._id">
+        <div>{{project.title}}</div>
+        <div class="byline">by Rooftop Media</div>
+      </router-link>
 
     </div>
-    </transition>
 
+    <router-link tag="button" :to="'new-project'" class="action" style="margin-left: 15px;">
+      + Start new project
+    </router-link><br><br>
 
-    <!-- svg editor menu --> 
+    <!-- Theme picker -->
+    <h3>Theme:</h3>
+    <div id="theme-picker" class="user-option">
 
-    <svg-editor v-if="svgEditorOpen"></svg-editor>
-
-
-    <!-- This is where other pages get inserted: -->
-    <nuxt />
-
-
-    <!-- Footer: -->
-    <div id="footer">
-      <router-link tag="div" to="/non-fic" class="footer-option">
-        <nonfic-icon class="footer-menu-icon"></nonfic-icon>
-        <p>non-fic</p>
-      </router-link>
-      <div class="footer-option">
-        <media-icon class="footer-menu-icon"></media-icon>
-        <p>media</p>
+      <div class="flex-container row-wrap">
+        <div class="theme-thumbnail" v-for="theme in theme_options" @click="applyTheme(theme)"
+          :class="{ 'selected-theme': theme._id == theme_id }">
+          <div v-if="theme.thumbnail" v-html="theme.thumbnail"></div>
+          <div v-else>{{theme.theme_name}}</div>
+        </div>
       </div>
-      <div class="footer-option">
-        <services-icon class="footer-menu-icon"></services-icon>
-        <p>services</p>
-      </div>
-      <div class="footer-option">
-        <merch-icon class="footer-menu-icon"></merch-icon>
-        <p>merch</p>
-      </div>
+
+      <router-link to="/theme-picker">Theme Editor</router-link>
+      <div class="a" style="color:var(--danger)" v-if="$auth.loggedIn"
+        @click="$auth.logout()">Log Out</div>
+
     </div>
 
   </div>
+  </transition>
+
+
+  <!--                    -->
+<!--       svg editor:      -->
+  <!--                    -->
+
+  <svg-editor v-if="svgEditorOpen"></svg-editor>
+
+
+
+  <!-- This is where other pages get inserted: -->
+  <nuxt />
+
+
+
+
+  <!--                             -->
+<!--       Mobile footer links:      -->
+  <!--                             -->
+  <div id="footer">
+    <router-link tag="div" to="/non-fic" class="footer-option">
+      <nonfic-icon class="footer-menu-icon"></nonfic-icon>
+      <p>non-fic</p>
+    </router-link>
+    <div class="footer-option">
+      <media-icon class="footer-menu-icon"></media-icon>
+      <p>media</p>
+    </div>
+    <div class="footer-option">
+      <services-icon class="footer-menu-icon"></services-icon>
+      <p>services</p>
+    </div>
+    <div class="footer-option">
+      <merch-icon class="footer-menu-icon"></merch-icon>
+      <p>merch</p>
+    </div>
+  </div>
+
+</div>
 </template>
 
 <script>
-// Importing icon components
-//   We import SVG icons this way so we can modify them with CSS, for theming.
-//   To understand why: https://css-tricks.com/using-svg/ 
-import searchIcon from '~/components/icons/search-icon.vue';
-import hamburgerIcon from '~/components/icons/hamburger-icon.vue';
 
-// Mobile icons:
-import nonficIcon from '~/components/icons/nonfic-icon.vue';
-import mediaIcon from '~/components/icons/media-icon.vue';
-import servicesIcon from '~/components/icons/services-icon.vue';
-import merchIcon from '~/components/icons/merch-icon.vue';
-
-// Logo (for dynamic coloring) 
+// Logo 
 import logo from '~/components/logo.vue';
 
 // Decoration for the desktop menu:
@@ -189,14 +191,6 @@ import svgEditor from '~/components/inputs/svg-editor.vue';
 // Our vue component
 export default {
   components: {
-    searchIcon,     // For the search bar
-    hamburgerIcon,  // For account options
-
-    // Mobile menu icons:
-    nonficIcon,     
-    mediaIcon,
-    servicesIcon,
-    merchIcon,
 
     // Logo component:
     logo,
@@ -234,10 +228,16 @@ export default {
       return this.$store.getters['themes/allThemes'];
     },
 
+    // User projects
+    user_projects() {
+      return this.$store.getters['projects/get_user_projects'](this.$auth.user.username);
+    },
+
     // Is the svg-editor open?
     svgEditorOpen() {
       return this.$store.getters['svg/svgEditorOpen'];
-    }
+    },
+    
 
   },
   
@@ -248,7 +248,7 @@ export default {
 
     // For the user options menu:
     this.$store.dispatch('themes/readAllThemes');
-    this.$store.dispatch('projects/read_project', { owner: this.$auth.user._id })
+    this.$store.dispatch('projects/read_project', { owner: this.$auth.user.username })
     
   },
   methods: {
@@ -291,6 +291,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 @import '@/styles/inputs.scss';
 @import '@/styles/globals.scss';
 @import '@/styles/svg-classes.scss';
@@ -324,44 +325,13 @@ $tablet-bp: 400px;
   // This contains both the search bar and the desktop menu options.
   #header-right-side-container {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    flex-direction: row;
+    align-items: center;
     margin: 0px;
   }
 
-  // This div contains both the search bar and the options button.
-  #header-upper-menu {
-    display: flex;
-    position: relative;
-  }
-
-  // Searchbar:
-  #header-searchbar {
-    background: var(--bg2-input);
-    color: var(--bg2-input-text);
-    outline: none;
-    border: none;
-    height: 30px;
-    font-size: 16px;
-    min-width: 150px;
-    margin-top: 10px;
-    margin-left: 10px;
-    display: block;
-    padding-left: 30px;
-  }
-  ::placeholder {
-    color: var(--bg2-input-text2);
-  }
-  #header-searchbar:focus {
-    // TODO: Figure out how to expand the width smoothly and w/o bugs here
-  }
-  #header-search-icon {
-    position: absolute;
-    height: 15px;
-    width: 15px;
-    left: 20px;
-    top: 18px;
-    fill: var(--input-text2);
+  .text-field  {
+    margin: 0px; padding: 0px;
   }
   
   // Header login button:
@@ -371,7 +341,7 @@ $tablet-bp: 400px;
     background: var(--bg2-input);
     height: 30px;
     min-width: 60px;
-    margin: 10px 10px;
+    margin: 0px 10px;
     display: flex;
     align-items: center;
     padding: 5px 10px;
@@ -414,12 +384,12 @@ $tablet-bp: 400px;
   // Desktop header – larger, and with nav options
   @media only screen and (min-width: $desktop-bp){
     position: relative;
-    height: 150px;
+    height: 100px;
     padding: 25px 50px;
 
     // Changing the header to be larger on desktop
     #header-logo {
-      height: 100px;
+      height: 50px;
       margin: 0px;
     }
 
@@ -472,8 +442,14 @@ $tablet-bp: 400px;
   top: 0px;
   right: 0px;
   z-index: 12;
+  color: var(--bg-text);
   background: var(--bg);
   drop-shadow: 0px 0px 10px rgba(0,0,0,1);
+
+  h3 {
+    padding-left: 10px;
+  }
+
   // The upper part of the header
   #user-options-header {
     width: 100%;

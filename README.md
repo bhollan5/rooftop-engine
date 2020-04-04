@@ -15,11 +15,14 @@ $ npm install
 $ npm run dev
 
 # build for production and launch server
+$ git pull
+$ sudo npm run install
 $ sudo npm run build
 $ sudo npm run start
+# Our server uses pm2 to manage the server port.
+$ pm2 start npm -- start
 
-# generate static project
-$ npm run generate
+
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).

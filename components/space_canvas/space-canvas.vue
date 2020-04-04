@@ -7,7 +7,7 @@
 
 
   <!-- The side bar, with the settings -->
-  <div id="side-bar">
+  <side-bar>
 
 
     <!-- Settings for the entire project: -->
@@ -58,7 +58,7 @@
     </card>
 
     <!-- Object info display -->
-    <div class="side-bar-hover" v-if="floating_menu">
+    <template v-slot:hovering >
 
       <card :title="'Object settings: ' + objects[o_i].name" min>
 
@@ -93,10 +93,10 @@
 
       </card>
 
-    </div>
+    </template>
       
 
-  </div>
+  </side-bar>
 
   
   

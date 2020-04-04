@@ -1,26 +1,77 @@
-/*
+<!--
 
-  The sidebar is the card-colored drawer that sticks on the lefthand side of some file viewers.
+  This component is registered globally, so you can use it anywhere like this:
 
-  <div id="side-bar">
+  <side-bar>
 
-    <card title="My Title">
-      <div> whatever card content here </div>
+    <card title="My card:">
+      <p>Card content here</p>
     </card>
-    <!-- More cards here -->
 
-    <div id="side-bar-hover">
+    - Put more cards here -
+
+    <template v-slot:hovering>
+
+      <card title="My hovering card:">
+        <p>Card content here</p>
+      </card>
+
+      - Put more hovering cards here -
+
+    </template>
+
+  </side-bar>
+
+-->
+
+<template>
+<div id="side-bar">
+
+  <slot></slot>
+  <!-- Cards here -->
+
+  <div id="side-bar-hover">
+    <slot name="hovering" >
       <!-- More cards here -->
-    </div>
-
+    </slot>
   </div>
 
-*/
+</div>
+</template>
 
+<script>
+export default {
+  name: 'side-bar-card',
+  data() {
+    return {
+      expanded: true
+    }
+  },
+  mounted() {
+    this.expanded = !this.min;
+  },
+  props: {
+    title: {
+      type: String,
+      default: 'Side bar card',
+    },
+    // initializes the card minimized
+    min: {
+      type: Boolean,
+      default: false,
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+
+// todo: get these out of components...
+$desktop-bp: 1000px;
+$tablet-bp: 400px;
 
 // The side bar with the table of contents:
 #side-bar {
-  grid-column: 1 / 2;
   background: var(--card);
   height: 100vh;
   width: 300px;
@@ -81,7 +132,7 @@
     color: var(--card-text2);
   }
 
-  .side-bar-hover {
+  #side-bar-hover {
     top: 10px;
     right: -260px;
     position: absolute;
@@ -109,3 +160,4 @@
     
   } 
 }
+</style>

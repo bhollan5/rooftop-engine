@@ -8,7 +8,7 @@
     <span v-else >+</span>
   </div>
   <div class="card-body" v-if="expanded">
-    <slot></slot>
+    <slot>Card content here...</slot>
   </div>
 </div>
 </template>

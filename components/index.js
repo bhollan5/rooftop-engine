@@ -13,9 +13,14 @@ import slider from './inputs/slider.vue';
 // Misc:
 import lineBreak from './misc/line-break.vue';
 import collection from './misc/collection.vue';
+
+// Sidebar:
+import sideBar from './side_bar/sidebar.vue';
 import card from './side_bar/card.vue';
 
 // Icons:
+//   We import SVG icons this way so we can modify them with CSS, for theming.
+//   To understand why: https://css-tricks.com/using-svg/ 
 import checkIcon from './icons/check-icon.vue';
 import editIcon from './icons/edit-icon.vue';
 import expandIcon from './icons/expand-icon.vue';
@@ -43,15 +48,23 @@ export default {
   // Misc:
   lineBreak,
   collection,
+
+  // sidebar:
+  sideBar,
   card,
 
 
   // Icons
+  hamburgerIcon,
   editIcon,
   checkIcon,
   personIcon,
   searchIcon,
   gearIcon,
   expandIcon,
+  nonficIcon,
+  merchIcon,
+  mediaIcon,
+  servicesIcon,
 
 };
