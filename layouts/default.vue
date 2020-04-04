@@ -292,17 +292,7 @@ export default {
 
 <style lang="scss">
 
-@import '@/styles/inputs.scss';
 @import '@/styles/globals.scss';
-@import '@/styles/svg-classes.scss';
-@import '@/styles/components.scss';
-// @import '@/styles/transitions.scss';
-
-
-// Breakpoints, to make the site responsive to different screen sizes.
-// These are sass variables so we can use them in media queries.
-$desktop-bp: 1000px;
-$tablet-bp: 400px;
 
 // Header:
 #header {

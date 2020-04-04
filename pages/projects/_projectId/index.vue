@@ -1,7 +1,7 @@
 <!-- /nonfic/edit, where users can edit their nonfic articles! -->
 <template>
 <div class="body flex-container">
-  <div id="content" v-if="project">
+  <div class="content" v-if="project">
     <br><br>
     <h1>{{project.title}}</h1>
     <p>{{project.description}}</p>

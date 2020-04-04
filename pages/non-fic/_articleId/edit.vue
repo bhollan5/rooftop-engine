@@ -52,7 +52,7 @@
   </div>
 
   <!-- The content container, which holds the entire editor -->
-  <div id="content">
+  <div class="content">
     <div id="content-options">
       <button @click="editMode = false" v-if="editMode">Preview</button>
       <button @click="editMode = true" v-else>Edit <edit-icon class="small-icon"></edit-icon></button>

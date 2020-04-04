@@ -1,12 +1,30 @@
 <template>
-  <!-- The theme picker lets users edit the colors & stylings of a theme. -->
-  <div class="body">
+<!-- The theme picker lets users edit the colors & stylings of a theme. -->
+<div class="body">
+
+  <side-bar>
+
+    <card title="Theme Editor:">
+      <text-field regularfont v-model="themeDraft.theme_name" placeholder="Theme name"></text-field>
+      <text-field regularfont v-model="themeDraft._id" placeholder="Theme id"></text-field>
+      <div class="flex-container row-wrap">
+        <div class="color-thumbnail" v-for="(color, i) in cssDraftStyleObj" 
+          :style="{ background: color }"></div>
+          <br>
+      </div>
+      <button @click="resetTheme()" style="margin-left: 50%;transform:translatex(-50%);">Reset theme</button>
+    </card>
+
+  </side-bar>
+  
+  <!-- Theme display  -->
+  <div class="content">
 
     <h1 id="theming-header">Dynamic Theming</h1>
     <h2>Customize Rooftop's theme here!</h2>
-    <p class="centered">Below, you can try out different options to build your own theme for Rooftop.</p>
+    <p class="byline">by <router-link to="/">Rooftop Media</router-link></p>
+
     <br>
-    <button @click="resetTheme()" style="margin-left: 50%;transform:translatex(-50%);">Reset theme</button>
     
     <div class="big-br"></div>
     <line-break style="width: 40%;margin-left: 30%"></line-break>
@@ -16,18 +34,6 @@
         <!-- Custom styling begines! -->
     <!-- In the "customizer" div, we use temporary styling. -->
     <div id="customizer" :style="cssDraftStyleObj">
-
-      <div id="theme-details">
-        <h2>Theme overview: </h2>
-        <text-field regularfont v-model="themeDraft.theme_name" placeholder="Theme name"></text-field>
-        <text-field regularfont v-model="themeDraft._id" placeholder="Theme id"></text-field>
-        <div class="flex-container row-wrap">
-          <div class="color-thumbnail" v-for="(color, i) in cssDraftStyleObj" 
-            :style="{ background: color }"></div>
-            <br>
-        </div>
-        <br><br>
-      </div>
 
 
       <!-- primary elements -->
@@ -49,7 +55,7 @@
           <color-picker v-model="themeDraft.colors.bg2" name="Background color 2" :textcolor="themeDraft.colors.bg_text"
             id="bg" description="Used for the background of headers and stuff.">
           </color-picker><br><br>
-  
+
           <color-picker v-model="themeDraft.colors.bg_text" name="Background text" :textcolor="themeDraft.colors.bg"
             id="bg_text" description="For regular text.">
           </color-picker>
@@ -72,7 +78,7 @@
               <merch-decor></merch-decor>
             </div>
           </div>
-          <div class="body theme-body-example">
+          <div class="theme-body-example">
             <h1>Page Title</h1>
             <h2>Subtitle, in secondary color.</h2>
             <p>Totally regular text that would appear in the body of a paragraph on a page on  the website. Hey!</p><br>
@@ -252,14 +258,13 @@
       <div class="flex-container space-around">
         <button @click="submitTheme()">Save theme!</button>
       </div>
-      
-
-
-      
-
+    
     </div>
 
+  <!-- End of content -->
   </div>
+
+</div>
 </template>
 
 <script>
@@ -397,11 +402,6 @@ export default {
   padding-top: 50px;
   padding-bottom: 0px;
 }
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: var(--bg-text2);
-}
 
 
 // This div contains ALL the customization sections.
@@ -435,7 +435,6 @@ h2 {
   }
 }
 .theme-example {
-  width: 500px;
   background: var(--bg);
   box-shadow: 0px 0px 10px rgba(0,0,0,.6);
   .header {
@@ -478,19 +477,6 @@ h2 {
 
 .icon-uploader {
   border: solid var(--bg-text2) 2px;
-}
-
-
-.card {
-  margin-top: 25px;
-  width: 45%;
-  h4 {
-    font-size: var(--small-font-size);
-  }
-}
-.card-body {
-  font-size: var(--small-font-size);
-  padding-bottom: 50px;
 }
 
 

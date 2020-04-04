@@ -2,11 +2,18 @@
 // This CSS effects ALL PAGES, GLOBALLY. All other CSS should be scoped. 
 // This file is imported into the project in default.vue.
 
+// Breakpoints, to make the site responsive to different screen sizes.
+// These are sass variables so we can use them in media queries.
+$desktop-bp: 1000px;
+$tablet-bp: 400px;
 
-@font-face {
-  font-family: crimsonText;
-  src: url('../assets/fonts/CrimsonText-Regular.ttf');
-}
+// Importing other global style files:
+@import '@/styles/text.scss';
+@import '@/styles/layouts.scss';
+@import '@/styles/inputs.scss';
+@import '@/styles/svg-classes.scss';
+// @import '@/styles/transitions.scss';
+
 
 // Global vars:
 :root {
@@ -14,12 +21,6 @@
 
   --box-shading: 5px;
 
-  --very-small-font-size: 10px;
-  --small-font-size: 14px;
-  --regular-font-size:  19px;
-  --h1-font-size: 36px;
-  --h2-font-size: 24px;
-  --h3-font-size: 24px;
 }
 
 // Breakpoints, to make the site responsive to different screen sizes.
@@ -27,18 +28,15 @@
 $desktop-bp: 800px;
 $tablet-bp: 400px;
 
+
+// This came with the file. Maybe look into it
 html {
-  font-family: crimsonText, serif;
-  font-size: var(--regular-font-size);
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
-}
-input, textarea {
-  font-family: crimsonText;
 }
 
 *,
@@ -48,37 +46,7 @@ input, textarea {
   margin: 0;
 }
 
-h1, .h1-input input {
-  color: var(--bg-text);
-  font-weight: bold;
-  font-size: var(--h1-font-size);
-  text-align: center;
-}
-h2, .h2-input input{
-  text-align: center;
-  font-size: var(--h2-font-size);
-}
-h3, .h3-input input {
-  font-size: var(--h3-font-size);
-  font-weight: bold;
-}
-// Used in edit.vue
-h5 {
-  font-weight: normal;
-  font-size: 15px;
-}
-p, .p {
-  font-size: var(--regular-font-size);
-}
-a, .a {
-  color: var(--link);
-  font-weight: bold;
-  text-decoration: none;
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-  }
-}
+
 
 .small-square, .small-icon {
   height: var(--small-font-size);
@@ -152,14 +120,6 @@ a, .a {
   font-weight: bold;
 }
 
-.byline {
-  font-size: var(--small-font-size);
-}
-
-.body {
-  background: var(--bg);
-  color: var(--bg-text);
-}
 .header {
   background: var(--bg2);
   color: var(--bg-text);

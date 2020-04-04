@@ -1,34 +1,36 @@
 <template>
-  <div class="body" scoped>
+<div class="body" scoped>
+  <div class="full-page">
 
-    <!-- The "non-fic promo" is the banner spread at the top of the landing page. -->
-    <div id="non-fic-banner">
-      <non-fic-header></non-fic-header>
-      <p>Our non-fiction articles focus on <span class="highlight">communicating clearly</span>!</p>
-      <p>
-        If you disagree with something written in one of these articles, click on it to open
-        <span class="highlight">Clarity</span>, our feedback system. 
-      </p>
-    </div>
-
-    <!-- List of collections -->
-    <collection v-for="(collection, collection_i) in collections"
-      :collection="collection" :key="'collection' + collection_i" >
-    </collection>
-      <br><br><hr>
-    <collection :collection="collectionOfAllArticles">
-    </collection>
-
-    
-
-    <button @click="addCollection()" id="new-collection-button">
-      + New Collection
-    </button>
-    <router-link tag="button" to="/non-fic/new/edit" id="new-article-button">
-      + New Article
-    </router-link>
-    
+  <!-- The "non-fic promo" is the banner spread at the top of the landing page. -->
+  <div id="non-fic-banner">
+    <non-fic-header></non-fic-header>
+    <p>Our non-fiction articles focus on <span class="highlight">communicating clearly</span>!</p>
+    <p>
+      If you disagree with something written in one of these articles, click on it to open
+      <span class="highlight">Clarity</span>, our feedback system. 
+    </p>
   </div>
+
+  <!-- List of collections -->
+  <collection v-for="(collection, collection_i) in collections"
+    :collection="collection" :key="'collection' + collection_i" >
+  </collection>
+    <br><br><hr>
+  <collection :collection="collectionOfAllArticles">
+  </collection>
+
+  
+
+  <button @click="addCollection()" id="new-collection-button">
+    + New Collection
+  </button>
+  <router-link tag="button" to="/non-fic/new/edit" id="new-article-button">
+    + New Article
+  </router-link>
+  
+  </div>
+</div>
 </template>
 
 <script>

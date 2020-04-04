@@ -3,16 +3,16 @@
   <div class="body">
 
     <!-- The "landing promo" is the banner spread at the top of the landing page. -->
-    <div id="landing-promo">
+    <div class="full-page">
       <space-canvas></space-canvas>
-    </div>
 
-    <!-- -->
-    <div id="media-suggestions"
-      :style="{background: $store.state.bg}">
+      <!-- -->
+      <div id="media-suggestions"
+        :style="{background: $store.state.bg}">
 
+      </div>
+      
     </div>
-    
   </div>
 </template>
 

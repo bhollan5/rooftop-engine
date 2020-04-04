@@ -19,7 +19,7 @@
     </div>
 
     <!-- The content container, which holds the entire editor -->
-    <div id="content">
+    <div class="content">
       <non-fic-loading v-if="!articleData.length"></non-fic-loading>
       <non-fic-display v-else :data="articleData"></non-fic-display>
     </div>

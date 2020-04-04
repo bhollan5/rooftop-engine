@@ -6,6 +6,8 @@
     'has-input': hasInput, 
     'nobox': nobox, 
     'no-padding': nopadding,
+    'p': fontsize == 'regular',
+    'small-font': fontsize == 'small',
   }">
 
   <div class="title">{{title}}</div>
@@ -23,8 +25,6 @@
     type="number"
     :class="{ 'icon-padding': icon,
               'underline': underline,
-              'p': regularfont,
-              'small-font': smallfont,
               'no-underline': nounderline }"
     v-on:keyup.enter="$emit('enter')">
     
@@ -36,8 +36,6 @@
     v-on:keyup.enter="$emit('enter')"
     :class="{ 'icon-padding': icon,
               'underline': underline,
-              'p': regularfont,
-              'small-font': smallfont,
               'no-underline': nounderline }"></textarea>
 
     <!-- This is the default input option, for single line text. -->
@@ -49,8 +47,6 @@
     :readonly="readonly" 
     :class="{ 'icon-padding': icon,
               'underline': underline,
-              'p': regularfont,
-              'small-font': smallfont,
               'no-underline': nounderline }"
     v-on:keyup.enter="$emit('enter')">
 
@@ -61,8 +57,6 @@
     :readonly="readonly" 
     :class="{ 'icon-padding': icon,
               'underline': underline,
-              'p': regularfont,
-              'small-font': smallfont,
               'no-underline': nounderline }"
     v-on:keyup.enter="$emit('enter')"
     v-else>
@@ -139,16 +133,13 @@ export default {
       type: Boolean,
       default: false,
     },
-    // Regular font: 
-    regularfont: {
-      type: Boolean,
-      default: false,
+
+    // The font size for the input.
+    fontsize: {
+      type: String,   // Options: 'regular', 'small'
+      default: 'small'
     },
-    // Small font:
-    smallfont: {
-      type: Boolean,
-      default: false,
-    },
+
     // Reduces padding: 
     nopadding: {
       type: Boolean,

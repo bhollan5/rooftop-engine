@@ -1,24 +1,43 @@
+/*
+To use:
 
+<div class="body" id="page-id">
 
-// 
+  <side-bar></side-bar>
+
+  <div class="content">
+    column content
+  </div>
+
+</div>
+*/
+
 @import '@/styles/style_components/project-display.scss';
-@import '@/styles/style_components/side-bar.scss';
 
+// Any root level components should probably have this. 
+.body {
+  background: var(--bg);
+  color: var(--bg-text);
+  display: flex;
+  position: relative;
+}
 
 // 2 column content, like the text of an article. Note that it's an id - there should only be one per page.
-#content {
+.content {
   width: 100%;
+  max-width: 600px;
+
   margin-right: auto;
   margin-left: auto;
   padding: 20px 20px; // Making the total width 640!
-  max-width: 600px;
   align-content:flex-start;
 
   @media only screen and (max-width: $desktop-bp) {
     margin-top: 50px;
   }
-  h1 {
-    text-align: left;
-  }
+}
+
+.full-page {
+  width: 100%;
 }
 
