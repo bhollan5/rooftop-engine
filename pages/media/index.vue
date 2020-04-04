@@ -12,18 +12,14 @@
 </template>
 
 <script>
-import placeholderSpread from '@/components/landing_spreads/placeholder_spread.vue';
 
 // Icons: 
-import editIcon from '@/components/icons/edit-icon.vue';
 
 
 export default {
   name: 'non-fic',
   components: {
-    placeholderSpread,
 
-    editIcon,
   },
   data() {
     return {

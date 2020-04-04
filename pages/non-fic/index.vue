@@ -34,14 +34,11 @@
 </template>
 
 <script>
-import placeholderSpread from '@/components/landing_spreads/placeholder_spread.vue';
 import nonFicHeader from '@/components/non-fic/non-fic-header.vue';
 
 export default {
   name: 'non-fic',
   components: {
-    placeholderSpread,
-
     nonFicHeader,
   },
   data() {
