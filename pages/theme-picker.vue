@@ -5,13 +5,21 @@
   <side-bar>
 
     <card title="Theme Editor:">
-      <text-field regularfont v-model="themeDraft.theme_name" placeholder="Theme name"></text-field>
-      <text-field regularfont v-model="themeDraft._id" placeholder="Theme id"></text-field>
-      <div class="flex-container row-wrap">
-        <div class="color-thumbnail" v-for="(color, i) in cssDraftStyleObj" 
-          :style="{ background: color }"></div>
-          <br>
-      </div>
+      <text-field regularfont 
+      v-model="themeDraft.theme_name" 
+      title="Theme name:"
+      placeholder="My theme name"></text-field>
+      <text-field regularfont 
+      v-model="themeDraft._id" 
+      title="Theme id:"
+      placeholder="Theme id"></text-field>
+
+      <color-palette></color-palette>
+
+      <color-picker v-model="themeDraft.colors.logo" name="Logo color" :textcolor="themeDraft.colors.bg"
+        id="logo" description="The primary color for illustrations in the header.">
+      </color-picker>
+
       <button @click="resetTheme()" style="margin-left: 50%;transform:translatex(-50%);">Reset theme</button>
     </card>
 

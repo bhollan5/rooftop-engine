@@ -36,7 +36,7 @@ export default {
     },
     margin: {
       type: Number,
-      default: 15
+      default: 5
     }
   },
 

@@ -24,7 +24,6 @@
     :readonly="readonly" 
     type="number"
     :class="{ 'icon-padding': icon,
-              'underline': underline,
               'no-underline': nounderline }"
     v-on:keyup.enter="$emit('enter')">
     
@@ -35,7 +34,6 @@
     :readonly="readonly"
     v-on:keyup.enter="$emit('enter')"
     :class="{ 'icon-padding': icon,
-              'underline': underline,
               'no-underline': nounderline }"></textarea>
 
     <!-- This is the default input option, for single line text. -->
@@ -46,7 +44,6 @@
     :placeholder="placeholder" 
     :readonly="readonly" 
     :class="{ 'icon-padding': icon,
-              'underline': underline,
               'no-underline': nounderline }"
     v-on:keyup.enter="$emit('enter')">
 
@@ -56,7 +53,6 @@
     :placeholder="placeholder" 
     :readonly="readonly" 
     :class="{ 'icon-padding': icon,
-              'underline': underline,
               'no-underline': nounderline }"
     v-on:keyup.enter="$emit('enter')"
     v-else>
@@ -150,11 +146,6 @@ export default {
       type: Boolean,
       default: false
     },
-    // I'm not sure if we need this:
-    underline: {
-      type: Boolean,
-      default: false
-    }
   }
 }
 
@@ -175,47 +166,73 @@ export default {
   margin-bottom: -3px;
   margin-left: 3px;
 }
+.card .title {
+  color: var(--card-text2);
+}
+
+// Handling dynamic input backgrounds:
+input, textarea {
+  background: var(--input);
+  color: var(--input-text);
+}
+.card input {
+  background: var(--card-light);
+  color: var(--card-text);
+}
 
 input:not(.number), textarea {
   padding: 5px;
   width: 100%;
   outline: none;
-  background: var(--input);
-  color: var(--input-text);
+  
   transition-duration: .2s;
   box-shadow: 0px 0px var(--box-shading) rgba(0,0,0,.2);
 }
+
 // Handling underline
-input, textarea {
+input, textarea, .card input, .card textarea {
   border: none;
+  &:focus {
+    border-bottom: solid 2px var(--c1);
+  }
+  &.no-underline {
+    border-bottom: solid 2px rgba(0,0,0,0);
+    &:focus {
+      border-bottom: solid 2px var(--c1);
+    }
+  }
+}
+input, textarea {
   border-bottom: solid 2px var(--input-text2);
-  &:focus {
-    border-bottom: solid 2px var(--c1);
-  }
 }
-input.no-underline, textarea.no-underline {
-  border-bottom: solid 2px rgba(0,0,0,0);
-  &:focus {
-    border-bottom: solid 2px var(--c1);
-  }
+.card input, .card textarea {
+  border-bottom: solid 2px var(--card-text2);
 }
+
+// Placeholder
 input::placeholder, textarea::placeholder {
   color: var(--input-text2);
 }
+.card input::placeholder, .card textarea::placeholder {
+  color: var(--card-text2);
+}
+
+// Textarea
 textarea {
   // resize: vertical;
   resize: none;
   vertical-align: top;
 }
 
-// This goes away if :icon="false"
+// Icon classes
 input.icon-padding, .nobox .icon-padding {
   padding-left: 35px;
 }
 .small-icon .icon-padding {
   padding-left: 30px;
 }
-// This  goes away if :underline="false"
+
+
 .underline {
   border-bottom: 3px solid var(--input-text2);
 }
