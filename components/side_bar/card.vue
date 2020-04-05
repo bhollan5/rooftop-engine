@@ -7,9 +7,12 @@
     <span v-if="expanded">–</span>
     <span v-else >+</span>
   </div>
-  <div class="card-body" v-if="expanded">
+  <transition name="slide-down">
+  <div class="card-body" v-if="expanded"
+    :class="{ 'no-padding': nopadding }">
     <slot>Card content here...</slot>
   </div>
+  </transition>
 </div>
 </template>
 
@@ -25,12 +28,18 @@ export default {
     this.expanded = !this.min;
   },
   props: {
+    // Card title:
     title: {
       type: String,
       default: 'Side bar card',
     },
     // initializes the card minimized
     min: {
+      type: Boolean,
+      default: false,
+    },
+    // Removes 5px card padding: 
+    nopadding: {
       type: Boolean,
       default: false,
     }
@@ -75,6 +84,9 @@ export default {
   // The content of the card, filled out in <slot></slot>
   .card-body {
     padding: 10px;
+    &.no-padding {
+      padding: 0px;
+    }
   }
 }
 </style>

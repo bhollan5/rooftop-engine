@@ -3,7 +3,7 @@
 <div class="body">
 
   <side-bar>
-
+    <!-- Theme details: -->
     <card title="Theme Editor:">
       <text-field regularfont 
       v-model="themeDraft.theme_name" 
@@ -14,13 +14,22 @@
       title="Theme id:"
       placeholder="Theme id"></text-field>
 
-      <color-palette></color-palette>
-
-      <color-picker v-model="themeDraft.colors.logo" name="Logo color" :textcolor="themeDraft.colors.bg"
-        id="logo" description="The primary color for illustrations in the header.">
-      </color-picker>
-
       <button @click="resetTheme()" style="margin-left: 50%;transform:translatex(-50%);">Reset theme</button>
+    </card>
+
+    <!-- Color picker -->
+    <card title="Color palette:" min>
+      <color-palette v-model="selected_color"></color-palette>
+    </card>
+
+    <!-- Color picker -->
+    <card title="Color palette:" nopadding>
+      <color-picker v-for="(color_vals, key) in themeDraft.colors"
+      :key="key" v-if="selected_color == key"
+      v-model="themeDraft.colors[key]" 
+      :id="selected_color" :textcolor="themeDraft.colors.bg"
+      description="The primary color for illustrations in the header.">
+      </color-picker>
     </card>
 
   </side-bar>
@@ -50,32 +59,6 @@
       <!-- Logo and Text section -->
       <div id="logo-and-text" class="flex-container space-around">
 
-        <!-- Color pickers for the logo & text -->
-        <div class="theme-options" v-if="0"><br><br>
-
-          <color-picker v-model="themeDraft.colors.logo" name="Logo color" :textcolor="themeDraft.colors.bg"
-            id="logo" description="The primary color for illustrations in the header.">
-          </color-picker><br><br>
-
-          <color-picker v-model="themeDraft.colors.bg" name="Background color" :textcolor="themeDraft.colors.bg_text"
-            id="bg" description="The main background color.">
-          </color-picker>
-          <color-picker v-model="themeDraft.colors.bg2" name="Background color 2" :textcolor="themeDraft.colors.bg_text"
-            id="bg" description="Used for the background of headers and stuff.">
-          </color-picker><br><br>
-
-          <color-picker v-model="themeDraft.colors.bg_text" name="Background text" :textcolor="themeDraft.colors.bg"
-            id="bg_text" description="For regular text.">
-          </color-picker>
-          <color-picker v-model="themeDraft.colors.bg_text2" name="Background text 2" :textcolor="themeDraft.colors.bg"
-            id="bg_text2" description="For secondary text.">
-          </color-picker>
-          <color-picker v-model="themeDraft.colors.link" name="Link" :textcolor="themeDraft.colors.bg"
-            id="link" description="">
-          </color-picker>
-
-        </div>
-
         <div class="theme-example">
           <div class="header theme-header-example">
             <logo id="logo"></logo>
@@ -104,40 +87,11 @@
       <!-- Logo and Text section -->
       <div id="logo-and-text" class="flex-container space-around">
 
-        <!-- Color pickers for the logo & text -->
-        <div class="theme-options"><br><br>
-
-          <color-picker v-model="themeDraft.colors.c1" name="Design color 1" :textcolor="themeDraft.colors.bg"
-            id="c1" description="">
-          </color-picker>
-          <color-picker v-model="themeDraft.colors.c2" name="Design color 2" :textcolor="themeDraft.colors.bg"
-            id="c2" description="">
-          </color-picker>
-          <color-picker v-model="themeDraft.colors.c3" name="Design color 3" :textcolor="themeDraft.colors.bg"
-            id="c3" description="">
-          </color-picker><br><br>
-
-          <color-picker v-model="themeDraft.colors.card" name="Card backgound color" 
-          :textcolor="themeDraft.colors.card_text" id="card" description="The background for secondary 'card' containers.">
-          </color-picker>
-          <color-picker v-model="themeDraft.colors.card2" name="Card backgound color 2" 
-          :textcolor="themeDraft.colors.card_text" id="card2" description="The background for secondary 'card' containers.">
-          </color-picker><br><br>
-
-          <color-picker v-model="themeDraft.colors.card_text" name="Card backgound color" 
-          :textcolor="themeDraft.colors.card" id="card-text" description="The background for secondary 'card' containers.">
-          </color-picker>
-          <color-picker v-model="themeDraft.colors.card_text2" name="Card backgound color 2" 
-          :textcolor="themeDraft.colors.card" id="card-text2" description="The background for secondary 'card' containers.">
-          </color-picker><br><br>
-
-        </div>
-
         <div class="theme-example">
           <div class="header theme-header-example">
             <design-highlights></design-highlights> 
           </div>
-          <div class="body theme-body-example">
+          <div class="content theme-body-example">
             <design-highlight-example></design-highlight-example>
 
             <div class="card card-padding">
@@ -165,53 +119,13 @@
 
       <h2>Inputs: </h2>
       <div id="inputs" class="flex-container space-around">
-        <div class="theme-options">
-
-            <!-- Input background -->
-          <br><br>
-          <color-picker v-model="themeDraft.colors.input" name="Input background color" 
-          :textcolor="themeDraft.colors.input_text" id="input" description="">
-          </color-picker><br><br>
-
-            <!-- Input text -->
-          <color-picker v-model="themeDraft.colors.input_text" name="Input text" 
-          :textcolor="themeDraft.colors.input" id="input-text" description="The color as you type in an input">
-          </color-picker>
-
-            <!-- Secondary input text -->
-          <color-picker v-model="themeDraft.colors.input_text2" name="Input text 2" 
-          :textcolor="themeDraft.colors.input" id="input-text2" description="Placeholders and other secondary text">
-          </color-picker><br><br>
-
-          <color-picker v-model="themeDraft.colors.action" name="Action color" 
-          :textcolor="themeDraft.colors.action_text" id="action" description="For buttons and active fields.">
-          </color-picker>
-          <color-picker v-model="themeDraft.colors.action_text" name="Action text" 
-          :textcolor="themeDraft.colors.action" id="action" description="For buttons and active fields.">
-          </color-picker>
-
-          <color-picker v-model="themeDraft.colors.confirm" name="Confirm color" 
-          :textcolor="themeDraft.colors.confirm_text" id="input-text2" description="To indicate something affirmative.">
-          </color-picker>
-          <color-picker v-model="themeDraft.colors.confirm_text" name="Confirm text" 
-          :textcolor="themeDraft.colors.confirm" id="input-text2" description="Text that works over the confirm color.">
-          </color-picker>
-
-          <color-picker v-model="themeDraft.colors.danger" name="Danger Color" 
-          :textcolor="themeDraft.colors.danger_text" id="input-text2" description="For errors and other negative stuff.">
-          </color-picker>
-          <color-picker v-model="themeDraft.colors.danger_text" name="Danger text" 
-          :textcolor="themeDraft.colors.danger" id="input-text2" description="Text that works over the confirm color.">
-          </color-picker>
-
-          <input type="checkbox" v-model="nobox">
-        </div>
+     
         <div id="input-example" class="theme-example">
 
           <div class="header">
             <h3>Inputs</h3>
           </div>
-          <div class="body theme-body-example">
+          <div class="content theme-body-example">
 
             <text-field v-model="foo" :placeholder="'Placeholder text...'" class="sample-input" 
               regularfont :nobox="nobox" :title="'Big text field'">
@@ -299,6 +213,9 @@ export default {
       themeDraft: {
         colors: {}
       },
+      
+      // What color is being edited 
+      selected_color: 'bg',
 
       nobox: false,
 
@@ -343,6 +260,7 @@ export default {
     // This is copied straight from themeCSSObj in the store.
     // I considered finding a way to reuse that code, but I'm not sure it's worth it. 
     cssDraftStyleObj() {
+      console.log("Updating css")
       if (!this.themeDraft.colors.logo) {
         return {};
       }

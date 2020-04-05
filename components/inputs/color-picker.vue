@@ -1,97 +1,56 @@
 <template>
 <div class="color-picker">
-
-  <!-- This is the color display, ready to be clicked on :O -->
-  <div class="color-display" @click="focus=!focus"
+  <br>
+  <div class="color-display" 
     :style="{
       background: 'hsl(' + hsl[0] + ',' + hsl[1] + '%,' + hsl[2] + '%)',
       color: 'hsl(' + textcolor[0] + ',' + textcolor[1] + '%,' + textcolor[2] + '%)'
     }">
-    <p class="color-name">{{name}}</p>
-    <p class="color-description">{{description}}</p>
   </div>
+  <div style="font-size: var(--small-font-size); margin-left: 5px;">Id: {{id}}</div>
 
-  <!-- Absolutely-positioned, popup color picker -->
-  <transition name="color-picker-popup">
-  <div id="color-picker-popup" v-if="focus">
 
-    <!-- The big gradient canvas: -->
-    <div id="color-canvas-container">
-      <canvas class="color-canvas" :ref="'color-canvas' + id"
-        @mousemove="canvasClick($event)"
-        @mousedown="canvasDrag = true" @mouseup="canvasDrag = false"></canvas>
-      <div class="color-indicator canvas-indicator"
-        :style="{
-          bottom: (hsl[2] / values[2].max) * 100 + '%',
-          left: (hsl[1] / values[1].max) * 100 + '%',
+  <div id="color-canvas-container">
+    <div class="color-canvas" ref="color-canvas"
+      @mousedown="canvas_click($event)"
+      @mouseup="canvasDrag = false"
+      @mousemove="canvas_move($event)">
+
+      <div class="lightness-gradient"
+        :style="{ 
+          'background-image': 'linear-gradient(to top, hsla(' + hsl[0] + ',50%,0%,1), hsla(' + hsl[0] + ',50%,100%,0))',
         }"></div>
-
-      <div class="y-label">Lightness</div>
-      <div class="x-label">Saturation</div>
-    </div>
-
-    <!-- The sliders, below the canvas: -->
-    <div class="hsl-sliders">
-
-      <!-- One of three  slider  containers -->
-      <div class="gradient-slider">
-        <!-- This container has the number input and the label: -->
-        <div class="gradient-input">
-          <span>h:</span> <input v-model="hsl[0]" type="number"
-            :max="values[0]" min="0"><br>
-        </div>
-
-        <!-- Canvas and indicator: -->
-        <canvas class="canvas-slider" :ref="'canvas-slider1' + id" 
-          @mousedown="sliderDrag[0] = true"
-          @mousemove="sliderMove($event)" @mouseup="noSlidersDragging()"></canvas>
-        <!-- The math for the indicator position is a little  weird. The slider is 200px, but it's offset by the 60px gradient-input box. -->
-        <div class="color-indicator canvas-indicator"
-        :style="{
-          top: '12px',
-          left: ((hsl[0] / values[0].max) * 200) + 60 + 'px',
-        }"></div>
-
-      </div>
-
-      <div class="gradient-slider">
-
-        <div class="gradient-input">
-          <span>s:</span> <input v-model="hsl[1]" type="number"
-            :max="values[1]" min="0"><br>
-        </div>
-
-        <canvas class="canvas-slider" :ref="'canvas-slider2' + id"
-          @mousedown="sliderDrag[1] = true"
-          @mousemove="sliderMove($event)" @mouseup="noSlidersDragging()"></canvas>
-        <div class="color-indicator canvas-indicator"
-        :style="{
-          top: '12px',
-          left: ((hsl[1] / values[1].max) * 200) + 60 + 'px',
-        }"></div>
-
-      </div>
-      <div class="gradient-slider">
-
-        <div class="gradient-input">
-          <span>l:</span> <input v-model="hsl[2]" type="number"
-            :max="values[2]" min="0"><br>
-        </div>
-
-        <canvas class="canvas-slider" :ref="'canvas-slider3' + id"
-          @mousedown="sliderDrag[2] = true"
-          @mousemove="sliderMove($event)" @mouseup="noSlidersDragging()"></canvas>
-        <div class="color-indicator canvas-indicator"
-        :style="{
-          top: '12px',
-          left: ((hsl[2] / values[1].max) * 200) + 60 + 'px',
-        }"></div>
-        
-      </div>
+      <div class="saturation-gradient"
+      :style="{ 
+        'background-image': 'linear-gradient(to right, hsla(' + hsl[0] + ',0%,100%, 1), hsla(' + hsl[0] + ',100%,50%, 1))',
+      }"></div>
 
     </div>
+      
+    <div class="color-indicator canvas-indicator"
+      :style="{
+        bottom: (hsl[2] / values[2].max) * 100 + '%',
+        left: (hsl[1] / values[1].max) * 100 + '%',
+      }"></div>
+
+    <div class="y-label">Lightness</div>
+    <div class="x-label">Saturation</div>
   </div>
-  </transition>
+
+  <!-- The sliders, below the canvas: -->
+  <div class="hsl-sliders">
+
+    <!-- One of three  slider  containers -->
+
+    <slider title="H:" :value="hsl[0]" :min="0" :max="360"
+    @input="update_hsl($event, 0)"></slider>
+    <slider title="S:" :value="hsl[1]" :min="0" :max="100"
+    :gradient="saturation_gradient"
+    @input="update_hsl($event, 1)"></slider>
+    <slider title="L:" :value="hsl[2]" :min="0" :max="100"
+    @input="update_hsl($event, 2)"></slider>
+
+  </div>
   
 </div>
 </template>
@@ -107,17 +66,14 @@ export default {
     return {
       hsl: [50,50,50],
 
-      focus: false,        // Expanded popup
-
       canvasDrag: false,  // Indicates if the mouse is down over the canvas
-      sliderDrag: [false, false, false]
     }
   },
 
   mounted() {
-    this.hsl = this.value;
-    this.updateColorPicker();
-    this.updateSlider();
+    Vue.set(this.hsl, 0, this.value[0])
+    Vue.set(this.hsl, 1, this.value[1])
+    Vue.set(this.hsl, 2, this.value[2])
   },
 
   components: {
@@ -130,7 +86,7 @@ export default {
       type: String,
       default: 'My Color'
     },
-    // Unique id, for ref's
+    // Id to be displayed
     id: {
       type: String,
     },
@@ -149,7 +105,7 @@ export default {
     value: {
       type: Array,
       default() {
-        return [225, 100, 100]
+        return [360, 100, 100]
       },
     },
     values: {
@@ -159,7 +115,7 @@ export default {
           {
             name: 'hue',
             abbr: 'h', 
-            max: 225,
+            max: 360,
           }, {
             name: 'satruation',
             abbr: 's', 
@@ -174,191 +130,52 @@ export default {
     }
   },
 
-  watch: {
-    value() {
-      // Making sure our hsl stays up to date as the current theme loads.
-      this.hsl = this.value;
-    },
-    // Called anytime the hsl sliders change.
-    hsl() {
-      this.updateColorPicker();
-      this.updateSlider();
-    },
-    // Called when the focus changes.
-    focus() {
-      // TODO: this is hacky, but even THIS isn't working. Maybe i need an async thing?
-      this.$nextTick(() => this.updateColorPicker());
-      this.$nextTick(() => this.updateSlider());
+  computed: {
+    saturation_gradient() {
+      return [[this.hsl[0],0,this.hsl[2]], [this.hsl[0],100,this.hsl[2]]];
     }
   },
 
+  watch: {
+    value() {
+      // Making sure our hsl stays up to date as the current theme loads.
+      this.hsl[0] = this.value[0];
+      this.hsl[1] = this.value[1];
+      this.hsl[2] = this.value[2];
+    },
+  },
+
   methods: {
-    // Managing changing values when the user clicks on the canvas:
-    canvasClick(e) {
 
-      // Don't do this function if the mouse isn't down:
-      if (!this.canvasDrag) {
-        return;
-      }
+    update_hsl(newHue, index) {
+      console.log("Updating hsl");
+      Vue.set(this.hsl, index, newHue);
+      this.$emit('input', this.hsl);
+    }, 
 
-      // e.offsetX gives us the space 
-      let newX = e.offsetX / 200; 
-      newX = Math.floor(newX * this.values[1].max);
-      let newY = e.offsetY / 200;
-      newY = -Math.floor(newY * this.values[2].max) + 100;
+    canvas_move(evt) {
+      if (this.canvasDrag) {
+        let box = this.$refs['color-canvas'].getBoundingClientRect();
+        // y axis:
+        let y_percent = (evt.y - box.top) / 200; // The canvas is 200x200
+        y_percent = 1 - y_percent;
+        let new_val = Math.round(y_percent * 100);
+        Vue.set(this.hsl, 2, new_val)
 
-      Vue.set(this.hsl, 1, newX);
-      // Changing the value of the v-model'd var
-      this.$emit('input', this.hsl)
-      this.hsl[1] = newX;
-      this.hsl[2] = newY;
-    },
+        // x axis:
+        let x_percent = (evt.x - box.left) / 200; // The canvas is 200x200
+        new_val = Math.round(x_percent * 100);
+        Vue.set(this.hsl, 1, new_val)
 
-    // Managing changing values when the user clicks on the canvas:
-    sliderMove(e, sliderNum) {
-
-      for (let i = 0; i < 3; i++){
-        // Don't do this function if the mouse isn't down:
-        if (!this.sliderDrag[i]) {
-          continue;
-        }
-
-        // e.offsetX gives us the space 
-        let newX = e.offsetX / 200; 
-        newX = Math.floor(newX * this.values[i].max);
-
-        Vue.set(this.hsl, i, newX);
+        // Changing parent value
+        this.$emit('input', this.hsl);
       }
     },
-    noSlidersDragging() {
-      for (let i = 0; i < 3; i++){ 
-        this.sliderDrag[i] = false;
-      }
+    canvas_click(evt) {
+      this.canvasDrag = true;
+      this.canvas_move(evt);
     },
 
-    // Updating the big square canvas:
-    updateColorPicker() {
-      // Getting our canvas:
-      let canvasEl = this.$refs['color-canvas' + this.id];
-      if (!canvasEl) {
-        return
-      };
-
-      // Grabbing our canvas variables:
-      let canvasContext = canvasEl.getContext('2d');
-      let width1 = canvasEl.width;
-      let height1 = canvasEl.height;
-
-      // Getting the color's hue
-      var hue = 'hsl(' + this.hsl[0] + ',100%,50%)'; // red
-
-      // Creating a rectangle on our canvas:
-      canvasContext.rect(0, 0, width1, height1);
-
-      // Filling with red::
-      canvasContext.fillStyle = hue;
-      canvasContext.fillRect(0, 0, width1, height1);
-
-      // Painting over with white, for saturation:
-      var grdWhite = canvasContext.createLinearGradient(0, 0, width1, 0);
-      grdWhite.addColorStop(0, 'rgba(255,255,255,1)');
-      grdWhite.addColorStop(1, 'rgba(255,255,255,0)'); // Transparent
-      canvasContext.fillStyle = grdWhite;
-      canvasContext.fillRect(0, 0, width1, height1);
-
-      // Painting over the whole thing  from top to bottom for lightness:
-      var grdBlack = canvasContext.createLinearGradient(0, 0, 0, height1);
-      grdBlack.addColorStop(0, 'rgba(0,0,0,0)');
-      grdBlack.addColorStop(1, 'rgba(0,0,0,1)');
-      canvasContext.fillStyle = grdBlack;
-      canvasContext.fillRect(0, 0, width1, height1);
-    },
-
-    // updating a slider:
-    updateSlider() {
-
-      // HUE:
-      //
-      // Getting our hue canvas:
-      let sliderEl = this.$refs['canvas-slider1' + this.id];
-      if (!sliderEl) {
-        return;
-      }
-
-      // Grabbing our canvas variables:
-      let canvasContext = sliderEl.getContext('2d');
-      let width1 = sliderEl.width;
-      let height1 = sliderEl.height;
-
-      // Creating a rectangle on our canvas:
-      canvasContext.rect(0, 0, width1, height1);
-
-      // Painting over with our saturation gradient:
-      let grdWhite = canvasContext.createLinearGradient(0, 0, width1, 0);
-      // We're iterating through  from 0.0 to 1.0 to set up pieces of our hue gradient
-      for (let i = 10; i >= 0; i--) {
-        let frac = i / 10;
-        grdWhite.addColorStop(frac, 'hsla(' + (360 * frac) + ',' + 
-          this.hsl[1] + '%,' + this.hsl[2] + '%,1)');
-      }
-      canvasContext.fillStyle = grdWhite;
-      canvasContext.fillRect(0, 0, width1, height1);
-
-
-      // SATURATION
-      //
-      // Getting our saturation canvas:
-      sliderEl = this.$refs['canvas-slider2' + this.id];
-
-      // Grabbing our canvas variables:
-      canvasContext = sliderEl.getContext('2d');
-      width1 = sliderEl.width;
-      height1 = sliderEl.height;
-
-      let baseColor = 'hsl(' + this.hsl[0] + ',100%,' + this.hsl[2] + '%)'; 
-
-      // Creating a rectangle on our canvas:
-      canvasContext.rect(0, 0, width1, height1);
-
-      // Filling with our color with unaffected saturation:
-      canvasContext.fillStyle = baseColor;
-      canvasContext.fillRect(0, 0, width1, height1);
-
-      // Painting over with our saturation gradient:
-      grdWhite = canvasContext.createLinearGradient(0, 0, width1, 0);
-      grdWhite.addColorStop(0, 'hsla(0, 0%,' + this.hsl[2] + '%,1)');
-      grdWhite.addColorStop(1, 'hsla(0, 0%, 0%, 0)'); // Transparent
-      canvasContext.fillStyle = grdWhite;
-      canvasContext.fillRect(0, 0, width1, height1);
-
-
-      // LIGHTNESS:
-      //
-      // Getting our lightness canvas:
-      sliderEl = this.$refs['canvas-slider3' + this.id];
-
-      // Grabbing our canvas variables:
-      canvasContext = sliderEl.getContext('2d');
-      width1 = sliderEl.width;
-      height1 = sliderEl.height;
-
-      baseColor = 'hsl(' + this.hsl[0] + ',' + this.hsl[1] + '%, 50%)'; 
-
-      // Creating a rectangle on our canvas:
-      canvasContext.rect(0, 0, width1, height1);
-
-      // Filling with our color with unaffected saturation:
-      canvasContext.fillStyle = baseColor;
-      canvasContext.fillRect(0, 0, width1, height1);
-
-      // Painting over with our saturation gradient:
-      grdWhite = canvasContext.createLinearGradient(0, 0, width1, 0);
-      grdWhite.addColorStop(0, 'hsla(' + this.hsl[0] + ', ' + this.hsl[1] + '%,0%,1)');
-      grdWhite.addColorStop(.5, 'hsla(' + this.hsl[0] + ', ' + this.hsl[1] + '%,50%,1)');
-      grdWhite.addColorStop(1, 'hsla(' + this.hsl[0] + ', ' + this.hsl[1] + '%,100%,1)');
-      canvasContext.fillStyle = grdWhite;
-      canvasContext.fillRect(0, 0, width1, height1);
-    }
   },
 
 }
@@ -369,51 +186,30 @@ export default {
 
 $margin-size: 10px;
 
-// The entire component:
-.color-picker {
-  position: relative;
-  width: 100%;  
-  width: 400px;
-  box-shadow: 0px 0px 10px rgba(0,0,0,.5);
+.lightness-gradient {
+  z-index: 3;
 }
 
 // Color display:
 .color-display {
-  width: 100%;
-  cursor: pointer;
-  padding: $margin-size;
-  .color-name {
-    font-size: var(--regular-font-size);
-    font-weight: bold;
-  }
-  .color-description {
-    font-size: var(--small-font-size);
-  }
-  .color-name, .color-description {
-    width: calc(100% - 32px);
-  }
+  width: 50px;
+  height: 20px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  box-shadow: inset 0px 0px 2px black;
+  outline: 1px solid var(--card2);
 }
-
-
-// Color picker popup transitions:
-.color-picker-popup-enter, .color-picker-popup-leave-to{
-  max-height: 0px;
-}
-.color-picker-popup-enter-active, .color-picker-popup-leave-active {
-  transition: max-height .5s;
-}
-.color-picker-popup-enter-to,  /* .fade-leave-active below version 2.1.8 */ {
-  max-height: 325px;
-}
-
 // Popup picker:
-#color-picker-popup {
+.color-picker {
   position: relative;
-  width: 400px;
+  width: 100%;
   height: 325px;
+
   overflow: hidden;
   background: var(--card);
   color: var(--card-text);
+  box-shadow: 0px 0px 10px rgba(0,0,0,.5);
 
   #color-canvas-container {
     width: 200px;
@@ -421,9 +217,16 @@ $margin-size: 10px;
     position: absolute;
     right: 10px;
     top: 10px;
+
     .color-canvas {
       width: 200px;
       height: 200px;
+      div {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+
     }
   }
 
@@ -495,6 +298,7 @@ $margin-size: 10px;
   border-radius: 50%;
   box-shadow: 0px 0px 10px rgba(0,0,0,.5);
   pointer-events: none;
+  z-index: 5;
 }
 // Placing the canvas-indicator correctly
 .canvas-indicator {

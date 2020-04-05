@@ -24,3 +24,14 @@
   max-height: 400px;
   padding: 0px;
 }
+
+// // Color picker popup transitions:
+// .color-picker-popup-enter, .color-picker-popup-leave-to{
+//   max-height: 0px;
+// }
+// .color-picker-popup-enter-active, .color-picker-popup-leave-active {
+//   transition: max-height .5s;
+// }
+// .color-picker-popup-enter-to,  /* .fade-leave-active below version 2.1.8 */ {
+//   max-height: 325px;
+// }

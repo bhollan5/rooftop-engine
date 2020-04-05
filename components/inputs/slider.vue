@@ -10,7 +10,16 @@
       @mousedown="grab($event)">
     </div>
 
-    <div class="slider-fill" :style="{width: slider_grab_pos + '%'}"
+    <div class="slider-fill" 
+    v-if="!gradient.length" 
+    :style="{width: slider_grab_pos + '%'}"
+    ></div>
+    <div class="gradient-slider-fill" 
+    v-else
+    style="width:100%"
+    :style="{ 
+    'background': gradient_string,
+      }"
     ></div>
 
   </div>
@@ -37,33 +46,6 @@ export default {
     }
   },
 
-  computed: {
-    slider_grab_pos() {
-      if (this.value > this.max) {
-        return 100;
-      } else if (this.value < this.min) {
-        return 0;
-      }
-      return Math.floor(((this.value - this.min) / this.range) * 100);
-    },
-
-    range() {
-      return this.max - this.min;
-    }
-  },
-
-  mounted() {
-    this.get_bounding_box();
-  },
-
-  destroyed() {
-    this.ungrab();
-  },
-
-  watch: {
-
-  },
-
   props: {
     
     // the v-model value
@@ -79,6 +61,51 @@ export default {
       type: String,
       default: '',
     },
+
+    // Colored background?
+    gradient: {
+      type: Array,
+      default() {
+        return []
+      }
+    }
+
+  },
+
+  computed: {
+    slider_grab_pos() {
+      if (this.value > this.max) {
+        return 100;
+      } else if (this.value < this.min) {
+        return 0;
+      }
+      return Math.floor(((this.value - this.min) / this.range) * 100);
+    },
+
+    range() {
+      return this.max - this.min;
+    },
+
+    gradient_string() {
+      return 'linear-gradient(to right, hsl(' + this.gradient[0][0] + 
+                       ',' + this.gradient[0][1] + 
+                       '%,' + this.gradient[0][2] + 
+                       '%), hsl(' + this.gradient[1][0] + 
+                       ',' + this.gradient[1][1] + 
+                       '%,' + this.gradient[1][2] + 
+                       '%))';
+    }
+  },
+
+  mounted() {
+    this.get_bounding_box();
+  },
+
+  destroyed() {
+    this.ungrab();
+  },
+
+  watch: {
 
   },
 
@@ -151,6 +178,9 @@ export default {
   .slider-fill {
     height: 100%;
     background: var(--input-text2-dark);
+  }
+  .gradient-slider-fill {
+    height: 100%;
   }
 }
 
