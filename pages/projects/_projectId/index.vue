@@ -1,6 +1,16 @@
 <!-- /nonfic/edit, where users can edit their nonfic articles! -->
 <template>
 <div class="body flex-container">
+
+  <side-bar v-if="this.$auth.loggedIn && this.project 
+  && this.$auth.user.username == this.project.owner">
+
+    <card title="My card:">
+      <p>Card content here</p>
+    </card>
+
+  </side-bar>
+
   <div class="content" v-if="project">
     <br><br>
     <h1>{{project.title}}</h1>
@@ -22,7 +32,7 @@
 import axios from 'axios';
 
 export default {
-  name: 'new-project',
+  name: 'project-page',
 
   components: {
 

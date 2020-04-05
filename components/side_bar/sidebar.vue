@@ -74,6 +74,7 @@ $tablet-bp: 400px;
 #side-bar {
   background: var(--card);
   height: 100vh;
+  z-index: 100;
   width: 300px;
   min-width: 300px;
   position: sticky;
@@ -135,10 +136,9 @@ $tablet-bp: 400px;
   }
 
   #side-bar-hover {
-    top: 10px;
-    right: -260px;
+    top: 0px;
+    right: -250px;
     position: absolute;
-    z-index: 11;
     width: 250px;
     cursor: pointer;
 

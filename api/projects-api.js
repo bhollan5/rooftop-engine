@@ -34,7 +34,6 @@ module.exports = function(app, mongoose){
   // Read a project:
   app.get('/read-project', (req, res) => {
     console.log("\n 🗣 Called to read a project!")
-    console.log(req.query);
 
     Project.find(req.query, function (err, result) {
       if (err) return console.error(err);

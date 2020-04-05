@@ -58,7 +58,7 @@
       <br>
       
       <div class="big-br"></div>
-      <line-break style="width: 40%;margin-left: 30%"></line-break><br>
+      <line-break style="width: 40%;margin: 0px 30% 50px"></line-break>
 
       <h3>Illustration & alternate backgrounds: </h3>
 
@@ -179,10 +179,10 @@
 import logo from '~/components/logo.vue';
 
 // Decoration for the desktop menu:
-import mediaDecor from '~/components/link-decor/media-decor.vue';
-import nonficDecor from '~/components/link-decor/non-fic-decor.vue';
-import servicesDecor from '~/components/link-decor/services-decor.vue';
-import merchDecor from '~/components/link-decor/merch-decor.vue';
+import mediaDecor from '~/components/header/link-decor/media-decor.vue';
+import nonficDecor from '~/components/header/link-decor/non-fic-decor.vue';
+import servicesDecor from '~/components/header/link-decor/services-decor.vue';
+import merchDecor from '~/components/header/link-decor/merch-decor.vue';
 
 // Theme picker components:
 import designHighlights from '~/components/style_guide/design-highlights.vue';

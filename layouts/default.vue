@@ -4,66 +4,17 @@
 
 
 
-    <!--                -->
   <!--       Header:      -->
-    <!--                -->
 
-  <div id="header">
-
-    <!-- Logo: -->
-    <router-link to="/">
-      <logo id="header-logo"></logo>
-    </router-link>
-
-    <!-- We use this container to separate the logo from the content. -->
-    <div id="header-right-side-container">
-
-      <!-- This appears on desktop only: -->
-      <div id="header-desktop-menu">
-        <router-link tag="div" to="/media">
-          <media-decor></media-decor>
-        </router-link>
-        <router-link tag="div" to="/non-fic">
-          <nonfic-decor></nonfic-decor>
-        </router-link>
-        <services-decor></services-decor>
-        <merch-decor></merch-decor>
-      </div>
-
-      <!-- Searchbar and searchbar icon: -->
-      <text-field title="" placeholder="Search Media" icon smallfont v-if="0">
-        <search-icon> </search-icon>
-      </text-field>
-      
-      <!-- User options button - pfp, display name, username -->
-      <div id="user-options-button" @click="userOptions = true"
-        v-if="$auth.loggedIn">
-        <div class="user-info-text tablet-only">
-          <div class="small-font secondary">{{ $auth.user.display_name}}</div>
-          <div class="secondary" v-if="0">{{ $auth.user.username }}</div>
-        </div>
-        <div class="user-icon">
-          <img src="@/assets/misc/frog-pic.svg">
-        </div>
-      </div>
-      <!-- "Options" button, if the user isn't logged in. -->
-      <div id="options-button" @click="userOptions = true"
-        v-else>
-        <hamburger-icon id="header-icon"></hamburger-icon>
-        <span class="tablet-only">Options</span>
-      </div>
-
-    </div> <!-- End of right-hand-side-container-->
-
-  </div><!-- end of header -->
+  <!-- <header> is already a thing, so we use <site-header>-->
+  <site-header v-model="display_user_options"></site-header>
+  
 
 
-  <!--                  -->
 <!--       Darkener:      -->
-  <!--                  -->
 
   <transition name="fade">
-    <div id="darkener" v-if="userOptions || svgEditorOpen" @click="closePopup()"></div>
+    <div id="darkener" v-if="display_user_options || svgEditorOpen" @click="closePopup()"></div>
   </transition>
 
 
@@ -72,9 +23,10 @@
   <!--          (popup)           -->
 
   <transition name="menu-popup">
-  <div id="user-options" v-if="userOptions">
+  <div id="user-options" v-if="display_user_options">
+    
     <div id="user-options-header">
-      <button id="user-options-close" class="bg2-button" @click="userOptions = false">
+      <button id="user-options-close" class="bg2-button" @click="display_user_options = false">
         X
       </button>
 
@@ -94,7 +46,7 @@
         Sign In
       </router-link>
 
-    </div> <!-- End of header -->
+    </div> <!-- End of user option header -->
 
     <!-- project display -->
     <h3>Projects:</h3>
@@ -142,7 +94,6 @@
   <svg-editor v-if="svgEditorOpen"></svg-editor>
 
 
-
   <!-- This is where other pages get inserted: -->
   <nuxt />
 
@@ -176,30 +127,17 @@
 
 <script>
 
-// Logo 
-import logo from '~/components/logo.vue';
+// Importing the header:
+import siteHeader from '~/components/header/header.vue';
 
-// Decoration for the desktop menu:
-import mediaDecor from '~/components/link-decor/media-decor.vue';
-import nonficDecor from '~/components/link-decor/non-fic-decor.vue';
-import servicesDecor from '~/components/link-decor/services-decor.vue';
-import merchDecor from '~/components/link-decor/merch-decor.vue';
-
-// Components for this page
+// Popup svg editor:
 import svgEditor from '~/components/inputs/svg-editor.vue';
 
-// Our vue component
 export default {
   components: {
 
-    // Logo component:
-    logo,
-
-    // Desktop menu decor:
-    mediaDecor,
-    nonficDecor,
-    servicesDecor,
-    merchDecor,
+    // Header:
+    siteHeader,
 
     // svg editor
     svgEditor
@@ -209,7 +147,7 @@ export default {
       scrollPos: 0,     // Used to detect if we're scrolling up or down. 
       searchbarPos: 0,  // Affects the searchbar's vertical position.
 
-      userOptions: false, // Indicates whether we're showing the user options menu
+      display_user_options: false, // Indicates whether we're showing the user options menu
     }
   },
   computed: {
@@ -230,7 +168,10 @@ export default {
 
     // User projects
     user_projects() {
-      return this.$store.getters['projects/get_user_projects'](this.$auth.user.username);
+      if (this.$auth.loggedIn) {
+        return this.$store.getters['projects/get_user_projects'](this.$auth.user.username);
+      }
+      return [];
     },
 
     // Is the svg-editor open?
@@ -248,7 +189,9 @@ export default {
 
     // For the user options menu:
     this.$store.dispatch('themes/readAllThemes');
-    this.$store.dispatch('projects/read_project', { owner: this.$auth.user.username })
+    if (this.$auth.loggedIn){
+      this.$store.dispatch('projects/read_project', { owner: this.$auth.user.username })
+    }
     
   },
   methods: {
@@ -283,7 +226,7 @@ export default {
 
     closePopup() {
       this.$store.commit("svg/closeEditor");
-      this.userOptions = false;
+      this.display_user_options = false;
     }
 
   }
@@ -294,136 +237,11 @@ export default {
 
 @import '@/styles/globals.scss';
 
-// Header:
-#header {
-  background: var(--bg2);
-  height: 50px;
-  width: 100%;
-  display: flex;
-  position: fixed;
-  justify-content: space-between;
-  box-shadow: 0px 0px 5px rgba(0,0,0,.5);
-  z-index: 11;
 
-  // Logo:
-  #header-logo {
-    height: 30px;
-    margin-top: 10px;
-    margin-left: 10px;
-  }
+////////////////////////////
+//   User options menu:   //
+////////////////////////////
 
-  // This contains both the search bar and the desktop menu options.
-  #header-right-side-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin: 0px;
-  }
-
-  .text-field  {
-    margin: 0px; padding: 0px;
-  }
-  
-  // Header login button:
-  #options-button, #user-options-button {
-    font-size: 16px;
-    cursor: pointer;
-    background: var(--bg2-input);
-    height: 30px;
-    min-width: 60px;
-    margin: 0px 10px;
-    display: flex;
-    align-items: center;
-    padding: 5px 10px;
-    .user-icon {
-      width: 15px; 
-      height: 15px;
-      border-radius: 50%;
-      background: #CEFDFE;
-      overflow: hidden;
-    }
-    .user-info-text {
-      text-align: right;
-      margin-right: 10px;
-      color: var(--bg-text);
-      font-size: var(--regular-font-size);
-      .secondary {
-        color: var(--bg-text2);
-        font-size: var(--small-font-size);
-      }
-    }
-    span {
-      color: var(--bg2-input-text2);
-      margin-left: 5px;
-    }
-  }
-  #login-button:hover {
-    span {
-      color: var(--input-text);
-    }
-    #header-icon {
-      fill: var(--input-text);
-    }
-  }
-
-  // Hiding the desktop menu on mobile
-  #header-desktop-menu {
-    display: none;
-  }
-
-  // Desktop header – larger, and with nav options
-  @media only screen and (min-width: $desktop-bp){
-    position: relative;
-    height: 100px;
-    padding: 25px 50px;
-
-    // Changing the header to be larger on desktop
-    #header-logo {
-      height: 50px;
-      margin: 0px;
-    }
-
-    // Styling for the desktop nav options
-    #header-desktop-menu {
-      display: flex;
-      margin-top: 10px;
-      min-width: 500px;
-      // Styling for individual nav options
-      svg {
-        
-        height: 50px;
-        width: 120px;
-        top: -6px;
-        left: 0px;
-        cursor: pointer;
-        text-align: center;
-      }
-      // For active links in the header
-      .nuxt-link-active svg {
-        font-weight: bold;
-
-        .hover-stroke-c1 {
-          stroke: var(--c1);
-        }
-        .hover-stroke-c2 {
-          stroke: var(--c1);
-        }
-        .hover-stroke-c3 {
-          stroke: var(--c1);
-        }
-        .hover-fill-bg-text {
-          fill: var(--bg-text);
-        }
-
-
-      }
-      
-    }
-  }
-  
-}
-
-// User options:
 #user-options {
   position: fixed;
   height: 100%;
@@ -431,7 +249,7 @@ export default {
   max-width: 90vw;
   top: 0px;
   right: 0px;
-  z-index: 12;
+  z-index: 301;
   color: var(--bg-text);
   background: var(--bg);
   drop-shadow: 0px 0px 10px rgba(0,0,0,1);
@@ -526,7 +344,7 @@ export default {
   position: fixed;
   top: 0px;
   background: rgba(0,0,0,.7);
-  z-index: 11;
+  z-index: 300;
 }
 // Fade in for the options darkener:
 .fade-enter, .fade-leave-to {
