@@ -66,5 +66,7 @@ export default {
   merchIcon,
   mediaIcon,
   servicesIcon,
+  trashIcon,
+  imageIcon,
 
 };

@@ -6,19 +6,19 @@
   && this.$auth.user.username == this.project.owner">
 
     <card title="My card:">
-      <p>Card content here</p>
+      <checkbox title="editable?" v-model="edit_mode"></checkbox>
     </card>
 
   </side-bar>
 
-  <div class="content" v-if="project">
+  <page-content v-model="content" v-if="project" :editable="edit_mode">
     <br><br>
     <h1>{{project.title}}</h1>
     <p>{{project.description}}</p>
     <p class="byline">Owned by @{{project.owner}}</p>
     <br>
+  </page-content>
     
-  </div>
   <div id="project-page-loading" v-else>
   
   </div>
@@ -27,6 +27,7 @@
 
 <script>
 
+import pageContent from '~/components/content/content.vue';
 
 // For our db calls
 import axios from 'axios';
@@ -35,7 +36,7 @@ export default {
   name: 'project-page',
 
   components: {
-
+    pageContent
   },
 
   computed: {
@@ -49,6 +50,13 @@ export default {
       // The ID of the article we're on -- loaded from the URL id.
       project_id: this.$route.params.projectId,
 
+      edit_mode: false,
+
+      content: [
+        { "type": "section-title",  "content": "" },
+        { "type": "subsection-title", "index": "1.1", "content": "" },
+        { "type": "paragraph", "content": "" }
+      ]
     }
   },
 

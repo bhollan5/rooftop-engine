@@ -26,6 +26,9 @@
 
 <template>
 <div id="side-bar">
+  <div id="side-bar-header">
+    <div id="side-bar-title">Rooftop Website</div>
+  </div>
 
   <slot></slot>
   <!-- Cards here -->
@@ -44,6 +47,7 @@ export default {
   name: 'side-bar-card',
   data() {
     return {
+      // If the sidebar is expanded
       expanded: true
     }
   },

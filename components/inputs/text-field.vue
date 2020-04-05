@@ -7,6 +7,8 @@
     'nobox': nobox, 
     'no-padding': nopadding,
     'p': fontsize == 'regular',
+    'h2': fontsize == 'h2',
+    'h3': fontsize == 'h3',
     'small-font': fontsize == 'small',
   }">
 
@@ -187,6 +189,18 @@ input:not(.number), textarea {
   
   transition-duration: .2s;
   box-shadow: 0px 0px var(--box-shading) rgba(0,0,0,.2);
+}
+
+
+.h2 input, .h2 textarea {
+  font-size: var(--h2-font-size);
+}
+.h3 input, .h3 textarea {
+  text-align: center;
+  font-size: var(--h3-font-size);
+}
+.p input, .p textarea {
+  font-size: var(--regular-font-size);
 }
 
 // Handling underline
