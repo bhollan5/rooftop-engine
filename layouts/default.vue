@@ -31,7 +31,7 @@
       </div>
 
       <!-- Searchbar and searchbar icon: -->
-      <text-field title="" placeholder="Search Media" icon smallfont>
+      <text-field title="" placeholder="Search Media" icon smallfont v-if="0">
         <search-icon> </search-icon>
       </text-field>
       

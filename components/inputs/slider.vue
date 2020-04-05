@@ -87,13 +87,15 @@ export default {
     },
 
     gradient_string() {
-      return 'linear-gradient(to right, hsl(' + this.gradient[0][0] + 
-                       ',' + this.gradient[0][1] + 
-                       '%,' + this.gradient[0][2] + 
-                       '%), hsl(' + this.gradient[1][0] + 
-                       ',' + this.gradient[1][1] + 
-                       '%,' + this.gradient[1][2] + 
-                       '%))';
+      let grad_str = 'linear-gradient(to right';
+      for (let i in  this.gradient) {
+        grad_str += ', hsl(' + this.gradient[i][0] + 
+                    ',' + this.gradient[i][1] + 
+                       '%,' + this.gradient[i][2] + 
+                       '%)'
+      }
+      grad_str += ')';
+      return grad_str;
     }
   },
 

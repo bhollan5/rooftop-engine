@@ -34,61 +34,47 @@
 
   </side-bar>
   
-  <!-- Theme display  -->
-  <div class="content">
+  <!-- Example theme content:  -->
+  <div class="full-page" id="sample-page" :style="cssDraftStyleObj">
 
-    <h1 id="theming-header">Dynamic Theming</h1>
-    <h2>Customize Rooftop's theme here!</h2>
-    <p class="byline">by <router-link to="/">Rooftop Media</router-link></p>
-
-    <br>
-    
-    <div class="big-br"></div>
-    <line-break style="width: 40%;margin-left: 30%"></line-break>
-
-
-
-        <!-- Custom styling begines! -->
-    <!-- In the "customizer" div, we use temporary styling. -->
-    <div id="customizer" :style="cssDraftStyleObj">
-
-
-      <!-- primary elements -->
-
-      <h2>Headers, bodies, and text: </h2>
-      <!-- Logo and Text section -->
-      <div id="logo-and-text" class="flex-container space-around">
-
-        <div class="theme-example">
-          <div class="header theme-header-example">
-            <logo id="logo"></logo>
-            <div class="flex-container">
-              <media-decor></media-decor>
-              <nonfic-decor></nonfic-decor>
-              <services-decor></services-decor>
-              <merch-decor></merch-decor>
-            </div>
-          </div>
-          <div class="theme-body-example">
-            <h1>Page Title</h1>
-            <h2>Subtitle, in secondary color.</h2>
-            <p>Totally regular text that would appear in the body of a paragraph on a page on  the website. Hey!</p><br>
-            <p>Important parts of a text passage might be highlighted to show importance. </p><br>
-            <p><div class="a">Here's a link to another page →</div></p>
-            <br><br><br>
-          </div>
-        </div>
+    <div class="header theme-header-example flex-container space-between">
+      <logo id="logo"></logo>
+      <div class="right-side-container">
+        <media-decor></media-decor>
+        <nonfic-decor></nonfic-decor>
+        <services-decor></services-decor>
+        <merch-decor></merch-decor>
       </div>
+    </div>
+
+
+    <!-- Starts our column of content -->
+    <div class="content">
+
+      <h1 id="theming-header">Dynamic Theming</h1>
+      <h2>Customize Rooftop's theme here!</h2>
+      <p class="byline">by <router-link to="/">Rooftop Media</router-link></p>
+
+      <br>
+      
+      <div class="big-br"></div>
+      <line-break style="width: 40%;margin-left: 30%"></line-break><br>
+
+      <h3>Illustration & alternate backgrounds: </h3>
+
+      <p>Totally regular text that would appear in the body of a paragraph on a page on  the website. Hey!</p><br>
+      <p>Important parts of a text passage might be highlighted to show importance. </p><br>
+      <p><div class="a">Here's a link to another page →</div></p>
 
 
 
 
-      <h2>Illustration & alternate backgrounds: </h2>
+      <h3>Illustration & alternate backgrounds: </h3>
       <!-- Logo and Text section -->
       <div id="logo-and-text" class="flex-container space-around">
 
         <div class="theme-example">
-          <div class="header theme-header-example">
+          <div class="header">
             <design-highlights></design-highlights> 
           </div>
           <div class="content theme-body-example">
@@ -119,7 +105,7 @@
 
       <h2>Inputs: </h2>
       <div id="inputs" class="flex-container space-around">
-     
+      
         <div id="input-example" class="theme-example">
 
           <div class="header">
@@ -180,10 +166,9 @@
       <div class="flex-container space-around">
         <button @click="submitTheme()">Save theme!</button>
       </div>
-    
+    <!-- End of column content -->
     </div>
-
-  <!-- End of content -->
+  <!-- End of customizer -->
   </div>
 
 </div>
@@ -329,11 +314,11 @@ export default {
   padding-bottom: 0px;
 }
 
-
-// This div contains ALL the customization sections.
-#customizer {
-  padding-top: 50px;
+#sample-page {
+  background: var(--bg);
+  position: relative;
 }
+
 
 #theme-details {
   width: 350px;
@@ -356,6 +341,7 @@ export default {
 .theme-options, .theme-example {
   max-width: 90%;
   min-width: 250px;
+  position: relative;
   p {
     color: var(--bg-text);
   }
@@ -372,16 +358,23 @@ export default {
 .theme-header-example {
   background: var(--bg2);
   display: flex;
-  flex-direction: column;
   align-items: center;
   padding: 25px;
+  position: relative;
+  top: 0px;
+  left: 0px;
   #logo {
     max-width: 200px;
+    min-width: 60px;
   }
   // contains the nav options:
   .flex-container {
     padding: 15px 0px 0px;
   }
+}
+.right-side-container {
+  display: flex;
+  width: 300px;
 }
 .theme-body-example {
   padding: 25px;

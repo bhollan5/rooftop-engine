@@ -75,6 +75,7 @@ $tablet-bp: 400px;
   background: var(--card);
   height: 100vh;
   width: 300px;
+  min-width: 300px;
   position: sticky;
   top: 0px;
   box-shadow: 0px 0px 5px rgba(0,0,0,.5);

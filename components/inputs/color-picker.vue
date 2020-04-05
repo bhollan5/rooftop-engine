@@ -7,7 +7,7 @@
       color: 'hsl(' + textcolor[0] + ',' + textcolor[1] + '%,' + textcolor[2] + '%)'
     }">
   </div>
-  <div style="font-size: var(--small-font-size); margin-left: 5px;">Id: {{id}}</div>
+  <div style="font-size: var(--small-font-size); margin-left: 10px;color:var(--card-text2)">Id: {{id}}</div>
 
 
   <div id="color-canvas-container">
@@ -40,14 +40,17 @@
   <!-- The sliders, below the canvas: -->
   <div class="hsl-sliders">
 
-    <!-- One of three  slider  containers -->
-
+    <!-- Hue slider: -->
     <slider title="H:" :value="hsl[0]" :min="0" :max="360"
+    :gradient="hue_gradient"
     @input="update_hsl($event, 0)"></slider>
+    <!-- Saturation slider: -->
     <slider title="S:" :value="hsl[1]" :min="0" :max="100"
     :gradient="saturation_gradient"
     @input="update_hsl($event, 1)"></slider>
+    <!-- Lightness slider: -->
     <slider title="L:" :value="hsl[2]" :min="0" :max="100"
+    :gradient="lightness_gradient"
     @input="update_hsl($event, 2)"></slider>
 
   </div>
@@ -131,9 +134,29 @@ export default {
   },
 
   computed: {
+    // For the backgrounds of the sliders;
+    hue_gradient() {
+      return [
+        [0,this.hsl[1],this.hsl[2]], 
+        [90,this.hsl[1],this.hsl[2]], 
+        [180,this.hsl[1],this.hsl[2]], 
+        [270,this.hsl[1],this.hsl[2]], 
+        [360,this.hsl[1],this.hsl[2]], 
+      ];
+    },
     saturation_gradient() {
-      return [[this.hsl[0],0,this.hsl[2]], [this.hsl[0],100,this.hsl[2]]];
-    }
+      return [
+        [this.hsl[0],0,this.hsl[2]], 
+        [this.hsl[0],100,this.hsl[2]]
+      ];
+    },
+    lightness_gradient() {
+      return [
+        [this.hsl[0],this.hsl[1], 0], 
+        [this.hsl[0],this.hsl[1], 50],
+        [this.hsl[0],this.hsl[1], 100],
+      ];
+    },
   },
 
   watch: {
