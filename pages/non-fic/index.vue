@@ -13,11 +13,11 @@
   </div>
 
   <!-- List of collections -->
-  <collection v-for="(collection, collection_i) in collections"
+  <collection v-for="(collection, collection_i) in collections" v-if="0"
     :collection="collection" :key="'collection' + collection_i" >
   </collection>
     <br><br><hr>
-  <collection :collection="collectionOfAllArticles">
+  <collection :collection="collectionOfAllArticles" v-if="0">
   </collection>
 
   

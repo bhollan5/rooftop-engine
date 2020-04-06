@@ -12,7 +12,7 @@ import slider from './inputs/slider.vue';
 
 // Misc:
 import lineBreak from './misc/line-break.vue';
-import collection from './misc/collection.vue';
+import collection from './content/widgets/collection.vue';
 
 // Sidebar:
 import sideBar from './side_bar/sidebar.vue';

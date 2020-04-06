@@ -88,10 +88,36 @@ export const actions = {
     return axios.get("/api/articles")
       .then((response) => {
         console.log(" 📦 Loaded " + response.data.length + " articles.");
-        commit('setArticles', response.data);
+        commit('set_articles', response.data);
       }, (error) => {
         console.warn(error);
       });
+  },
+
+  // Reading an article, probably by  id:
+  read_article({commit}, payload) {
+    console.log(" 🗣 Called to query articles: ");
+    console.log(payload);
+
+    axios.get("/api/read-articles", { params: payload })
+    .then((response) => {
+      if (response.data.length) {
+        
+        let articles = response.data;
+        console.log(" 📦 Loaded " + articles.length + " articles!");
+        articles.forEach((article) => {
+          commit('set_article', article);
+        })
+
+      } else {
+        console.log(" ⛔️ No projects loaded.")
+      }
+      console.log(response.data);
+      
+    }, (error) => {
+      console.warn(error);
+    });
+
   },
 
   // Getting a set of articles, by query.
@@ -104,7 +130,7 @@ export const actions = {
         let articles = response.data;
         console.log(" 📦 Loaded " + articles.length + " articles!");
         articles.forEach((article) => {
-          commit('setArticle', article);
+          commit('set_article', article);
         })
       }, (error) => {
         console.warn(error);
@@ -170,14 +196,14 @@ export const actions = {
 export const mutations = {
 
   // Setting article in the articles object:
-  setArticle(state, payload) {
+  set_article(state, payload) {
     let article = payload;
     Vue.set(state.articles, article._id, article);
     console.log(" ✨ One article updated in the Vuex store", article);
   },
   
   // Setting article array:
-  setArticles(state, payload) {
+  set_articles(state, payload) {
     state.articles = payload;
     console.log(" ✨ Articles updated in the Vuex store:", payload);
   },

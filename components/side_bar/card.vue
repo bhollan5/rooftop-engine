@@ -83,6 +83,7 @@ export default {
 
   // The content of the card, filled out in <slot></slot>
   .card-body {
+    overflow-y: hidden;
     padding: 10px;
     &.no-padding {
       padding: 0px;

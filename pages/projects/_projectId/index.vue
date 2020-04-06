@@ -9,9 +9,14 @@
       <checkbox title="editable?" v-model="edit_mode"></checkbox>
     </card>
 
+    <card title="Edit widget:" v-if="content[selected_widget]">
+      <text-field title="type" v-model="content[selected_widget].type" readonly></text-field>
+      <text-field title="content" v-model="content[selected_widget].content"></text-field>
+    </card>
+
   </side-bar>
 
-  <page-content v-model="content" v-if="project" :editable="edit_mode">
+  <page-content v-model="content" v-if="project" :editable="edit_mode" @widgetselect="selected_widget = $event">
     <br><br>
     <h1>{{project.title}}</h1>
     <p>{{project.description}}</p>
@@ -50,12 +55,16 @@ export default {
       // The ID of the article we're on -- loaded from the URL id.
       project_id: this.$route.params.projectId,
 
-      edit_mode: false,
+      edit_mode: true,
+      
+      //
+      selected_widget: -1,
 
       content: [
         { "type": "section-title",  "content": "" },
         { "type": "subsection-title", "index": "1.1", "content": "" },
-        { "type": "paragraph", "content": "" }
+        { "type": "paragraph", "content": "" },
+        { "type": "collection", "content": "5e6ca1a7402c78a9730d33c8" },
       ]
     }
   },

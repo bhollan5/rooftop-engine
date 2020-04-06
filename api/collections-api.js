@@ -24,6 +24,17 @@ module.exports = function(app, mongoose){
     });
   })
 
+  // Read a collection by query:
+  app.get('/read-collection', (req, res) => {
+    console.log("\n 🗣 Called to read a collection!")
+
+    Collection.find(req.query, function (err, result) {
+      if (err) return console.error(err);
+      console.log(" 💌 Sent  " + result.length + " collection to the frontend!")
+      res.send(result);
+    })
+  });
+
   // Getting all collections:
   app.get('/read-all-collections', (req, res) => {
     console.log("\n 🗣 Called to read all collections!")

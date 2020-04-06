@@ -1,16 +1,14 @@
-<!-- probs deprecated
-
 <template>
 <!-- Container for all collections-->
 <div class="collection-container"
-  :style="{background: $store.state.bg}">
-
+  :style="{background: $store.state.bg}" v-if="collection && collection._id"> 
+  
   <!-- collection info/header -->
   <div class="collection-header" :class="{'collection-header-selected': editCollection }">
 
     <!-- Edit icons, floating to the left -->
     <div class="floating-element-icons" @click="floatingIconAction()"
-      :class="{'floating-icons-selected': editCollection}" v-if="collection.editable">
+      :class="{'floating-icons-selected': editCollection}" v-if="editable">
       <check-icon v-if="editCollection"></check-icon>
       <edit-icon v-else></edit-icon>
     </div>
@@ -29,9 +27,9 @@
 
   <!-- Area displaying the content of the collection. -->
   <div class="collection-display">
-    <article-thumb v-for="(article, article_i) in collection.collectionData" :article="article" 
+    <article-card v-for="(article, article_i) in collection.collectionData" :id="article" 
       :key="'article-' + article_i" v-if="!collection.loading">
-    </article-thumb>
+    </article-card>
 
     <div class="add-a-file" v-if="editCollection">
       <text-field v-model="articleIdToAdd"></text-field>
@@ -40,37 +38,50 @@
   </div>
 
 </div>
+<div class="collection-loading collection-container" v-else>
+  Loading {{id}}...
+</div>
 </template>
 
 <script>
 import editIcon from '@/components/icons/edit-icon.vue';
 import checkIcon from '@/components/icons/check-icon.vue';
 
-import articleCard from '@/components/non-fic/article-card.vue';
-import articleThumb from '@/components/non-fic/article-thumb.vue';
+import articleCard from '@/components/content/widgets/article-card.vue';
 
-
-import textField from '@/components/inputs/text-field.vue';
 
 
 export default {
   props: {
-    collection: Object,
+    id: String,
+    editable: {
+      type: Boolean,
+      default: false,
+    }
   },
   components: {
     editIcon,
-    textField,
-    articleThumb,
-    checkIcon
+    articleCard,
+    checkIcon,
+    
   },
   data() {
     return {
+
       editCollection: false,
       collectionTitleDraft: '',
       collectionDescriptionDraft: '',
 
       articleIdToAdd: '', // For adding articles to collections
     }
+  },
+  computed: {
+    collection() {
+      return this.$store.getters['collections/collectionById'](this.id)[0];
+    }
+  },
+  mounted() {
+    this.$store.dispatch('collections/read_collection', { _id: this.id })
   },
   methods: {
     // Called when the user clicks the gear/check icon
@@ -119,12 +130,12 @@ export default {
   display: flex;
   min-width: 100%;
   height: 170px; // Setting this to the same height as the cards. Increase if you add padding
-  padding: 10px 0px 10px 50px; 
+  padding: 10px 0px 10px 0px; 
   // background: var(--bg2);
   // box-shadow: inset 0px 0px 4px rgba(0,0,0,.4);
 }
 .collection-header {
-  margin: 0px 45px;
+  margin: 0px;
   padding: 5px 5px 5px 5px;
   margin-bottom: 5px;
   position: relative;

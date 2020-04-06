@@ -103,7 +103,32 @@ export const actions = {
 
   },
 
-  // Getting all collections:
+  // Reading a collection, probably by  id:
+  read_collection({commit}, payload) {
+    console.log(" 🗣 Called to read a collection by this query: ");
+    console.log(payload);
+
+    axios.get("/api/read-collection", { params: payload })
+    .then((response) => {
+      if (response.data.length) {
+        console.log(" 💾 Successfully loaded a collection!");
+        
+        for (let i in response.data) {
+          commit('set_collection', response.data[i]);
+        }
+
+      } else {
+        console.log(" ⛔️ No projects loaded.")
+      }
+      console.log(response.data);
+      
+    }, (error) => {
+      console.warn(error);
+    });
+
+  },
+
+  // Getting all collections (DEPRECATED :P)
   readCollections({commit, rootGetters, dispatch}) {
     console.log(" 🗣 Calling the API to load all collections.")
 
@@ -212,6 +237,22 @@ export const mutations = {
   // Setting article array.
   setCollections(state, payload) {
     state.collections = payload;
+  },
+
+  // Loading or updating a collection.
+  set_collection(state, payload) {
+
+    let collection_found = false;
+    state.collections.forEach((collection, collection_i, coll_arr) => { 
+
+      if (payload._id == collection._id) {
+        coll_arr[collection_i] = payload;
+        collection_found = true;
+      }
+    })
+    if (!collection_found){
+      state.collections.push(payload);
+    }
   },
 
   // update a collection byID:

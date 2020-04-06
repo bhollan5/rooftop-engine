@@ -289,10 +289,11 @@ svg {
     background: none;
     box-shadow: none;
     padding: 0px;
-    &:hover {
-      background: var(--input);
-    }
+    border-bottom: none;
   }
+}
+.nobox input:focus, .nobox textarea:focus {
+  border-bottom: none;
 }
 
 // no underline 

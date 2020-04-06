@@ -5,36 +5,41 @@
 
   <!-- A widget container is created for each node in our data. -->
   <div class="widget-container" 
-  v-for="(dataEl, dataEl_i) in data"
-  :class="{'expanded-container': editElement == dataEl_i}">
+  v-for="(widget, widget_i) in data"
+  :class="{
+    'expanded-container': editElement == widget_i,
+    'selected-widget': selected_widget == widget_i
+  }"
+  @click="select_widget(widget_i)">
 
     <!-- No gear icon for article headers or subheaders. -->
     <!-- TODO: Add options for tabs -->
-    <div class="floating-element-icons" @click="editSelect(dataEl_i)"
+    <div class="floating-element-icons" @click="editSelect(widget_i)"
     v-if="editable" 
-    :class="{'floating-icons-selected': editElement == dataEl_i}">
+    :class="{'floating-icons-selected': editElement == widget_i,
+    'selected-widget': selected_widget == widget_i}">
       <gear-icon></gear-icon>
     </div>
 
     <!-- Popup shown when the gear button is clicked: -->
-    <div class="edit-element-interface" v-if="editElement == dataEl_i">
+    <div class="edit-element-interface" v-if="editElement == widget_i">
 
       <!-- Input type selector: -->
       <div class="element-type-selector">
         <h5>Section type:</h5>
         <!-- v-for list of the section type options: -->
-        <div class="element-type-option" v-for="sectionType in sectionTypes"
+        <div class="element-type-option" v-for="widgetType in widgetTypes"
           :class="{'selected-element-type': 
-            data[editElement].type == sectionType.type}"
-          @click="selectElementType(sectionType.type)">
+            data[editElement].type == widgetType.type}"
+          @click="selectElementType(widgetType.type)">
           <div class="element-type-icon"
-          :class="{bold: sectionType.bold}">
-            <image-icon v-if="sectionType.type == 'image'"></image-icon>
-            <span v-else>{{sectionType.icon}}</span>
+          :class="{bold: widgetType.bold}">
+            <image-icon v-if="widgetType.type == 'image'"></image-icon>
+            <span v-else>{{widgetType.icon}}</span>
           </div>
           <div class="option-description">
-            <p class="bold">{{sectionType.title}}</p>
-            <p class="small-font">{{sectionType.description}}</p>
+            <p class="bold">{{widgetType.title}}</p>
+            <p class="small-font">{{widgetType.description}}</p>
           </div>
         </div>
       </div>
@@ -55,63 +60,67 @@
 
     <!-- Article header: -->
     <text-field id="article-header" 
-      v-if="dataEl.type == 'header'"
-      v-model="dataEl.content" 
+      v-if="widget.type == 'header'"
+      v-model="widget.content" 
       :nobox="noboxes"
       placeholder="Article Title" 
       nounderline></text-field>
 
     <!-- Article subheader: -->
     <text-field id="article-subheader" 
-      v-else-if="dataEl.type == 'subheader'"
-      v-model="dataEl.content" 
+      v-else-if="widget.type == 'subheader'"
+      v-model="widget.content" 
       :nobox="noboxes" 
       nounderline
       placeholder="Article Subheader (optional)"></text-field>
 
     <!-- Tabs: -->
-    <div class="tab-container" v-else-if="dataEl.type == 'tabs'">
+    <div class="tab-container" v-else-if="widget.type == 'tabs'">
       <div class="tabs" >
         <text-field class="tab" 
-          v-for="(tab, tabindex) in dataEl.tabs" 
-          :class="{ 'bold': dataEl.selectedTab == tabindex}" 
+          v-for="(tab, tabindex) in widget.tabs" 
+          :class="{ 'bold': widget.selectedTab == tabindex}" 
           nobox 
-          @click="dataEl.selectedTab = tabindex" 
+          @click="widget.selectedTab = tabindex" 
           v-model="tab.name" 
           :key="'tab-' + tabindex">
         </text-field>
-        <div class="tab add-tab" @click="addTab(dataEl)">+ Add Tab</div>
+        <div class="tab add-tab" @click="addTab(widget)">+ Add Tab</div>
       </div>
     </div>
 
     <!-- section title: -->
-    <section-title v-else-if="dataEl.type == 'section-title'" :editable="editable"
-    :value="dataEl" @input="update_data(dataEl_i, $event)">
+    <section-title v-else-if="widget.type == 'section-title'" :editable="editable"
+    :value="widget" @input="update_data(widget_i, $event)">
     </section-title>
 
     <!-- subsection title: -->
-    <subsection-title v-else-if="dataEl.type == 'subsection-title'" :editable="editable"
-    :value="dataEl" @input="update_data(dataEl_i, $event)">
+    <subsection-title v-else-if="widget.type == 'subsection-title'" :editable="editable"
+    :value="widget" @input="update_data(widget_i, $event)">
     </subsection-title>
     
     <!-- Paragraphs: -->
-    <paragraph v-else-if="dataEl.type == 'paragraph'" :editable="editable"
-    :value="dataEl" @input="update_data(dataEl_i, $event)">
+    <paragraph v-else-if="widget.type == 'paragraph'" :editable="editable"
+    :value="widget" @input="update_data(widget_i, $event)">
     </paragraph>
+
+    <collection v-else-if="widget.type == 'collection'" 
+    :id="widget.content"
+    :editable="editable"></collection>
 
     <!-- Images: -->
     <!--
-    <div class="image-section" v-else-if="dataEl.type == 'image'" @change="uploadFile($event, dataEl_i)" enctype="multipart/form-data"
-          @click="openSVGInput(dataEl_i)">
+    <div class="image-section" v-else-if="widget.type == 'image'" @change="uploadFile($event, widget_i)" enctype="multipart/form-data"
+          @click="openSVGInput(widget_i)">
         
       <input type="file" accept="image/svg" ref="fileInput" style="display: none;">
-      <p v-if="!dataEl.content">+ Upload an Image</p>
-      <div v-html="dataEl.content" v-else></div>
+      <p v-if="!widget.content">+ Upload an Image</p>
+      <div v-html="widget.content" v-else></div>
 
     </div>-->
     
-    <div class="image-section" v-else-if="dataEl.type == 'image'">
-      <svg-uploader v-model="dataEl.content" :ref="'svg_uploader_'"></svg-uploader>
+    <div class="image-section" v-else-if="widget.type == 'image'">
+      <svg-uploader v-model="widget.content" :ref="'svg_uploader_'"></svg-uploader>
     </div>
 
   </div>
@@ -144,7 +153,8 @@ export default {
         return [
           { "type": "section-title",  "content": "" },
           { "type": "subsection-title", "index": "1.1", "content": "" },
-          { "type": "paragraph", "content": "" }
+          { "type": "paragraph", "content": "" },
+          { "type": "collection", "content": "" },
         ]
       }
     },
@@ -184,12 +194,14 @@ export default {
 
   data() {
     return {
+
+      selected_widget: -1, // 
       editElement: -1, // This indicates the index of the element being edited
       
 
       // Storing data for different section types.
       // This is mostly just to save html space w/ a v-for
-      sectionTypes: [
+      widgetTypes: [
         {
           type: 'section-title',
           icon: '1.',
@@ -218,12 +230,26 @@ export default {
           title: 'Image',
           description: 'Add an image!'
         },
+        {
+          type: 'collection',
+          icon: 'col',
+          bold: false,
+          title: 'Collection',
+          description: 'A collection of documents.'
+        },
       ]
     }
   },
 
 
   methods: {
+    // When the user clicks on a widget
+    select_widget(index) {
+      this.selected_widget = index;
+      this.$emit('widgetselect', index);
+    },
+
+
     update_data(field, new_val) {
       let data_update = JSON.parse(JSON.stringify(this.value));
       data_update[field] = new_val;
@@ -321,16 +347,29 @@ export default {
   align-content:flex-start;
 }
 
-// v-for generated
+
+.floating-element-icons {
+  transition-duration: .2s;
+  margin-top: -1px;
+  margin-right: -2px;
+}
+// The v-for generated widget containers
 .widget-container {
   position: relative;
-  transition-duration: .5s;
+  transition-duration: .2s;
+  margin-bottom: 5px;
   &.expanded-container {
     min-height: 200px;
   }
-  input:hover, input:active, textarea:hover, textarea:active {
-    // background: var(--input); // todo: I want to uncomment this but the padding/margins would need changed
-  }
+}
+.widget-container.selected-widget::after {
+  content: '';
+  height: 3px;
+  width: 3px;
+  left: -50px;
+  top: 10px;
+  position: absolute;
+  background: var(--c1);
 }
 
 // This is for the interface that pops up when you press the gear icon. 
@@ -339,10 +378,18 @@ export default {
   display: flex;
   width: 100%;
   height: 100%;
+  animation: fadein linear .2s;
   background: var(--card);
-  z-index: 2;
+  z-index: 11;
   h5 {
     padding: 5px;
+  }
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+  } to {
+    opacity: 1;
   }
 }
 
