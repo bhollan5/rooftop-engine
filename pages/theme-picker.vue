@@ -106,49 +106,45 @@
       <h2>Inputs: </h2>
       <div id="inputs" class="flex-container space-around">
       
-        <div id="input-example" class="theme-example">
+        <div class="content theme-body-example">
 
-          <div class="header">
-            <h3>Inputs</h3>
-          </div>
-          <div class="content theme-body-example">
-
+          <text-field v-model="foo" :placeholder="'Placeholder text...'" class="sample-input" 
+            regularfont :nobox="nobox" :title="'Big text field'">
+          </text-field>
+          <text-field v-model="foo" :title="'Big icon text field'" class="sample-input" icon
+            regularfont :nobox="nobox" :placeholder="'Placeholder text...'">
+            <search-icon></search-icon>
+          </text-field>
+          <div class="input-container">
             <text-field v-model="foo" :placeholder="'Placeholder text...'" class="sample-input" 
-              regularfont :nobox="nobox" :title="'Big text field'">
+              smallfont :nobox="nobox" :title="'Small text field'">
             </text-field>
-            <text-field v-model="foo" :title="'Big icon text field'" class="sample-input" icon
-              regularfont :nobox="nobox" :placeholder="'Placeholder text...'">
-              <search-icon></search-icon>
+            <text-field v-model="foo" :title="'Small icon text field'" class="sample-input" icon
+              smallfont :nobox="nobox" :placeholder="'Placeholder text...'">
+              <edit-icon></edit-icon>
             </text-field>
-            <div class="input-container">
-              <text-field v-model="foo" :placeholder="'Placeholder text...'" class="sample-input" 
-                smallfont :nobox="nobox" :title="'Small text field'">
-              </text-field>
-              <text-field v-model="foo" :title="'Small icon text field'" class="sample-input" icon
-                smallfont :nobox="nobox" :placeholder="'Placeholder text...'">
-                <edit-icon></edit-icon>
-              </text-field>
-            </div>
-            <div class="input-container">
-              <text-field v-model="bar" :title="'Text field with text'" class="sample-input" 
-                smallfont :nobox="nobox" :placeholder="'Placeholder text...'">
-              </text-field>
-              <text-field v-model="bar" :title="'Icon text field with text'" class="sample-input" icon
-                smallfont :nobox="nobox" :placeholder="'Placeholder text...'">
-                <person-icon></person-icon>
-              </text-field>
-            </div>
-            <text-field textarea smallfont :placeholder="'Multiline textarea'" v-model="foo"
-            v-if="0"></text-field>
-
-            <button>
-              <gear-icon></gear-icon>
-              A button!
-            </button>
-
-            <dropdown :options="sampleOptions" v-if="0"></dropdown>
-            
           </div>
+          <div class="input-container">
+            <text-field v-model="bar" :title="'Text field with text'" class="sample-input" 
+              smallfont :nobox="nobox" :placeholder="'Placeholder text...'">
+            </text-field>
+            <text-field v-model="bar" :title="'Icon text field with text'" class="sample-input" icon
+              smallfont :nobox="nobox" :placeholder="'Placeholder text...'">
+              <person-icon></person-icon>
+            </text-field>
+          </div>
+          <text-field textarea smallfont :placeholder="'Multiline textarea'" v-model="foo"
+          v-if="0"></text-field>
+
+          <button>
+            <gear-icon></gear-icon>
+            A button!
+          </button>
+
+          <dropdown :options="sample_array" v-model="option_chosen"></dropdown><br>
+          <picker :options="sample_object_list" v-model="option_chosen"></picker>
+          {{option_chosen}}
+            
 
           
         </div>
@@ -205,9 +201,21 @@ export default {
       nobox: false,
 
       // Sample data for inputs:
-      sampleOptions: ['Option 1!', 'Option 2 :)', 'option 3 ;o', 'option 4??'],
       foo: '',
-      bar: 'An input with text'
+      bar: 'An input with text',
+      option_chosen: "sampleOptions",
+      sample_array: ['Option 1!', 'Option 2 :)', 'option 3 ;o', 'option 4??'],
+      sample_object_list: [{
+          icon: '1.',
+          title: 'Option 1',
+          description: 'Description of option 1',
+          value: 'option1',
+      }, {
+          icon: '2.',
+          title: 'Option 2',
+          description: 'Description of option 2',
+          value: 'option2'
+      }],
     }
   },
 

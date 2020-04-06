@@ -294,6 +294,9 @@ svg {
 }
 .nobox input:focus, .nobox textarea:focus {
   border-bottom: none;
+  &::placeholder {
+    color: var(--bg-text2-light);
+  }
 }
 
 // no underline 

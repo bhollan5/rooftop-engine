@@ -52,4 +52,7 @@ export default {
     }
   }
 }
+.card .checkbox { 
+  
+}
 </style>

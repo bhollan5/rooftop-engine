@@ -42,6 +42,13 @@ export const getters = {
     });
   },
 
+  // Todo: delete collectionById and replace it with this one
+  collection_query: (state) => (field, value) => {
+    return state.collections.filter( function(collection) {
+      return (collection[field] == value);
+    });
+  },
+
 
   // Gets all loaded collections (probably just for debugging.)
   allCollections(state, getters, rootState, rootGetters) {
@@ -86,16 +93,22 @@ export const getters = {
 export const actions = {
 
   // Creating a new collection:
-  createCollection({commit}, payload) {
+  create_collection({commit}, payload) {
+    console.log("Creating new collection:")
 
-    axios.post("/api/create-collection", {
-      collectionTitle: 'New Collection',
-      collectionDescription: "Your collection description here!",
-      collectionData: [],
-    })
+    let new_collection = {
+      title: payload.title,
+      _id: payload.id,
+      owner: payload.owner,
+      description: payload.description,
+      data: [],
+    };
+    console.log(new_collection)
+    axios.post("/api/create-collection", new_collection)
     .then((response) => {
       console.log(" 💾 Successfully created a collection!");
       console.log(" > The collection's id is: " + response.data._id);
+      commit('set_collection', response.data);
 
     }, (error) => {
       console.warn(error);
@@ -103,7 +116,7 @@ export const actions = {
 
   },
 
-  // Reading a collection, probably by  id:
+  // Reading a collection by query:
   read_collection({commit}, payload) {
     console.log(" 🗣 Called to read a collection by this query: ");
     console.log(payload);

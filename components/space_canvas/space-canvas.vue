@@ -11,7 +11,7 @@
 
 
     <!-- Settings for the entire project: -->
-    <card title="Canvas settings:">
+    <card title="Canvas settings:" flex>
       <!-- Canvas bg color: -->
       <color-palette :margin="1" v-model="bg_color_var"></color-palette>
 

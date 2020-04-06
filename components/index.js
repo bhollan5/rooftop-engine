@@ -9,6 +9,7 @@ import svgUploader from './inputs/svg-uploader.vue';
 import dropdown from './inputs/dropdown.vue';
 import colorPalette from './inputs/color-palette.vue';
 import slider from './inputs/slider.vue';
+import picker from './inputs/picker.vue';
 
 // Misc:
 import lineBreak from './misc/line-break.vue';
@@ -44,6 +45,7 @@ export default {
   colorPalette,
   checkbox,
   slider,
+  picker,
 
   // Misc:
   lineBreak,

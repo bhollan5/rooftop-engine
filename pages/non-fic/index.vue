@@ -77,7 +77,7 @@ export default {
 
     // Adding a collection
     addCollection() {
-      this.$store.dispatch("collections/createCollection")
+      this.$store.dispatch("collections/create_collection")
     },
 
     editSelect(collection_i) {

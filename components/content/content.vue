@@ -61,9 +61,10 @@
     :value="widget" @input="update_data(widget_i, $event)">
     </paragraph>
 
-    <collection v-else-if="widget.type == 'collection'" 
-    :id="widget.content"
-    :editable="editable"></collection>
+    <collection v-else-if="widget.type == 'collection'" :editable="editable"
+    :owner="owner"
+    :value="widget" @input="update_data(widget_i, $event)">
+    </collection>
 
     <!-- Images: -->
     <!--
@@ -110,7 +111,7 @@ export default {
   },
 
   props: {
-    //
+    // So this can be v-modelled easily.
     value: {
       type: Array,
       default() {
@@ -121,6 +122,10 @@ export default {
           { "type": "collection", "content": "" },
         ]
       }
+    },
+    // Who owns this doc?
+    owner: {
+      type: String,
     },
     // editable content? 
     editable: {
@@ -195,6 +200,8 @@ export default {
         content: ''
       });
       this.editElement = this.data.length - 1;
+      // updates the data reactivity
+      this.$forceUpdate(); //todo: is this too hacky?
     },
 
     // Called when a file is uploaded
@@ -281,6 +288,7 @@ export default {
   border-radius: 50%;
   position: absolute;
   cursor: grab;
+  transition-duration: .4s;
   background: var(--card);
 }
 .widget-container.selected-widget::after {

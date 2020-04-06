@@ -63,4 +63,7 @@ button {
       border: 1px solid var(--bg-text);
     }
   }
+  &.card-button {
+    background: var(--card-light);
+  }
 }

@@ -9,14 +9,17 @@
       <checkbox title="editable?" v-model="edit_mode"></checkbox>
     </card>
 
-    <card title="Edit widget:" v-if="content[selected_widget]">
-      <text-field title="type" v-model="content[selected_widget].type" readonly></text-field>
-      <text-field title="content" v-model="content[selected_widget].content"></text-field>
+    <card title="Edit widget fields:" v-if="content[selected_widget]">
+      <text-field v-for="(value, field) in content[selected_widget]" :key="field"
+      v-if="typeof(value) == 'string'"
+      :title="field + ':'" v-model="content[selected_widget][field]">
+      </text-field>
     </card>
 
   </side-bar>
 
-  <page-content v-model="content" v-if="project" :editable="edit_mode" @widgetselect="selected_widget = $event">
+  <page-content v-model="content" v-if="project" :editable="edit_mode" @widgetselect="selected_widget = $event"
+  :owner="project_id">
     <br><br>
     <h1>{{project.title}}</h1>
     <p>{{project.description}}</p>
@@ -65,7 +68,7 @@ export default {
         { "type": "section-title",  "content": "" },
         { "type": "subsection-title", "index": "1.1", "content": "" },
         { "type": "paragraph", "content": "" },
-        { "type": "collection", "content": "5e6ca1a7402c78a9730d33c8" },
+        { "type": "collection", "id": "new" },
       ]
     }
   },

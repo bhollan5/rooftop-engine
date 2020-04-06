@@ -1,7 +1,33 @@
+<!--
+  When the collection widget is made, it lets the creator make a new collection,
+  or load an existing collection into the page.
+
+  Once the collection is loaded, it displays all files in that collection.
+-->
+
 <template>
+<!-- When this widget is first created, we open the new collection options: -->
+<card title="New collection" v-if="this.value.id == 'new'" flex twocolumn>
+  <!-- Create collection -->
+  <div class="card-section">
+    <text-field title="Collection name:" v-model="collection_draft.title"></text-field>
+    <text-field title="Collection id:" v-model="collection_draft.id"></text-field>
+    <text-field title="Description:" v-model="collection_draft.description"></text-field>
+    <button class="action" @click="create_collection()">+ Add</button>
+  </div>
+  
+  <div class="card-section">
+    <button class="card-button" v-if="!view_collections" @click="load_collections()">
+      Pick an existing collection
+    </button>
+    <picker :options="owner_collections" title="Pick a collection:" v-else
+    @input="update_data('id', $event)">
+    </picker>
+  </div>
+</card>
 <!-- Container for all collections-->
 <div class="collection-container"
-  :style="{background: $store.state.bg}" v-if="collection && collection._id"> 
+  :style="{background: $store.state.bg}" v-else-if="collection && collection._id"> 
   
   <!-- collection info/header -->
   <div class="collection-header" :class="{'collection-header-selected': editCollection }">
@@ -14,20 +40,20 @@
     </div>
 
     <!-- The title of the collection. -->
-    <h3 class="collection-title" v-if="!editCollection">{{collection.collectionTitle}}</h3>
-    <text-field v-else v-model="collectionTitleDraft" nobox class="collection-title h3-input"
+    <h3 class="collection-title" v-if="!editCollection">{{collection.title}}</h3>
+    <text-field v-else v-model="collection_draft.title" nobox class="collection-title h3-input"
       @enter="floatingIconAction()"></text-field>
 
     <!-- Collection descriptions. -->
-    <p class="collection-description" v-if="!editCollection">{{collection.collectionDescription}}</p>
-    <text-field v-else v-model="collectionDescriptionDraft" nobox class="collection-description"
+    <p class="collection-description" v-if="!editCollection">{{collection.description}}</p>
+    <text-field v-else v-model="collection_draft.description" nobox class="collection-description"
       @enter="floatingIconAction()"></text-field>
 
   </div>
 
   <!-- Area displaying the content of the collection. -->
   <div class="collection-display">
-    <article-card v-for="(article, article_i) in collection.collectionData" :id="article" 
+    <article-card v-for="(article, article_i) in collection.data" :id="article" 
       :key="'article-' + article_i" v-if="!collection.loading">
     </article-card>
 
@@ -39,7 +65,7 @@
 
 </div>
 <div class="collection-loading collection-container" v-else>
-  Loading {{id}}...
+  Loading {{value.id}}...
 </div>
 </template>
 
@@ -53,10 +79,13 @@ import articleCard from '@/components/content/widgets/article_card.vue';
 
 export default {
   props: {
-    id: String,
+    value: Object,
     editable: {
       type: Boolean,
       default: false,
+    },
+    owner: {
+      type: String,
     }
   },
   components: {
@@ -67,36 +96,84 @@ export default {
   },
   data() {
     return {
+      // Local copy of collection details, so we can edit & save.
+      collection_draft: {
+        title: '',
+        id: '',
+        description: '',
+      },
+
+      // This lets us browse a list of collections we have
+      view_collections: false,
 
       editCollection: false,
-      collectionTitleDraft: '',
-      collectionDescriptionDraft: '',
 
       articleIdToAdd: '', // For adding articles to collections
     }
   },
   computed: {
     collection() {
-      return this.$store.getters['collections/collectionById'](this.id)[0];
+      return this.$store.getters['collections/collectionById'](this.value.id)[0];
+    },
+    owner_collections() {
+      let owner_collections = this.$store.getters['collections/collection_query']('owner', this.owner);
+      let formatted_options = [];
+      owner_collections.forEach((collection) => {
+        formatted_options.push({ 
+          icon: 'col', 
+          title: collection.title,
+          value: collection._id,
+          description: collection.description,
+        })
+      })
+      return formatted_options;
     }
   },
   mounted() {
-    this.$store.dispatch('collections/read_collection', { _id: this.id })
+    if (this.value.id && this.value.id != 'new') {
+      this.$store.dispatch('collections/read_collection', { _id: this.value.id })
+    } else {
+      this.update_data('id', 'new');
+    }
   },
   methods: {
+    // Called when the user clicks 'new collection'
+    create_collection() {
+      if (!this.collection_draft.id || !this.collection_draft.title) {
+        alert("Add id and name")
+        return;
+      }
+      this.$store.dispatch("collections/create_collection", {
+        title: this.collection_draft.title,
+        id: this.collection_draft.id,
+        description: this.collection_draft.description,
+        owner: this.owner
+      })
+      .then(() => {
+        this.update_data('id', this.collection_draft.id);
+      })
+    },
+
+    load_collections() {
+      this.view_collections = true;
+      this.$store.dispatch('collections/read_collection', {
+        owner: this.owner
+      });
+    },
+
     // Called when the user clicks the gear/check icon
     floatingIconAction() {
       if (!this.editCollection) {
-        this.collectionTitleDraft = this.collection.collectionTitle;
-        this.collectionDescriptionDraft = this.collection.collectionDescription;
+        this.collection_draft.title = this.collection.collectionTitle;
+        this.collection_draft.description = this.collection.collectionDescription;
         this.editCollection = true;
       } else {
         this.editCollection = false;
         this.$store.dispatch('collections/updateCollectionInfo', {
           _id: this.collection._id,
           update: {
-            collectionTitle: this.collectionTitleDraft,
-            collectionDescription: this.collectionDescriptionDraft
+            collectionTitle: this.collection_draft.title,
+            collectionDescription: this.collection_draft.description
           },
         }) 
       }
@@ -108,13 +185,25 @@ export default {
         _id: this.collection._id,
         update: { $addToSet: { collectionData: this.articleIdToAdd } }
       })
-    }
+    },
+
+    update_data(field, new_val) {
+      let data_update = JSON.parse(JSON.stringify(this.value));
+      data_update[field] = new_val;
+      this.$emit('input', data_update);
+    },
 
   }
 }
 </script>
 
 <style lang="scss">
+
+.pick-a-collection {
+  min-width: 250px;
+}
+
+
 // All collections
 .collection-container {
   padding-top: 25px;

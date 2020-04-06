@@ -1,15 +1,38 @@
+<!-- 
+  
+  Cards are used for secondary content, or for options in the sidebar 
+  
+  <card title="My card:">
+    <p>Card content here</p>
+  </card>
+  
+  <card title="A flex-box card with two sections:" flex>
+    <div class="card-section">
+      <p>Card content here</p>
+    </div>
+    <div class="card-section">
+      <p>Other content here</p>
+    </div>
+  </card>
+  
+  -->
+
 <template>
 <div class="card"
   :class="{ expanded: expanded }">
+  <!-- The card header, with the card's title, and the minimize option -->
   <div class="card-header" @click="expanded = !expanded">
     {{title}}
 
     <span v-if="expanded">–</span>
     <span v-else >+</span>
   </div>
+  <!-- The card body, which can be minimized: -->
   <transition name="slide-down">
   <div class="card-body" v-if="expanded"
-    :class="{ 'no-padding': nopadding }">
+    :class="{ 'no-padding': nopadding,
+              'flex-container': flex,}">
+
     <slot>Card content here...</slot>
   </div>
   </transition>
@@ -40,6 +63,11 @@ export default {
     },
     // Removes 5px card padding: 
     nopadding: {
+      type: Boolean,
+      default: false,
+    },
+    // Makes the body a flexbox: 
+    flex: {
       type: Boolean,
       default: false,
     }
@@ -90,9 +118,16 @@ export default {
     &.no-padding {
       padding: 0px;
     }
+    &.flex-container {
+      justify-content: space-between;
+    }
   }
   &:not(.expanded) .card-body {
     padding: 0px 10px;
+  }
+  .card-section {
+    width: 260px;
+    min-width: 260px;
   }
 }
 </style>

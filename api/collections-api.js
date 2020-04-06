@@ -6,9 +6,11 @@ module.exports = function(app, mongoose){
 
   // Defining our mongoose schema for a given collection:
   let collectionSchema = new mongoose.Schema({
-    collectionTitle: String,
-    collectionDescription: String,
-    collectionData: Array,
+    title: String,
+    _id: String,
+    description: String,
+    owner: String,
+    data: Array,
   });
 
   let Collection = mongoose.model('Collection', collectionSchema);
