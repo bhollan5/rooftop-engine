@@ -1,7 +1,9 @@
 <template>
 <div class="checkbox-container">
   <div class="title">{{title}}</div>
-  <input type="checkbox" :checked="value" @input="$emit('input', $event.target.checked)">
+  <div class="checkbox"  @click="$emit('input', !value)">
+    <check-icon v-if="value"></check-icon>
+  </div>
 </div>
 </template>
 
@@ -29,6 +31,25 @@ export default {
   font-size: var(--small-font-size);
   align-items: center;
   justify-content: space-between;
-  width: 100px;
+  width: 110px;
+
+  .checkbox {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    background: var(--input);
+    &:hover {
+      background: var(--input-light);
+    }
+    &:active {
+      background: var(--input-dark);
+    }
+    border: solid 1px var(--input-text2);
+    border-radius: 3px;
+    svg {
+      fill: var(--input-text);
+      margin: 0px 2px 4px 2px;
+    }
+  }
 }
 </style>

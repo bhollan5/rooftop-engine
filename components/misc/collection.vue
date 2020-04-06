@@ -46,7 +46,7 @@
 import editIcon from '@/components/icons/edit-icon.vue';
 import checkIcon from '@/components/icons/check-icon.vue';
 
-import articleCard from '@/components/non-fic/article-card.vue';
+import articleCard from '@/components/non-fic/article_card.vue';
 import articleThumb from '@/components/non-fic/article-thumb.vue';
 
 

@@ -1,6 +1,8 @@
 <template>
 <div class="object"
-  :style="css_string">
+  :style="cube_css"
+  @mouseover="light_mod = 10"
+  @mouseout="light_mod = 0">
 
   <div class="grab-point"></div>
 
@@ -10,7 +12,9 @@
     'translatey(-' + data.height / 2 + 'px)' +
     'translatez(' + data.depth / 2 + 'px)',
     opacity: data.opacity,
-    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] + 3) + '%)',
+    background: 'hsl(' + color[0] + ','
+       + color[1] + '%,'
+       + (color[2] + 3 + light_mod) + '%)',
     height: data.height + 'px',
     width: data.width + 'px'}">
     <!-- Front -->
@@ -22,7 +26,9 @@
     'translatey(-' + data.height / 2 + 'px)' +
     'translatez(-' + data.depth / 2 + 'px) ',
     opacity: data.opacity,
-    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] - 3) + '%)',
+    background: 'hsl(' + color[0]
+       + ',' + color[1]
+       + '%,' + (color[2] - 3 + light_mod) + '%)',
     height: data.height + 'px',
     width: data.width + 'px' }">
     <!-- Back -->
@@ -35,7 +41,9 @@
     'translatey(' + -((data.depth / 2) + (data.height / 2)) + 'px)' +
     'translatez(-' + 0 + 'px) ' + 'rotatex(90deg)',
     opacity: data.opacity,
-    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] - 5) + '%)',
+    background: 'hsl(' + color[0] + ','
+      + color[1] + '%,'
+      + (color[2] - 5 + light_mod) + '%)',
     height: data.depth + 'px',
     width: data.width + 'px' }">
     <!-- top -->
@@ -47,7 +55,9 @@
     'translatey(-' + ((data.depth / 2) - (data.height / 2)) + 'px)' +
     'translatez(-' + 0 + 'px) ' + 'rotatex(90deg)',
     opacity: data.opacity,
-    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] - 5) + '%)',
+    background: 'hsl(' + color[0] + ','
+      + color[1] + '%,'
+      + (color[2] - 5 + light_mod) + '%)',
     height: data.depth + 'px',
     width: data.width + 'px' }">
     <!-- bottom -->
@@ -59,7 +69,9 @@
     'translatey(-' + data.height / 2 + 'px)' +
     'translatez(-' + 0 + 'px) ' + 'rotatey(90deg)',
     opacity: data.opacity,
-    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] + 5) + '%)',
+    background: 'hsl(' + color[0]
+       + ',' + color[1]
+       + '%,' + (color[2] + 5 + light_mod) + '%)',
     height: data.height + 'px',
     width: data.depth + 'px' }">
     <!-- side 1 -->
@@ -71,7 +83,9 @@
     'translatey(-' + data.height / 2 + 'px)' +
     'translatez(-' + 0 + 'px) ' + 'rotatey(90deg)',
     opacity: data.opacity,
-    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] + 5) + '%)',
+    background: 'hsl(' + color[0]
+       + ',' + color[1]
+       + '%,' + (color[2] + 5 + light_mod) + '%)',
     height: data.height + 'px',
     width: data.depth + 'px' }">
     <!-- side 1 -->
@@ -84,7 +98,7 @@
 export default {
   data() {
     return {
-
+      light_mod: 0, // For brightening the shapes on hover
     }
   },
   props: {
@@ -93,9 +107,10 @@ export default {
       type: Object,
       required: true,
     },
+    
   },
   computed: {
-    css_string() {
+    cube_css() {
       // The string we'll return. 
       let css_string = '';
 

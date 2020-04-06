@@ -7,64 +7,21 @@
   <div class="widget-container" 
   v-for="(widget, widget_i) in data"
   :class="{
-    'expanded-container': editElement == widget_i,
+    'editable': editable,
     'selected-widget': selected_widget == widget_i
   }"
   @click="select_widget(widget_i)">
 
-    <!-- No gear icon for article headers or subheaders. -->
-    <!-- TODO: Add options for tabs -->
-    <div class="floating-element-icons" @click="editSelect(widget_i)"
-    v-if="editable" 
-    :class="{'floating-icons-selected': editElement == widget_i,
-    'selected-widget': selected_widget == widget_i}">
-      <gear-icon></gear-icon>
-    </div>
+    <new-widget v-if="widget.type == 'new'"
+    :value="widget" @input="update_data(widget_i, $event)">
+    </new-widget>
+    
 
-    <!-- Popup shown when the gear button is clicked: -->
-    <div class="edit-element-interface" v-if="editElement == widget_i">
+    <!-- Various widget types: -->
 
-      <!-- Input type selector: -->
-      <div class="element-type-selector">
-        <h5>Section type:</h5>
-        <!-- v-for list of the section type options: -->
-        <div class="element-type-option" v-for="widgetType in widgetTypes"
-          :class="{'selected-element-type': 
-            data[editElement].type == widgetType.type}"
-          @click="selectElementType(widgetType.type)">
-          <div class="element-type-icon"
-          :class="{bold: widgetType.bold}">
-            <image-icon v-if="widgetType.type == 'image'"></image-icon>
-            <span v-else>{{widgetType.icon}}</span>
-          </div>
-          <div class="option-description">
-            <p class="bold">{{widgetType.title}}</p>
-            <p class="small-font">{{widgetType.description}}</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="element-size-selector">
-        <h5>Size:</h5>
-      </div>
-
-    </div>
-
-
-
-
-    <!-- Various input types: -->
-
-
-
-
-    <!-- Article header: -->
-    <text-field id="article-header" 
-      v-if="widget.type == 'header'"
-      v-model="widget.content" 
-      :nobox="noboxes"
-      placeholder="Article Title" 
-      nounderline></text-field>
+    <page-header v-if="widget.type == 'header'" :editable="editable"
+    :value="widget" @input="update_data(widget_i, $event)">
+    </page-header>
 
     <!-- Article subheader: -->
     <text-field id="article-subheader" 
@@ -127,12 +84,16 @@
 
   <!-- Add section button: -->
   <button id="add-section-button" v-if="editable"
-    @click="addSection()">+ Add section</button>
+    @click="add_widget()">+ Add section</button>
 </div>
 </template>
 
 <script>
 // Widgets:
+import newWidget from '@/components/content/widgets/new_widget.vue';
+
+import pageHeader from '@/components/content/widgets/page_header.vue';
+
 import sectionTitle from '@/components/content/widgets/section_title.vue';
 import subsectionTitle from '@/components/content/widgets/subsection_title.vue';
 import paragraph from '@/components/content/widgets/paragraph.vue';
@@ -140,9 +101,12 @@ import paragraph from '@/components/content/widgets/paragraph.vue';
 export default {
   name: 'content-display',
   components: {
+    pageHeader,
+
     sectionTitle,
     subsectionTitle,
-    paragraph
+    paragraph,
+    newWidget
   },
 
   props: {
@@ -195,49 +159,9 @@ export default {
   data() {
     return {
 
-      selected_widget: -1, // 
+      selected_widget: -1, // the widget clicked on last
       editElement: -1, // This indicates the index of the element being edited
       
-
-      // Storing data for different section types.
-      // This is mostly just to save html space w/ a v-for
-      widgetTypes: [
-        {
-          type: 'section-title',
-          icon: '1.',
-          bold: true,
-          title: 'Section Title',
-          description: 'Describes bigger sections.'
-        },
-        {
-          type: 'subsection-title',
-          icon: '1.1.',
-          bold: true,
-          title: 'Subsection Title',
-          description: 'Segments ideas.'
-        },
-        {
-          type: 'paragraph',
-          icon: 'Aa',
-          bold: true,
-          title: 'Paragraph',
-          description: 'For writing text.'
-        },
-        {
-          type: 'image',
-          icon: 'image-icon',
-          bold: false,
-          title: 'Image',
-          description: 'Add an image!'
-        },
-        {
-          type: 'collection',
-          icon: 'col',
-          bold: false,
-          title: 'Collection',
-          description: 'A collection of documents.'
-        },
-      ]
     }
   },
 
@@ -265,14 +189,9 @@ export default {
       }
     },
 
-    // Selecting an element type (Changes that element's type, then closes the editor).
-    selectElementType(type) {
-      this.data[this.editElement].type = type;
-      this.editElement = -1;
-    },
-    addSection() {
+    add_widget() {
       this.data.push({
-        type: 'paragraph',
+        type: 'new',
         content: ''
       });
       this.editElement = this.data.length - 1;
@@ -347,59 +266,29 @@ export default {
   align-content:flex-start;
 }
 
-
-.floating-element-icons {
-  transition-duration: .2s;
-  margin-top: -1px;
-  margin-right: -2px;
-}
 // The v-for generated widget containers
 .widget-container {
   position: relative;
   transition-duration: .2s;
   margin-bottom: 5px;
-  &.expanded-container {
-    min-height: 200px;
-  }
+}
+.widget-container.editable::after {
+  content: '';
+  height: 5px;
+  width: 5px;
+  left: -15px;
+  top: 10px;
+  border-radius: 50%;
+  position: absolute;
+  cursor: grab;
+  background: var(--card);
 }
 .widget-container.selected-widget::after {
-  content: '';
-  height: 3px;
-  width: 3px;
-  left: -50px;
-  top: 10px;
-  position: absolute;
   background: var(--c1);
 }
 
-// This is for the interface that pops up when you press the gear icon. 
-.edit-element-interface {
-  position: absolute;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  animation: fadein linear .2s;
-  background: var(--card);
-  z-index: 11;
-  h5 {
-    padding: 5px;
-  }
-}
-@keyframes fadein {
-  from {
-    opacity: 0;
-  } to {
-    opacity: 1;
-  }
-}
 
-// Styling for different element types:
-#article-header input{
-  margin-bottom: -10px;
-  margin-top: 25px;
-  font-weight: bold;
-  font-size: var(--h1-font-size);
-}
+
 #article-subheader input {
   font-size: var(--regular-font-size);
 }

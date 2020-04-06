@@ -61,6 +61,7 @@ export default {
       selected_widget: -1,
 
       content: [
+        { "type": "header",  "content": "" },
         { "type": "section-title",  "content": "" },
         { "type": "subsection-title", "index": "1.1", "content": "" },
         { "type": "paragraph", "content": "" },

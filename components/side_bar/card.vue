@@ -1,7 +1,7 @@
 <template>
-<div class="card">
-  <div class="card-header" @click="expanded = !expanded"
-    :class="{ expanded: expanded }">
+<div class="card"
+  :class="{ expanded: expanded }">
+  <div class="card-header" @click="expanded = !expanded">
     {{title}}
 
     <span v-if="expanded">–</span>
@@ -66,7 +66,7 @@ export default {
 
     // Secondary color text unless expanded or hovered
     color: var(--card-text2);
-    &.expanded, &:hover {
+    &:hover {
       color: var(--card-text);
     }
     
@@ -78,7 +78,9 @@ export default {
         color: var(--card-text);
       }
     }
-
+  }
+  &.expanded .card-header {
+    color: var(--card-text);
   }
 
   // The content of the card, filled out in <slot></slot>
@@ -88,6 +90,9 @@ export default {
     &.no-padding {
       padding: 0px;
     }
+  }
+  &:not(.expanded) .card-body {
+    padding: 0px 10px;
   }
 }
 </style>

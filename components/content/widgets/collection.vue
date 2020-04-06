@@ -47,7 +47,7 @@
 import editIcon from '@/components/icons/edit-icon.vue';
 import checkIcon from '@/components/icons/check-icon.vue';
 
-import articleCard from '@/components/content/widgets/article-card.vue';
+import articleCard from '@/components/content/widgets/article_card.vue';
 
 
 
@@ -130,7 +130,7 @@ export default {
   display: flex;
   min-width: 100%;
   height: 170px; // Setting this to the same height as the cards. Increase if you add padding
-  padding: 10px 0px 10px 0px; 
+  padding: 10px 0px 10px 20px; 
   // background: var(--bg2);
   // box-shadow: inset 0px 0px 4px rgba(0,0,0,.4);
 }
