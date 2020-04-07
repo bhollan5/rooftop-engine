@@ -40,7 +40,7 @@
     <!-- "Options" button, if the user isn't logged in. -->
     <div id="options-button" @click="$emit('input', true)"
       v-else>
-      <hamburger-icon id="header-icon"></hamburger-icon>
+      <hamburger-icon class="hamburger-icon"></hamburger-icon>
       <span class="tablet-only">Options</span>
     </div>
 
@@ -214,6 +214,11 @@ $tablet-bp: 400px;
       border-radius: 50%;
       background: #CEFDFE;
       overflow: hidden;
+    }
+    .hamburger-icon {
+      width: 15px;
+      height: 15px;
+      fill: var(--bg-text2);
     }
     .user-info-text {
       text-align: right;

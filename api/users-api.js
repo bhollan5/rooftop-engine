@@ -132,7 +132,7 @@ module.exports = function(app, mongoose){
            token: pass_hash 
         });
       } else {
-        console.log("Not logged in.")
+        console.log("Not logged in - " + req.body.password)
         res.status(500).send('Error logging in.');
       }
     });

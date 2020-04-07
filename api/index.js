@@ -40,15 +40,18 @@ if (process.env.NODE_ENV == 'development') {
 } else if (process.env.NODE_ENV == 'production') {
   db_url = 'mongodb://127.0.0.1:27017/rooftop-prod'
 }
-console.log("You are running the " + process.env.NODE_ENV + " server.");
-console.log("Connect with: " + db_url);
+console.log(" ℹ️ You are running the " + process.env.NODE_ENV + " server.");
 
-
-
-
-const app = express()                   // Creating our Express instance
-
-module.exports = { path: '/api', handler: app } // lets us access our express paths via /api/
+// Creating our Express instance:
+const app = express()                           
+// Telling Nuxt to access the API with /api/ routes
+module.exports = { path: '/api', handler: app } 
+// Enabling CORS:
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 // The auth option is from here: https://stackoverflow.com/questions/30105823/mongoerror-auth-failed-mongoose-connection-sting
 mongoose.connect(db_url, { 
