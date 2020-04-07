@@ -38,7 +38,7 @@ let db_url;
 if (process.env.NODE_ENV == 'development') {
   db_url = 'mongodb://user:password1@ds021650.mlab.com:21650/rooftop-db';
 } else if (process.env.NODE_ENV == 'production') {
-  db_url = 'mongodb://123@127.0.0.1:27017/rooftop-prod'
+  db_url = 'mongodb://127.0.0.1:27017/rooftop-prod'
 }
 console.log("You are running the " + process.env.NODE_ENV + " server.");
 console.log("Connect with: " + db_url);
