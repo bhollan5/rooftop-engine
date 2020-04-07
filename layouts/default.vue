@@ -78,8 +78,8 @@
       </div>
 
       <router-link to="/theme-picker">Theme Editor</router-link>
-      <div class="a" style="color:var(--danger)" v-if="$auth.loggedIn"
-        @click="$auth.logout()">Log Out</div>
+      <button class="danger" v-if="$auth.loggedIn"
+        @click="$auth.logout()">Log Out</button>
 
     </div>
 

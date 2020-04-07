@@ -31,6 +31,16 @@ const userRoutes = require('./users-api.js');
 const projectRoutes = require('./projects-api.js');
 
 
+// Getting the server IP. 
+// If we're in development mode, we connect to mLabs. 
+// In production mode, we connect to the server's DB. 
+let db_url;
+if (process.env.NODE_ENV === 'development') {
+  db_url = 'mongodb://user:password1@ds021650.mlab.com:21650/rooftop-db';
+} else if (process.env.NODE_ENV === 'production') {
+  db_url = 'mongodb://user:password1@127.0.0.1:27017/rooftop-production'
+}
+
 
 
 
@@ -38,7 +48,7 @@ const app = express()                   // Creating our Express instance
 
 module.exports = { path: '/api', handler: app } // lets us access our express paths via /api/
 
-mongoose.connect('mongodb://user:password1@ds021650.mlab.com:21650/rooftop-db', { 
+mongoose.connect(db_url, { 
   useUnifiedTopology: true,
   useNewUrlParser: true
 });

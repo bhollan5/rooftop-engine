@@ -68,7 +68,7 @@ export const actions = {
 
   // Creating a new project:
   create_project({commit}, payload) {
-    console.log(" 🗣 Called to create a new project ")
+    this.$console.log("projects", " 🗣 Called to create a new project ")
 
     axios.post("/api/create-project", {
       title: payload.title,
@@ -78,8 +78,8 @@ export const actions = {
       type: payload.type,
     })
     .then((response) => {
-      console.log(" 💾 Successfully created a project!");
-      console.log(" > The project's id is: " + response.data._id);
+      this.$console.log("projects", " 💾 Successfully created a project!");
+      this.$console.log("projects", " > The project's id is: " + response.data._id);
 
     }, (error) => {
       console.warn(error);
@@ -89,19 +89,19 @@ export const actions = {
 
   // Reading a project, probably by  id::
   read_project({commit}, payload) {
-    console.log(" 🗣 Called to read a project ");
-    console.log(payload);
+    this.$console.log("projects", " 🗣 Called to read a project ");
+    this.$console.log("projects", payload);
 
     axios.get("/api/read-project", { params: payload })
     .then((response) => {
       if (response.data.length) {
-        console.log(" 💾 Successfully loaded a project!");
+        this.$console.log("projects", " 💾 Successfully loaded a project!");
         commit('load_project', response.data[0]);
 
       } else {
-        console.log(" ⛔️ No projects loaded.")
+        this.$console.log("projects", " ⛔️ No projects loaded.")
       }
-      console.log(response.data);
+      this.$console.log("projects", response.data);
       
     }, (error) => {
       console.warn(error);
@@ -111,11 +111,11 @@ export const actions = {
 
   // Getting all collections:
   readCollections({commit, rootGetters, dispatch}) {
-    console.log(" 🗣 Calling the API to load all collections.")
+    this.$console.log("projects", " 🗣 Calling the API to load all collections.")
 
     return axios.get("/api/read-all-collections")
       .then((response) => {
-        console.log(" 📦 Loaded " + response.data.length + " collections.");
+        this.$console.log("projects", " 📦 Loaded " + response.data.length + " collections.");
 
         // This is now an array of collection objects:
         let all_collections = response.data;
@@ -157,14 +157,14 @@ export const actions = {
 
   // Updating a collection by id.
   updateCollection({commit}, payload) {
-    console.log(" 🗣 Calling the API to update collection %c" +  payload._id, "color:magenta;")
+    this.$console.log("projects", " 🗣 Calling the API to update collection %c" +  payload._id, "color:magenta;")
 
     // Making the API call
     axios.post("/api/update-collection", {
         _id: payload._id,
         update: payload.update
       }).then((response) => {
-        console.log(" 🖌 Updated the collection %c" +  payload._id, "color:magenta;");
+        this.$console.log("projects", " 🖌 Updated the collection %c" +  payload._id, "color:magenta;");
       }).catch ((error) => {
         console.warn(error);
       });
@@ -173,14 +173,14 @@ export const actions = {
 
   // Updating a collection by id.
   updateCollectionInfo({commit}, payload) {
-    console.log(" 🗣 Calling the API to update collection %c" +  payload._id, "color:magenta;")
+    this.$console.log("projects", " 🗣 Calling the API to update collection %c" +  payload._id, "color:magenta;")
 
     // Making the API call
     axios.post("/api/update-collection", {
         _id: payload._id,
         update: payload.update
       }).then((response) => {
-        console.log(" 🖌 Updated the collection %c" +  payload._id, "color:magenta;");
+        this.$console.log("projects", " 🖌 Updated the collection %c" +  payload._id, "color:magenta;");
         commit('updateCollectionInfo', {
           _id: payload._id,
           update: payload.update
@@ -193,11 +193,11 @@ export const actions = {
 
   // Deletes an article by id.
   deleteArticle({commit}, payload) {
-    console.log(" 🗣 Calling the api to delete article %c" +  payload._id, "color:magenta;")
+    this.$console.log("projects", " 🗣 Calling the api to delete article %c" +  payload._id, "color:magenta;")
 
     // Getting the article from the database.
     axios.delete("/api/delete-article/" + payload._id).then(() => {
-      console.log(" ⛔️ Deleted the article with the id of " + payload._id);
+      this.$console.log("projects", " ⛔️ Deleted the article with the id of " + payload._id);
       commit('deleteArticle', { _id: payload._id});
     }, (error) => {
       console.warn(error);
@@ -237,7 +237,7 @@ export const mutations = {
       if (collection._id == payload._id) {
         collection.collectionTitle = payload.update.collectionTitle;
         collection.collectionDescription = payload.update.collectionDescription;
-        console.log(" ✨ Updated the collection %c" +  payload._id + " in the Vuex store:", "color:magenta;");
+        this.$console.log("projects", " ✨ Updated the collection %c" +  payload._id + " in the Vuex store:", "color:magenta;");
         return; // End early, since we're just updating one
       }
     });
@@ -251,11 +251,8 @@ export const mutations = {
     });
     let difference = state.articles.length - updatedArticles.length;
     state.articles = updatedArticles;
-    console.log(" ✨ " + difference + " article was deleted in the Vuex store.")
+    this.$console.log("projects", " ✨ " + difference + " article was deleted in the Vuex store.")
   },
 
-  logMessage(state, payload) {
-    console.log(payload.msg);
-  }
 
 }

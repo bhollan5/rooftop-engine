@@ -34,7 +34,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/global-components.js'
+    '~/plugins/global-components.js', // gives us global components!
+    '~/plugins/console-handler.js'
   ],
   /*
   ** Nuxt.js dev-modules

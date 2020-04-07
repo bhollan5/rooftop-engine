@@ -26,8 +26,8 @@
 
 <template>
 <div id="side-bar">
-  <div id="side-bar-header">
-    <div id="side-bar-title">Rooftop Website</div>
+  <div id="side-bar-header" v-if="title">
+    <div id="side-bar-title">{{title}}</div>
   </div>
 
   <slot></slot>

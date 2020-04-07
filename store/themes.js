@@ -178,14 +178,14 @@ export const actions = {
 
   // Creating a new theme:
   createTheme({commit}, payload) {
-    console.log(" 🗣 Calling the API to create a new theme.")
+    this.$console.log("themes", " 🗣 Calling the API to create a new theme.")
 
     // Creating a new article:
 
     axios.post("/api/create-theme", payload)
     .then((response) => {
-      console.log(" 💾 Successfully created a theme titled " + payload.theme_name + "!");
-      console.log(" > The themes's id is: " + response.data._id);
+      this.$console.log("themes", " 💾 Successfully created a theme titled " + payload.theme_name + "!");
+      this.$console.log("themes", " > The themes's id is: " + response.data._id);
 
     }, (error) => {
       console.warn(error);
@@ -195,11 +195,11 @@ export const actions = {
 
   // Getting all themes:
   readAllThemes({commit}) {
-    console.log(" 🗣 Calling the API to load all themes.")
+    this.$console.log("themes", " 🗣 Calling the API to load all themes.")
 
     return axios.get("/api/read-themes")
       .then((response) => {
-        console.log(" 📦 Loaded " + response.data.length + " themes.");
+        this.$console.log("themes", " 📦 Loaded " + response.data.length + " themes.");
         commit('setThemes', response.data);
       }, (error) => {
         console.warn(error);
@@ -212,7 +212,7 @@ export const actions = {
     // Getting the article from the database.
     axios.get("/api/read-article", payload.query)
       .then((response) => {
-        console.log(" 📦 Loaded " + response.data.length + " articles based on this query:" + payload.query);
+        this.$console.log("themes", " 📦 Loaded " + response.data.length + " articles based on this query:" + payload.query);
         commit('setArticles', response.data);
       }, (error) => {
         console.warn(error);
@@ -222,14 +222,14 @@ export const actions = {
 
   // Updating an article by id.
   update_article({commit}, payload) {
-    console.log(" 🗣 Calling the API to update article %c" +  payload._id, "color:magenta;")
+    this.$console.log("themes", " 🗣 Calling the API to update article %c" +  payload._id, "color:magenta;")
 
     // Getting the article from the database.
     axios.post("/api/update-article", {
         _id: payload._id,
         update: payload.update
       }).then((response) => {
-        console.log(" 🖌 Updated the article %c" +  payload._id, "color:magenta;");
+        this.$console.log("themes", " 🖌 Updated the article %c" +  payload._id, "color:magenta;");
       }).catch ((error) => {
         console.warn(error);
       });
@@ -238,11 +238,11 @@ export const actions = {
 
   // Deletes an article by id.
   deleteArticle({commit}, payload) {
-    console.log(" 🗣 Calling the api to delete article %c" +  payload._id, "color:magenta;")
+    this.$console.log("themes", " 🗣 Calling the api to delete article %c" +  payload._id, "color:magenta;")
 
     // Getting the article from the database.
     axios.delete("/api/delete-article/" + payload._id).then(() => {
-      console.log(" ⛔️ Deleted the article with the id of " + payload._id);
+      this.$console.log("themes", " ⛔️ Deleted the article with the id of " + payload._id);
       commit('deleteArticle', { _id: payload._id});
     }, (error) => {
       console.warn(error);
@@ -251,18 +251,18 @@ export const actions = {
 
   // Uploading an image for an article: 
   uploadImage({commit}, payload) {
-    console.log(" 🗣 Calling the api to upload the image %c" +  payload.fileName, "color:magenta;")
-    console.log(payload);
+    this.$console.log("themes", " 🗣 Calling the api to upload the image %c" +  payload.fileName, "color:magenta;")
+    this.$console.log("themes", payload);
 
     // You should have a server side REST API 
     axios.post('/api/upload-article-image', {
       fileName: payload.fileName,
       fileValue: payload.fileValue
     }).then(function () {
-        console.log('Success uploading file!');
+        this.$console.log("themes", 'Success uploading file!');
       })
       .catch(function () {
-        console.log('Failed to upload item!');
+        this.$console.log("themes", 'Failed to upload item!');
       });
   }
 }
@@ -300,7 +300,7 @@ export const mutations = {
   // Setting article array:
   setThemes(state, payload) {
     state.themes = payload;
-    console.log(" ✨ Themes updated in the Vuex store:", payload);
+    this.$console.log("themes", " ✨ Themes updated in the Vuex store:", payload);
   },
   
   // Deleting an article by id: 
@@ -311,11 +311,8 @@ export const mutations = {
     });
     let difference = state.articles.length - updatedArticles.length;
     state.articles = updatedArticles;
-    console.log(" ✨ " + difference + " article was deleted in the Vuex store.")
+    this.$console.log("themes", " ✨ " + difference + " article was deleted in the Vuex store.")
   },
 
-  logMessage(state, payload) {
-    console.log(payload.msg);
-  }
 
 }

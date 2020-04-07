@@ -27,9 +27,9 @@ button {
     background: var(--action);
     color: var(--action-text);
   }
-  &.action {
-    background: var(--action);
-    color: var(--action-text);
+  &.danger {
+    background: var(--danger);
+    color: var(--danger-text);
   }
 
 

@@ -18,10 +18,12 @@
 
   </side-bar>
 
-  <page-content v-model="article_draft.data" v-if="article_draft" 
+  <page-content v-model="article_draft.data" v-if="article_draft.id" 
   :editable="edit_mode" @widgetselect="selected_widget = $event"
   :owner="project_id">
   </page-content>
+  <article-loading v-else>
+  </article-loading>
     
   <div id="article-loading" v-else>
   
@@ -31,6 +33,7 @@
 
 <script>
 import Vue from 'vue';
+import articleLoading from '~/components/non-fic/non-fic-loading.vue';
 import pageContent from '~/components/content/content.vue';
 
 // For our db calls
@@ -40,7 +43,8 @@ export default {
   name: 'project-page',
 
   components: {
-    pageContent
+    pageContent,
+    articleLoading,
   },
 
   computed: {
@@ -77,10 +81,10 @@ export default {
       // Getting the article from the store, setting the current article to that article's data. 
       this.$store.dispatch("articles/read_article", { _id: this.article_id }).then(() => {
         let article_copy = JSON.parse(JSON.stringify(this.article));
-        this.article_draft.title = article_copy.title;
-        this.article_draft.description = article_copy.description;
-        this.article_draft.data = article_copy.data;
-        this.article_draft.id = article_copy._id
+        Vue.set(this.article_draft, 'title', article_copy.title);
+        Vue.set(this.article_draft, 'description', article_copy.description);
+        Vue.set(this.article_draft, 'data', article_copy.data);
+        Vue.set(this.article_draft, 'id', article_copy._id);
       })
 
     },
