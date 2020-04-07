@@ -35,6 +35,7 @@ const projectRoutes = require('./projects-api.js');
 // If we're in development mode, we connect to mLabs. 
 // In production mode, we connect to the server's DB. 
 let db_url;
+console.log("You are running the " + process.env.NODE_ENV + " server.");
 if (process.env.NODE_ENV === 'development') {
   db_url = 'mongodb://user:password1@ds021650.mlab.com:21650/rooftop-db';
 } else if (process.env.NODE_ENV === 'production') {

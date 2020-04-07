@@ -15,12 +15,12 @@ $ npm install
 $ npm run dev
 
 # build for production and launch server
-$ git pull
-$ sudo npm run install
-$ sudo npm run build
-$ sudo npm run start
+$ git pull            # pull new files
+$ sudo npm install    # install any new dependences in package.json
+$ sudo npm run build  # build new ssr files
+$ sudo npm run start  # serve files on port :3000
 # Our server uses pm2 to manage the server port.
-$ pm2 start npm -- start
+$ pm2 start npm -- start  #restart the server
 
 
 ```
