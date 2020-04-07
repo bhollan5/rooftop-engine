@@ -2,7 +2,7 @@
 <!-- Article header: -->
 <div class="article-header">
   <text-field v-if="editable"
-  v-model="value.content" 
+  :value="value.content" @input="update_data('content', $event)"
   nobox
   placeholder="Article Title" 
   nounderline>

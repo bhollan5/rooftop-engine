@@ -20,7 +20,7 @@
 
   <page-content v-model="article_draft.data" v-if="article_draft" 
   :editable="edit_mode" @widgetselect="selected_widget = $event"
-  :owner="article_id">
+  :owner="project_id">
   </page-content>
     
   <div id="article-loading" v-else>
@@ -53,6 +53,7 @@ export default {
     return {
       // The ID of the article we're on -- loaded from the URL id.
       article_id: this.$route.params.articleId,
+      project_id: this.$route.params.projectId,
 
       edit_mode: true,
 

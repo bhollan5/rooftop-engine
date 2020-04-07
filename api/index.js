@@ -3,6 +3,7 @@
 // https://www.reddit.com/r/vuejs/comments/aayav5/any_examplestutorial_on_a_nuxt_app_with/
 
 console.log(" 🌈🏠 Initializing Rooftop server...")
+//console.log("Yr env is: " +  process.env.NODE_ENV)
 
 const fs = require('fs');               // GridFS lets Mongo upload files
 const mongodb = require('mongodb');     // The MongoDB library

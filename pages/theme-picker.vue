@@ -23,7 +23,7 @@
     </card>
 
     <!-- Color picker -->
-    <card title="Color palette:" nopadding>
+    <card title="Color editor:" nopadding>
       <color-picker v-for="(color_vals, key) in themeDraft.colors"
       :key="key" v-if="selected_color == key"
       v-model="themeDraft.colors[key]" 
@@ -236,7 +236,7 @@ export default {
   mounted() {
     this.resetTheme();
 
-    this.$store.dispatch("articles/readArticles");
+    //this.$store.dispatch("articles/read_articles");
 
   },
 
