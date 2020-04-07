@@ -36,6 +36,11 @@ export const getters = {
   // Article query
   article_query: (state) => (field, value) => {
     return state.articles.filter( function(article) {
+      console.log("Filtering articles: ")
+      console.log(article)
+      console.log(field);
+      console.log(article[field])
+      console.log(value);
       return (article[field] == value);
     });
   },
@@ -95,8 +100,8 @@ export const actions = {
   read_article({commit}, payload) {
     console.log(" 🗣 Called to query articles: ");
     console.log(payload);
-
-    axios.get("/api/read-articles", { params: payload })
+    // This return is important! it's why we can use .then() 
+    return axios.get("/api/read-articles", { params: payload })
     .then((response) => {
       if (response.data.length) {
         
@@ -105,7 +110,6 @@ export const actions = {
         articles.forEach((article) => {
           commit('load_article', article);
         })
-
       } else {
         console.log(" ⛔️ No articles loaded.")
       }
@@ -136,7 +140,7 @@ export const actions = {
   },
 
   // Updating an article by id.
-  updateArticle({commit}, payload) {
+  update_article({commit}, payload) {
     console.log(" 🗣 Calling the API to update article %c" +  payload._id, "color:magenta;")
 
     // Getting the article from the database.

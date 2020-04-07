@@ -221,7 +221,7 @@ export const actions = {
   },
 
   // Updating an article by id.
-  updateArticle({commit}, payload) {
+  update_article({commit}, payload) {
     console.log(" 🗣 Calling the API to update article %c" +  payload._id, "color:magenta;")
 
     // Getting the article from the database.

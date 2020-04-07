@@ -210,7 +210,6 @@ export default {
     update_data(field, new_val) {
       let data_update = JSON.parse(JSON.stringify(this.value));
       data_update[field] = new_val;
-      console.warn("Updating parent:")
       console.log(data_update)
       this.$emit('input', data_update);
     },
