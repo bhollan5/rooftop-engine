@@ -21,7 +21,7 @@
     <button class="card-button" v-if="!view_all_articles" @click="load_articles()">
       Pick an existing article
     </button>
-    <picker :options="owner_collections" title="Pick a collection:" v-else
+    <picker :options="owner_articles" title="Pick an article you own:" v-else
     @input="update_data('id', $event)">
     </picker>
         {{article_draft}}
@@ -103,6 +103,19 @@ export default {
   computed: {
     article() {
       return this.$store.getters['articles/article_query']('_id', this.value.id)[0]
+    },
+    owner_articles() {
+      let owner_articles = this.$store.getters['articles/article_query']('owner', this.owner);
+      let formatted_options = [];
+      owner_articles.forEach((article) => {
+        formatted_options.push({ 
+          icon: 'col', 
+          title: article.title,
+          value: article._id,
+          description: article.description,
+        })
+      })
+      return formatted_options;
     }
   },
 

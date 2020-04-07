@@ -196,7 +196,7 @@ export default {
         update: {
           data: article_list,
         },
-      }) 
+      })
     },
 
     // Adds an article ID to a collection
