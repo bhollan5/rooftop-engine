@@ -68,8 +68,8 @@ export default {
         { "type": "section-title",  "content": "" },
         { "type": "subsection-title", "index": "1.1", "content": "" },
         { "type": "paragraph", "content": "" },
-        { "type": "article", "id": "5e7fa214dffa3f17284c4d34"},
-        { "type": "collection", "id": "new" },
+        { "type": "article", "id": "test"},
+        { "type": "_collection", "id": "new" },
       ]
     }
   },

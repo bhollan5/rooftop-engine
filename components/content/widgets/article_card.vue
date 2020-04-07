@@ -24,6 +24,8 @@
     <picker :options="owner_collections" title="Pick a collection:" v-else
     @input="update_data('id', $event)">
     </picker>
+        {{article_draft}}
+
   </div>
 </card>
 
@@ -100,12 +102,13 @@ export default {
 
   computed: {
     article() {
-      return this.$store.getters['articles/articleById'](this.value.id)
+      return this.$store.getters['articles/article_query']('_id', this.value.id)[0]
     }
   },
 
   mounted() {
     if (this.value.id && this.value.id != 'new') {
+      console.log("Calling... with : " + this.value.id)
       this.$store.dispatch('articles/read_article', { _id: this.value.id })
     } else {
       this.update_data('id', 'new');
@@ -137,6 +140,8 @@ export default {
       console.log(new_article)
       this.$store.dispatch("articles/create_article", new_article)
       .then(() => {
+        // If this is in a collection, this tells it to add the article.
+        this.$emit('addarticle', new_article.id);
         this.update_data('id', new_article.id);
       })
     },

@@ -213,7 +213,7 @@ export const actions = {
         update: payload.update
       }).then((response) => {
         console.log(" 🖌 Updated the collection %c" +  payload._id, "color:magenta;");
-        commit('updateCollectionInfo', {
+        commit('set_collection', {
           _id: payload._id,
           update: payload.update
         })

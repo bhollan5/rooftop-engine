@@ -18,7 +18,7 @@ import Vue from 'vue';
 export const state = () => ({
 
   // Article data:
-  articles: {},
+  articles: [],
   
 })
 
@@ -33,12 +33,11 @@ export const state = () => ({
 
 export const getters = {
 
-  // This notation is the same as 
-  //  getterName() { return function (articleId) { ... } }
-  articleById: (state) => (articleId) => {
-    // This filter format is how we can query an array of objs. 
-    return state.articles[articleId];
-
+  // Article query
+  article_query: (state) => (field, value) => {
+    return state.articles.filter( function(article) {
+      return (article[field] == value);
+    });
   },
 
   // Gets all loaded articles (probably just for debugging.)
@@ -79,18 +78,18 @@ export const actions = {
 
   },
 
-  // Getting all articles:
-  readArticles({commit}) {
-    console.log(" 🗣 Calling the API to load all articles.")
+  // // Getting all articles:
+  // readArticles({commit}) {
+  //   console.log(" 🗣 Calling the API to load all articles.")
 
-    return axios.get("/api/articles")
-      .then((response) => {
-        console.log(" 📦 Loaded " + response.data.length + " articles.");
-        commit('set_articles', response.data);
-      }, (error) => {
-        console.warn(error);
-      });
-  },
+  //   return axios.get("/api/articles")
+  //     .then((response) => {
+  //       console.log(" 📦 Loaded " + response.data.length + " articles.");
+  //       commit('set_articles', response.data);
+  //     }, (error) => {
+  //       console.warn(error);
+  //     });
+  // },
 
   // Reading an article by query:
   read_article({commit}, payload) {
@@ -104,7 +103,7 @@ export const actions = {
         let articles = response.data;
         console.log(" 📦 Loaded " + articles.length + " articles!");
         articles.forEach((article) => {
-          commit('set_article', article);
+          commit('load_article', article);
         })
 
       } else {
@@ -198,6 +197,22 @@ export const mutations = {
     let article = payload;
     Vue.set(state.articles, article._id, article);
     console.log(" ✨ One article updated in the Vuex store", article);
+  },
+
+  // Adding or updating project in the projects array.
+  load_article(state, payload) {
+
+    let article_found = false;
+    state.articles.forEach((article, art_i, art_arr) => { 
+
+      if (payload._id == article._id) {
+        art_arr[art_i] = payload;
+        article_found = true;
+      }
+    })
+    if (!article_found){
+      state.articles.push(payload);
+    }
   },
   
   // Setting article array:

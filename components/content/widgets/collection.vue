@@ -52,12 +52,15 @@
 
   <!-- Area displaying the content of the collection. -->
   <div class="collection-display">
+    <!-- The cards in the collection -->
     <article-card v-for="(article_id, index) in collection.data" 
     :value="{ id: article_id }" 
     :key="article_id" v-if="!collection.loading">
     </article-card>
 
-    <article-card :value="{id: 'new'}" v-if="editable" :owner="owner"></article-card>
+    <!-- a crd to let users add articles -->
+    <article-card :value="{id: 'new'}" v-if="editable" :owner="owner"
+    @addarticle="add_article($event)"></article-card>
 
     <card title="Add a file" class="add-a-file" v-if="editable && 0">
       <text-field v-model="articleIdToAdd"></text-field>
@@ -181,6 +184,17 @@ export default {
         update: {
           title: this.collection_draft.title,
           description: this.collection_draft.description
+        },
+      }) 
+    },
+
+    add_article(id) {
+      let article_list = JSON.parse(JSON.stringify(this.collection.data));
+      article_list.push(id);
+      this.$store.dispatch('collections/updateCollectionInfo', {
+        _id: this.collection._id,
+        update: {
+          data: article_list,
         },
       }) 
     },

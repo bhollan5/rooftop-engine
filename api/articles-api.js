@@ -30,23 +30,33 @@ module.exports = function(app, mongoose){
     });
   })
 
-  // Getting all articles:
+  // Read a collection by query:
   app.get('/read-articles', (req, res) => {
     console.log("\n 🗣 Called to query articles!")
-    let ids = req.query;
-    let articleQuery = [] ;
-    
-    const indexes = Object.keys(ids)
-    for (const index of indexes) {
-      articleQuery.push({_id: ObjectID(ids[index])});
-    }
 
-    Article.find({ $or: articleQuery }, function (err, result) {
+    Article.find(req.query, function (err, result) {
       if (err) return console.error(err);
-      console.log(" 💌 Sent out " + result.length + " results!")
+      console.log(" 💌 Sent  " + result.length + " articles to the frontend!")
       res.send(result);
     })
   });
+  // // Getting all articles:
+  // app.get('/read-articles', (req, res) => {
+  //   console.log("\n 🗣 Called to query articles!")
+  //   let ids = req.query;
+  //   let articleQuery = [] ;
+    
+  //   const indexes = Object.keys(ids)
+  //   for (const index of indexes) {
+  //     articleQuery.push({_id: ObjectID(ids[index])});
+  //   }
+
+  //   Article.find({ $or: articleQuery }, function (err, result) {
+  //     if (err) return console.error(err);
+  //     console.log(" 💌 Sent out " + result.length + " results!")
+  //     res.send(result);
+  //   })
+  // });
 
   // Getting all articles:
   app.get('/articles', (req, res) => {
@@ -81,7 +91,7 @@ module.exports = function(app, mongoose){
     console.log("\n 🗣 Called to delete the article " + _id)
 
     Article.deleteOne({
-      "_id": ObjectID(_id)
+      _id: _id
     }, (err, result) => {
       if (err) {
         console.log(err);

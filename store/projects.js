@@ -215,7 +215,7 @@ export const actions = {
 //    this.$store.commit("mutationName", { payloadData: data })
 export const mutations = {
   
-  // Adding project array.
+  // Adding or updating project in the projects array.
   load_project(state, payload) {
 
     let proj_found = false;
