@@ -39,7 +39,7 @@ console.log("You are running the " + process.env.NODE_ENV + " server.");
 if (process.env.NODE_ENV === 'development') {
   db_url = 'mongodb://user:password1@ds021650.mlab.com:21650/rooftop-db';
 } else if (process.env.NODE_ENV === 'production') {
-  db_url = 'mongodb://do_server:rooftop123@127.0.0.1:27017/rooftop-production'
+  db_url = 'mongodb://do_server:rooftop123@127.0.0.1:27017/rooftop-production?authSource=rooftop-production&w=1'
 }
 
 
@@ -50,7 +50,7 @@ const app = express()                   // Creating our Express instance
 module.exports = { path: '/api', handler: app } // lets us access our express paths via /api/
 
 // The auth option is from here: https://stackoverflow.com/questions/30105823/mongoerror-auth-failed-mongoose-connection-sting
-mongoose.connect(db_url, {auth:{authdb:"admin"}}, { 
+mongoose.connect(db_url, { 
   useUnifiedTopology: true,
   useNewUrlParser: true
 });
