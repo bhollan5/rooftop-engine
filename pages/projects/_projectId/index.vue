@@ -68,6 +68,7 @@ export default {
         { "type": "section-title",  "content": "" },
         { "type": "subsection-title", "index": "1.1", "content": "" },
         { "type": "paragraph", "content": "" },
+        { "type": "article", "id": "5e7fa214dffa3f17284c4d34"},
         { "type": "collection", "id": "new" },
       ]
     }
@@ -97,7 +98,7 @@ export default {
       // If it's a new article, we need to make a new doc. 
       if (this.articleId == 'new'){
 
-        this.$store.dispatch('articles/createArticle', {
+        this.$store.dispatch('articles/create_article', {
           articleTitle: this.articleData[0].content,
           articleDescription: this.articleDescription,
           articleData: this.articleData,

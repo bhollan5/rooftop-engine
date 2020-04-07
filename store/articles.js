@@ -58,23 +58,21 @@ export const getters = {
 export const actions = {
 
   // Creating a new article:
-  createArticle({commit}, payload) {
+  create_article({commit}, payload) {
 
     axios.post("/api/create-article", {
-      articleTitle: payload.articleTitle,
-      articleData: payload.articleData,
-      articleDescription: payload.articleDescription
+      title: payload.title,
+      data: payload.data,
+      description: payload.description,
+      owner: payload.owner,
+      _id: payload.id,
     })
     .then((response) => {
-      console.log(" 💾 Successfully created an article titled " + payload.articleTitle + "!");
+      console.log(" 💾 Successfully created an article titled " + payload.title + "!");
       console.log(" > The article's id is: " + response.data._id);
 
       let articleId = response.data._id
 
-      // Moving the user to the correct page.
-      this.$router.push({
-        path: '/non-fic/' + articleId + '/edit'
-      })
     }, (error) => {
       console.warn(error);
     });
@@ -94,7 +92,7 @@ export const actions = {
       });
   },
 
-  // Reading an article, probably by  id:
+  // Reading an article by query:
   read_article({commit}, payload) {
     console.log(" 🗣 Called to query articles: ");
     console.log(payload);
@@ -110,7 +108,7 @@ export const actions = {
         })
 
       } else {
-        console.log(" ⛔️ No projects loaded.")
+        console.log(" ⛔️ No articles loaded.")
       }
       console.log(response.data);
       

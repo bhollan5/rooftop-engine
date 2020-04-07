@@ -11,9 +11,10 @@ import colorPalette from './inputs/color-palette.vue';
 import slider from './inputs/slider.vue';
 import picker from './inputs/picker.vue';
 
-// Misc:
+// Widgets:
 import lineBreak from './misc/line-break.vue';
 import collection from './content/widgets/collection.vue';
+import articleCard from '@/components/content/widgets/article_card.vue';
 
 // Sidebar:
 import sideBar from './side_bar/sidebar.vue';
@@ -50,6 +51,7 @@ export default {
   // Misc:
   lineBreak,
   collection,
+  articleCard,
 
   // sidebar:
   sideBar,

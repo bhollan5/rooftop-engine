@@ -9,10 +9,12 @@ module.exports = function(app, mongoose){
 
   // Defining our mongoose schema for a given article:
   let articleSchema = new mongoose.Schema({
-    articleTitle: String,
-    articleDescription: String,
-    articleThumbnail: String,
-    articleData: Array,
+    title: String,
+    description: String,
+    thumbnail: String,
+    data: Array,
+    owner: String,
+    _id: String,
   }, {timestamps: true});
 
   let Article = mongoose.model('Article', articleSchema);

@@ -53,24 +53,6 @@ html {
   width: var(--small-font-size);
 }
 
-.floating-element-icons {
-  position: absolute;
-  height: 30px;
-  width: 38px;
-  left: -38px;
-  padding: 5px;
-  border-radius: 5px 0px 0px 5px;
-  top: 0px;
-  fill: var(--card);
-  &.floating-icons-selected {
-    background: var(--card);
-    fill: var(--card-text2);
-  }
-  cursor: pointer;
-  &:hover {
-    fill: var(--card-text);
-  }
-}
 
 
 // Small, single-attribute classes:

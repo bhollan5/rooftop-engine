@@ -1,24 +1,51 @@
+<!--
+  When a new article card widget is made, it lets the creator make a new article,
+  or load an existing article into the page.
+
+  Once the collection is loaded, it displays all files in that collection.
+-->
+
+
 <template>
+<!-- When this widget is first created, we open the new collection options: -->
+<card title="New article" v-if="this.value && this.value.id == 'new'" flex twocolumn>
+  <!-- Create collection: -->
+  <div class="card-section">
+    <text-field title="Article name:" v-model="article_draft.title"></text-field>
+    <text-field title="Article id:" v-model="article_draft.id"></text-field>
+    <text-field title="Description:" v-model="article_draft.description"></text-field>
+    <button class="action" @click="create_article()">+ Add</button>
+  </div>
+  <!-- Pick an existing collection: -->
+  <div class="card-section">
+    <button class="card-button" v-if="!view_all_articles" @click="load_articles()">
+      Pick an existing article
+    </button>
+    <picker :options="owner_collections" title="Pick a collection:" v-else
+    @input="update_data('id', $event)">
+    </picker>
+  </div>
+</card>
+
 <router-link class="article-thumb" 
-v-if="article && article._id"
+v-else-if="article && article._id"
 :to="'/non-fic/' + article._id + '/edit/'"
 tag="div">
 
   <!-- The  header of the card. -->
   <div class="article-header">
-    <div class="article-title">{{article.articleTitle}}</div>
+    <div class="article-title">{{article.title}}</div>
     <div class="byline">by <router-link to="/">Ben H</router-link></div>
 
     <!-- The thumbnail image. 
       It's inside the header because it's positioned relative to the bottom of the header. -->
-    <div class="thumbnail" v-html="article.articleThumbnail" ></div>
+    <div class="thumbnail" v-html="article.thumbnail" ></div>
 
   </div>
 
   <div class="article-card">
-    
     <div class="article-description">
-      {{article.articleDescription}}
+      {{article.description}}
     </div>
   </div>
   <!-- Article description. -->
@@ -50,7 +77,13 @@ import trashIcon from '@/components/icons/trash-icon.vue';
 export default {
   data() {
     return {
-
+      // Indicates if we've loaded in all possible article options
+      view_all_articles: false,
+      article_draft: {
+        title: '',
+        id: '',
+        description: '',
+      },
     }
   }, 
   components: {
@@ -59,20 +92,62 @@ export default {
   },
 
   props: {
-    id: String,
+    value: Object,
+    owner: {
+      type: String,
+    }
   },
 
   computed: {
     article() {
-      return this.$store.getters['articles/articleById'](this.id)
+      return this.$store.getters['articles/articleById'](this.value.id)
     }
   },
 
   mounted() {
-    this.$store.dispatch('articles/read_article', { _id: this.id })
+    if (this.value.id && this.value.id != 'new') {
+      this.$store.dispatch('articles/read_article', { _id: this.value.id })
+    } else {
+      this.update_data('id', 'new');
+    }
   },
 
   methods: {
+    // Called when the user clicks 'new article'
+    create_article() {
+      let new_article = {
+        title: this.article_draft.title,
+        id: this.article_draft.id,
+        description: this.article_draft.description,
+        owner: this.owner,
+        data: [{
+          type: 'header',
+          content: this.article_draft.title,
+        }, {
+          type: 'subheader',
+          content: this.article_draft.description,
+        }],
+      };
+
+      if (!new_article.id || !new_article.title || !new_article.owner) {
+        alert("Missing id, title, or owner")
+        return;
+      }
+      console.log("Adding a new article")
+      console.log(new_article)
+      this.$store.dispatch("articles/create_article", new_article)
+      .then(() => {
+        this.update_data('id', new_article.id);
+      })
+    },
+
+    load_articles() {
+      this.view_all_articles = true;
+      this.$store.dispatch('articles/read_article', {
+        owner: this.owner
+      });
+    },
+
     // Deleting an article
     deleteArticle(article) {
       if (confirm('Are you sure you want to delete "' + article.articleTitle + '"?')) {
@@ -80,6 +155,12 @@ export default {
           _id: article._id
         })
       }
+    },
+
+    update_data(field, new_val) {
+      let data_update = JSON.parse(JSON.stringify(this.value));
+      data_update[field] = new_val;
+      this.$emit('input', data_update);
     },
   }
 }
@@ -90,6 +171,7 @@ export default {
 .article-thumb {
   width: 250px;
   min-width: 250px;
+  margin-bottom: 15px;
   height: 154px;
   position: relative;
   border-top: solid 8px var(--card);

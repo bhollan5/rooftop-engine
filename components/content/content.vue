@@ -61,6 +61,11 @@
     :value="widget" @input="update_data(widget_i, $event)">
     </paragraph>
 
+    <article-card v-else-if="widget.type == 'article'" :editable="editable"
+    :owner="owner"
+    :value="widget" @input="update_data(widget_i, $event)">
+    </article-card>
+
     <collection v-else-if="widget.type == 'collection'" :editable="editable"
     :owner="owner"
     :value="widget" @input="update_data(widget_i, $event)">

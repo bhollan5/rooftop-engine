@@ -232,7 +232,7 @@ export default {
       // If it's a new article, we need to make a new doc. 
       if (this.articleId == 'new'){
 
-        this.$store.dispatch('articles/createArticle', {
+        this.$store.dispatch('articles/create_article', {
           articleTitle: this.articleData[0].content,
           articleDescription: this.articleDescription,
           articleData: this.articleData,

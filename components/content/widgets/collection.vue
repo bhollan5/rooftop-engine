@@ -7,15 +7,15 @@
 
 <template>
 <!-- When this widget is first created, we open the new collection options: -->
-<card title="New collection" v-if="this.value.id == 'new'" flex twocolumn>
-  <!-- Create collection -->
+<card title="New collection" v-if="this.value &&  this.value.id == 'new'" flex twocolumn>
+  <!-- Create collection: -->
   <div class="card-section">
     <text-field title="Collection name:" v-model="collection_draft.title"></text-field>
     <text-field title="Collection id:" v-model="collection_draft.id"></text-field>
     <text-field title="Description:" v-model="collection_draft.description"></text-field>
     <button class="action" @click="create_collection()">+ Add</button>
   </div>
-  
+  <!-- Pick an existing collection: -->
   <div class="card-section">
     <button class="card-button" v-if="!view_collections" @click="load_collections()">
       Pick an existing collection
@@ -25,27 +25,26 @@
     </picker>
   </div>
 </card>
-<!-- Container for all collections-->
+
+<!-- Collection container: -->
 <div class="collection-container"
   :style="{background: $store.state.bg}" v-else-if="collection && collection._id"> 
   
   <!-- collection info/header -->
-  <div class="collection-header" :class="{'collection-header-selected': editCollection }">
+  <div class="collection-header">
 
-    <!-- Edit icons, floating to the left -->
-    <div class="floating-element-icons" @click="floatingIconAction()"
-      :class="{'floating-icons-selected': editCollection}" v-if="editable">
-      <check-icon v-if="editCollection"></check-icon>
-      <edit-icon v-else></edit-icon>
+    <!-- Save icon, floating to the left -->
+    <div class="floating-element-icons" @click="update_collection()" v-if="editable">
+      <check-icon></check-icon>
     </div>
 
     <!-- The title of the collection. -->
-    <h3 class="collection-title" v-if="!editCollection">{{collection.title}}</h3>
+    <h3 class="collection-title" v-if="!editable">{{collection.title}}</h3>
     <text-field v-else v-model="collection_draft.title" nobox class="collection-title h3-input"
       @enter="floatingIconAction()"></text-field>
 
     <!-- Collection descriptions. -->
-    <p class="collection-description" v-if="!editCollection">{{collection.description}}</p>
+    <p class="collection-description" v-if="!editable">{{collection.description}}</p>
     <text-field v-else v-model="collection_draft.description" nobox class="collection-description"
       @enter="floatingIconAction()"></text-field>
 
@@ -53,14 +52,17 @@
 
   <!-- Area displaying the content of the collection. -->
   <div class="collection-display">
-    <article-card v-for="(article, article_i) in collection.data" :id="article" 
-      :key="'article-' + article_i" v-if="!collection.loading">
+    <article-card v-for="(article_id, index) in collection.data" 
+    :value="{ id: article_id }" 
+    :key="article_id" v-if="!collection.loading">
     </article-card>
 
-    <div class="add-a-file" v-if="editCollection">
+    <article-card :value="{id: 'new'}" v-if="editable" :owner="owner"></article-card>
+
+    <card title="Add a file" class="add-a-file" v-if="editable && 0">
       <text-field v-model="articleIdToAdd"></text-field>
-      <button @click="addArticleToCollection()">Add</button>
-    </div>
+      <button @click="addArticleToCollection()" class="card-button">Add</button>
+    </card>
   </div>
 
 </div>
@@ -96,24 +98,35 @@ export default {
   },
   data() {
     return {
-      // Local copy of collection details, so we can edit & save.
-      collection_draft: {
-        title: '',
-        id: '',
-        description: '',
-      },
+      // Local copy of collection details, so we can edit & save
 
       // This lets us browse a list of collections we have
       view_collections: false,
 
-      editCollection: false,
 
       articleIdToAdd: '', // For adding articles to collections
     }
   },
   computed: {
+    // The collection being displayed
     collection() {
       return this.$store.getters['collections/collectionById'](this.value.id)[0];
+    },
+    // The local copy of the collection's details, so we can edit & save
+    collection_draft() {
+      if (this.collection) {
+        return {
+          title: this.collection.title,
+          id: this.collection._id,
+          description: this.collection.description,
+        };
+      } else {
+        return {
+          title: '',
+          id: '',
+          description: '',
+        };
+      }
     },
     owner_collections() {
       let owner_collections = this.$store.getters['collections/collection_query']('owner', this.owner);
@@ -161,22 +174,15 @@ export default {
       });
     },
 
-    // Called when the user clicks the gear/check icon
-    floatingIconAction() {
-      if (!this.editCollection) {
-        this.collection_draft.title = this.collection.collectionTitle;
-        this.collection_draft.description = this.collection.collectionDescription;
-        this.editCollection = true;
-      } else {
-        this.editCollection = false;
-        this.$store.dispatch('collections/updateCollectionInfo', {
-          _id: this.collection._id,
-          update: {
-            collectionTitle: this.collection_draft.title,
-            collectionDescription: this.collection_draft.description
-          },
-        }) 
-      }
+    // Saves the collection info
+    update_collection() {
+      this.$store.dispatch('collections/updateCollectionInfo', {
+        _id: this.collection._id,
+        update: {
+          title: this.collection_draft.title,
+          description: this.collection_draft.description
+        },
+      }) 
     },
 
     // Adds an article ID to a collection
@@ -190,6 +196,8 @@ export default {
     update_data(field, new_val) {
       let data_update = JSON.parse(JSON.stringify(this.value));
       data_update[field] = new_val;
+      console.warn("Updating parent:")
+      console.log(data_update)
       this.$emit('input', data_update);
     },
 
@@ -211,14 +219,13 @@ export default {
   width: 100%;
   box-shadow: var(--box-shading);
   color: var(--bg-text);
-  overflow: hidden;
 }
 
 // Container for collections of media. 
 .collection-display {
   display: flex;
+  flex-flow: row wrap;
   min-width: 100%;
-  height: 170px; // Setting this to the same height as the cards. Increase if you add padding
   padding: 10px 0px 10px 20px; 
   // background: var(--bg2);
   // box-shadow: inset 0px 0px 4px rgba(0,0,0,.4);
@@ -228,9 +235,6 @@ export default {
   padding: 5px 5px 5px 5px;
   margin-bottom: 5px;
   position: relative;
-}
-.collection-header-selected {
-  background: var(--card);
 }
 .collection-title {
   max-width: 350px;
@@ -247,5 +251,18 @@ export default {
 }
 .collection-container:hover .collection-description {
   color: var(--bg-text);
+}
+
+.floating-element-icons {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  left: -20px;
+  cursor: pointer;
+  svg {
+    fill: var(--c1);
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>
