@@ -49,7 +49,8 @@ const app = express()                   // Creating our Express instance
 
 module.exports = { path: '/api', handler: app } // lets us access our express paths via /api/
 
-mongoose.connect(db_url, { 
+// The auth option is from here: https://stackoverflow.com/questions/30105823/mongoerror-auth-failed-mongoose-connection-sting
+mongoose.connect(db_url, {auth:{authdb:"admin"}}, { 
   useUnifiedTopology: true,
   useNewUrlParser: true
 });
