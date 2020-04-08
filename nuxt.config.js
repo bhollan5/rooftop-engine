@@ -35,7 +35,8 @@ export default {
   */
   plugins: [
     '~/plugins/global-components.js', // gives us global components!
-    '~/plugins/console-handler.js'
+    '~/plugins/console-handler.js',    // gives us $console
+    '~/plugins/theme-helpers.js',     // gives us $theme
   ],
   /*
   ** Nuxt.js dev-modules

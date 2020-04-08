@@ -1,20 +1,36 @@
 <template>
-<div class="color-palette flex-container row-wrap">
-  <div class="color-option" v-for="(color, color_i) in colors" 
-    :class="{'selected': value == color_i}"
-    @click="$emit('input', color_i)"
-    :style="{ 
-      background: 'hsl(' + color[0] + ',' + color[1] + '%,' + color[2] + '%)',
-      height: size + 'px', 
-      width: size + 'px',
-      margin: margin + 'px',
-       }"></div>
+<div class="simple-palette">
+  
+    <simple-scheme 
+    :value="value"
+    @input="$emit('input', $event)"
+    bg="bg" 
+    text="bg_text" 
+    secondary="bg_text2"
+    :colors="colors">
+    </simple-scheme>
+    <br>
+    <simple-scheme 
+    :value="value"
+    @input="$emit('input', $event)"
+    bg="card" 
+    text="card_text" 
+    secondary="card_text2"
+    :colors="colors">
+    </simple-scheme>
+
     <br>
 </div>
 </template>
 
 <script>
+import simpleScheme from '@/components/widgets/simple-palette/simple-scheme.vue';
+
 export default {
+
+  components: {
+    simpleScheme,
+  },
 
   data() { 
     return {
@@ -29,22 +45,19 @@ export default {
       default: 'bg'
     },
 
+    //
+    colors: {
+      type: Object,
+    },
+
 
     size: {
       type: Number,
       default: 15
     },
-    margin: {
-      type: Number,
-      default: 5
-    }
   },
 
   computed: {
-    colors() {
-      let theme_obj = this.$store.getters['themes/theme_object'];
-      return theme_obj.colors;
-    }
   },
   
   mounted() {
@@ -72,6 +85,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.simple-palette {
+  padding: none;
+}
 .color-selector {
   display: flex;
   flex-flow: row wrap;
@@ -79,7 +95,10 @@ export default {
 }
 // Small selectable color options
 .color-option {
-  margin: 5px;
+  display: flex;
+  width: 100%;
+  min-width: 150px;
+  height: 70px;
   transition: .1s;
   box-shadow: 0px 0px 3px black;
   cursor: pointer;
@@ -88,6 +107,15 @@ export default {
   }
   &.selected {
     box-shadow: 0px 0px 5px white;
+  }
+  .shade {
+    width: 10%;
+    height: 100%;
+  }
+  .main-color {
+    width: 60%;
+    min-width: 100px;
+    height: 100%;
   }
 }
 </style>

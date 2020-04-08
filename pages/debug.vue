@@ -26,14 +26,14 @@
     
     <card title="Articles:" nopadding>
       <table-widget :value="all_articles"></table-widget>
-      <button class="card-button" @click="load_articles()">Load all articles</button>
+      <button class="card-button margins" @click="load_articles()">Load all articles</button>
     </card>
 
     <card title="User:" nopadding>
       <table-widget :value="all_users" 
       :columns="['display_name', 'username']"
       ></table-widget>
-      <button class="card-button" @click="load_users()">Load all user</button>
+      <button class="card-button margins" @click="load_users()">Load all user</button>
     </card>
 
   </div>

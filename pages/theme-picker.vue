@@ -18,8 +18,9 @@
     </card>
 
     <!-- Color picker -->
-    <card title="Color palette:" min>
-      <color-palette v-model="selected_color"></color-palette>
+    <card title="Color palette:">
+      <simple-palette v-model="selected_color"
+        :colors="themeDraft.colors"></simple-palette>
     </card>
 
     <!-- Color picker -->
@@ -60,7 +61,7 @@
       <div class="big-br"></div>
       <line-break style="width: 40%;margin: 0px 30% 50px"></line-break>
 
-      <h3>Illustration & alternate backgrounds: </h3>
+      <h3>1. Illustration & alternate backgrounds: </h3>
 
       <p>Totally regular text that would appear in the body of a paragraph on a page on  the website. Hey!</p><br>
       <p>Important parts of a text passage might be highlighted to show importance. </p><br>
@@ -69,32 +70,22 @@
 
 
 
-      <h3>Illustration & alternate backgrounds: </h3>
-      <!-- Logo and Text section -->
-      <div id="logo-and-text" class="flex-container space-around">
+      <!-- Design section -->
+      <div id="logo-and-text">
 
-        <div class="theme-example">
-          <div class="header">
-            <design-highlights></design-highlights> 
-          </div>
-          <div class="content theme-body-example">
-            <design-highlight-example></design-highlight-example>
-
-            <div class="card card-padding">
-              <div class="card-header">
-                <h3>Card containers</h3>
-                <h4>Used to section off content!</h4>
-              </div>
-              <div class="card-body">
-                <div>Various content containers might use a secondary background color palette. </div>
-              </div>
-              <hr style="border: solid 3px var(--c1);">
-              <br style="height: 15px;">
-            </div>
-
-            <br><br><br>
-          </div>
+        <div class="header">
+          <design-highlights></design-highlights> 
         </div>
+        <div class="content theme-body-example">
+          <design-highlight-example></design-highlight-example>
+
+          <card title="Card containers">
+            Used to section of content!
+          </card>
+
+          <br><br><br>
+        </div>
+
       </div>
 
 
@@ -104,50 +95,45 @@
 
 
       <h2>Inputs: </h2>
-      <div id="inputs" class="flex-container space-around">
+      <div id="inputs" >
       
-        <div class="content theme-body-example">
-
+        <text-field v-model="foo" :placeholder="'Placeholder text...'" class="sample-input" 
+          regularfont :nobox="nobox" :title="'Big text field'">
+        </text-field>
+        <text-field v-model="foo" :title="'Big icon text field'" class="sample-input" icon
+          regularfont :nobox="nobox" :placeholder="'Placeholder text...'">
+          <search-icon></search-icon>
+        </text-field>
+        <div class="input-container">
           <text-field v-model="foo" :placeholder="'Placeholder text...'" class="sample-input" 
-            regularfont :nobox="nobox" :title="'Big text field'">
+            smallfont :nobox="nobox" :title="'Small text field'">
           </text-field>
-          <text-field v-model="foo" :title="'Big icon text field'" class="sample-input" icon
-            regularfont :nobox="nobox" :placeholder="'Placeholder text...'">
-            <search-icon></search-icon>
+          <text-field v-model="foo" :title="'Small icon text field'" class="sample-input" icon
+            smallfont :nobox="nobox" :placeholder="'Placeholder text...'">
+            <edit-icon></edit-icon>
           </text-field>
-          <div class="input-container">
-            <text-field v-model="foo" :placeholder="'Placeholder text...'" class="sample-input" 
-              smallfont :nobox="nobox" :title="'Small text field'">
-            </text-field>
-            <text-field v-model="foo" :title="'Small icon text field'" class="sample-input" icon
-              smallfont :nobox="nobox" :placeholder="'Placeholder text...'">
-              <edit-icon></edit-icon>
-            </text-field>
-          </div>
-          <div class="input-container">
-            <text-field v-model="bar" :title="'Text field with text'" class="sample-input" 
-              smallfont :nobox="nobox" :placeholder="'Placeholder text...'">
-            </text-field>
-            <text-field v-model="bar" :title="'Icon text field with text'" class="sample-input" icon
-              smallfont :nobox="nobox" :placeholder="'Placeholder text...'">
-              <person-icon></person-icon>
-            </text-field>
-          </div>
-          <text-field textarea smallfont :placeholder="'Multiline textarea'" v-model="foo"
-          v-if="0"></text-field>
-
-          <button>
-            <gear-icon></gear-icon>
-            A button!
-          </button>
-
-          <dropdown :options="sample_array" v-model="option_chosen"></dropdown><br>
-          <picker :options="sample_object_list" v-model="option_chosen"></picker>
-          {{option_chosen}}
-            
-
-          
         </div>
+        <div class="input-container">
+          <text-field v-model="bar" :title="'Text field with text'" class="sample-input" 
+            smallfont :nobox="nobox" :placeholder="'Placeholder text...'">
+          </text-field>
+          <text-field v-model="bar" :title="'Icon text field with text'" class="sample-input" icon
+            smallfont :nobox="nobox" :placeholder="'Placeholder text...'">
+            <person-icon></person-icon>
+          </text-field>
+        </div>
+        <text-field textarea smallfont :placeholder="'Multiline textarea'" v-model="foo"
+        v-if="0"></text-field>
+
+        <button>
+          <gear-icon></gear-icon>
+          A button!
+        </button>
+
+        <dropdown :options="sample_array" v-model="option_chosen"></dropdown><br>
+        <picker :options="sample_object_list" v-model="option_chosen"></picker>
+        {{option_chosen}}
+
       </div>
 
 
@@ -183,6 +169,8 @@ import merchDecor from '~/components/header/link-decor/merch-decor.vue';
 // Theme picker components:
 import designHighlights from '~/components/style_guide/design-highlights.vue';
 import designHighlightExample from '~/components/style_guide/design-highlight-example.vue';
+
+import simplePalette from '~/components/widgets/simple-palette/simple-palette.vue';
 
 
 // Our vue component:
@@ -231,6 +219,8 @@ export default {
     // Theme picker components:
     designHighlights,
     designHighlightExample,
+
+    simplePalette,
   },
 
   mounted() {
