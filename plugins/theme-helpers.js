@@ -1,7 +1,5 @@
 // This is a module for storing and handling console notifs and messages.
 
-import Vue from 'vue';
-
 // From: https://nuxtjs.org/guide/plugins#combined-inject
 export default ({ app }, inject) => {
   inject('theme', {
@@ -19,21 +17,36 @@ export default ({ app }, inject) => {
       'action_text', 'confirm_text', 'danger_text',
     ],
 
+    simplify(theme) {
+      let s_theme = JSON.parse(JSON.stringify(theme));
+
+      // Quick function to let us shift the lightness of a color
+      let l_shift = function (hsl, shift) {
+        return [hsl[0], hsl[1], hsl[2] + shift];
+      };
+      s_theme.colors.bg2 = l_shift(s_theme.colors.bg, -5);
+      s_theme.colors.input = l_shift(s_theme.colors.bg, 5);
+      s_theme.colors.input_text = l_shift(s_theme.colors.bg_text, 0);
+      s_theme.colors.input_text2 = l_shift(s_theme.colors.bg_text2, 0);
+      s_theme.colors.card2 = l_shift(s_theme.colors.card, -5);
+      return s_theme;
+    },
+
     theme_css_obj(theme) {
       // Colors are stored as HSL arrays, so we need to iterate thru them
       //   and change them to 'hsl(x,x%,x%)' format
       let style_obj = {};
-
-      if (!theme || !theme.colors) {
-        console.warn("No theme found.");
+      if (!theme || !theme.colors.bg) {
         return;
       }
-      console.log("Called")
+
+      // Simplifying the theme...
+      let s_theme = this.simplify(theme);
 
       this.color_fields.forEach((field) => {
         // Making sure the field is in our color scheme.
-        if (!theme.colors[field]) {
-          console.error("This theme is missing a color: " + field);
+        if (!s_theme.colors[field]) {
+          console.warn("This theme is missing a color: " + field);
           return;
         }
 
@@ -41,12 +54,12 @@ export default ({ app }, inject) => {
         let css_var_name = '--' + field.replace(/_/g, "-");
 
         // setting up our style object:
-        style_obj[css_var_name] = this.hsl_to_css(theme.colors[field], [0,0,0]);
+        style_obj[css_var_name] = this.hsl_to_css(s_theme.colors[field], [0,0,0]);
 
-        style_obj[css_var_name + '-light'] = this.hsl_to_css(theme.colors[field], [0,0,5]);
-        style_obj[css_var_name + '-lighter'] = this.hsl_to_css(theme.colors[field], [0,0,10]);
-        style_obj[css_var_name + '-dark'] = this.hsl_to_css(theme.colors[field], [0,0,-5]);
-        style_obj[css_var_name + '-darker'] = this.hsl_to_css(theme.colors[field], [0,0,-10]);
+        style_obj[css_var_name + '-light'] = this.hsl_to_css(s_theme.colors[field], [0,0,5]);
+        style_obj[css_var_name + '-lighter'] = this.hsl_to_css(s_theme.colors[field], [0,0,10]);
+        style_obj[css_var_name + '-dark'] = this.hsl_to_css(s_theme.colors[field], [0,0,-5]);
+        style_obj[css_var_name + '-darker'] = this.hsl_to_css(s_theme.colors[field], [0,0,-10]);
 
       });
       return style_obj;

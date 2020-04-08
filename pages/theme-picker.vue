@@ -230,10 +230,12 @@ export default {
 
   },
 
+
   computed: {
     // The theme currently being used, which we copy for our theme draft.
     currentTheme() {
-      return this.$store.getters['themes/theme_object'];
+      let currentTheme = this.$store.getters['themes/theme_object'];
+      return this.$theme.simplify(currentTheme);
     },
     // We compute this separately because we can use it in a watch function.
     theme_id() {
@@ -260,7 +262,7 @@ export default {
       if (confirm("If you change the theme now, you'll lose the changes you've made to your theme draft.")){
         this.resetTheme();
       }
-    }
+    },
   },
 
   methods: {

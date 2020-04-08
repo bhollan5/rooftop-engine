@@ -38,7 +38,7 @@ export const state = () => ({
   // Illustration:  c1, c2, c3, c4, c5
   simple_colors: true,
 
-  currentTheme: {
+  current_theme: {
     theme_name: 'Golden Night',
     _id: 'golden-night',
     thumbnail: '', 
@@ -102,18 +102,35 @@ export const state = () => ({
 export const getters = {
 
   // Object of all colors as arrays
-  theme_object(state) {
-    return state.currentTheme;
+  theme_object(state, getters) {
+    if (state.simple_colors && state.current_theme.colors) {
+      return getters['simple_colors'](state.current_theme);
+    } else {
+      return state.current_theme
+    }
+  },
+
+  // 
+  simple_colors: (state) => (theme) => {
+    let s_theme = JSON.parse(JSON.stringify(state.current_theme));
+
+    // Quick function to let us shift the lightness of a color
+    let l_shift = function (hsl, shift) {
+      return [hsl[0], hsl[1], hsl[2] + shift];
+    };
+    s_theme.colors.bg2 = l_shift(s_theme.colors.bg, -5);
+    s_theme.colors.card2 = l_shift(s_theme.colors.card, -5);
+    return s_theme;
   },
 
   // Just the theme id
   themeId(state) {
-    return state.currentTheme._id;
+    return state.current_theme._id;
   },
 
   // Takes a variable id, returns an array
   color_styling: (state) => (color_key) => {
-    return state.currentTheme.colors[color_key];
+    return state.current_theme.colors[color_key];
   },
 
 
@@ -245,17 +262,17 @@ export const mutations = {
 
   // Setting the current theme
   setThemeColor(state, payload) {
-    state.currentTheme._id = payload._id;
-    state.currentTheme.theme_name = payload.theme_name;
+    state.current_theme._id = payload._id;
+    state.current_theme.theme_name = payload.theme_name;
 
     // Iterating thru an array of all color fields. 
     // We grab a fresh copy just for the smaller var name.
     let fields = JSON.parse(JSON.stringify(state.color_fields));
     for (let i in fields) {
       if (payload.colors[fields[i]]){
-        Vue.set(state.currentTheme.colors[fields[i]], 0, payload.colors[fields[i]][0])
-        Vue.set(state.currentTheme.colors[fields[i]], 1, payload.colors[fields[i]][1])
-        Vue.set(state.currentTheme.colors[fields[i]], 2, payload.colors[fields[i]][2])
+        Vue.set(state.current_theme.colors[fields[i]], 0, payload.colors[fields[i]][0])
+        Vue.set(state.current_theme.colors[fields[i]], 1, payload.colors[fields[i]][1])
+        Vue.set(state.current_theme.colors[fields[i]], 2, payload.colors[fields[i]][2])
       } else {
         console.warn(" ⚠️ Color scheme missing a color! " + fields[i]);
       }
