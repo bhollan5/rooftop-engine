@@ -57,7 +57,12 @@ p, .p {
   font-size: var(--regular-font-size);
 }
 
-
+.secondary {
+  color: var(--bg-text2);
+}
+.card .secondary {
+  color: var(--card-text2);
+}
 
 a, .a {
   color: var(--link);
@@ -67,4 +72,7 @@ a, .a {
   &:hover {
     text-decoration: underline;
   }
+}
+.i {
+  font-style: italic;
 }

@@ -13,8 +13,8 @@ import picker from './inputs/picker.vue';
 
 // Widgets:
 import lineBreak from './misc/line-break.vue';
-import collection from './content/widgets/collection.vue';
-import articleCard from '@/components/content/widgets/article_card.vue';
+import collection from './widgets/collection.vue';
+import articleCard from '@/components/widgets/article_card.vue';
 
 // Sidebar:
 import sideBar from './side_bar/sidebar.vue';

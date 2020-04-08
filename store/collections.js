@@ -69,13 +69,13 @@ export const getters = {
     return collections_with_data;
   },
 
-  collectionOfAllArticles(state, getters, rootState, rootGetters) {
-    let allArticles = rootGetters['articles/allArticles'];
+  collectionOfall_articles(state, getters, rootState, rootGetters) {
+    let all_articles = rootGetters['articles/all_articles'];
     let allArticleCollection = {
       _id: 'all-articles',
       collectionDescription: "This displays all published articles",
       collectionTitle: "All Articles",
-      collectionData: allArticles,
+      collectionData: all_articles,
       editable: false,
     }
     return allArticleCollection;

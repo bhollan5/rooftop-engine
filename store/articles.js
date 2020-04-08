@@ -46,7 +46,7 @@ export const getters = {
   },
 
   // Gets all loaded articles (probably just for debugging.)
-  allArticles(state) {
+  all_articles(state) {
     return state.articles;
   },
 

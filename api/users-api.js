@@ -165,6 +165,17 @@ module.exports = function(app, mongoose){
     });
   });
 
+  // Queries users:
+  app.get('/query-users', (req, res) => {
+    console.log("\n 🗣 Called to query users!")
+
+    User.find(req.query, function (err, result) {
+      if (err) return console.error(err);
+      console.log(" 💌 Sent  " + result.length + " users to the frontend!")
+      res.send(result);
+    })
+  });
+
   // Getting a user based on their password token (stored locally to keep people logged in)
   app.delete('/logout', (req, res) => {
     console.log("\n 🗣 Called to log user out!");

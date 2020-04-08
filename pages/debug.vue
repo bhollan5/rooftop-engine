@@ -2,7 +2,7 @@
 <div class="body">
 
   <side-bar title="debug zone">
-    <card title="opts:">
+    <card title="console options:">
       <text-field title="Test message:" v-model="test_msg.msg"></text-field>
       <text-field title="re:" v-model="test_msg.re"></text-field>
       <dropdown v-model="test_msg.type" :options="types"></dropdown>
@@ -12,7 +12,7 @@
 
   <div class="content">
     <h1>what's up hackerz</h1>
-    <card title="console log:">
+    <card title="console log:" min>
       <div v-for="msg in log" class="console-msg">
         <div class="msg-details">
           <div>{{msg.type}}:</div>
@@ -23,12 +23,27 @@
         </div>
       </div>
     </card>
+    
+    <card title="Articles:" nopadding>
+      <table-widget :value="all_articles"></table-widget>
+      <button class="card-button" @click="load_articles()">Load all articles</button>
+    </card>
+
+    <card title="User:" nopadding>
+      <table-widget :value="all_users" 
+      :columns="['display_name', 'username']"
+      ></table-widget>
+      <button class="card-button" @click="load_users()">Load all user</button>
+    </card>
+
   </div>
 
 </div>
 </template>
 
 <script>
+import tableWidget from '@/components/widgets/table-widget.vue';
+
 export default {
   data() {
     return {
@@ -43,10 +58,27 @@ export default {
       log: [],
     }
   },
+  components: {
+    tableWidget,
+  },
+  computed: {
+    all_articles() {
+      return this.$store.getters['articles/all_articles'];
+    },
+    all_users() {
+      return this.$store.getters['users/all_users'];
+    }
+  },
   mounted() {
     this.update_log();
   },
   methods: {
+    load_articles() {
+      this.$store.dispatch('articles/read_article', {})
+    },
+    load_users() {
+      this.$store.dispatch('users/read_users', {})
+    },
     send_test_msg() {
       this.$console.log(this.test_msg.re, this.test_msg.msg);
     },
@@ -76,6 +108,9 @@ export default {
   border-right: solid 1px var(--card-light);
   margin-right: 5px;
   font-weight: bold;
+}
+.msg {
+  overflow-y: scroll;
 }
 .re {
   color: var(--card-text2);

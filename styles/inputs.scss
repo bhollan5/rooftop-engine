@@ -48,9 +48,9 @@ button {
     width: var(--small-font-size);
   }
   &:hover {
-    color: var(--input-text);
+    color: var(--input-text-light);
     svg {
-      fill: var(--input-text);
+      fill: var(--input-text-light);
     }
   }
   
@@ -65,5 +65,8 @@ button {
   }
   &.card-button {
     background: var(--card-light);
+    &:hover {
+      background: var(--card-lighter);
+    }
   }
 }

@@ -19,7 +19,8 @@
 
 <template>
 <div class="card"
-  :class="{ expanded: expanded }">
+  :class="{ expanded: expanded, }"
+  :style="{ width: width, }">
   <!-- The card header, with the card's title, and the minimize option -->
   <div class="card-header" @click="expanded = !expanded">
     {{title}}
@@ -70,6 +71,11 @@ export default {
     flex: {
       type: Boolean,
       default: false,
+    },
+    // width
+    width: {
+      type: String,
+      default: 'auto'
     }
   }
 }
@@ -129,5 +135,8 @@ export default {
     width: 260px;
     min-width: 260px;
   }
+}
+.content .card {
+  margin: 10px 0px;
 }
 </style>

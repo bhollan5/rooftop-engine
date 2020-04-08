@@ -17,7 +17,7 @@
     :collection="collection" :key="'collection' + collection_i" >
   </collection>
     <br><br><hr>
-  <collection :collection="collectionOfAllArticles" v-if="0">
+  <collection :collection="collectionOfall_articles" v-if="0">
   </collection>
 
   
@@ -52,8 +52,8 @@ export default {
     collections() { 
       return this.$store.getters['collections/allCollections'];
     },
-    collectionOfAllArticles() {
-      return this.$store.getters['collections/collectionOfAllArticles']
+    collectionOfall_articles() {
+      return this.$store.getters['collections/collectionOfall_articles']
     }
   },
 

@@ -49,9 +49,9 @@
     </div> <!-- End of user option header -->
 
     <!-- project display -->
-    <h3>Projects:</h3>
-    <div class="project-display">
-
+    
+    <div class="project-display" v-if="$auth.loggedIn">
+      <h3>Projects:</h3>
       <router-link class="project-option" tag="div"
       v-for="(project, proj_i) in user_projects" :key="proj_i"
       :to="'/projects/' + project._id">

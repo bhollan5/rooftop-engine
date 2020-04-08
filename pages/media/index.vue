@@ -30,7 +30,7 @@ export default {
   computed: {
     // Getting the article array from the store. 
     articles() { 
-      return this.$store.getters['articles/allArticles'];
+      return this.$store.getters['articles/all_articles'];
     }
   },
 

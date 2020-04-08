@@ -96,13 +96,13 @@
 
 <script>
 // Widgets:
-import newWidget from '@/components/content/widgets/new_widget.vue';
+import newWidget from '@/components/widgets/new_widget.vue';
 
-import pageHeader from '@/components/content/widgets/page_header.vue';
+import pageHeader from '@/components/widgets/page_header.vue';
 
-import sectionTitle from '@/components/content/widgets/section_title.vue';
-import subsectionTitle from '@/components/content/widgets/subsection_title.vue';
-import paragraph from '@/components/content/widgets/paragraph.vue';
+import sectionTitle from '@/components/widgets/section_title.vue';
+import subsectionTitle from '@/components/widgets/subsection_title.vue';
+import paragraph from '@/components/widgets/paragraph.vue';
 
 export default {
   name: 'content-display',

@@ -119,7 +119,7 @@
 </template>
 
 <script>
-import paragraph from '@/components/content/widgets/paragraph.vue';
+import paragraph from '@/components/widgets/paragraph.vue';
 import gearIcon from '@/components/icons/gear-icon.vue';
 import trashIcon from '@/components/icons/trash-icon.vue';
 import imageIcon from '@/components/icons/image-icon.vue';

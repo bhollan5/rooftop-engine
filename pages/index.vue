@@ -7,10 +7,6 @@
       <space-canvas></space-canvas>
 
       <!-- -->
-      <div id="media-suggestions"
-        :style="{background: $store.state.bg}">
-
-      </div>
       
     </div>
   </div>

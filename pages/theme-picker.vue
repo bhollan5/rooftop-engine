@@ -288,8 +288,8 @@ export default {
     },
 
     // For our sample collection
-    collectionOfAllArticles() {
-      return this.$store.getters['collections/collectionOfAllArticles']
+    collectionOfall_articles() {
+      return this.$store.getters['collections/collectionOfall_articles']
     }
   }, 
   

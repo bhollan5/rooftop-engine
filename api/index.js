@@ -31,16 +31,7 @@ const userRoutes = require('./users-api.js');
 const projectRoutes = require('./projects-api.js');
 
 
-// Getting the server IP. 
-// If we're in development mode, we connect to mLabs. 
-// In production mode, we connect to the server's DB. 
-let db_url;
-if (process.env.NODE_ENV == 'development') {
-  db_url = 'mongodb://user:password1@ds021650.mlab.com:21650/rooftop-db';
-} else if (process.env.NODE_ENV == 'production') {
-  db_url = 'mongodb://127.0.0.1:27017/rooftop-prod'
-}
-console.log(" ℹ️ You are running the " + process.env.NODE_ENV + " server.");
+//    Setting up Express:
 
 // Creating our Express instance:
 const app = express()                           
@@ -53,7 +44,24 @@ app.use(function(req, res, next) {
   next();
 });
 
-// The auth option is from here: https://stackoverflow.com/questions/30105823/mongoerror-auth-failed-mongoose-connection-sting
+
+
+// Getting the server IP. todo: use env variables and auth to make this more secure.
+
+// If we're in development mode, we connect to mLabs. 
+// In production mode, we connect to the server's DB. 
+let db_url;
+if (process.env.NODE_ENV == 'development') {
+  db_url = 'mongodb://user:password1@ds021650.mlab.com:21650/rooftop-db';
+} else if (process.env.NODE_ENV == 'production') {
+  db_url = 'mongodb://127.0.0.1:27017/rooftop-prod'
+}
+console.log(" ℹ️ You are running the " + process.env.NODE_ENV + " server.");
+
+
+
+//    Connecting to mongoose 
+
 mongoose.connect(db_url, { 
   useUnifiedTopology: true,
   useNewUrlParser: true

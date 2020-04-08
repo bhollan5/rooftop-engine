@@ -21,7 +21,7 @@ export const state = () => ({
   current_user: {},
 
   // User data:
-  users: {},
+  users: [],
   
 })
 
@@ -40,6 +40,10 @@ export const getters = {
     return state.current_user;
   },
 
+  all_users(state) {
+    return state.users;
+  },
+
   // This notation is the same as 
   //  getterName() { return function (articleId) { ... } }
   articleById: (state) => (articleId) => {
@@ -49,7 +53,7 @@ export const getters = {
   },
 
   // Gets all loaded articles (probably just for debugging.)
-  allArticles(state) {
+  all_articles(state) {
     return state.articles;
   },
 
@@ -90,6 +94,31 @@ export const actions = {
     }, (error) => {
       console.warn("Error creating user:")
       console.warn(error.response.data);
+    });
+
+  },
+
+  // Reading users by query:
+  read_users({commit}, payload) {
+    console.log(" 🗣 Called to read a user by this query: ");
+    console.log(payload);
+
+    axios.get("/api/query-users", { params: payload })
+    .then((response) => {
+      if (response.data.length) {
+        console.log(" 💾 Successfully loaded a user!");
+        
+        for (let i in response.data) {
+          commit('set_user', response.data[i]);
+        }
+
+      } else {
+        console.log(" ⛔️ No users loaded.")
+      }
+      console.log(response.data);
+      
+    }, (error) => {
+      console.warn(error);
     });
 
   },
@@ -156,52 +185,6 @@ export const actions = {
 
   },
 
-  // Updating an article by id.
-  update_article({commit}, payload) {
-    console.log(" 🗣 Calling the API to update article %c" +  payload._id, "color:magenta;")
-
-    // Getting the article from the database.
-    axios.post("/api/update-article", {
-        _id: payload._id,
-        update: payload.update
-      }).then((response) => {
-        console.log(" 🖌 Updated the article %c" +  payload._id, "color:magenta;");
-      }).catch ((error) => {
-        console.warn(error);
-      });
-
-  },
-
-  // Deletes an article by id.
-  deleteArticle({commit}, payload) {
-    console.log(" 🗣 Calling the api to delete article %c" +  payload._id, "color:magenta;")
-
-    // Getting the article from the database.
-    axios.delete("/api/delete-article/" + payload._id).then(() => {
-      console.log(" ⛔️ Deleted the article with the id of " + payload._id);
-      commit('deleteArticle', { _id: payload._id});
-    }, (error) => {
-      console.warn(error);
-    });
-  },
-
-    // We just put SVGS as normal datafields now instead of this
-  // // Uploading an image for an article: 
-  // uploadImage({commit}, payload) {
-  //   console.log(" 🗣 Calling the api to upload the image %c" +  payload.fileName, "color:magenta;")
-  //   console.log(payload);
-
-  //   // You should have a server side REST API 
-  //   axios.post('/api/upload-article-image', {
-  //     fileName: payload.fileName,
-  //     fileValue: payload.fileValue
-  //   }).then(function () {
-  //       console.log('Success uploading file!');
-  //     })
-  //     .catch(function () {
-  //       console.log('Failed to upload item!');
-  //     });
-  // }
 }
 
 
@@ -223,26 +206,21 @@ export const mutations = {
       path: '/'
     });
   },
-  
-  // Setting article array:
-  setArticles(state, payload) {
-    state.articles = payload;
-    console.log(" ✨ Articles updated in the Vuex store:", payload);
-  },
-  
-  // Deleting an article by id: 
-  deleteArticle(state, payload) {
-    let updatedArticles = state.articles.filter((article) => { 
-      // Keeping articles when this is true:
-      return article._id != payload._id;
-    });
-    let difference = state.articles.length - updatedArticles.length;
-    state.articles = updatedArticles;
-    console.log(" ✨ " + difference + " article was deleted in the Vuex store.")
-  },
 
-  logMessage(state, payload) {
-    console.log(payload.msg);
+  set_user(state, payload) {
+    // Loading or updating a collection.
+
+    let user_found = false;
+    state.users.forEach((user, user_i, user_arr) => { 
+
+      if (payload._id == user._id) {
+        user_arr[user_i] = payload;
+        user_found = true;
+      }
+    })
+    if (!user_found){
+      state.users.push(payload);
+    }
   }
 
 }

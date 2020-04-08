@@ -78,7 +78,7 @@
 import editIcon from '@/components/icons/edit-icon.vue';
 import checkIcon from '@/components/icons/check-icon.vue';
 
-import articleCard from '@/components/content/widgets/article_card.vue';
+import articleCard from '@/components/widgets/article_card.vue';
 
 
 
