@@ -6,6 +6,7 @@ import Vue from 'vue';
 export default ({ app }, inject) => {
   inject('theme', {
 
+    // All the fields in a color scheme.
     color_fields: [
       'logo',
       'bg', 'bg2', 'bg_text', 'bg_text2',
@@ -17,6 +18,39 @@ export default ({ app }, inject) => {
       'action', 'confirm', 'danger',
       'action_text', 'confirm_text', 'danger_text',
     ],
+
+    theme_css_obj(theme) {
+      // Colors are stored as HSL arrays, so we need to iterate thru them
+      //   and change them to 'hsl(x,x%,x%)' format
+      let style_obj = {};
+
+      if (!theme || !theme.colors) {
+        console.warn("No theme found.");
+        return;
+      }
+      console.log("Called")
+
+      this.color_fields.forEach((field) => {
+        // Making sure the field is in our color scheme.
+        if (!theme.colors[field]) {
+          console.error("This theme is missing a color: " + field);
+          return;
+        }
+
+        // Turning 'bg_text' into '--bg-text':
+        let css_var_name = '--' + field.replace(/_/g, "-");
+
+        // setting up our style object:
+        style_obj[css_var_name] = this.hsl_to_css(theme.colors[field], [0,0,0]);
+
+        style_obj[css_var_name + '-light'] = this.hsl_to_css(theme.colors[field], [0,0,5]);
+        style_obj[css_var_name + '-lighter'] = this.hsl_to_css(theme.colors[field], [0,0,10]);
+        style_obj[css_var_name + '-dark'] = this.hsl_to_css(theme.colors[field], [0,0,-5]);
+        style_obj[css_var_name + '-darker'] = this.hsl_to_css(theme.colors[field], [0,0,-10]);
+
+      });
+      return style_obj;
+    },
 
     // Takes a hsl array for color, and an optional offset array.
     hsl_to_css(color, offset) {

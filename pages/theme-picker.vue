@@ -36,7 +36,7 @@
   </side-bar>
   
   <!-- Example theme content:  -->
-  <div class="full-page" id="sample-page" :style="cssDraftStyleObj">
+  <div class="full-page" id="sample-page" :style="$theme.theme_css_obj(themeDraft)">
 
     <div class="header theme-header-example flex-container space-between">
       <logo id="logo"></logo>
@@ -240,41 +240,13 @@ export default {
       return this.$store.getters['themes/themeId'];
     },
 
-    // This is copied straight from themeCSSObj in the store.
-    // I considered finding a way to reuse that code, but I'm not sure it's worth it. 
-    cssDraftStyleObj() {
+    // Takes the colors and turns them into a proper css object
+    theme_draft_style_object() {
       console.log("Updating css")
       if (!this.themeDraft.colors.logo) {
         return {};
       }
-      // Because our colors are stored as hsl arrays, we need to iterate thru them
-      //   and change them to 'hsl(x,x%,x%)' format
-      let styleObj = {};
-      let fields = [
-        'logo',
-        'bg', 'bg2', 'bg_text', 'bg_text2',
-        'card', 'card2', 'card_text', 'card_text2',
-        'link',
-        'bg2_input', 'bg2_input_text', 'bg2_input_text2',
-        'c1', 'c1_light', 'c2', 'c2_light', 'c3', 'c3_light',
-        'input', 'input_text', 'input_text2',
-        'action', 'confirm', 'danger',
-        'action_text', 'confirm_text', 'danger_text',
-      ]
-      for (let i in fields) {
-        if (!this.themeDraft.colors[fields[i]]) {
-          console.error("This theme is missing a color: " + fields[i]);
-          break;
-        }
-
-        // Turning 'bg_text' into '--bg-text':
-        let cssVarName = '--' + fields[i].replace(/_/g, "-");
-        // Assigning that css var to our hsl string:
-        styleObj[cssVarName] = 'hsl(' + this.themeDraft.colors[fields[i]][0] + ','
-                                            + this.themeDraft.colors[fields[i]][1] + '%,'
-                                            + this.themeDraft.colors[fields[i]][2] + '%)';
-      }
-      return styleObj;
+      return this.$store.getters['themes/theme_css_object'](this.themeDraft);
     },
 
     // For our sample collection

@@ -101,47 +101,6 @@ export const state = () => ({
 
 export const getters = {
 
-  // We pass this object into :style="" tags to activate dynamic theming!
-  // I found it here:
-  //   https://stackoverflow.com/questions/46551925/vuejs-v-bindstyle-hover
-  themeCSSObj(state) {
-    // Because our colors are stored as hsl arrays, we need to iterate thru them
-    //   and change them to 'hsl(x,x%,x%)' format
-    let styleObj = {};
-
-    // Iterating thru an array of all color fields. 
-    // We grab a fresh copy just for the smaller var name.
-    let fields = JSON.parse(JSON.stringify(state.color_fields));
-    for (let i in fields) {
-
-      if (!state.currentTheme.colors[fields[i]]) {
-        console.error("This theme is missing a color: " + fields[i]);
-        break;
-      }
-
-      // Turning 'bg_text' into '--bg-text':
-      let css_var_name = '--' + fields[i].replace(/_/g, "-");
-      // Assigning that css var to our hsl string:
-      styleObj[css_var_name] = 'hsl('
-                                + state.currentTheme.colors[fields[i]][0] + ','
-                                + state.currentTheme.colors[fields[i]][1] + '%,'
-                                + state.currentTheme.colors[fields[i]][2] + '%)';
-
-      // Giving them each a '-light' and '-dark' option:
-      styleObj[css_var_name + '-light'] = 'hsl(' 
-                            + state.currentTheme.colors[fields[i]][0] + ','
-                            + state.currentTheme.colors[fields[i]][1] + '%,'
-                            + (state.currentTheme.colors[fields[i]][2] + 5) + '%)';
-
-      // Giving them each a '-light' and '-dark' option:
-      styleObj[css_var_name + '-dark'] = 'hsl(' 
-                            + state.currentTheme.colors[fields[i]][0] + ','
-                            + state.currentTheme.colors[fields[i]][1] + '%,'
-                            + (state.currentTheme.colors[fields[i]][2] - 5) + '%)';
-    }
-    return styleObj;
-  },
-
   // Object of all colors as arrays
   theme_object(state) {
     return state.currentTheme;

@@ -91,7 +91,7 @@ export default {
 
     // Grabbing our dynamic theme variables from the store:
     theme_style() {
-      return this.$store.getters['themes/themeCSSObj'];
+      return this.$store.getters['themes/theme_css'];
     },
 
     // Loading all theme options, for the user options menu

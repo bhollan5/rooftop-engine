@@ -1,5 +1,5 @@
 <template>
-<div :style="theme_style">
+<div :style="$theme.theme_css_obj(theme_object)">
   <!-- That :style attribute loads the custom theming for the entire site -->
 
 
@@ -157,8 +157,8 @@ export default {
     },
 
     // Grabbing our dynamic theme variables from the store:
-    theme_style() {
-      return this.$store.getters['themes/themeCSSObj'];
+    theme_object() {
+      return this.$store.getters['themes/theme_object'];
     },
 
     // Loading all theme options, for the user options menu
