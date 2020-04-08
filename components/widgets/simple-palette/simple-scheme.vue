@@ -7,7 +7,10 @@
 <template>
 <div class="color-scheme" v-if="colors[bg]"
 @click="$emit('input', bg)"
-:class="{selected: value == bg}"
+:class="{
+  selected: value == bg,
+  short: !secondary
+}"
 :style="{ background: $theme.hsl_to_css(colors[bg]) }">
 
   <!-- Darker shades -->
@@ -33,7 +36,7 @@
     </div>
 
     <!-- Label and color selector for secondary text -->
-    <div class="label secondary small-font">
+    <div class="label secondary small-font" v-if="secondary">
       <div class="color-label">{{$theme.hsl_to_hex(colors[bg])}}</div>
       <div class="text-color" 
       :class="{ selected: value == secondary }"
@@ -72,10 +75,12 @@ export default {
       type: String,
       default: 'bg'
     },
+
     // Color object to pull from
     colors: {
       type: Object,
     },
+
     // bg color to display
     bg: {
       type: String,
@@ -89,8 +94,9 @@ export default {
     // text2 color to display 
     secondary: {
       type: String,
-      default: 'bg_text2',
     },
+
+
 
   },
   
@@ -124,13 +130,16 @@ export default {
   display: flex;
   width: 100%;
   min-width: 150px;
-  height: 70px;
+  height: 50px;
   transition: .1s;
   box-shadow: 0px 0px 3px black;
   cursor: pointer;
 
   &.selected {
     box-shadow: 0px 0px 5px white;
+  }
+  &.short {
+    height: 30px;
   }
 
   .shade {
@@ -148,7 +157,7 @@ export default {
       justify-content: space-between;
       margin: 0px 5px;
       .text-color {
-        width: 50px;
+        width: 30px;
         height: 15px;
         box-shadow: 0px 0px 5px rgba(0,0,0,.5);
         &.selected {

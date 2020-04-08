@@ -77,6 +77,7 @@ html {
   flex-flow: row wrap;
 }
 
+// Easy margin classes
 .margins {
   margin: 10px;
 }
@@ -174,5 +175,14 @@ html {
   .header, .card-header, .card-body {
     padding: 10px 15px;
   }
+}
+
+.title {
+  font-size: var(--small-font-size);
+  color: var(--bg-text2);
+  margin-left: 3px;
+}
+.card .title {
+  color: var(--card-text2);
 }
 

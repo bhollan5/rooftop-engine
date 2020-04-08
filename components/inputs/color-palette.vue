@@ -1,15 +1,17 @@
 <template>
-<div class="color-palette flex-container row-wrap">
-  <div class="color-option" v-for="(color, color_i) in colors" 
-    :class="{'selected': value == color_i}"
-    @click="$emit('input', color_i)"
+<div class="color-palette flex-container row-wrap" >
+  <div class="color-option" v-for="field in fields" 
+    v-if="colors[field]"
+    :class="{'selected': value == field}"
+    @click="$emit('input', field)"
     :style="{ 
-      background: 'hsl(' + color[0] + ',' + color[1] + '%,' + color[2] + '%)',
+      background: $theme.hsl_to_css(colors[field]),
       height: size + 'px', 
       width: size + 'px',
       margin: margin + 'px',
-       }"></div>
-    <br>
+    }"
+  ></div>
+  <br>
 </div>
 </template>
 
@@ -29,6 +31,15 @@ export default {
       default: 'bg'
     },
 
+    // an array of strings, for which colors we should show
+    fields: {
+      type: Array,
+    },
+
+    colors: {
+      type: Object,
+    },
+
 
     size: {
       type: Number,
@@ -37,13 +48,6 @@ export default {
     margin: {
       type: Number,
       default: 5
-    }
-  },
-
-  computed: {
-    colors() {
-      let theme_obj = this.$store.getters['themes/theme_object'];
-      return theme_obj.colors;
     }
   },
   

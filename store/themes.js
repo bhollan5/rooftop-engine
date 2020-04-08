@@ -30,6 +30,14 @@ export const state = () => ({
     'action_text', 'confirm_text', 'danger_text',
   ],
 
+  // When this is true, everything is calculated from these fields:
+  // Backgrounds:   bg, card
+  // Texts:         bg_text, card_text
+  // Secondary:     bg_text2, card_text2
+  // Highlights:    action, confirm, danger
+  // Illustration:  c1, c2, c3, c4, c5
+  simple_colors: true,
+
   currentTheme: {
     theme_name: 'Golden Night',
     _id: 'golden-night',

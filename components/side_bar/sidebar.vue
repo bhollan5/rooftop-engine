@@ -30,7 +30,9 @@
     <div id="side-bar-title">{{title}}</div>
   </div>
 
-  <slot></slot>
+  <div id="side-bar-content">
+    <slot></slot>
+  </div>
   <!-- Cards here -->
 
   <div id="side-bar-hover">
@@ -115,24 +117,8 @@ $tablet-bp: 400px;
   }
   
   #side-bar-content {
-    padding: 10px 10px;
-    .article-description {
-      width: 100%;
-      line-height: 1;
-      color: var(--card-text2);
-      height: 80px;
-      textarea {
-        font-size: var(--small-font-size);
-        height: 100%;
-      }
-    }
-    .tab-container {
-      h4 {
-        margin-right: 10px;
-      }
-      display: flex;
-      align-items: center;
-    }
+    height: 95%;
+    overflow-y: scroll;
   }
   
   .card-text2 {

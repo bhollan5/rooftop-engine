@@ -1,6 +1,7 @@
 <template>
 <div class="simple-palette">
-  
+
+    <!-- Background: -->
     <simple-scheme 
     :value="value"
     @input="$emit('input', $event)"
@@ -9,14 +10,52 @@
     secondary="bg_text2"
     :colors="colors">
     </simple-scheme>
-    <br>
+    
+    <!-- Cards: -->
     <simple-scheme 
-    :value="value"
-    @input="$emit('input', $event)"
-    bg="card" 
-    text="card_text" 
-    secondary="card_text2"
-    :colors="colors">
+      :value="value"
+      @input="$emit('input', $event)"
+      bg="card" 
+      text="card_text" 
+      secondary="card_text2"
+      :colors="colors"
+    >
+    </simple-scheme>
+
+    <!-- Illustration colors: -->
+    <div class="title">Illustration colors:</div>
+    <color-palette
+      :value="value"
+      @input="$emit('input', $event)"
+      :fields="['c1', 'c2', 'c3']"
+      :colors="colors"
+    ></color-palette>
+
+    <!-- Action: -->
+    <simple-scheme 
+      :value="value"
+      @input="$emit('input', $event)"
+      bg="action" 
+      text="action_text" 
+      :colors="colors">
+    </simple-scheme>
+
+    <!-- Danger: -->
+    <simple-scheme 
+      :value="value"
+      @input="$emit('input', $event)"
+      bg="danger" 
+      text="danger_text" 
+      :colors="colors">
+    </simple-scheme>
+
+    <!-- Confirm: -->
+    <simple-scheme 
+      :value="value"
+      @input="$emit('input', $event)"
+      bg="confirm" 
+      text="confirm_text" 
+      :colors="colors">
     </simple-scheme>
 
     <br>
@@ -87,35 +126,8 @@ export default {
 <style lang="scss" scoped>
 .simple-palette {
   padding: none;
-}
-.color-selector {
-  display: flex;
-  flex-flow: row wrap;
-  width: 450px;;
-}
-// Small selectable color options
-.color-option {
-  display: flex;
-  width: 100%;
-  min-width: 150px;
-  height: 70px;
-  transition: .1s;
-  box-shadow: 0px 0px 3px black;
-  cursor: pointer;
-  &:hover {
-    box-shadow: 0px 0px 5px white;
-  }
-  &.selected {
-    box-shadow: 0px 0px 5px white;
-  }
-  .shade {
-    width: 10%;
-    height: 100%;
-  }
-  .main-color {
-    width: 60%;
-    min-width: 100px;
-    height: 100%;
+  .color-scheme {
+    margin-bottom: 10px;
   }
 }
 </style>
