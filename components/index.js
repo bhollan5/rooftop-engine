@@ -10,6 +10,8 @@ import dropdown from './inputs/dropdown.vue';
 import colorPalette from './inputs/color-palette.vue';
 import slider from './inputs/slider.vue';
 import picker from './inputs/picker.vue';
+import formField from './inputs/form-field';
+import alert from './inputs/alert.vue';
 
 // Widgets:
 import lineBreak from './misc/line-break.vue';
@@ -47,6 +49,8 @@ export default {
   checkbox,
   slider,
   picker,
+  formField,
+  alert,
 
   // Misc:
   lineBreak,

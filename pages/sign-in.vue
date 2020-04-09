@@ -3,6 +3,7 @@
   <h1>Sign In</h1>
   <line-break class="line-break"></line-break><br>
 
+  <!--
   <text-field class="input username" 
     v-model="username"
     placeholder="User ID" 
@@ -15,7 +16,27 @@
     :password="true"
   ></text-field>
 
-  <button @click="sign_in()">Sign In</button>
+  <button @click="sign_in()">Sign In</button>-->
+
+  <form-field
+  :fields="[{
+    type: 'text',
+    title: 'User id:',
+    placeholder: 'User ID',
+    key: 'username',
+    required: true,
+  }, {
+    type: 'text',
+    title: 'Password:',
+    placeholder: 'pass',
+    required: true,
+    password: true,
+    key: 'password',
+  }]"
+  :button="{ title: 'Sign In' }"
+  @submit="sign_in($event)"
+  >
+  </form-field>
 
   <div class="info">
     <p>While Rooftop gets off the ground, accounts are only available for staff & creators, on a case-by-case basis.</p>
@@ -30,27 +51,20 @@
 export default {
   data() {
     return {
-      username: '',
-      password: '',
     }
   },
   mounted() {
     this.$parent.$parent.userOptions = false;
   },
   methods: {
-    sign_in() {
+    sign_in(data) {
       this.$auth.loginWith('local', {
         data: {
-          username: this.username,
-          password: this.password
+          username: data.username,
+          password: data.password
         }
       })
       return;
-      
-      this.$store.dispatch('users/authenticate_user', {
-        username: this.username,
-        password: this.password
-      })
     }
   }
 }

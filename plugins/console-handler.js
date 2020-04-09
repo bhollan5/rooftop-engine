@@ -15,11 +15,15 @@ export default ({ app }, inject) => {
 
     log_messages: false,
     messages: [],
-    foo: 'hi',
+    alert_msg: '',
 
     // Read functions: 
     get_log() {
       return this.messages;
+    },
+
+    alert(msg) {
+      this.alert_msg = msg
     },
   
     // logging functions:

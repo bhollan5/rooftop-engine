@@ -23,6 +23,11 @@
       </div>
 
     </card>
+    <!-- Color picker -->
+    <card title="Color palette:">
+      <simple-palette v-model="bg_color_var"
+        :colors="colors"></simple-palette>
+    </card>
 
     <card title="Camera settings: ">
       <div class="flex-container row-wrap">
@@ -134,10 +139,14 @@
 import cube from '@/components/space_canvas/geometry/cube.vue';
 import plane from '@/components/space_canvas/geometry/plane.vue';
 
+import simplePalette from '~/components/widgets/simple-palette/simple-palette.vue';
+
+
 export default {
   components: {
     cube,
     plane,
+    simplePalette,
   },
 
   data() { 

@@ -12,7 +12,7 @@
     'small-font': fontsize == 'small',
   }">
 
-  <div class="title">{{title}}</div>
+  <div class="title">{{title}} <span v-if="required" class="danger-text">*</span></div>
 
   <!-- The slot is used for icons -->
   <slot></slot>
@@ -116,6 +116,13 @@ export default {
       default: false,
     },
 
+    //
+    // Validation options:
+    //
+    required: {
+      type: Boolean,
+      default: false,
+    },
 
     //
     // Styling options:

@@ -60,8 +60,12 @@
       </router-link>
 
     </div>
-
-    <router-link tag="button" :to="'new-project'" class="action" style="margin-left: 15px;">
+    <router-link tag="button" 
+      v-if="$auth.loggedIn"
+      :to="'new-project'" 
+      class="action" 
+      style="margin-left: 15px;"
+    >
       + Start new project
     </router-link><br><br>
 

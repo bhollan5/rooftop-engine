@@ -4,7 +4,7 @@
         <g transform="matrix(0.618667,0,0,2.28609,-801.637,911.269)">
             <g>
                 <g transform="matrix(3.62922,0,0,0.982148,1600.24,1439.96)">
-                    <text x="1715.36px" y="230.627px" style="font-family:'CrimsonText-Bold', 'Crimson Text';font-weight:700;font-size:5.345px;" class="fill-bg-text">Design Highlights</text>
+                    <text x="1715.36px" y="230.627px" style="font-family:'CrimsonText-Bold', 'Crimson Text';font-weight:700;font-size:5.345px;" class="fill-bg-text">Illustrations</text>
                 </g>
                 <g transform="matrix(0.721423,0,0,0.231975,6491.42,1645.05)">
                     <g transform="matrix(0.365176,0,0,1.66576,1102.12,-480.826)">

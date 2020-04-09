@@ -14,6 +14,7 @@
     <div class="color-canvas" ref="color-canvas"
       @mousedown="canvas_click($event)"
       @mouseup="canvasDrag = false"
+      @mouseout="canvasDrag = false"
       @mousemove="canvas_move($event)">
 
       <div class="lightness-gradient"
@@ -244,6 +245,7 @@ $margin-size: 10px;
     .color-canvas {
       width: 200px;
       height: 200px;
+      outline: solid 2px var(--card2);
       div {
         position: absolute;
         width: 100%;
