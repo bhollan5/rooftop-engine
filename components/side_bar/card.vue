@@ -19,7 +19,10 @@
 
 <template>
 <div class="card"
-  :class="{ expanded: expanded, }"
+  :class="{ 
+    expanded: expanded, 
+    margins: margins,
+  }"
   :style="{ width: width, }">
   <!-- The card header, with the card's title, and the minimize option -->
   <div class="card-header" @click="expanded = !expanded">
@@ -64,6 +67,11 @@ export default {
     },
     // Removes 5px card padding: 
     nopadding: {
+      type: Boolean,
+      default: false,
+    },
+    // Adds 10px card margins: 
+    margins: {
       type: Boolean,
       default: false,
     },
@@ -135,8 +143,5 @@ export default {
     width: 260px;
     min-width: 260px;
   }
-}
-.content .card {
-  margin: 10px 0px;
 }
 </style>

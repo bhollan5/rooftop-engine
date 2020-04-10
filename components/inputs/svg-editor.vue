@@ -236,7 +236,7 @@ export default {
 #svg-editor {
   box-shadow: 0px 0px 10px black;
   position: fixed; 
-  z-index: 12;
+  z-index: 302;
   left: 50%;
   top: 100px;
   transform: translatex(-50%);

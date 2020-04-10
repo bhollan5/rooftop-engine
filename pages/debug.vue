@@ -1,5 +1,5 @@
 <template>
-<div class="body">
+<div class="content">
 
   <side-bar title="debug zone">
     <card title="console options:">
@@ -10,9 +10,9 @@
     </card>
   </side-bar>
 
-  <div class="content">
+  <div class="full-page">
     <h1>what's up hackerz</h1>
-    <card title="console log:" min>
+    <card title="console log:" min margins>
       <div v-for="msg in log" class="console-msg">
         <div class="msg-details">
           <div>{{msg.type}}:</div>
@@ -23,19 +23,25 @@
         </div>
       </div>
     </card>
+
+    <div class="flex-container row-wrap;">
+      
+      <card title="Articles:" nopadding style="width: 100%" margins>
+        <table-widget :value="all_articles"
+          @rowclick="$router.push('/article/' + $event)"
+        ></table-widget>
+        <button class="card-button margins" @click="load_articles()">Load all articles</button>
+      </card>
+
+      <card title="User:" nopadding style="width: 100%" margins>
+        <table-widget :value="all_users" 
+        :columns="['display_name', 'username']"
+        ></table-widget>
+        <button class="card-button margins" @click="load_users()">Load all user</button>
+      </card>
+
+    </div>
     
-    <card title="Articles:" nopadding>
-      <table-widget :value="all_articles"></table-widget>
-      <button class="card-button margins" @click="load_articles()">Load all articles</button>
-    </card>
-
-    <card title="User:" nopadding>
-      <table-widget :value="all_users" 
-      :columns="['display_name', 'username']"
-      ></table-widget>
-      <button class="card-button margins" @click="load_users()">Load all user</button>
-    </card>
-
   </div>
 
 </div>

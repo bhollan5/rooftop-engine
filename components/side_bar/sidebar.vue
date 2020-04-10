@@ -27,7 +27,7 @@
 <template>
 <div id="side-bar">
   <div id="side-bar-header" v-if="title">
-    <div id="side-bar-title">{{title}}</div>
+    <div id="side-bar-title" class="small-font">{{title}}</div>
   </div>
 
   <div id="side-bar-content">

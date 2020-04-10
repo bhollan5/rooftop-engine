@@ -36,11 +36,6 @@ export const getters = {
   // Article query
   article_query: (state) => (field, value) => {
     return state.articles.filter( function(article) {
-      console.log("Filtering articles: ")
-      console.log(article)
-      console.log(field);
-      console.log(article[field])
-      console.log(value);
       return (article[field] == value);
     });
   },

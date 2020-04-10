@@ -21,7 +21,7 @@ h1, .h1-input input {
   font-size: var(--h1-font-size);
   text-align: center;
 }
-.content h1, .content .h1-input input {
+.body h1, .body .h1-input input {
   text-align: left;
 }
 
@@ -31,7 +31,7 @@ h2, .h2-input input{
   font-weight: normal;
   font-size: var(--h2-font-size);
 }
-.content h2, .content .h2-input input {
+.body h2, .body .h2-input input {
   text-align: left;
 }
 

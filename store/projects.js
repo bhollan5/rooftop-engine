@@ -33,6 +33,20 @@ export const state = () => ({
 
 export const getters = {
 
+  // Project query
+  project_query: (state) => (field, value) => {
+    return state.projects.filter( function(project) {
+      return (project[field] == value);
+    });
+  },
+
+
+
+
+
+
+
+
   // This notation is the same as 
   //  getterName() { return function (id) { ... } }
   project_by_id: (state) => (project_id) => {
@@ -107,101 +121,6 @@ export const actions = {
       console.warn(error);
     });
 
-  },
-
-  // Getting all collections:
-  readCollections({commit, rootGetters, dispatch}) {
-    this.$console.log("projects", " 🗣 Calling the API to load all collections.")
-
-    return axios.get("/api/read-all-collections")
-      .then((response) => {
-        this.$console.log("projects", " 📦 Loaded " + response.data.length + " collections.");
-
-        // This is now an array of collection objects:
-        let all_collections = response.data;
-        // But the collectionData is loaded in as an array of article id's. 
-        // We need to load in their corresponding articles!
-        
-        all_collections.forEach((collection) => {
-          if (collection.collectionData.length){
-            dispatch('articles/readArticlesByQuery', collection.collectionData, {root: true});
-          }
-
-          // dispatch('getCollectionArticle', collection);
-        })
-
-        commit('setCollections', response.data);
-
-      }, (error) => {
-        console.warn(error);
-      });
-  },
-
-  // Takes a collection and loads in the data for it. 
-  getCollectionArticle({dispatch}, payload) {
-    let collection = payload;
-
-    if (!collection.collectionData.length) return;
-
-    // We're gonna set up a query to find all our articles at once. More info:
-    //   https://docs.mongodb.com/manual/reference/operator/query/or/
-    let articleQuery = { $or: [] };
-
-    // Adding all those id's to our query
-    collection.collectionData.forEach((item) => {
-      articleQuery.$or.push({_id: item});
-    })
-    
-    dispatch('articles/readArticlesByQuery', articleQuery, {root: true});
-  },
-
-  // Updating a collection by id.
-  updateCollection({commit}, payload) {
-    this.$console.log("projects", " 🗣 Calling the API to update collection %c" +  payload._id, "color:magenta;")
-
-    // Making the API call
-    axios.post("/api/update-collection", {
-        _id: payload._id,
-        update: payload.update
-      }).then((response) => {
-        this.$console.log("projects", " 🖌 Updated the collection %c" +  payload._id, "color:magenta;");
-      }).catch ((error) => {
-        console.warn(error);
-      });
-
-  },
-
-  // Updating a collection by id.
-  updateCollectionInfo({commit}, payload) {
-    this.$console.log("projects", " 🗣 Calling the API to update collection %c" +  payload._id, "color:magenta;")
-
-    // Making the API call
-    axios.post("/api/update-collection", {
-        _id: payload._id,
-        update: payload.update
-      }).then((response) => {
-        this.$console.log("projects", " 🖌 Updated the collection %c" +  payload._id, "color:magenta;");
-        commit('updateCollectionInfo', {
-          _id: payload._id,
-          update: payload.update
-        })
-      }).catch ((error) => {
-        console.warn(error);
-      });
-
-  },
-
-  // Deletes an article by id.
-  deleteArticle({commit}, payload) {
-    this.$console.log("projects", " 🗣 Calling the api to delete article %c" +  payload._id, "color:magenta;")
-
-    // Getting the article from the database.
-    axios.delete("/api/delete-article/" + payload._id).then(() => {
-      this.$console.log("projects", " ⛔️ Deleted the article with the id of " + payload._id);
-      commit('deleteArticle', { _id: payload._id});
-    }, (error) => {
-      console.warn(error);
-    });
   },
 
 }
