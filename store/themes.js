@@ -264,6 +264,8 @@ export const mutations = {
   setThemeColor(state, payload) {
     state.current_theme._id = payload._id;
     state.current_theme.theme_name = payload.theme_name;
+    state.current_theme.thumbnail = payload.thumbnail;
+    Vue.set(state.current_theme, 'thumbnail', payload.thumbnail)
 
     // Iterating thru an array of all color fields. 
     // We grab a fresh copy just for the smaller var name.
