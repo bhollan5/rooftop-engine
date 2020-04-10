@@ -1,7 +1,7 @@
 <template>
-<div class="body" id="new-project">
+<div class="content" id="new-project">
 
-  <div class="content">
+  <div class="body">
     <h1>New Project</h1>
     <p>Yr new project will have a project page, which can host yr project files.</p>
     <br>

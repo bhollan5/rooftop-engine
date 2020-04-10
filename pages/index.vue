@@ -1,6 +1,6 @@
 <!-- The website's landing page. -->
 <template>
-  <div class="body">
+  <div class="content">
 
     <!-- The "landing promo" is the banner spread at the top of the landing page. -->
     <div class="full-page">

@@ -23,71 +23,7 @@
   <!--          (popup)           -->
 
   <transition name="menu-popup">
-  <div id="user-options" v-if="display_user_options">
-    
-    <div id="user-options-header">
-      <button id="user-options-close" class="bg2-button" @click="display_user_options = false">
-        X
-      </button>
-
-      <!-- User info - pfp, display name, username -->
-      <div id="user-info" v-if="$auth.loggedIn">
-
-        <div class="user-info-text">
-          <div>{{$auth.user.display_name}}</div>
-          <div class="secondary">@{{$auth.user.username}}</div>
-        </div>
-        <div class="user-icon">
-          <img src="@/assets/misc/frog-pic.svg">
-        </div>
-      </div>
-      <!-- Sign-in button, if the user isn't logged in. -->
-      <router-link to="/sign-in" tag="div" class="login-button" v-else>
-        Sign In
-      </router-link>
-
-    </div> <!-- End of user option header -->
-
-    <!-- project display -->
-    <h3 v-if="$auth.loggedIn">Projects:</h3>
-    <div class="project-display" v-if="$auth.loggedIn">
-      
-      <router-link class="project-option" tag="div"
-      v-for="(project, proj_i) in user_projects" :key="proj_i"
-      :to="'/projects/' + project._id">
-        <div>{{project.title}}</div>
-        <div class="byline">by Rooftop Media</div>
-      </router-link>
-
-    </div>
-    <router-link tag="button" 
-      v-if="$auth.loggedIn"
-      :to="'new-project'" 
-      class="action" 
-      style="margin-left: 15px;"
-    >
-      + Start new project
-    </router-link><br><br>
-
-    <!-- Theme picker -->
-    <h3>Theme:</h3>
-    <div id="theme-picker" class="user-option">
-
-      <div class="flex-container row-wrap">
-        <div class="theme-thumbnail" v-for="theme in theme_options" @click="applyTheme(theme)"
-          :class="{ 'selected-theme': theme._id == theme_id }">
-          <div v-if="theme.thumbnail" v-html="theme.thumbnail"></div>
-          <div v-else>{{theme.theme_name}}</div>
-        </div>
-      </div>
-
-      <router-link to="/theme-picker">Theme Editor</router-link>
-      <button class="danger" v-if="$auth.loggedIn"
-        @click="$auth.logout()">Log Out</button>
-
-    </div>
-
-  </div>
+    <user-menu v-if="display_user_options"></user-menu>
   </transition>
 
 
@@ -133,6 +69,7 @@
 
 // Importing the header:
 import siteHeader from '~/components/header/header.vue';
+import userMenu from '~/components/user_menu/user_menu.vue';
 
 // Popup svg editor:
 import svgEditor from '~/components/inputs/svg-editor.vue';
@@ -143,39 +80,23 @@ export default {
     // Header:
     siteHeader,
 
+    // User menu:
+    userMenu,
+
     // svg editor
     svgEditor
   },
   data() {
     return {
-      scrollPos: 0,     // Used to detect if we're scrolling up or down. 
-      searchbarPos: 0,  // Affects the searchbar's vertical position.
 
       display_user_options: false, // Indicates whether we're showing the user options menu
     }
   },
   computed: {
 
-    theme_id() {
-      return this.$store.getters['themes/themeId'];
-    },
-
     // Grabbing our dynamic theme variables from the store:
     theme_object() {
       return this.$store.getters['themes/theme_object'];
-    },
-
-    // Loading all theme options, for the user options menu
-    theme_options() {
-      return this.$store.getters['themes/allThemes'];
-    },
-
-    // User projects
-    user_projects() {
-      if (this.$auth.loggedIn) {
-        return this.$store.getters['projects/get_user_projects'](this.$auth.user.username);
-      }
-      return [];
     },
 
     // Is the svg-editor open?
@@ -183,50 +104,12 @@ export default {
       return this.$store.getters['svg/svgEditorOpen'];
     },
     
-
   },
   
   mounted() {
-    // Initializing our scroll monitor, to hide and show the top bar
-    this.handleScroll();
-    window.addEventListener('scroll', this.handleScroll);
-
-    // For the user options menu:
-    this.$store.dispatch('themes/readAllThemes');
-    if (this.$auth.loggedIn){
-      this.$store.dispatch('projects/read_project', { owner: this.$auth.user.username })
-    }
     
   },
   methods: {
-    
-    // This function happens when the user scrolls. 
-    handleScroll(e) {
-      return 0
-      // Keeps the bar at the top when we're at the top
-      if (window.scrollY == 0) {
-        this.searchbarPos = 0;
-
-      // This "if" detects if we're scrolling up:
-      } else if (this.scrollPos < -window.scrollY){
-        if (this.searchbarPos < 0) {
-          this.searchbarPos += 2;
-        }  
-      
-      // And this one for when we scroll down:
-      } else {
-        if (this.searchbarPos > -50) {
-          this.searchbarPos -= 4;
-        }
-      }
-
-      // This scrollPos variable lets us check if we're going up or down. 
-      this.scrollPos = -window.scrollY;
-    },
-
-    applyTheme(theme) {
-      this.$store.commit("themes/setThemeColor", theme);
-    },
 
     closePopup() {
       this.$store.commit("svg/closeEditor");
