@@ -7,7 +7,8 @@
     <div class="minimizer" v-if="expanded">–</div>
     <div class="minimizer" v-if="!expanded">+</div>
     <div class="secondary">{{title}}: </div> 
-    <div class="a" style="margin-left: 5px;"> Object</div>
+    <div class="a" style="margin-left: 5px;" v-if="object.length">Array (length: {{object.length}})</div>
+    <div class="a" style="margin-left: 5px;" v-else>Object</div>
   </div>
 
   <!-- The fields in that object: -->

@@ -22,6 +22,7 @@
     :value="document_draft.body_data"
     @input="update_draft($event.path, 'body_data', $event.new_val)"
     :editable="true" 
+    @addwidget="add_widget()"
     @widgetselect="selected_widget = $event"
     owner="project_id">
     </page-body>
@@ -134,7 +135,8 @@ export default {
       //  So, if collection_name == 'project', this will dispatch "projects/read_project""
       this.$store.dispatch(this.collection_name + "s/read_" + this.collection_name, 
       { _id: this.doc_id }).then((articles) => {
-
+        
+        console.warn(articles);
         let our_article = articles[0];
 
         our_article.data.forEach((widget_data) => {
@@ -147,6 +149,15 @@ export default {
 
     },
 
+    add_widget() {
+      console.log("hi?")
+      this.document_draft.body_data.push({
+        type: 'new',
+        content: ''
+      });
+      this.editElement = this.document_draft.length - 1;
+    },
+
     update_draft(path, new_index, new_val) {
       path.unshift(new_index);
       let attribute_pointer = this.document_draft;
@@ -154,9 +165,10 @@ export default {
       for (let i = 0; i < (path.length - 1); i++) {
         attribute_pointer = attribute_pointer[path[i]];
       }
-      // attribute_pointer = new_val;
-      Vue.set(attribute_pointer, path[path.length - 1], new_val);
-      // this.$nextTick();
+      attribute_pointer[path[path.length - 1]] = new_val;
+      console.log("call");
+      // Vue.set(attribute_pointer, path[path.length - 1], new_val);
+      
     }
 
   }

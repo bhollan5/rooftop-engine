@@ -90,7 +90,7 @@
 
   <!-- Add section button: -->
   <button id="add-section-button" v-if="editable"
-    @click="add_widget()">+ Add section</button>
+    @click="$emit('addwidget')">+ Add section</button>
 </div>
 </template>
 
