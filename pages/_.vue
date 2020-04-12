@@ -112,7 +112,7 @@ export default {
 
   },
 
-  created() {
+  mounted() {
 
     //   - - - Route handling: - - -
     // If there's an even number of elements in the route, we're looking at a document.

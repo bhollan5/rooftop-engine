@@ -202,7 +202,6 @@ export const mutations = {
 
   // Adding or updating project in the projects array.
   load_article(state, payload) {
-
     let article_found = false;
     state.articles.forEach((article, art_i, art_arr) => { 
 
