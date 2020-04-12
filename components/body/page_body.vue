@@ -5,7 +5,7 @@
 
   <!-- A widget container is created for each node in our data. -->
   <div class="widget-container" 
-  v-for="(widget, widget_i) in data"
+  v-for="(widget, widget_i) in value"
   :class="{
     'editable': editable,
     'selected-widget': selected_widget == widget_i
@@ -58,7 +58,7 @@
     
     <!-- Paragraphs: -->
     <paragraph v-else-if="widget.type == 'paragraph'" :editable="editable"
-    :value="widget" @input="update_data(widget_i, $event)">
+    :value="widget" @input="emit_update($event.path, widget_i, $event.new_val)">
     </paragraph>
 
     <article-card v-else-if="widget.type == 'article'" :editable="editable"
@@ -95,6 +95,8 @@
 </template>
 
 <script>
+
+
 // Widgets:
 import newWidget from '@/components/widgets/new_widget.vue';
 
@@ -187,7 +189,20 @@ export default {
     update_data(field, new_val) {
       let data_update = JSON.parse(JSON.stringify(this.value));
       data_update[field] = new_val;
+      console.log("page_body.vue: Updating " + field + " to be " + new_val);
       this.$emit('input', data_update);
+    },
+
+    // new update func:
+    emit_update(path, new_index, new_val) {
+      console.log("page_body.vue: Recieved path: ", path);
+      let new_path = path;
+      new_path.unshift(new_index);
+      console.log("page_body.vue: Emitting path: ", new_path);
+      this.$emit('input', {
+        path: new_path,
+        new_val: new_val,
+      });
     },
 
     // Clicking on the gear icon:

@@ -60,6 +60,7 @@
     <router-link to="/theme-picker">Theme Editor</router-link>
     <button class="danger" v-if="$auth.loggedIn"
       @click="$auth.logout()">Log Out</button>
+    <router-link to="/debug" tag="button">Debug</router-link>
 
   </div>
 

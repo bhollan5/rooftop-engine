@@ -1,22 +1,57 @@
 <template>
 <div class="content">
-  <side-bar :title="route[0] + '/' + route[1]">
+  <side-bar :title="route[0] + '/' + route[1]" v-if="document_draft && document_draft.body_data">
   
-    <card title="Document data">
-      <p class="small-font">{{document}}</p>
+    <card title="Document data" class="small-font">
+      <text-field class="small-font" title="Title:" 
+      v-model="document_draft.title"></text-field>
+      {{document_draft}}
+    </card>
+
+    <card title="Edit widget fields:" v-if="document_draft.body_data[selected_widget]">
+      <text-field v-for="(value, field) in document_draft.body_data[selected_widget]" :key="field"
+      v-if="typeof(value) == 'string'"
+      :title="field + ':'" v-model="document_draft.body_data[selected_widget][field]">
+      </text-field>
     </card>
 
   </side-bar>
 
-  <page-body v-model="document.data" v-if="document" :editable="true" @widgetselect="selected_widget = $event"
-  owner="project_id">
+  <div style="width: 100%; position: relative;">
+    <page-body v-if="document_draft.body_data"
+    :value="document_draft.body_data"
+    @input="update_draft($event.path, 'body_data', $event.new_val)"
+    :editable="true" 
+    @widgetselect="selected_widget = $event"
+    owner="project_id">
+    </page-body>
 
-  </page-body>
+    <div class="footer card flex-container" style="overflow-y: scroll;">
+      <div style="width: 400px">
+        <object-display :object="document_draft"
+          title="document_draft"></object-display>
+      </div>
+      <div style="width: 400px">
+        <object-display :object="sample_document"
+          title="sample_document"></object-display>
+        <text-field 
+          title="sample_document.data[0].content"
+          v-model="sample_document.data[0].content"
+        ></text-field>
+      </div>
+    </div>
+  </div>
+  
+
 </div>
 </template>
 
 <script>
+import Vue from 'vue';
+
 import pageBody from '~/components/body/page_body.vue';
+
+import objectDisplay from '~/components/widgets/debug/object_display.vue';
 
 
 export default {
@@ -24,6 +59,21 @@ export default {
 
   data() {
     return {
+
+      sample_document: {
+        id: 'sample object!',
+        data: [
+          {
+            type: 'paragraph',
+            content: 'My paragraph!'
+          }
+        ]
+      },
+
+      document_draft: {
+        _id: '',
+        body_data: [],
+      },
 
       // An array of strings for each element in the route.
       // So '/projects/rooftop-website' will return ['projects', 'rooftop-website']
@@ -41,9 +91,11 @@ export default {
 
   components: {
     pageBody,
+    objectDisplay,
   },
 
   computed: {
+
     // Pulling the document from the VueX store corresponding to it's collection:
     document() {
       if (this.collection_name && this.doc_id) {
@@ -81,12 +133,45 @@ export default {
       // Getting the document from the DB.
       //  So, if collection_name == 'project', this will dispatch "projects/read_project""
       this.$store.dispatch(this.collection_name + "s/read_" + this.collection_name, 
-      { _id: this.doc_id }).then(() => {
+      { _id: this.doc_id }).then((articles) => {
+
+        let our_article = articles[0];
+
+        our_article.data.forEach((widget_data) => {
+          let fresh_copy = JSON.parse(JSON.stringify(widget_data))
+          this.document_draft.body_data.push(fresh_copy);
+        })
+        // this.document_draft.body_data = JSON.parse(JSON.stringify(this.document.data));
 
       })
 
     },
 
+    update_draft(path, new_index, new_val) {
+      path.unshift(new_index);
+      let attribute_pointer = this.document_draft;
+
+      for (let i = 0; i < (path.length - 1); i++) {
+        attribute_pointer = attribute_pointer[path[i]];
+      }
+      // attribute_pointer = new_val;
+      Vue.set(attribute_pointer, path[path.length - 1], new_val);
+      // this.$nextTick();
+    }
+
   }
 }
 </script>
+
+<style lang="scss">
+
+.footer {
+  position: fixed;
+  font-size: var(--small-font-size);
+  width: 100%;
+  bottom: 0px;
+  height: 200px;
+  background: var(--card2);
+  padding: 10px;
+}
+</style>

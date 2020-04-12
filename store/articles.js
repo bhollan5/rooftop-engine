@@ -105,8 +105,10 @@ export const actions = {
         articles.forEach((article) => {
           commit('load_article', article);
         })
+        return articles;
       } else {
         console.log(" ⛔️ No articles loaded.")
+        return [];
       }
       console.log(response.data);
       

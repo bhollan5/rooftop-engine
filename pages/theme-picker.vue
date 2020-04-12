@@ -1,6 +1,6 @@
 <template>
 <!-- The theme picker lets users edit the colors & stylings of a theme. -->
-<div class="body">
+<div class="content">
 
   <side-bar>
     <!-- Theme details: -->
@@ -50,7 +50,7 @@
 
 
     <!-- Starts our column of content -->
-    <div class="content">
+    <div class="body">
 
       <h1 id="theming-header">Dynamic Theming</h1>
       <h2>Customize Rooftop's theme here!</h2>
@@ -73,9 +73,7 @@
       <!-- Design section -->
       <div id="logo-and-text">
 
-        <div class="header">
-          <design-highlights></design-highlights> 
-        </div>
+        <design-highlights style="width: 50%;margin: 50px 25%"></design-highlights> 
         <div class="content theme-body-example">
           <design-highlight-example></design-highlight-example>
 
