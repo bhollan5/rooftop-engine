@@ -24,12 +24,12 @@
 
     </card>
     <!-- Color picker -->
-    <card title="Color palette:">
+    <card title="Color palette:" min>
       <simple-palette v-model="bg_color_var"
         :colors="colors"></simple-palette>
     </card>
 
-    <card title="Camera settings: ">
+    <card title="Camera settings: " min>
       <div class="flex-container row-wrap">
         
         <!-- Camera x rotation: -->
@@ -45,8 +45,8 @@
     </card>
 
     <card title="Object generation:" min>
-
-      <button @click="add_cube()">add cube</button>
+      
+      <button @click="generate()">add cube</button>
     </card>
 
 
@@ -136,8 +136,8 @@
 </template>
 
 <script>
-import cube from '@/components/space_canvas/geometry/cube.vue';
-import plane from '@/components/space_canvas/geometry/plane.vue';
+import cube from '@/components/widgets/space_canvas/geometry/cube.vue';
+import plane from '@/components/widgets/space_canvas/geometry/plane.vue';
 
 import simplePalette from '~/components/widgets/simple-palette/simple-palette.vue';
 
@@ -154,12 +154,12 @@ export default {
       floating_menu: true,
       
       // Canvas settings:
-      perspective: 1200,
+      perspective: 600,
       show_sliders: true,
       absolute_color: false, // Set to false if yr using a variable color
       bg_color_var: 'bg', // turns into an array in computed bg_color
       drag_canvas: false,
-      show_grid: true,
+      show_grid: false,
       show_origin: false,
 
       // For keeping track of the initial click point for click and drag:
@@ -167,12 +167,22 @@ export default {
       previous_y_click: 0,
 
       // Camera settings
-      camera_rotate_x: -10,
-      camera_rotate_y: 10,
+      camera_rotate_x: -12,
+      camera_rotate_y: 60,
       upsidedown_camera: false,
 
       // Generator: 
+      gen_amount: 30,
+      
+      gen_x_pos: [-300, 300],
+      gen_y_pos: [-300, 300],
+      gen_z_pos: [-300, 300],
 
+      gen_height: [-300, 300],
+      gen_width: [-300, 300],
+      gen_depth: [-300, 300],
+
+      gen_colors: ['c1', 'c2', 'c3', 'card', 'bg_text', 'bg_text2'],
 
       // Object editor settings
       o_i: 0, // The index of the selected object
@@ -180,7 +190,7 @@ export default {
       objects: [
         { //   Sample cube:
           // Info:
-          type: 'cube',
+          type: '_cube',
           name: 'Cube 1',
           _id: 'cube1',
 
@@ -211,7 +221,7 @@ export default {
           _id: 'plane2',
 
           // Rendering:
-          color: 'card',
+          color: 'card2',
           opacity: 1,
 
           // Coordinates:
@@ -225,9 +235,9 @@ export default {
           zRot: 0,
 
           // Dimensions:
-          height: 200,
-          width: 200,
-          depth: 200,
+          height: 2200,
+          width: 2200,
+          depth: 1200,
           
         }
       ],
@@ -253,6 +263,7 @@ export default {
   mounted() {
     window.addEventListener('scroll', this.handleScroll);
     // this.anim_frame();
+    this.generate();
   },
 
   destroyed() {
@@ -268,6 +279,11 @@ export default {
       setTimeout(this.anim_frame, 10);
     },
 
+    generate() {
+      for (let i = 0; i < this.gen_amount; i++) {
+        this.add_cube();
+      }
+    },
     add_cube() {
       let _id = 'cube' + (this.objects.length + 1);
       let name = 'Cube ' + (this.objects.length + 1);
@@ -276,16 +292,21 @@ export default {
       let random_y = Math.floor((Math.random() * 600) - 300);
       let random_z = Math.floor((Math.random() * 600) - 300);
 
-      let random_height = Math.floor(Math.random() * 100);
-      let random_width = Math.floor(Math.random() * 100);
-      let random_depth = Math.floor(Math.random() * 100);
+      let random_height = Math.floor(Math.random() * 200) + 20;
+      random_y = -random_height / 2;
+      let random_width = Math.floor(Math.random() * 40) + 10;
+      let random_depth = Math.floor(Math.random() * 40) + 10;
+
+      let random_index = Math.floor(Math.random() * this.gen_colors.length);
+      let random_color = this.gen_colors[random_index];
+      console.log(random_color);
 
       this.objects.push({
         type: 'cube',
         name: name,
         _id: _id,
 
-        color: 'c1',
+        color: random_color,
         opacity: 1,
 
         x: random_x,
@@ -381,17 +402,6 @@ export default {
   transform-style: preserve-3d;
   // div {border: solid 2px red;}
   cursor: pointer;
-}
-.object:hover::after {
-  content: '';
-  display: none;
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  margin: -10px 0px 0px -10px;
-  background: rgba(255,255,255,.5);
-  box-shadow: 0px 0px 10px rgba(255,255,255,.5);
-  transform: translatez(-40px);
 }
 
 .grid {

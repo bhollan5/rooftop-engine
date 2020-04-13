@@ -1,6 +1,10 @@
 <template>
 <div class="object"
-  :style="css_string">
+  :style="css_string"
+  @mouseover="light_mod = 10"
+  @mouseout="light_mod = 0"
+  @click="$emit('click')"
+>
 
   <div class="grab-point"></div>
 
@@ -9,7 +13,7 @@
     'translatex(-' + data.width / 2 + 'px)' + 
     'translatey(-' + data.height / 2 + 'px)',
     opacity: data.opacity,
-    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] + 3) + '%)',
+    background: 'hsl(' + color[0] + ',' + color[1] + '%,' + (color[2] + light_mod) + '%)',
     height: data.height + 'px',
     width: data.width + 'px'}">
     <!-- Front -->
@@ -22,7 +26,7 @@
 export default {
   data() {
     return {
-
+      light_mod: 0, // For brightening the shapes on hover
     }
   },
   props: {

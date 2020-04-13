@@ -2,9 +2,10 @@
 <div class="object"
   :style="cube_css"
   @mouseover="light_mod = 10"
+  @click="$emit('click')"
   @mouseout="light_mod = 0">
 
-  <div class="grab-point"></div>
+  <div class="grab-point" v-if="0"></div>
 
   <div class="plane" :style="{
     transform: 
@@ -35,7 +36,7 @@
   </div>
 
   <!-- TODO: there's a rendering problem when a cube's height is bigger than it's depth... -->
-  <div class="plane" :style="{
+  <div class="plane top" :style="{
     transform: 
     'translatex(-' + data.width / 2 + 'px) ' +
     'translatey(' + -((data.depth / 2) + (data.height / 2)) + 'px)' +
@@ -49,7 +50,7 @@
     <!-- top -->
   </div>
 
-  <div class="plane" :style="{
+  <div class="plane bottom" :style="{
     transform: 
     'translatex(-' + data.width / 2 + 'px) ' +
     'translatey(-' + ((data.depth / 2) - (data.height / 2)) + 'px)' +
@@ -63,7 +64,7 @@
     <!-- bottom -->
   </div>
 
-  <div class="plane" :style="{
+  <div class="plane side" :style="{
     transform: 
     'translatex(' + ((data.width / 2) - (data.depth / 2)) + 'px) ' +
     'translatey(-' + data.height / 2 + 'px)' +
@@ -77,11 +78,11 @@
     <!-- side 1 -->
   </div>
 
-  <div class="plane" :style="{
+  <div class="plane side2" :style="{
     transform: 
     'translatex(' + (-(data.width / 2) - (data.depth / 2)) + 'px) ' +
-    'translatey(-' + data.height / 2 + 'px)' +
-    'translatez(-' + 0 + 'px) ' + 'rotatey(90deg)',
+    'translatey(-' + Math.abs(data.height / 2) + 'px)' +
+    'translatez(' + 0 + 'px) ' + 'rotatey(90deg)',
     opacity: data.opacity,
     background: 'hsl(' + color[0]
        + ',' + color[1]

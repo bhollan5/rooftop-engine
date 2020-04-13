@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import spaceCanvas from '@/components/space_canvas/space-canvas.vue';
+import spaceCanvas from '@/components/widgets/space_canvas/space-canvas.vue';
 
 export default {
   components: {
