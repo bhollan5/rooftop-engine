@@ -110,16 +110,13 @@ export const actions = {
   read_projects({commit}, payload) {
     this.$console.log("projects", " 🗣 Called to read a project ");
     this.$console.log("projects", payload);
-    console.log("hi")
-    console.log(payload);
 
     return axios.get("/api/read-projects", { params: payload })
     .then((response) => {
-      console.log(response);
       if (response.data.length) {
 
         let projects = response.data;
-        console.log(" 📦 Loaded " + projects + " projects!");
+        console.log(" 📦 Loaded " + projects.length + " projects!");
         projects.forEach((project) => {
           commit('load_project', project);
         })

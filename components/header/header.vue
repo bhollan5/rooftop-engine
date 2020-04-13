@@ -86,7 +86,7 @@ export default {
   computed: {
 
     theme_id() {
-      return this.$store.getters['themes/themeId'];
+      return this.$store.getters['themes/theme_id'];
     },
 
     // Grabbing our dynamic theme variables from the store:
@@ -201,7 +201,7 @@ $tablet-bp: 400px;
   #options-button, #user-options-button {
     font-size: 16px;
     cursor: pointer;
-    background: var(--bg2-input);
+    background: var(--bg2-dark);
     height: 30px;
     min-width: 60px;
     margin: 0px 10px;
@@ -212,7 +212,7 @@ $tablet-bp: 400px;
       width: 15px; 
       height: 15px;
       border-radius: 50%;
-      background: #CEFDFE;
+      background: #CEFDFE; // sky of frog pfp
       overflow: hidden;
     }
     .hamburger-icon {

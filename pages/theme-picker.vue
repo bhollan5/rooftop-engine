@@ -237,7 +237,7 @@ export default {
     },
     // We compute this separately because we can use it in a watch function.
     theme_id() {
-      return this.$store.getters['themes/themeId'];
+      return this.$store.getters['themes/theme_id'];
     },
 
     // Takes the colors and turns them into a proper css object

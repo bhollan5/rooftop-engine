@@ -2,7 +2,7 @@
 <!-- Article header: -->
 <div class="article-header">
   <text-field v-if="editable"
-  :value="value.content" @input="update_data('content', $event)"
+  :value="value.content" @input="emit_update([], 'content', $event)"
   nobox
   placeholder="Article Title" 
   nounderline>
@@ -23,11 +23,15 @@ export default {
     }
   },
   methods: {
-    update_data(field, new_val) {
-      let data_update = JSON.parse(JSON.stringify(this.value));
-      data_update[field] = new_val;
-      this.$emit('input', data_update);
-    }
+    // new update func:
+    emit_update(path, new_index, new_val) {
+      let new_path = path;
+      new_path.unshift(new_index)
+      this.$emit('input', {
+        path: new_path,
+        new_val: new_val,
+      });
+    },
   }
 }
 

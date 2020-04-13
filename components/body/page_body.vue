@@ -23,13 +23,9 @@
     :value="widget" @input="emit_update($event.path, widget_i, $event.new_val)">
     </page-header>
 
-    <!-- Article subheader: -->
-    <text-field id="article-subheader" 
-      v-else-if="widget.type == 'subheader'"
-      v-model="widget.content" 
-      :nobox="noboxes" 
-      nounderline
-      placeholder="Article Subheader (optional)"></text-field>
+    <page-subheader v-if="widget.type == 'subheader'" :editable="editable"
+    :value="widget" @input="emit_update($event.path, widget_i, $event.new_val)">
+    </page-subheader>
 
     <!-- Tabs: -->
     <div class="tab-container" v-else-if="widget.type == 'tabs'">
@@ -100,16 +96,19 @@
 // Widgets:
 import newWidget from '@/components/widgets/new_widget.vue';
 
-import pageHeader from '@/components/widgets/page_header.vue';
+// Text widgets:
+import pageHeader from '@/components/widgets/text/page_header.vue';
+import pageSubheader from '@/components/widgets/text/page_subheader.vue';
 
-import sectionTitle from '@/components/widgets/section_title.vue';
-import subsectionTitle from '@/components/widgets/subsection_title.vue';
-import paragraph from '@/components/widgets/paragraph.vue';
+import sectionTitle from '@/components/widgets/text/section_title.vue';
+import subsectionTitle from '@/components/widgets/text/subsection_title.vue';
+import paragraph from '@/components/widgets/text/paragraph.vue';
 
 export default {
   name: 'content-display',
   components: {
     pageHeader,
+    pageSubheader,
 
     sectionTitle,
     subsectionTitle,
@@ -296,27 +295,33 @@ export default {
   transition-duration: .2s;
   margin-bottom: 5px;
 }
-.widget-container.editable::after {
+
+// The two selection light indicators to the sides of widgets. 
+// Styling:
+.widget-container.editable::before, .widget-container.editable::after {
   content: '';
   height: 5px;
   width: 5px;
-  left: -15px;
-  top: 10px;
+  top: 50%;
   border-radius: 50%;
   position: absolute;
   cursor: grab;
   transition-duration: .4s;
   background: var(--card);
 }
-.widget-container.selected-widget::after {
+.widget-container.selected-widget::after, .widget-container.selected-widget::before {
   background: var(--c1);
 }
-
-
-
-#article-subheader input {
-  font-size: var(--regular-font-size);
+// Positions:
+.widget-container.editable::before {
+  left: -15px;
 }
+.widget-container.editable::after {
+  right: -15px;
+}
+
+
+
 
 .tab-container {
 

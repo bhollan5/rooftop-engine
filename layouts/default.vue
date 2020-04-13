@@ -107,7 +107,18 @@ export default {
   },
   
   mounted() {
-    
+    console.log("got themes")
+    if (this.$auth.loggedIn) {
+      console.log("Hi?")
+
+      this.$store.dispatch('themes/read_themes', { _id: this.$auth.user.current_theme }).then(() => {
+        // Getting the data for the user's theme:
+        let user_theme = this.$store.getters['themes/theme_query']('_id', this.$auth.user.current_theme)[0];
+        
+        this.$store.commit("themes/setThemeColor", user_theme);
+      })
+      
+    }
   },
 
   watch: {

@@ -67,6 +67,8 @@ export default {
   data() {
     return {
 
+      editable: false,
+
       sample_document: {
         id: 'sample object!',
         data: [
@@ -173,7 +175,6 @@ export default {
         }
 
         let our_doc = docs[0];
-        console.log(our_doc)
 
         our_doc.body_data.forEach((widget_data) => {
           let fresh_copy = JSON.parse(JSON.stringify(widget_data))

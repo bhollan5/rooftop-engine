@@ -101,6 +101,13 @@ export const state = () => ({
 
 export const getters = {
 
+  // Theme query. ex: ['themes/theme_query']('_id', this.my_id);
+  theme_query: (state) => (field, value) => {
+    return state.themes.filter( function(theme) {
+      return (theme[field] == value);
+    });
+  },
+
   // Object of all colors as arrays
   theme_object(state, getters) {
     if (state.simple_colors && state.current_theme.colors) {
@@ -124,7 +131,7 @@ export const getters = {
   },
 
   // Just the theme id
-  themeId(state) {
+  theme_id(state) {
     return state.current_theme._id;
   },
 
@@ -136,10 +143,10 @@ export const getters = {
 
   // This notation is the same as 
   //  getterName() { return function (articleId) { ... } }
-  themeById: (state) => (themeId) => {
+  themeById: (state) => (theme_id) => {
     // This filter format is how we can query an array of objs. 
     return state.themes.filter( function(theme) {
-      return (theme._id == themeId);
+      return (theme._id == theme_id);
     });
 
   },
@@ -175,6 +182,30 @@ export const actions = {
       console.warn(error);
     });
 
+  },
+
+  // Reading themes by query:
+  read_themes({commit}, payload) {
+    console.log(" 🗣 Called to read a theme by this query: ");
+    console.log(payload);
+
+    return axios.get("/api/query-themes", { params: payload })
+    .then((response) => {
+      if (response.data.length) {
+        console.log(" 💾 Successfully loaded a theme!");
+        
+        for (let i in response.data) {
+          commit('set_theme', response.data[i]);
+        }
+
+      } else {
+        console.log(" ⛔️ No themes loaded.")
+      }
+      console.log(response.data);
+      
+    }, (error) => {
+      console.warn(error);
+    });
   },
 
   // Getting all themes:
@@ -220,35 +251,6 @@ export const actions = {
 
   },
 
-  // Deletes an article by id.
-  deleteArticle({commit}, payload) {
-    this.$console.log("themes", " 🗣 Calling the api to delete article %c" +  payload._id, "color:magenta;")
-
-    // Getting the article from the database.
-    axios.delete("/api/delete-article/" + payload._id).then(() => {
-      this.$console.log("themes", " ⛔️ Deleted the article with the id of " + payload._id);
-      commit('deleteArticle', { _id: payload._id});
-    }, (error) => {
-      console.warn(error);
-    });
-  },
-
-  // Uploading an image for an article: 
-  uploadImage({commit}, payload) {
-    this.$console.log("themes", " 🗣 Calling the api to upload the image %c" +  payload.fileName, "color:magenta;")
-    this.$console.log("themes", payload);
-
-    // You should have a server side REST API 
-    axios.post('/api/upload-article-image', {
-      fileName: payload.fileName,
-      fileValue: payload.fileValue
-    }).then(function () {
-        this.$console.log("themes", 'Success uploading file!');
-      })
-      .catch(function () {
-        this.$console.log("themes", 'Failed to upload item!');
-      });
-  }
 }
 
 
@@ -282,6 +284,22 @@ export const mutations = {
   },
 
   // DB stuff:
+
+  set_theme(state, payload) {
+    // Loading or updating a theme.
+
+    let theme_found = false;
+    state.themes.forEach((theme, theme_i, theme_arr) => { 
+
+      if (payload._id == theme._id) {
+        theme_arr[theme_i] = payload;
+        theme_found = true;
+      }
+    })
+    if (!theme_found){
+      state.themes.push(payload);
+    }
+  },
   
   // Setting article array:
   setThemes(state, payload) {

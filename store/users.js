@@ -69,11 +69,12 @@ export const getters = {
 export const actions = {
 
   // Creating a new user:
-  createUser({commit}, payload) {
+  create_user({commit}, payload) {
 
     axios.post("/api/create-user", {
       display_name: payload.display_name,
       username: payload.username,
+      current_theme: payload.current_theme,
       email: payload.email,
       password: payload.password
     })
@@ -118,6 +119,22 @@ export const actions = {
       console.log(response.data);
       
     }, (error) => {
+      console.warn(error);
+    });
+
+  },
+
+  // Updating a user by id.
+  update_user({commit}, payload) {
+    console.log(" 🗣 Calling the API to update user %c" +  payload._id, "color:magenta;")
+    console.log(payload)
+    // Calling to the DB.
+    return axios.post("/api/update-user", {
+      _id: payload._id,
+      update: payload.update
+    }).then((response) => {
+      console.log(" 🖌 Updated the user %c" +  payload._id, "color:magenta;");
+    }).catch ((error) => {
       console.warn(error);
     });
 

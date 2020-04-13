@@ -37,6 +37,7 @@ module.exports = function(app, mongoose){
     display_name: String,
     bio: String,
     image: String,
+    current_theme: String,
     hash: String,
     salt: String
   }, {timestamps: true});
@@ -97,6 +98,20 @@ module.exports = function(app, mongoose){
       console.log(' 💾 Saved a new user to the database!');
       res.send(result)
     });
+  });
+
+  // Update a user. Takes an object with query information
+  app.post('/update-user', (req, res) => {
+
+    console.log("\n 🗣 Called to update a user!")
+    let _id = req.body._id;         // The id of the doc we're calling
+    let update = req.body.update;   // The updated fields
+    
+    User.updateOne({_id: _id}, update, (result) => {
+      console.log(" ⬆️ Updated an user!")
+      res.send(result);
+    })
+
   });
 
   // Logging user in, returning their hash:

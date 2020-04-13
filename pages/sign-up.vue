@@ -1,41 +1,43 @@
 <template>
-<div class="body" id="sign-up">
-  <h1>Add Account</h1>
-  <line-break class="line-break"></line-break>
-  <br>
-
-  <text-field class="input" nopadding
-    placeholder="Pheobe P." 
-    title="display name:"
-    v-model="display_name"></text-field>
-
-  <text-field class="input" nopadding
-    placeholder="@pheobeppeabodybb" 
-    title="username:"
-    v-model="username"></text-field>
-
-  <text-field class="input" nopadding
-    placeholder="pheobe@gmail.com" 
-    title="email:"
-    v-model="email"></text-field>
-
-  <text-field class="input" nopadding
-    placeholder="This is a secret!" 
-    title="password:" :password="true"
-    v-model="user_pass"></text-field>
-    
-  <text-field class="input" nopadding
-    placeholder="The same thing as above." 
-    title="retype password:" :password="true"
-    v-model="user_pass2"></text-field>
-
-  <button @click="add_account()">Add account!</button>
-
-  <div class="info">
-    <p>For now, you'll only be able to add an account if you have admin permissions.</p>
+<div class="content" id="sign-up">
+  <div class="body">
+    <h1>Add Account</h1>
+    <line-break class="line-break"></line-break>
     <br>
-    <p>If you have an account, try  <router-link to="/sign-in"> signing in</router-link>!</p>
-    <br><br><br><br>
+
+    <text-field class="input" nopadding
+      placeholder="Pheobe P." 
+      title="display name:"
+      v-model="display_name"></text-field>
+
+    <text-field class="input" nopadding
+      placeholder="@pheobeppeabodybb" 
+      title="username:"
+      v-model="username"></text-field>
+
+    <text-field class="input" nopadding
+      placeholder="pheobe@gmail.com" 
+      title="email:"
+      v-model="email"></text-field>
+
+    <text-field class="input" nopadding
+      placeholder="This is a secret!" 
+      title="password:" :password="true"
+      v-model="user_pass"></text-field>
+      
+    <text-field class="input" nopadding
+      placeholder="The same thing as above." 
+      title="retype password:" :password="true"
+      v-model="user_pass2"></text-field>
+
+    <button @click="add_account()">Add account!</button>
+
+    <div class="info">
+      <p>For now, you'll only be able to add an account if you have admin permissions.</p>
+      <br>
+      <p>If you have an account, try  <router-link to="/sign-in"> signing in</router-link>!</p>
+      <br><br><br><br>
+    </div>
   </div>
 </div>
 </template>
@@ -52,6 +54,11 @@ export default {
       user_pass2: '',
     }
   },
+  computed: {
+    current_theme() {
+      return this.$store.getters['themes/theme_id'];
+    }
+  },
   mounted() {
     this.$parent.$parent.userOptions = false;
   },
@@ -65,8 +72,9 @@ export default {
         alert("No password found!");
         return;
       }
-      this.$store.dispatch('users/createUser', {
+      this.$store.dispatch('users/create_user', {
         display_name: this.display_name,
+        current_theme: this.current_theme,
         username: this.username,
         email: this.email,
         password: this.user_pass,

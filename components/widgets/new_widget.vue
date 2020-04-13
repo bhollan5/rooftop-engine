@@ -47,6 +47,13 @@ export default {
       // This is mostly just to save html space w/ a v-for
       widgetTypes: [
         {
+          type: 'header',
+          icon: 'H1',
+          bold: true,
+          title: 'Page Header',
+          description: 'The title of the page.'
+        },
+        {
           type: 'section-title',
           icon: '1.',
           bold: true,

@@ -51,11 +51,22 @@ module.exports = function(app, mongoose){
     let _id = req.body._id;         // The id of the doc we're calling
     let update = req.body.update;   // The updated fields
 
-    Article.updateOne({_id: _id}, update, (result) => {
+    Theme.updateOne({_id: _id}, update, (result) => {
       console.log(" ⬆️ Updated a theme!")
       res.send(result);
     })
 
+  });
+
+  // Queries themes:
+  app.get('/query-themes', (req, res) => {
+    console.log("\n 🗣 Called to query themes!")
+
+    Theme.find(req.query, function (err, result) {
+      if (err) return console.error(err);
+      console.log(" 💌 Sent  " + result.length + " themes to the frontend!")
+      res.send(result);
+    })
   });
 
   // Delete an article. Takes an object with an _id 

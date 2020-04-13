@@ -71,9 +71,11 @@
 export default {
 
   mounted() {
-
+    console.warn('mount');
     // For the user options menu:
-    this.$store.dispatch('themes/readAllThemes');
+    this.$store.dispatch('themes/readAllThemes').then(() => {
+      
+    })
     if (this.$auth.loggedIn){
       this.$store.dispatch('projects/read_projects', { owner: this.$auth.user.username })
     }
@@ -81,7 +83,7 @@ export default {
   },
   computed: {
     theme_id() {
-      return this.$store.getters['themes/themeId'];
+      return this.$store.getters['themes/theme_id'];
     },
 
     // Loading all theme options, for the user options menu
@@ -101,6 +103,15 @@ export default {
   methods: {
     applyTheme(theme) {
       this.$store.commit("themes/setThemeColor", theme);
+      // If we're logged in, we need to update the user's current theme in the DB, too!
+      if (this.$auth.loggedIn) {
+        this.$store.dispatch('users/update_user', {
+          _id: this.$auth.user._id,
+          update: {
+            current_theme: this.theme_id
+          }
+        })
+      }
     },
   }
 }
