@@ -23,7 +23,7 @@ import sideBar from './side_bar/sidebar.vue';
 import card from './side_bar/card.vue';
 
 // Icons:
-//   We import SVG icons this way so we can modify them with CSS, for theming.
+//   We import SVGs as .vue files so we can modify them with CSS, for theming.
 //   To understand why: https://css-tricks.com/using-svg/ 
 import checkIcon from './icons/check-icon.vue';
 import editIcon from './icons/edit-icon.vue';
@@ -38,6 +38,8 @@ import personIcon from './icons/person-icon.vue';
 import searchIcon from './icons/search-icon.vue';
 import servicesIcon from './icons/services-icon.vue';
 import trashIcon from './icons/trash-icon.vue';
+import saveIcon from './icons/save-icon.vue';
+import viewIcon from './icons/view-icon.vue';
 
 export default {
   // Inputs
@@ -76,5 +78,7 @@ export default {
   servicesIcon,
   trashIcon,
   imageIcon,
+  saveIcon,
+  viewIcon,
 
 };

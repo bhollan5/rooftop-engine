@@ -71,8 +71,6 @@
 export default {
 
   mounted() {
-    console.warn('mount');
-    // For the user options menu:
     this.$store.dispatch('themes/readAllThemes').then(() => {
       
     })
@@ -116,3 +114,74 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+
+////////////////////////////
+//   User options menu:   //
+////////////////////////////
+
+#user-options {
+  position: fixed;
+  height: 100%;
+  width:  400px;
+  max-width: 90vw;
+  top: 0px;
+  right: 0px;
+  z-index: 301;
+  color: var(--bg-text);
+  background: var(--bg);
+  drop-shadow: 0px 0px 10px rgba(0,0,0,1);
+
+  h3 {
+    padding-left: 10px;
+  }
+
+  // The upper part of the header
+  #user-options-header {
+    width: 100%;
+    height: 130px;
+    background: var(--bg2);
+    color: var(--card-text);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    // User icon and text
+    #user-info {
+      display: flex;
+      .user-info-text {
+        text-align: right;
+        margin-right: 10px;
+        padding-top: 10px;
+        color: var(--bg-text);
+        font-size: var(--regular-font-size);
+        .secondary {
+          color: var(--bg-text2);
+          font-size: var(--small-font-size);
+        }
+      }
+      .user-icon {
+        width: 70px; 
+        height: 70px;
+        border-radius: 50%;
+        background: #CEFDFE;
+        overflow: hidden;
+      }
+    }
+    // Login button 
+    .login-button {
+      cursor: pointer;
+      color: var(--bg-text2);
+      &:hover {
+        color: var(--c1);
+      }
+    }
+  }
+  // For the various options in the menu.
+  .user-option {
+    padding: 20px;
+    color: var(--bg-text);
+  }
+}
+</style>

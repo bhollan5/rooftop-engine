@@ -166,6 +166,11 @@ export default {
 .text-field {
   position: relative;
   margin: 0px;
+}
+.body .text-field {
+  padding: 5px 0px;
+}
+.card .text-field {
   padding-bottom: 10px;
 }
 

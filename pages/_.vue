@@ -7,11 +7,6 @@
     <card title="Document data" class="small-font">
       <text-field class="small-font" title="Title:" 
       v-model="document_draft.title"></text-field>
-      <button class="card-button save-button" @click="save_doc()"
-        :class="{ 
-          'disabled': saving || !unsaved_changes
-         }"
-      >Save</button>
     </card>
 
     <card title="Edit widget fields:" v-if="document_draft.body_data[selected_widget]">
@@ -23,14 +18,28 @@
 
   </side-bar>
 
+  <!-- Page body & footer -->
   <div style="width: 100%; position: relative;">
     <page-body v-if="document_draft.body_data"
-    :value="document_draft.body_data"
-    @input="update_draft($event.path, 'body_data', $event.new_val)"
-    :editable="true" 
-    @addwidget="add_widget()"
-    @widgetselect="selected_widget = $event"
-    owner="project_id">
+      :value="document_draft.body_data"
+      @input="update_draft($event.path, 'body_data', $event.new_val)"
+      :editable="editable" 
+      @addwidget="add_widget()"
+      @widgetselect="selected_widget = $event"
+      owner="project_id"
+    >
+      <div class="floating-icons">
+        <div @click="save_doc()">
+          <save-icon :class="{ 'disabled': saving || !unsaved_changes }">
+          </save-icon>
+        </div>
+        
+        <div @click="editable = !editable">
+          <view-icon v-if="editable" ></view-icon>
+          <edit-icon v-else></edit-icon>
+        </div>
+      </div>
+
     </page-body>
 
     <div class="footer card flex-container" style="overflow-y: scroll;">
@@ -67,7 +76,13 @@ export default {
   data() {
     return {
 
-      editable: false,
+      // key shortcut stuff:
+      keys: {
+        command: false,
+
+      },
+
+      editable: true,
 
       sample_document: {
         id: 'sample object!',
@@ -139,7 +154,34 @@ export default {
     } else {
       this.collection_name = this.route[this.route.length - 1];
     }
+
+
+    //   - - - Keyboard shortcuts: - - - 
+    // 
+    window.addEventListener("keydown", event => {
+      // Holding command?
+      if (event.keyCode === 91 || event.metaKey) {
+        this.keys.command = true;
+      }
+      // Detecting "S"
+      if (this.keys.command && event.keyCode === 83) {
+        this.save_doc();
+        event.preventDefault();
+      }
+      // do something
+    });
+    
+    window.addEventListener("keyup", event => {
+      // No longer holding command
+      if (event.keyCode === 91 || event.metaKey) {
+        this.keys.command = false;
+      }
+    });
   },
+
+  destroyed() {
+  },
+
   methods: {
 
     save_doc() {
@@ -215,6 +257,22 @@ export default {
 
 <style lang="scss">
 
+.floating-icons {
+  position: absolute;
+  width: 20px;
+  left: 10px;
+  top: 10px;
+  svg {
+    fill: var(--bg-text2);
+    --icon: var(--bg-text2);
+    cursor: pointer;
+    &:hover:not(.disabled) {
+      fill: var(--bg-text);
+      --icon: var(--bg-text);
+    }
+  }
+}
+
 .footer {
   position: fixed;
   font-size: var(--small-font-size);
@@ -224,10 +282,8 @@ export default {
   background: var(--card2);
   padding: 10px;
 }
-.save-button {
-  transition-duration: .1s;
-}
 .disabled {
   opacity: .5;
 }
+
 </style>
