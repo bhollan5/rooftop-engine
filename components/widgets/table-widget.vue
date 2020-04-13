@@ -1,5 +1,11 @@
 <template>
 <div class="table-widget">
+  <div class="row">
+    <div v-for="col in columns" class="cel b">
+      {{col}}:
+    </div>
+  </div>
+
   <div v-for="row in value" class="row">
 
     <div class="cel" @click="$emit('rowclick', row._id)"
@@ -11,6 +17,7 @@
       <div class="secondary">id: {{row._id}}</div>
 
     </div>
+
   </div>
 </div>
 </template>
@@ -28,7 +35,7 @@ export default {
     value: {
       type: Array,
     },
-    // An arra
+    // An array of strings
     columns: {
       type: Array,
       default() {

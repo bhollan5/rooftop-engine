@@ -27,17 +27,31 @@
     <div class="flex-container row-wrap;">
       
       <card title="Articles:" nopadding style="width: 100%" margins>
-        <table-widget :value="all_articles"
-          @rowclick="$router.push('/article/' + $event)"
-        ></table-widget>
-        <button class="card-button margins" @click="load_articles()">Load all articles</button>
+        <database-display
+          collection="article" :columns="['title', '_id']"
+        ></database-display>
       </card>
 
       <card title="User:" nopadding style="width: 100%" margins>
-        <table-widget :value="all_users" 
-        :columns="['display_name', 'username']"
-        ></table-widget>
-        <button class="card-button margins" @click="load_users()">Load all user</button>
+        <database-display
+          collection="user" :columns="['display_name', 'username']"
+        ></database-display>
+      </card>
+
+    </div>
+
+    <div class="flex-container row-wrap;">
+      
+      <card title="Projects:" nopadding style="width: 100%" margins>
+        <database-display
+          collection="project" :columns="['name', 'owner']"
+        ></database-display>
+      </card>
+
+      <card title="Collections:" nopadding style="width: 100%" margins>
+        <database-display
+          collection="collection" :columns="['title', 'owner']"
+        ></database-display>
       </card>
 
     </div>
@@ -49,8 +63,16 @@
 
 <script>
 import tableWidget from '@/components/widgets/table-widget.vue';
+import databaseDisplay from '@/components/widgets/debug/database_display.vue';
+
 
 export default {
+
+  components: {
+    tableWidget,
+    databaseDisplay,
+  },
+
   data() {
     return {
       
@@ -62,25 +84,18 @@ export default {
       },
       types: ['message', 'warn', 'alert', 'error'],
       log: [],
+
     }
   },
-  components: {
-    tableWidget,
-  },
+  
   computed: {
-    all_articles() {
-      return this.$store.getters['articles/all_articles'];
-    },
-    all_users() {
-      return this.$store.getters['users/all_users'];
-    }
   },
   mounted() {
     this.update_log();
   },
   methods: {
     load_articles() {
-      this.$store.dispatch('articles/read_article', {})
+      this.$store.dispatch('articles/read_articles', {})
     },
     load_users() {
       this.$store.dispatch('users/read_users', {})

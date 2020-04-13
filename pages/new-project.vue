@@ -2,6 +2,7 @@
 <div class="content" id="new-project">
 
   <div class="body">
+    <br><br>
     <h1>New Project</h1>
     <p>Yr new project will have a project page, which can host yr project files.</p>
     <br>
@@ -54,16 +55,15 @@ export default {
   data() {
     return {
       project: {
-        title: 'Rooftop Website',
-        _id: 'rooftop-website',
+        title: 'Fair Media Policy Project',
+        _id: 'fair-media-policy-project',
         owner: '',
-        description: 'The website used by Rooftop Media.',
-        type: 'development',
+        description: 'The policies used by Rooftop Media.',
+        type: 'non-fiction',
       },
     }
   },
   mounted() {
-    this.$parent.$parent.userOptions = false;
     this.project.owner = this.$auth.user.username;
   },
   computed: {
@@ -83,7 +83,7 @@ export default {
       }
       this.$store.dispatch('projects/create_project', this.project)
       .then(() => {
-        this.$router.push('/projects/' + this.project._id);
+        this.$router.push('/project/' + this.project._id);
       })
     }
   }

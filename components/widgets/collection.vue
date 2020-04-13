@@ -147,7 +147,7 @@ export default {
   },
   mounted() {
     if (this.value.id && this.value.id != 'new') {
-      this.$store.dispatch('collections/read_collection', { _id: this.value.id })
+      this.$store.dispatch('collections/read_collections', { _id: this.value.id })
     } else {
       this.update_data('id', 'new');
     }
@@ -172,7 +172,7 @@ export default {
 
     load_collections() {
       this.view_collections = true;
-      this.$store.dispatch('collections/read_collection', {
+      this.$store.dispatch('collections/read_collections', {
         owner: this.owner
       });
     },

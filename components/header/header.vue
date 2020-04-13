@@ -120,7 +120,7 @@ export default {
     this.$store.dispatch('themes/readAllThemes');
     // For the project list:
     if (this.$auth.loggedIn){
-      this.$store.dispatch('projects/read_project', { owner: this.$auth.user.username })
+      this.$store.dispatch('projects/read_projects', { owner: this.$auth.user.username })
     }
     
   },

@@ -40,6 +40,11 @@ export const getters = {
     });
   },
 
+  // Gets all loaded projects (probably just for debugging.)
+  all_projects(state) {
+    return state.projects;
+  },
+
 
 
 
@@ -83,8 +88,8 @@ export const actions = {
   // Creating a new project:
   create_project({commit}, payload) {
     this.$console.log("projects", " 🗣 Called to create a new project ")
-
-    axios.post("/api/create-project", {
+    console.warn(payload._id)
+    return axios.post("/api/create-project", {
       title: payload.title,
       _id: payload._id,
       owner: payload.owner,
@@ -102,7 +107,7 @@ export const actions = {
   },
 
   // Reading a project, probably by  id::
-  read_project({commit}, payload) {
+  read_projects({commit}, payload) {
     this.$console.log("projects", " 🗣 Called to read a project ");
     this.$console.log("projects", payload);
 

@@ -78,21 +78,8 @@ export const actions = {
 
   },
 
-  // // Getting all articles:
-  // readArticles({commit}) {
-  //   console.log(" 🗣 Calling the API to load all articles.")
-
-  //   return axios.get("/api/articles")
-  //     .then((response) => {
-  //       console.log(" 📦 Loaded " + response.data.length + " articles.");
-  //       commit('set_articles', response.data);
-  //     }, (error) => {
-  //       console.warn(error);
-  //     });
-  // },
-
   // Reading an article by query:
-  read_article({commit}, payload) {
+  read_articles({commit}, payload) {
     console.log(" 🗣 Called to query articles: ");
     console.log(payload);
     // This return is important! it's why we can use .then() 
@@ -119,6 +106,7 @@ export const actions = {
   },
 
   // Getting a set of articles, by query.
+  // DEPRECATED
   readArticlesByQuery({commit}, payload) {
     console.log(" 🗣 Calling the API to load articles based on this query: ", payload);
 
@@ -141,14 +129,14 @@ export const actions = {
     console.log(" 🗣 Calling the API to update article %c" +  payload._id, "color:magenta;")
 
     // Getting the article from the database.
-    axios.post("/api/update-article", {
-        _id: payload._id,
-        update: payload.update
-      }).then((response) => {
-        console.log(" 🖌 Updated the article %c" +  payload._id, "color:magenta;");
-      }).catch ((error) => {
-        console.warn(error);
-      });
+    return axios.post("/api/update-article", {
+      _id: payload._id,
+      update: payload.update
+    }).then((response) => {
+      console.log(" 🖌 Updated the article %c" +  payload._id, "color:magenta;");
+    }).catch ((error) => {
+      console.warn(error);
+    });
 
   },
 

@@ -1,11 +1,13 @@
 <template>
+<!-- The 'content' is the body, side bar, and footer. -->
 <div class="content">
+
   <side-bar :title="route[0] + '/' + route[1]" v-if="document_draft && document_draft.body_data">
   
     <card title="Document data" class="small-font">
       <text-field class="small-font" title="Title:" 
       v-model="document_draft.title"></text-field>
-      {{document_draft}}
+      <button class="card-button" @click="save_doc()">Save</button>
     </card>
 
     <card title="Edit widget fields:" v-if="document_draft.body_data[selected_widget]">
@@ -125,18 +127,29 @@ export default {
     } else {
       this.collection_name = this.route[this.route.length - 1];
     }
-
   },
   methods: {
 
+    save_doc() {
+      this.$store.dispatch(this.collection_name + 's/update_' + this.collection_name, {
+        _id: this.doc_id
+      }).then(() => {
+
+      })
+    },
+
     load_page() {
+      // If the collection isn't one of the queryable tables, go to 404. 
+      if (this.collection_name != 'project' && this.collection_name != 'article') {
+        this.$router.push('/404');
+        return;
+      }
 
       // Getting the document from the DB.
-      //  So, if collection_name == 'project', this will dispatch "projects/read_project""
-      this.$store.dispatch(this.collection_name + "s/read_" + this.collection_name, 
+      //  So, if collection_name == 'project', this will dispatch "projects/read_projects""
+      this.$store.dispatch(this.collection_name + "s/read_" + this.collection_name + 's', 
       { _id: this.doc_id }).then((articles) => {
         
-        console.warn(articles);
         let our_article = articles[0];
 
         our_article.data.forEach((widget_data) => {
@@ -150,7 +163,6 @@ export default {
     },
 
     add_widget() {
-      console.log("hi?")
       this.document_draft.body_data.push({
         type: 'new',
         content: ''
@@ -166,7 +178,6 @@ export default {
         attribute_pointer = attribute_pointer[path[i]];
       }
       attribute_pointer[path[path.length - 1]] = new_val;
-      console.log("call");
       // Vue.set(attribute_pointer, path[path.length - 1], new_val);
       
     }

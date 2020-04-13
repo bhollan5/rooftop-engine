@@ -33,6 +33,10 @@ export const state = () => ({
 
 export const getters = {
 
+  all_collections(state) {
+    return state.collections;
+  },
+
   // This notation is the same as 
   //  getterName() { return function (articleId) { ... } }
   collectionById: (state) => (collectionId) => {
@@ -117,7 +121,7 @@ export const actions = {
   },
 
   // Reading a collection by query:
-  read_collection({commit}, payload) {
+  read_collections({commit}, payload) {
     console.log(" 🗣 Called to read a collection by this query: ");
     console.log(payload);
 

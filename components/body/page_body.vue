@@ -13,14 +13,14 @@
   @click="select_widget(widget_i)">
 
     <new-widget v-if="widget.type == 'new'"
-    :value="widget" @input="update_data(widget_i, $event)">
+    :value="widget" @input="emit_update($event.path, widget_i, $event.new_val)">
     </new-widget>
     
 
     <!-- Various widget types: -->
 
     <page-header v-if="widget.type == 'header'" :editable="editable"
-    :value="widget" @input="update_data(widget_i, $event)">
+    :value="widget" @input="emit_update($event.path, widget_i, $event.new_val)">
     </page-header>
 
     <!-- Article subheader: -->
@@ -189,16 +189,13 @@ export default {
     update_data(field, new_val) {
       let data_update = JSON.parse(JSON.stringify(this.value));
       data_update[field] = new_val;
-      console.log("page_body.vue: Updating " + field + " to be " + new_val);
       this.$emit('input', data_update);
     },
 
     // new update func:
     emit_update(path, new_index, new_val) {
-      console.log("page_body.vue: Recieved path: ", path);
       let new_path = path;
       new_path.unshift(new_index);
-      console.log("page_body.vue: Emitting path: ", new_path);
       this.$emit('input', {
         path: new_path,
         new_val: new_val,
@@ -360,65 +357,6 @@ export default {
 
 
 
-// Section Type selector
-.element-type-selector {
-  width: 250px;
-  overflow-y: scroll;
-  height: 100%;
-  border-right: solid 1px var(--card-text2);
-  min-height: 100px;
-}
-// Each individual section type option, w/ icon:
-.element-type-option {
-  width: 100%;
-  padding: 5px 10px;
-  display: flex;
-  align-items: center;
-  background: var(--card);
-  cursor: pointer;
-  .element-type-icon {
-    width: 35px;
-    height: 35px;
-    border-radius: 5px;
-    border: 1px solid var(--input-text2);
-    background: var(--input);
-    display: flex; 
-    align-items: center;
-    justify-content: space-around;
-    svg {
-      padding: 0px;
-      fill: var(--input-text);
-      width: var(--regular-font-size);
-      height: var(--regular-font-size);
-    }
-  }
-  .option-description {
-    padding: 0px 10px;
-    color: var(--card-text2);
-    // Scooting the description closer to the label
-    .bold {
-      margin-bottom: -5px;
-    }
-  }
-
-  &:hover {
-    filter: brightness(130%);
-    .option-description {
-      color: var(--card-text);
-    }
-  }
-  // For the currently selected element option:
-  &.selected-element-type {
-    filter: brightness(120%);
-    color: var(--card-text);
-    .option-description {
-      color: var(--card-text);
-    }
-    .element-type-icon {
-      border: 1px solid var(--input-text);
-    }
-  }
-}
 
 // For sections containing images:
 .image-section {

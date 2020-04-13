@@ -109,6 +109,13 @@ export default {
   mounted() {
     
   },
+
+  watch: {
+    // Closing the user menu if you navigate to a new page
+    '$route.fullPath': function (val) {
+      this.closePopup();
+    }
+  },
   methods: {
 
     closePopup() {

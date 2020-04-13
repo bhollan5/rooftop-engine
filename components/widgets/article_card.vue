@@ -122,7 +122,7 @@ export default {
   mounted() {
     if (this.value.id && this.value.id != 'new') {
       console.log("Calling... with : " + this.value.id)
-      this.$store.dispatch('articles/read_article', { _id: this.value.id })
+      this.$store.dispatch('articles/read_articles', { _id: this.value.id })
     } else {
       this.update_data('id', 'new');
     }
@@ -161,7 +161,7 @@ export default {
 
     load_articles() {
       this.view_all_articles = true;
-      this.$store.dispatch('articles/read_article', {
+      this.$store.dispatch('articles/read_articles', {
         owner: this.owner
       });
     },
