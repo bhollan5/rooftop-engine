@@ -10,10 +10,16 @@
     </card>
 
     <card title="Edit widget fields:" v-if="document_draft.body_data[selected_widget]">
-      <text-field v-for="(value, field) in document_draft.body_data[selected_widget]" :key="field"
-      v-if="typeof(value) == 'string'"
-      :title="field + ':'" v-model="document_draft.body_data[selected_widget][field]">
+      <text-field v-for="(value, field) in document_draft.body_data[selected_widget]" 
+        :key="field"
+        v-if="typeof(value) == 'string'"
+        :title="field + ':'" 
+        v-model="document_draft.body_data[selected_widget][field]">
       </text-field>
+      <br>
+      <text-field title="New field name" v-model="new_field_name"></text-field>
+      <button @click="add_field()">Add Field</button>
+
     </card>
 
   </side-bar>
@@ -99,6 +105,9 @@ export default {
         body_data: [],
       },
 
+      // Lets us add fields to widgets
+      new_field_name: '',
+
       // An array of strings for each element in the route.
       // So '/projects/rooftop-website' will return ['projects', 'rooftop-website']
       route: this.$route.params.pathMatch.split('/'),
@@ -163,11 +172,20 @@ export default {
       if (event.keyCode === 91 || event.metaKey) {
         this.keys.command = true;
       }
-      // Detecting "S"
-      if (this.keys.command && event.keyCode === 83) {
-        this.save_doc();
-        event.preventDefault();
+      
+      // Shortcuts when you hold down "command"
+      if (this.keys.command) {
+        // "S": Save doc
+        if (event.keyCode === 83) {
+          this.save_doc();
+          event.preventDefault();
+        // "D": Toggle view display
+        } else if (event.keyCode == 68) {
+          this.editable = !this.editable;
+          event.preventDefault();
+        }
       }
+      
       // do something
     });
     
@@ -183,6 +201,11 @@ export default {
   },
 
   methods: {
+    // Adding a field to a widget
+    add_field() {
+      Vue.set(this.document_draft.body_data[this.selected_widget], this.new_field_name, "Value")
+      this.new_field_name = '';
+    },
 
     save_doc() {
       this.saving = true;

@@ -37,3 +37,9 @@ export default {
 }
 
 </script>
+
+<style lang="scss" scoped>
+p {
+  white-space: pre-wrap; // preserves linebreak from textareas
+}
+</style>

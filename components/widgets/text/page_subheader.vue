@@ -7,7 +7,7 @@
   placeholder="Article Title" 
   nounderline>
   </text-field>
-  <h1 v-else>{{value.content}}</h1>
+  <div class="article-subheader" v-else>{{value.content}}</div>
 </div>
 </template>
 
@@ -39,7 +39,7 @@ export default {
 
 <style lang="scss">
 
-#article-subheader input {
-  font-size: var(--regular-font-size);
+.article-subheader input, .article-subheader {
+  font-size: var(--small-font-size);
 }
 </style>

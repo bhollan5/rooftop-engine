@@ -1,5 +1,6 @@
 <template>
-<svg  viewBox="0 0 91 7" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+<svg  viewBox="0 0 91 7" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"
+v-if="fancy">
     <g transform="matrix(1,0,0,1,-3673.91,-2141.41)">
         <g transform="matrix(1.03506,0,0,3.58793,1766.14,1587.17)">
             <g transform="matrix(0.183538,0,0,0.0629121,1527.65,147.341)">
@@ -25,4 +26,17 @@
         </g>
     </g>
 </svg>
+<hr v-else :style="{ 'border-color': color }">
 </template>
+
+<script>
+export default {
+    props: {
+        fancy: {
+            type: Boolean,
+            default: false,
+        },
+        color: String,
+    }
+}
+</script>

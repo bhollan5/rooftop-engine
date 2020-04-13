@@ -14,7 +14,7 @@ import formField from './inputs/form-field';
 import alert from './inputs/alert.vue';
 
 // Widgets:
-import lineBreak from './misc/line-break.vue';
+import lineBreak from './widgets/aesthetic/line-break.vue';
 import collection from './widgets/collection.vue';
 import articleCard from '@/components/widgets/article_card.vue';
 
