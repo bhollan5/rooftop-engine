@@ -12,7 +12,7 @@ module.exports = function(app, mongoose){
     title: String,
     description: String,
     thumbnail: String,
-    data: Array,
+    body_data: Array,
     owner: String,
     _id: String,
   }, {timestamps: true});
@@ -40,34 +40,6 @@ module.exports = function(app, mongoose){
       res.send(result);
     })
   });
-  // // Getting all articles:
-  // app.get('/read-articles', (req, res) => {
-  //   console.log("\n 🗣 Called to query articles!")
-  //   let ids = req.query;
-  //   let articleQuery = [] ;
-    
-  //   const indexes = Object.keys(ids)
-  //   for (const index of indexes) {
-  //     articleQuery.push({_id: ObjectID(ids[index])});
-  //   }
-
-  //   Article.find({ $or: articleQuery }, function (err, result) {
-  //     if (err) return console.error(err);
-  //     console.log(" 💌 Sent out " + result.length + " results!")
-  //     res.send(result);
-  //   })
-  // });
-
-  // Getting all articles:
-  app.get('/articles', (req, res) => {
-    console.log("\n 🗣 Called to read all articles!")
-
-    Article.find(function (err, result) {
-      if (err) return console.error(err);
-      console.log(" 💌 Sent out " + result.length + " results!")
-      res.send(result);
-    })
-  });
 
   
   // Update an article. Takes an object with query information
@@ -76,7 +48,7 @@ module.exports = function(app, mongoose){
     console.log("\n 🗣 Called to update an article!")
     let _id = req.body._id;         // The id of the doc we're calling
     let update = req.body.update;   // The updated fields
-
+    
     Article.updateOne({_id: _id}, update, (result) => {
       console.log(" ⬆️ Updated an article!")
       res.send(result);

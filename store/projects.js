@@ -110,12 +110,20 @@ export const actions = {
   read_projects({commit}, payload) {
     this.$console.log("projects", " 🗣 Called to read a project ");
     this.$console.log("projects", payload);
+    console.log("hi")
+    console.log(payload);
 
-    axios.get("/api/read-project", { params: payload })
+    return axios.get("/api/read-projects", { params: payload })
     .then((response) => {
+      console.log(response);
       if (response.data.length) {
-        this.$console.log("projects", " 💾 Successfully loaded a project!");
-        commit('load_project', response.data[0]);
+
+        let projects = response.data;
+        console.log(" 📦 Loaded " + projects + " projects!");
+        projects.forEach((project) => {
+          commit('load_project', project);
+        })
+        return projects;
 
       } else {
         this.$console.log("projects", " ⛔️ No projects loaded.")
@@ -123,6 +131,22 @@ export const actions = {
       this.$console.log("projects", response.data);
       
     }, (error) => {
+      console.warn(error);
+    });
+
+  },
+
+  // Updating a project by id.
+  update_project({commit}, payload) {
+    console.log(" 🗣 Calling the API to update project %c" +  payload._id, "color:magenta;")
+    console.log(payload)
+    // Getting the article from the database.
+    return axios.post("/api/update-project", {
+      _id: payload._id,
+      update: payload.update
+    }).then((response) => {
+      console.log(" 🖌 Updated the project %c" +  payload._id, "color:magenta;");
+    }).catch ((error) => {
       console.warn(error);
     });
 

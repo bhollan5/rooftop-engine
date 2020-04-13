@@ -15,7 +15,7 @@ module.exports = function(app, mongoose){
     _id: String,
     owner: String,
     description: String,
-    collectionData: Array,
+    body_data: Array,
   }, {timestamps: true});
 
   let Project = mongoose.model('Project', projectSchema);
@@ -35,7 +35,7 @@ module.exports = function(app, mongoose){
   })
 
   // Read a project:
-  app.get('/read-project', (req, res) => {
+  app.get('/read-projects', (req, res) => {
     console.log("\n 🗣 Called to read a project!")
 
     Project.find(req.query, function (err, result) {
@@ -45,38 +45,19 @@ module.exports = function(app, mongoose){
     })
   });
 
-  
-  // // Update a collection. Takes an object with query information
-  // app.post('/update-collection', (req, res) => {
+  // Update a project. Takes an object with query information
+  app.post('/update-project', (req, res) => {
 
-  //   console.log("\n 🗣 Called to update a collection!")
-  //   let _id = req.body._id;         // The id of the doc we're calling
-  //   let update = req.body.update;   // The updated fields
+    console.log("\n 🗣 Called to update an project!")
+    let _id = req.body._id;         // The id of the doc we're calling
+    let update = req.body.update;   // The updated fields
+    
+    Project.updateOne({_id: _id}, update, (result) => {
+      console.log(" ⬆️ Updated a project!")
+      res.send(result);
+    })
 
-  //   Collection.updateOne({_id: _id}, update, (result) => {
-  //     console.log(" ⬆️ Updated a collection!")
-  //     res.send(result);
-  //   })
-
-  // });
-
-  // // Delete an article. Takes an object with an _id 
-  // app.delete('/delete-article/:_id', (req, res) => {
-
-  //   let _id = req.params._id; 
-  //   console.log("\n 🗣 Called to delete the article " + _id)
-
-  //   Article.deleteOne({
-  //     "_id": ObjectID(_id)
-  //   }, (err, result) => {
-  //     if (err) {
-  //       console.log(err);
-  //       res.send(err)
-  //     }
-  //     console.log(" ⛔️ Deleted an article!")
-  //     res.send(result);
-  //   })
-  // })
+  });
 
   // // File Upload - deprecated
   // // TODO: Instead of fs, consider this - http://menge.io/2015/03/24/storing-small-images-in-mongodb/

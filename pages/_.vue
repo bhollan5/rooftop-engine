@@ -7,7 +7,11 @@
     <card title="Document data" class="small-font">
       <text-field class="small-font" title="Title:" 
       v-model="document_draft.title"></text-field>
-      <button class="card-button" @click="save_doc()">Save</button>
+      <button class="card-button save-button" @click="save_doc()"
+        :class="{ 
+          'disabled': saving || !unsaved_changes
+         }"
+      >Save</button>
     </card>
 
     <card title="Edit widget fields:" v-if="document_draft.body_data[selected_widget]">
@@ -89,6 +93,11 @@ export default {
 
       selected_widget: false,
 
+      // If the document has unsaved changes
+      unsaved_changes: false,
+      // True while saving:
+      saving: false,
+
     }
   },
 
@@ -112,6 +121,7 @@ export default {
       return {};
     },
 
+
   },
 
   mounted() {
@@ -131,10 +141,15 @@ export default {
   methods: {
 
     save_doc() {
+      this.saving = true;
       this.$store.dispatch(this.collection_name + 's/update_' + this.collection_name, {
-        _id: this.doc_id
+        _id: this.doc_id,
+        update: {
+          body_data: this.document_draft.body_data,
+        }
       }).then(() => {
-
+        this.unsaved_changes = false;
+        this.saving = false;
       })
     },
 
@@ -147,16 +162,23 @@ export default {
 
       // Getting the document from the DB.
       //  So, if collection_name == 'project', this will dispatch "projects/read_projects""
-      this.$store.dispatch(this.collection_name + "s/read_" + this.collection_name + 's', 
-      { _id: this.doc_id }).then((articles) => {
-        
-        let our_article = articles[0];
+      let action_name = this.collection_name + "s/read_" + this.collection_name + 's'
 
-        our_article.data.forEach((widget_data) => {
+      this.$store.dispatch(action_name, 
+      { _id: this.doc_id }).then((docs) => {
+        
+        if (!docs[0]) {
+          console.warn("No doc found.")
+          return;
+        }
+
+        let our_doc = docs[0];
+        console.log(our_doc)
+
+        our_doc.body_data.forEach((widget_data) => {
           let fresh_copy = JSON.parse(JSON.stringify(widget_data))
           this.document_draft.body_data.push(fresh_copy);
         })
-        // this.document_draft.body_data = JSON.parse(JSON.stringify(this.document.data));
 
       })
 
@@ -170,7 +192,9 @@ export default {
       this.editElement = this.document_draft.length - 1;
     },
 
+    // Making any updates to the article's JSON.
     update_draft(path, new_index, new_val) {
+
       path.unshift(new_index);
       let attribute_pointer = this.document_draft;
 
@@ -180,6 +204,8 @@ export default {
       attribute_pointer[path[path.length - 1]] = new_val;
       // Vue.set(attribute_pointer, path[path.length - 1], new_val);
       
+      this.unsaved_changes = true;
+
     }
 
   }
@@ -196,5 +222,11 @@ export default {
   height: 200px;
   background: var(--card2);
   padding: 10px;
+}
+.save-button {
+  transition-duration: .1s;
+}
+.disabled {
+  opacity: .5;
 }
 </style>

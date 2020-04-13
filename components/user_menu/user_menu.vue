@@ -30,7 +30,7 @@
     
     <router-link class="project-option" tag="div"
     v-for="(project, proj_i) in user_projects" :key="proj_i"
-    :to="'/projects/' + project._id">
+    :to="'/project/' + project._id">
       <div>{{project.title}}</div>
       <div class="byline">by Rooftop Media</div>
     </router-link>

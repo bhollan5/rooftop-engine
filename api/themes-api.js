@@ -27,7 +27,7 @@ module.exports = function(app, mongoose){
 
       // The upsert option lets us create or update at once. 
     Theme.updateOne({_id: id}, update, {upsert: true}, (result) => {
-      console.log(" ⬆️ Created/updated an article!")
+      console.log(" ⬆️ Created/updated a theme!")
       res.send(result);
     })
   })
@@ -52,7 +52,7 @@ module.exports = function(app, mongoose){
     let update = req.body.update;   // The updated fields
 
     Article.updateOne({_id: _id}, update, (result) => {
-      console.log(" ⬆️ Updated an article!")
+      console.log(" ⬆️ Updated a theme!")
       res.send(result);
     })
 

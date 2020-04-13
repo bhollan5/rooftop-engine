@@ -127,7 +127,7 @@ export const actions = {
   // Updating an article by id.
   update_article({commit}, payload) {
     console.log(" 🗣 Calling the API to update article %c" +  payload._id, "color:magenta;")
-
+    console.log(payload)
     // Getting the article from the database.
     return axios.post("/api/update-article", {
       _id: payload._id,
