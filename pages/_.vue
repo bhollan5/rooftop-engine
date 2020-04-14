@@ -35,6 +35,10 @@
       owner="project_id"
     >
       <div class="floating-icons">
+        <div>
+          <left-arrow-icon @click=""></left-arrow-icon>
+        </div>
+
         <div @click="save_doc()">
           <save-icon :class="{ 'disabled': saving || !unsaved_changes }">
           </save-icon>
@@ -48,7 +52,7 @@
 
     </page-body>
 
-    <div class="footer card flex-container" style="overflow-y: scroll;">
+    <div class="footer card flex-container" style="overflow-y: scroll;" v-if="show_footer">
       <div style="width: 400px">
         <object-display :object="document_draft"
           title="document_draft"></object-display>
@@ -107,6 +111,9 @@ export default {
 
       // Lets us add fields to widgets
       new_field_name: '',
+
+      // Show footer:
+      show_footer: false,
 
       // An array of strings for each element in the route.
       // So '/projects/rooftop-website' will return ['projects', 'rooftop-website']

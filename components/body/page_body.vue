@@ -92,7 +92,7 @@
 
     <collection v-else-if="widget.type == 'collection'" :editable="editable"
     :owner="owner"
-    :value="widget" @input="update_data(widget_i, $event)">
+    :value="widget" @input="emit_update($event.path, widget_i, $event.new_val)">
     </collection>
 
     <!-- Images: -->

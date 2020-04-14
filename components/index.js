@@ -40,6 +40,7 @@ import servicesIcon from './icons/services-icon.vue';
 import trashIcon from './icons/trash-icon.vue';
 import saveIcon from './icons/save-icon.vue';
 import viewIcon from './icons/view-icon.vue';
+import leftArrowIcon from './icons/left-arrow-icon.vue';
 
 export default {
   // Inputs
@@ -80,5 +81,6 @@ export default {
   imageIcon,
   saveIcon,
   viewIcon,
+  leftArrowIcon,
 
 };

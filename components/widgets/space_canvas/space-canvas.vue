@@ -299,7 +299,6 @@ export default {
 
       let random_index = Math.floor(Math.random() * this.gen_colors.length);
       let random_color = this.gen_colors[random_index];
-      console.log(random_color);
 
       this.objects.push({
         type: 'cube',
@@ -371,7 +370,7 @@ export default {
 
 .space-canvas-container {
   display: flex;
-  height: 600px;
+  // height: 600px;
   position: relative;
 }
 
@@ -382,7 +381,7 @@ export default {
   overflow: hidden;
   
   width: 100%;
-  height: 600px;
+  // height: 600px;
   box-shadow: 0px 0px 5px inset rgba(0,0,0,.5);
 }
   // This lets us make the center of the stage 0,0,0

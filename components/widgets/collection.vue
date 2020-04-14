@@ -7,7 +7,7 @@
 
 <template>
 <!-- When this widget is first created, we open the new collection options: -->
-<card title="New collection" v-if="this.value &&  this.value.id == 'new'" flex twocolumn>
+<card title="New collection" v-if="this.value && this.value.id == 'new'" flex twocolumn>
   <!-- Create collection: -->
   <div class="card-section">
     <text-field title="Collection name:" v-model="collection_draft.title"></text-field>
@@ -20,9 +20,10 @@
     <button class="card-button" v-if="!view_collections" @click="load_collections()">
       Pick an existing collection
     </button>
-    <picker :options="owner_collections" title="Pick a collection:" v-else
-    @input="update_data('id', $event)">
+    <picker :options="owner_collections" title="Pick a collection:" v-else-if="owner_collections.length > 0"
+    @input="emit_update([], 'id', $event)">
     </picker>
+    <div v-else class="small-font">No collections found!</div>
   </div>
 </card>
 
@@ -110,6 +111,16 @@ export default {
       articleIdToAdd: '', // For adding articles to collections
     }
   },
+
+  mounted() {
+    if (this.value.id && this.value.id != 'new') {
+      this.$store.dispatch('collections/read_collections', { _id: this.value.id })
+    } else {
+      this.emit_update([], 'id', 'new');
+      this.$forceUpdate();
+    }
+  },
+
   computed: {
     // The collection being displayed
     collection() {
@@ -145,13 +156,7 @@ export default {
       return formatted_options;
     }
   },
-  mounted() {
-    if (this.value.id && this.value.id != 'new') {
-      this.$store.dispatch('collections/read_collections', { _id: this.value.id })
-    } else {
-      this.update_data('id', 'new');
-    }
-  },
+
   methods: {
     // Called when the user clicks 'new collection'
     create_collection() {
@@ -166,7 +171,7 @@ export default {
         owner: this.owner
       })
       .then(() => {
-        this.update_data('id', this.collection_draft.id);
+        this.emit_update([], 'id', this.collection_draft.id);
       })
     },
 
@@ -212,6 +217,16 @@ export default {
       data_update[field] = new_val;
       console.log(data_update)
       this.$emit('input', data_update);
+    },
+
+    // new update func:
+    emit_update(path, new_index, new_val) {
+      let new_path = path;
+      new_path.unshift(new_index)
+      this.$emit('input', {
+        path: new_path,
+        new_val: new_val,
+      });
     },
 
   }

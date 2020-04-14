@@ -31,7 +31,7 @@
 
 <router-link class="article-thumb" 
 v-else-if="article && article._id"
-:to="'/projects/' + article.owner + '/view/' + article._id"
+:to="'/project/' + article.owner + '/article/' + article._id"
 tag="div">
 
   <!-- The  header of the card. -->
