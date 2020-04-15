@@ -27,37 +27,58 @@
   </transition>
 
   <!-- Page body & footer -->
-  <div style="width: 100%; position: relative;">
-    <page-body v-if="document_draft.body_data"
-      :value="document_draft.body_data"
-      @input="update_draft($event.path, 'body_data', $event.new_val)"
-      :editable="editable" 
-      @addwidget="add_widget()"
-      @widgetselect="selected_widget = $event"
-      owner="project_id"
-    >
-      <div class="floating-icons">
-        <div @click="show_side_bar = !show_side_bar">
-          <left-arrow-icon v-if="show_side_bar"></left-arrow-icon>
-          <right-arrow-icon v-else></right-arrow-icon>
-        </div>
-        
-        <div @click="editable = !editable">
-          <view-icon v-if="editable" ></view-icon>
-          <edit-icon v-else></edit-icon>
-        </div>
-
-        <div @click="save_doc()">
-          <save-icon :class="{ 'disabled': saving || !unsaved_changes }">
-          </save-icon>
-        </div>
+  <div class="body-container">
+  
+    <div class="floating-icons">
+      <div @click="show_side_bar = !show_side_bar">
+        <left-arrow-icon v-if="show_side_bar"></left-arrow-icon>
+        <right-arrow-icon v-else></right-arrow-icon>
+      </div>
+      
+      <div @click="editable = !editable">
+        <view-icon v-if="editable" ></view-icon>
+        <edit-icon v-else></edit-icon>
       </div>
 
-    </page-body>
+      <div @click="save_doc()">
+        <save-icon :class="{ 'disabled': saving || !unsaved_changes }">
+        </save-icon>
+      </div>
+    </div>
+
+    <div class="body">
+      
+
+      <br><br>
+      <widget-renderer v-for="(widget, widget_i) in body_widgets"
+        :editable="editable"
+
+        :key="'body-widget' + widget_i"
+
+        :collection="collection_name"
+        :source="'body_data'"
+        :index="widget_i"
+      >
+      </widget-renderer>
+      <!-- Add widget button: -->
+      <button v-if="editable" @click="add_widget()">+ Add section</button>
+    <!--
+      <page-body v-if="document_draft.body_data"
+        :value="document_draft.body_data"
+        @input="update_draft($event.path, 'body_data', $event.new_val)"
+        :editable="editable" 
+        @addwidget="add_widget()"
+        @widgetselect="selected_widget = $event"
+        owner="project_id"
+      >
+        
+
+      </page-body>-->
+    </div><!-- End body -->
 
     <div class="footer card flex-container" style="overflow-y: scroll;" v-if="show_footer">
       <div style="width: 400px">
-        <object-display :object="document_draft"
+        <object-display :object="body_widgets"
           title="document_draft"></object-display>
       </div>
       <div style="width: 400px">
@@ -69,6 +90,7 @@
         ></text-field>
       </div>
     </div>
+
   </div>
   
 
@@ -79,7 +101,7 @@
 import Vue from 'vue';
 
 import pageBody from '~/components/body/page_body.vue';
-import bodyWidget from '~/components/body/body_widget.vue';
+import widgetRenderer from '~/components/widget_renderer.vue';
 
 
 import objectDisplay from '~/components/widgets/debug/object_display.vue';
@@ -87,6 +109,11 @@ import objectDisplay from '~/components/widgets/debug/object_display.vue';
 
 export default {
   name: 'page-render',
+
+  components: {
+    objectDisplay,
+    widgetRenderer,
+  },
 
   data() {
     return {
@@ -118,7 +145,7 @@ export default {
       new_field_name: '',
 
       // Show footer:
-      show_footer: false,
+      show_footer: true,
       show_side_bar: true,
 
       // An array of strings for each element in the route.
@@ -140,24 +167,15 @@ export default {
     }
   },
 
-  components: {
-    pageBody,
-    objectDisplay,
-  },
+  
 
   computed: {
 
-    // Pulling the document from the VueX store corresponding to it's collection:
-    document() {
-      if (this.collection_name && this.doc_id) {
-        if (this.collection_name == 'project' || this.collection_name == 'article') {
-          // Ex: if collection_name == 'project', this calls the getter "projects/project_query"
-          let getter_name = this.collection_name + 's/' + this.collection_name + '_query';
-          let query_result = this.$store.getters[getter_name]('_id', this.doc_id);
-          return query_result[0];
-        }
-      }
-      return {};
+
+    body_widgets() {
+      let body_widgets = this.$store.getters['page/body_widgets'];
+      console.log(body_widgets);
+      return body_widgets;
     },
 
 
@@ -239,6 +257,18 @@ export default {
         this.$router.push('/404');
         return;
       }
+      // Loading in the page by page ID. 
+      this.$store.dispatch('page/read_doc', {
+        collection_name: this.collection_name,
+        query: { 
+          _id: this.doc_id 
+        }
+      }).then((docs) => {
+        console.log("🌺")
+      });
+      
+      console.log("load_page called. ")
+      return;
 
       // Getting the document from the DB.
       //  So, if collection_name == 'project', this will dispatch "projects/read_projects""
@@ -264,28 +294,12 @@ export default {
     },
 
     add_widget() {
-      this.document_draft.body_data.push({
+      this.$store.commit('page/add_body_widget', {
         type: 'new',
         content: ''
       });
-      this.editElement = this.document_draft.length - 1;
+      this.selected_widget = this.body_widgets.length - 1;
     },
-
-    // Making any updates to the article's JSON.
-    update_draft(path, new_index, new_val) {
-
-      path.unshift(new_index);
-      let attribute_pointer = this.document_draft;
-
-      for (let i = 0; i < (path.length - 1); i++) {
-        attribute_pointer = attribute_pointer[path[i]];
-      }
-      attribute_pointer[path[path.length - 1]] = new_val;
-      // Vue.set(attribute_pointer, path[path.length - 1], new_val);
-      
-      this.unsaved_changes = true;
-
-    }
 
   }
 }
@@ -308,6 +322,9 @@ export default {
     }
   }
 }
+.body {
+  position: relative;
+}
 
 .footer {
   position: fixed;
@@ -320,6 +337,10 @@ export default {
 }
 .disabled {
   opacity: .5;
+}
+.body-container {
+  position: relative;
+  width: 100%;
 }
 
 </style>

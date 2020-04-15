@@ -26,7 +26,38 @@ export const getters = {
 // Call actions in vue like this:
 //  this.$store.dispatch('actionName', {playloadData: data });
 export const actions = {
-  
+
+  // Reading a document.
+  //  Takes a 'document' string and a query object.
+  read_doc({commit}, payload) {
+    // setting these variables just for clearer names
+    let collection_name = payload.collection;
+    let query = payload.query;
+    this.$console.log("projects", " 🗣 Called to read a " + collection_name);
+    this.$console.log("projects", query);
+
+    let api_url = '/api/read-' + collection_name;
+    return axios.get(api_url, { params: query })
+    .then((response) => {
+      if (response.data.length) {
+
+        let projects = response.data;
+        console.log(" 📦 Loaded " + projects.length + " projects!");
+        projects.forEach((project) => {
+          commit('load_project', project);
+        })
+        return projects;
+
+      } else {
+        this.$console.log("projects", " ⛔️ No projects loaded.")
+      }
+      this.$console.log("projects", response.data);
+      
+    }, (error) => {
+      console.warn(error);
+    });
+
+  },
 }
 
 
