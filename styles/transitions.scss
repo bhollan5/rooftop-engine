@@ -25,6 +25,28 @@
   padding: 0px;
 }
 
+// Div pops up from the right:
+.right-popup-enter, .right-popup-leave-to{
+  transform: translatex(400px);
+}
+.right-popup-enter-active, .right-popup-leave-active {
+  transition: transform .5s;
+}
+.right-popup-enter-to {
+  transform: translatex(0px);
+}
+
+// Div pops up from the left:
+.left-popup-enter, .left-popup-leave-to{
+  margin-left: -300px;
+}
+.left-popup-enter-active, .left-popup-leave-active {
+  transition: margin-left .5s;
+}
+.left-popup-enter-to {
+  margin-left: 0px;
+}
+
 // // Color picker popup transitions:
 // .color-picker-popup-enter, .color-picker-popup-leave-to{
 //   max-height: 0px;

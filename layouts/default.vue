@@ -22,7 +22,7 @@
 <!--       User options menu:       -->
   <!--          (popup)           -->
 
-  <transition name="menu-popup">
+  <transition name="right-popup">
     <user-menu v-if="display_user_options"></user-menu>
   </transition>
 
@@ -43,7 +43,7 @@
   <!--                             -->
 <!--       Mobile footer links:      -->
   <!--                             -->
-  <div id="footer">
+  <div id="footer" v-if="0">
     <router-link tag="div" to="/non-fic" class="footer-option">
       <nonfic-icon class="footer-menu-icon"></nonfic-icon>
       <p>non-fic</p>
@@ -141,18 +141,6 @@ export default {
 <style lang="scss">
 
 @import '@/styles/globals.scss';
-
-
-// Menu popup transitions:
-.menu-popup-enter, .menu-popup-leave-to{
-  transform: translatex(400px);
-}
-.menu-popup-enter-active, .menu-popup-leave-active {
-  transition: transform .5s;
-}
-.menu-popup-enter-to,  /* .fade-leave-active below version 2.1.8 */ {
-  transform: translatex(0px);
-}
 
 // Theme thumbnail
 .theme-thumbnail {

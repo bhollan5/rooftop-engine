@@ -79,8 +79,6 @@
 import Vue from 'vue';
 
 import pageBody from '~/components/body/page_body.vue';
-import bodyWidget from '~/components/body/body_widget.vue';
-
 
 import objectDisplay from '~/components/widgets/debug/object_display.vue';
 

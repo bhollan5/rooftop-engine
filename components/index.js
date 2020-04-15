@@ -41,6 +41,11 @@ import trashIcon from './icons/trash-icon.vue';
 import saveIcon from './icons/save-icon.vue';
 import viewIcon from './icons/view-icon.vue';
 import leftArrowIcon from './icons/left-arrow-icon.vue';
+import rightArrowIcon from './icons/right-arrow-icon.vue';
+import upArrowIcon from './icons/up-arrow-icon.vue';
+import downArrowIcon from './icons/down-arrow-icon.vue';
+
+
 
 export default {
   // Inputs
@@ -82,5 +87,8 @@ export default {
   saveIcon,
   viewIcon,
   leftArrowIcon,
+  rightArrowIcon,
+  upArrowIcon,
+  downArrowIcon
 
 };
