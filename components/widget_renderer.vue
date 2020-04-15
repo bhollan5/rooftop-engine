@@ -193,7 +193,7 @@ export default {
       
       this.$store.commit('pages/load_body_widget', {
         index: this.index,
-        widget: 
+        widget: update
       });
       let data_update = JSON.parse(JSON.stringify(this.value));
       data_update[field] = new_val;
