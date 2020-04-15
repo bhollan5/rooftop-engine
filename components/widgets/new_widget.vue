@@ -6,18 +6,17 @@
   <div class="element-type-selector">
     <h5>Section type:</h5>
     <!-- v-for list of the section type options: -->
-    <div class="element-type-option" v-for="widgetType in widgetTypes"
+    <div class="element-type-option" v-for="template in widget_templates"
       :class="{'selected-element-type': 
-        value.type == widgetType.type}"
-      @click="emit_update([], 'type', widgetType.type)">
+        value.type == template.name}" @click="$emit('input', template.config)">
       <div class="element-type-icon"
-      :class="{bold: widgetType.bold}">
-        <image-icon v-if="widgetType.type == 'image'"></image-icon>
-        <span v-else>{{widgetType.icon}}</span>
+      :class="{bold: template.bold}">
+        <image-icon v-if="template.name == 'image'"></image-icon>
+        <span v-else>{{template.icon}}</span>
       </div>
       <div class="option-description">
-        <p class="bold">{{widgetType.title}}</p>
-        <p class="small-font">{{widgetType.description}}</p>
+        <p class="bold">{{template.title}}</p>
+        <p class="small-font">{{template.description}}</p>
       </div>
     </div>
   </div>
@@ -45,44 +44,56 @@ export default {
     return {
       // Storing data for different section types.
       // This is mostly just to save html space w/ a v-for
-      widgetTypes: [
-        {
-          type: 'header',
+      widget_templates: [{
+          name: 'header',
           icon: 'H1',
           bold: true,
           title: 'Page Header',
-          description: 'The title of the page.'
-        },
-        {
-          type: 'section-title',
+          description: 'The title of the page.',
+          config: {
+            component: 'text-field',
+            fontsize: 'h1',
+          }
+        }, {
+          name: 'subheader',
+          icon: 'sub',
+          bold: true,
+          title: 'Page Subheader',
+          description: 'A subheader.',
+          config: {
+            component: 'text-field',
+            fontsize: 'smallfont',
+          }
+        }, {
+          name: 'section-title',
           icon: '1.',
           bold: true,
           title: 'Section Title',
-          description: 'Describes bigger sections.'
-        },
-        {
-          type: 'subsection-title',
+          description: 'Describes bigger sections.',
+          config: {
+            component: 'text-field',
+            fontsize: 'h1',
+          }
+        }, {
+          name: 'subsection-title',
           icon: '1.1.',
           bold: true,
           title: 'Subsection Title',
           description: 'Segments ideas.'
-        },
-        {
-          type: 'paragraph',
+        }, {
+          name: 'paragraph',
           icon: 'Aa',
           bold: true,
           title: 'Paragraph',
           description: 'For writing text.'
-        },
-        {
-          type: 'image',
+        }, {
+          name: 'image',
           icon: 'image-icon',
           bold: false,
           title: 'Image',
           description: 'Add an image!'
-        },
-        {
-          type: 'collection',
+        }, {
+          name: 'collection',
           icon: 'col',
           bold: false,
           title: 'Collection',
@@ -92,16 +103,6 @@ export default {
     }
   },
   methods: {
-
-    // new update func:
-    emit_update(path, new_index, new_val) {
-      let new_path = path;
-      new_path.unshift(new_index)
-      this.$emit('input', {
-        path: new_path,
-        new_val: new_val,
-      });
-    },
   }
 }
 

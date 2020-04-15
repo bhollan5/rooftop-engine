@@ -2,14 +2,14 @@
 <div class="widget-container" 
   :class="{
     'editable': editable,
-    'selected-widget': selected_widget == index
+    'selected-widget': selected
   }"
   v-if="widget"
   :style="{
     'margin-top': (widget.top || 0) + 'px',
     'margin-bottom': (widget.bottom || 0) + 'px',
   }"
-  @click="select_widget(index)"
+  @click="$emit('click')"
 >
 
 
@@ -19,19 +19,27 @@
     <!--                                    -->
 
     <!-- Utility (will not show up when the page is viewed )-->
-
-    <new-widget v-if="widget.type == 'new'"
+    <new-widget v-if="widget.component == 'new'"
       :value="widget" 
-      @input="emit_update($event.path, index, $event.new_val)">
+      @input="update_data($event)">
     </new-widget>
 
 
     <!-- Decorative -->
 
-    <line-break v-if="widget.type == 'line-break'" color="var(--bg-text2)"></line-break>
+    <line-break v-if="widget.component == 'line-break'" color="var(--bg-text2)"></line-break>
     
 
     <!-- Text -->
+
+    <text-field v-if="widget.component == 'text-field'"
+      :editable="editable"
+      :value="widget.content"
+      
+      :fontsize="widget.fontsize"
+      nobox
+      @input="update_data({ content: $event })"
+    ></text-field>
 
     <page-header v-if="widget.type == 'header'" 
       :editable="editable"
@@ -139,6 +147,10 @@ export default {
     owner: {
       type: String,
     },
+    // Illuminate the lights next to this component?
+    selected: {
+      type: Boolean
+    },
     // editable content? 
     editable: {
       type: Boolean,
@@ -187,47 +199,24 @@ export default {
       this.$emit('widgetselect', index);
     },
 
-
-    update_data(field, new_val) {
+    // Updating the widget's fields in the store
+    update_data(new_widget) {
+      // Copy the current widget
       let update = JSON.parse(JSON.stringify(this.widget));
-      
-      this.$store.commit('pages/load_body_widget', {
+      // Update fields 
+      for (let key in new_widget) {
+        if (new_widget.hasOwnProperty(key)) {
+          update[key] = new_widget[key];
+        }
+      }
+      // Pass to the store
+      this.$store.commit('page/set_body_widget', {
         index: this.index,
         widget: update
       });
-      let data_update = JSON.parse(JSON.stringify(this.value));
-      data_update[field] = new_val;
-      this.$emit('input', data_update);
     },
 
-    // new update func:
-    emit_update(path, new_index, new_val) {
-      let new_path = path;
-      new_path.unshift(new_index);
-      this.$emit('input', {
-        path: new_path,
-        new_val: new_val,
-      });
-    },
 
-    // Clicking on the gear icon:
-    editSelect(i) {
-      if (this.editElement == i) {
-        this.editElement = -1;
-      } else {
-        this.editElement = i;
-      }
-    },
-
-    add_widget() {
-      this.data.push({
-        type: 'new',
-        content: ''
-      });
-      this.editElement = this.data.length - 1;
-      // updates the data reactivity
-      this.$forceUpdate(); //todo: is this too hacky?
-    },
 
     // Called when a file is uploaded
     uploadFile(event, elementIndex) {

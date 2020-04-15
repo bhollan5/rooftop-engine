@@ -19,11 +19,14 @@ export const state = () => ({
 
   // This has data for the locally rendered page! 
   //    This is NOT in sync with any database. 
+  
 
   // Body widgets:
   body_widgets: [],
   // Side bar widgets:
   side_bar_widgets: [],
+
+  
   
 })
 
@@ -82,8 +85,9 @@ export const actions = {
         
         // Copying the body data locally:
         if (page.body_data){
+          commit('clear_body_widgets');
           page.body_data.forEach((widget, index) => {
-            commit('load_body_widget', {
+            commit('set_body_widget', {
               widget: widget,
               index: index
             });
@@ -135,9 +139,13 @@ export const actions = {
 // Calling mutations from Vue is weird, you need to do this:
 //    this.$store.commit("mutationName", { payloadData: data })
 export const mutations = {
+
+  clear_body_widgets(state, payload) {
+    state.body_widgets = [];
+  },
   
   // Adding or updating a body widget, with an index num and widget obj.
-  load_body_widget(state, payload) {
+  set_body_widget(state, payload) {
 
     // shorter var names:
     let index = payload.index;
@@ -145,7 +153,7 @@ export const mutations = {
 
     // If the widget's index is in the array, we update it:
     if (index < state.body_widgets.length) {
-      state.body_widgets[index] = widget;
+      Vue.set(state.body_widgets, index, widget);
     } 
     // if the widget's index is equal to the length, we add it:
     else if (index == state.body_widgets.length) {

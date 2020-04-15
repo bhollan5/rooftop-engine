@@ -52,6 +52,8 @@
       <br><br>
       <widget-renderer v-for="(widget, widget_i) in body_widgets"
         :editable="editable"
+        :selected="selected_widget == widget_i"
+        @click="selected_widget = widget_i"
 
         :key="'body-widget' + widget_i"
 
@@ -157,7 +159,7 @@ export default {
       // And the id of that document:
       doc_id: '',
 
-      selected_widget: false,
+      selected_widget: -1,
 
       // If the document has unsaved changes
       unsaved_changes: false,
@@ -174,7 +176,6 @@ export default {
 
     body_widgets() {
       let body_widgets = this.$store.getters['page/body_widgets'];
-      console.log(body_widgets);
       return body_widgets;
     },
 
@@ -295,7 +296,7 @@ export default {
 
     add_widget() {
       this.$store.commit('page/add_body_widget', {
-        type: 'new',
+        component: 'new',
         content: ''
       });
       this.selected_widget = this.body_widgets.length - 1;

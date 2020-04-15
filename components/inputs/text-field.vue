@@ -7,6 +7,7 @@
     'nobox': nobox, 
     'no-padding': nopadding,
     'p': fontsize == 'regular',
+    'h1': fontsize == 'h1',
     'h2': fontsize == 'h2',
     'h3': fontsize == 'h3',
     'small-font': fontsize == 'small',
@@ -115,6 +116,11 @@ export default {
       type: Boolean,
       default: false,
     },
+    // Makes the input display as markup text when false:
+    editable: {
+      type: Boolean,
+      default: false,
+    },
 
     //
     // Validation options:
@@ -203,7 +209,10 @@ input:not(.number), textarea {
   box-shadow: 0px 0px var(--box-shading) rgba(0,0,0,.2);
 }
 
-
+.h1 input, .h1 textarea {
+  font-weight: bold;
+  font-size: var(--h1-font-size);
+}
 .h2 input, .h2 textarea {
   font-size: var(--h2-font-size);
 }
