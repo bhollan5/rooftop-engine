@@ -41,18 +41,6 @@
       @input="update_data({ content: $event })"
     ></text-field>
 
-    <page-header v-if="widget.type == 'header'" 
-      :editable="editable"
-      :value="widget" 
-      @input="emit_update($event.path, index, $event.new_val)">
-    </page-header>
-
-    <page-subheader v-if="widget.type == 'subheader'" 
-      :editable="editable"
-      :value="widget" 
-      @input="emit_update($event.path, index, $event.new_val)">
-    </page-subheader>
-
     <!-- Tabs: -->
     <div class="tab-container" v-else-if="widget.type == 'tabs'">
       <div class="tabs" >
@@ -122,23 +110,10 @@
 // Widgets:
 import newWidget from '@/components/widgets/new_widget.vue';
 
-// Text widgets:
-import pageHeader from '@/components/widgets/text/page_header.vue';
-import pageSubheader from '@/components/widgets/text/page_subheader.vue';
-
-import sectionTitle from '@/components/widgets/text/section_title.vue';
-import subsectionTitle from '@/components/widgets/text/subsection_title.vue';
-import paragraph from '@/components/widgets/text/paragraph.vue';
-
 export default {
   name: 'widget-renderer',
   components: {
-    pageHeader,
-    pageSubheader,
 
-    sectionTitle,
-    subsectionTitle,
-    paragraph,
     newWidget
   },
 
@@ -201,18 +176,10 @@ export default {
 
     // Updating the widget's fields in the store
     update_data(new_widget) {
-      // Copy the current widget
-      let update = JSON.parse(JSON.stringify(this.widget));
-      // Update fields 
-      for (let key in new_widget) {
-        if (new_widget.hasOwnProperty(key)) {
-          update[key] = new_widget[key];
-        }
-      }
       // Pass to the store
       this.$store.commit('page/set_body_widget', {
         index: this.index,
-        widget: update
+        widget: new_widget
       });
     },
 

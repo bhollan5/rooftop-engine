@@ -215,10 +215,12 @@ input:not(.number), textarea {
 }
 .h2 input, .h2 textarea {
   font-size: var(--h2-font-size);
+  text-align: center;
+  font-weight: bold;
 }
 .h3 input, .h3 textarea {
-  text-align: center;
   font-size: var(--h3-font-size);
+  font-weight: bold;
 }
 .p input, .p textarea {
   font-size: var(--regular-font-size);

@@ -40,66 +40,16 @@ export default {
       type: Boolean
     }
   },
+  computed: {
+    widget_templates() {
+      return this.$store.getters['page/widget_templates'];
+    }
+  },
   data() {
     return {
       // Storing data for different section types.
       // This is mostly just to save html space w/ a v-for
-      widget_templates: [{
-          name: 'header',
-          icon: 'H1',
-          bold: true,
-          title: 'Page Header',
-          description: 'The title of the page.',
-          config: {
-            component: 'text-field',
-            fontsize: 'h1',
-          }
-        }, {
-          name: 'subheader',
-          icon: 'sub',
-          bold: true,
-          title: 'Page Subheader',
-          description: 'A subheader.',
-          config: {
-            component: 'text-field',
-            fontsize: 'smallfont',
-          }
-        }, {
-          name: 'section-title',
-          icon: '1.',
-          bold: true,
-          title: 'Section Title',
-          description: 'Describes bigger sections.',
-          config: {
-            component: 'text-field',
-            fontsize: 'h1',
-          }
-        }, {
-          name: 'subsection-title',
-          icon: '1.1.',
-          bold: true,
-          title: 'Subsection Title',
-          description: 'Segments ideas.'
-        }, {
-          name: 'paragraph',
-          icon: 'Aa',
-          bold: true,
-          title: 'Paragraph',
-          description: 'For writing text.'
-        }, {
-          name: 'image',
-          icon: 'image-icon',
-          bold: false,
-          title: 'Image',
-          description: 'Add an image!'
-        }, {
-          name: 'collection',
-          icon: 'col',
-          bold: false,
-          title: 'Collection',
-          description: 'A collection of documents.'
-        },
-      ]
+      
     }
   },
   methods: {

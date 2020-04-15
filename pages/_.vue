@@ -3,23 +3,24 @@
 <div class="content">
 
   <transition name="left-popup">
-  <side-bar :title="route[0] + '/' + route[1]" v-if="show_side_bar && document_draft && document_draft.body_data">
+  <side-bar :title="route[0] + '/' + route[1]" v-if="show_side_bar && body_data">
   
     <card title="Document data" class="small-font">
       <text-field class="small-font" title="Title:" 
-      v-model="document_draft.title"></text-field>
+      v-model="title"></text-field>
     </card>
 
-    <card title="Edit widget fields:" v-if="document_draft.body_data[selected_widget]">
-      <text-field v-for="(value, field) in document_draft.body_data[selected_widget]" 
+    <card title="Edit widget fields:" v-if="body_data && body_data[selected_widget]">
+      <text-field v-for="(value, field) in body_data[selected_widget]" 
         :key="field"
         v-if="typeof(value) == 'string'"
         :title="field + ':'" 
-        v-model="document_draft.body_data[selected_widget][field]">
+        :value="body_data[selected_widget][field]"
+        @input="update_widget_data(field, $event)">
       </text-field>
       <br>
       <text-field title="New field name" v-model="new_field_name"></text-field>
-      <button @click="add_field()">Add Field</button>
+      <button @click="update_widget_data(new_field_name, '')">Add Field</button>
 
     </card>
 
@@ -50,7 +51,7 @@
       
 
       <br><br>
-      <widget-renderer v-for="(widget, widget_i) in body_widgets"
+      <widget-renderer v-for="(widget, widget_i) in body_data"
         :editable="editable"
         :selected="selected_widget == widget_i"
         @click="selected_widget = widget_i"
@@ -80,7 +81,7 @@
 
     <div class="footer card flex-container" style="overflow-y: scroll;" v-if="show_footer">
       <div style="width: 400px">
-        <object-display :object="body_widgets"
+        <object-display :object="body_data"
           title="document_draft"></object-display>
       </div>
       <div style="width: 400px">
@@ -119,6 +120,7 @@ export default {
 
   data() {
     return {
+      title: 'hi',
 
       // key shortcut stuff:
       keys: {
@@ -138,10 +140,6 @@ export default {
         ]
       },
 
-      document_draft: {
-        _id: '',
-        body_data: [],
-      },
 
       // Lets us add fields to widgets
       new_field_name: '',
@@ -165,7 +163,6 @@ export default {
       unsaved_changes: false,
       // True while saving:
       saving: false,
-
     }
   },
 
@@ -174,9 +171,9 @@ export default {
   computed: {
 
 
-    body_widgets() {
-      let body_widgets = this.$store.getters['page/body_widgets'];
-      return body_widgets;
+    body_data() {
+      let body_data = this.$store.getters['page/body_data'];
+      return body_data;
     },
 
 
@@ -241,15 +238,23 @@ export default {
 
     save_doc() {
       this.saving = true;
-      this.$store.dispatch(this.collection_name + 's/update_' + this.collection_name, {
-        _id: this.doc_id,
+      this.$store.dispatch('page/update_doc', {
+        doc_id: this.doc_id,
+        collection_name: this.collection_name,
         update: {
-          body_data: this.document_draft.body_data,
+          body_data: this.body_data
         }
-      }).then(() => {
-        this.unsaved_changes = false;
-        this.saving = false;
       })
+      return;
+      // this.$store.dispatch(this.collection_name + 's/update_' + this.collection_name, {
+      //   _id: this.doc_id,
+      //   update: {
+      //     body_data: this.document_draft.body_data,
+      //   }
+      // }).then(() => {
+      //   this.unsaved_changes = false;
+      //   this.saving = false;
+      // })
     },
 
     load_page() {
@@ -269,29 +274,18 @@ export default {
       });
       
       console.log("load_page called. ")
-      return;
 
-      // Getting the document from the DB.
-      //  So, if collection_name == 'project', this will dispatch "projects/read_projects""
-      let action_name = this.collection_name + "s/read_" + this.collection_name + 's'
+    },
 
-      this.$store.dispatch(action_name, 
-      { _id: this.doc_id }).then((docs) => {
-        
-        if (!docs[0]) {
-          console.warn("No doc found.")
-          return;
-        }
-
-        let our_doc = docs[0];
-
-        our_doc.body_data.forEach((widget_data) => {
-          let fresh_copy = JSON.parse(JSON.stringify(widget_data))
-          this.document_draft.body_data.push(fresh_copy);
-        })
-
-      })
-
+    // Updating a widget's field in the store.
+    update_widget_data(field, new_value) {
+      let widget_update = {};
+      widget_update[field] = new_value;
+      // Pass to the store
+      this.$store.commit('page/set_body_widget', {
+        index: this.selected_widget,
+        widget: widget_update
+      });
     },
 
     add_widget() {
@@ -299,7 +293,7 @@ export default {
         component: 'new',
         content: ''
       });
-      this.selected_widget = this.body_widgets.length - 1;
+      this.selected_widget = this.body_data.length - 1;
     },
 
   }

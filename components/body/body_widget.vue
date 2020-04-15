@@ -113,23 +113,12 @@
 // Widgets:
 import newWidget from '@/components/widgets/new_widget.vue';
 
-// Text widgets:
-import pageHeader from '@/components/widgets/text/page_header.vue';
-import pageSubheader from '@/components/widgets/text/page_subheader.vue';
 
-import sectionTitle from '@/components/widgets/text/section_title.vue';
-import subsectionTitle from '@/components/widgets/text/subsection_title.vue';
-import paragraph from '@/components/widgets/text/paragraph.vue';
 
 export default {
   name: 'content-display',
   components: {
-    pageHeader,
-    pageSubheader,
 
-    sectionTitle,
-    subsectionTitle,
-    paragraph,
     newWidget
   },
 
