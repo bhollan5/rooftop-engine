@@ -68,7 +68,7 @@ export default {
       }).then((response) => {
         console.log(response);
       }).catch((err) => {
-        console.warn(err);
+        this.$store.commit('error', 'Authentication failed!');
       })
       return;
     }

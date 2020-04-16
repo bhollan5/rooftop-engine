@@ -6,7 +6,7 @@ import Vue from 'vue';
 export const state = () => ({
   alert: {
     type: 'danger',
-    msg: 'hi!',
+    msg: '',
   }
 })
 

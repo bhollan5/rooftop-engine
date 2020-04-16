@@ -141,14 +141,15 @@ module.exports = function(app, mongoose){
         10000, 
         512, 
         'sha512').toString('hex');
-      if (pass_hash === found_user.hash) {
+      console.log("Do we get here?");
+      if (pass_hash == found_user.hash) {
         console.log("Logged in!");
         res.send({
            token: pass_hash 
         });
       } else {
-        console.log("Not logged in - " + req.body.password)
-        res.status(500).send('Error logging in.');
+        console.log("Failed authentication")
+        res.send('Authentication failed! :/');
       }
     });
     
