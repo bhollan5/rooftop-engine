@@ -30,7 +30,7 @@
   <!-- Page body & footer -->
   <div class="body-container">
   
-    <div class="floating-icons">
+    <div class="body-floating-icons">
       <div @click="show_side_bar = !show_side_bar">
         <left-arrow-icon v-if="show_side_bar"></left-arrow-icon>
         <right-arrow-icon v-else></right-arrow-icon>
@@ -65,21 +65,21 @@
       </widget-renderer>
       <!-- Add widget button: -->
       <button v-if="editable" @click="add_widget()">+ Add section</button>
-    <!--
-      <page-body v-if="document_draft.body_data"
-        :value="document_draft.body_data"
-        @input="update_draft($event.path, 'body_data', $event.new_val)"
-        :editable="editable" 
-        @addwidget="add_widget()"
-        @widgetselect="selected_widget = $event"
-        owner="project_id"
-      >
-        
-
-      </page-body>-->
+    
+      
     </div><!-- End body -->
 
-    <div class="footer card flex-container" style="overflow-y: scroll;" v-if="show_footer">
+    <div class="footer-floating-icons" @click="toggle_footer()"
+      :style="{ bottom: (footer_height + 80) + 'px'}">
+      <up-arrow-icon v-if="footer_height < 10"></up-arrow-icon>
+      <down-arrow-icon v-else></down-arrow-icon>
+    </div>
+
+    <div class="footer card flex-container" 
+      :style="{ height: footer_height + 'px'}">
+
+      
+
       <div style="width: 400px">
         <object-display :object="body_data"
           title="document_draft"></object-display>
@@ -145,7 +145,7 @@ export default {
       new_field_name: '',
 
       // Show footer:
-      show_footer: true,
+      footer_height: 300,
       show_side_bar: true,
 
       // An array of strings for each element in the route.
@@ -236,6 +236,14 @@ export default {
       this.new_field_name = '';
     },
 
+    toggle_footer() {
+      if (this.footer_height < 10) {
+        this.footer_height = 300;
+      } else {
+        this.footer_height = 0;
+      }
+    },
+
     save_doc() {
       this.saving = true;
       this.$store.dispatch('page/update_doc', {
@@ -302,11 +310,10 @@ export default {
 
 <style lang="scss">
 
-.floating-icons {
+
+.body-floating-icons, .footer-floating-icons {
   position: absolute;
   width: 20px;
-  left: 10px;
-  top: 10px;
   svg {
     fill: var(--bg-text2);
     --icon: var(--bg-text2);
@@ -317,6 +324,14 @@ export default {
     }
   }
 }
+.body-floating-icons {
+  left: 10px;
+  top: 10px;
+}
+.footer-floating-icons {
+  left: 10px;
+  transition-duration: .1s;
+}
 .body {
   position: relative;
 }
@@ -326,9 +341,7 @@ export default {
   font-size: var(--small-font-size);
   width: 100%;
   bottom: 0px;
-  height: 200px;
   background: var(--card2);
-  padding: 10px;
 }
 .disabled {
   opacity: .5;

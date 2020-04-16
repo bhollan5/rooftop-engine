@@ -73,7 +73,7 @@ export default {
     width: 100%;
     border: solid 1px var(--card-light);
     padding: 10px;
-    overflow: scroll;
+    overflow: hidden;
     -ms-overflow-style: none; // no scroll bar
   }
   &:hover {
