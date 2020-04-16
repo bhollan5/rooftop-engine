@@ -28,6 +28,7 @@
     <!-- Decorative -->
 
     <line-break v-if="widget.component == 'line-break'" color="var(--bg-text2)"></line-break>
+    <hr v-if="widget.component == 'hr'" style="border: solid 1px var(--bg-text2);"></hr>
     
 
     <!-- Text -->

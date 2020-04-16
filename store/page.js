@@ -76,6 +76,16 @@ export const state = () => ({
         bottom: 10,
       }
     }, {
+      name: 'line-break',
+      icon: '___',
+      bold: true,
+      title: 'Line Break',
+      description: 'Break it up!',
+      config: {
+        component: 'hr',
+        bottom: 10,
+      }
+    }, {
       name: 'image',
       icon: 'image-icon',
       bold: false,
