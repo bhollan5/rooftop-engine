@@ -1,14 +1,18 @@
 <template>
+<!-- Put this component anywhere, and then call alerts like this:
+this.$store.commit('error', msg)
+-->
+
 <transition name="slide-down">
-<div class="alert" v-if="$console.alert_msg"
+<div class="alert" v-if="alert.msg"
   :class="{
     message: type == 'message',
     action: type == 'action',
     danger: type == 'danger',
     confirm: type == 'confirm',
   }">
-  <div class="msg">{{$console.alert_msg}}</div>
-  <div class="close">x</div>
+  <div class="msg">{{alert.msg}}</div>
+  <div class="close" @click="$store.commit('error', '')">x</div>
 </div>
 </transition>
 </template>
@@ -23,6 +27,9 @@ export default {
     }
   },
   computed: {
+    alert() {
+      return this.$store.getters['alert'];
+    }
   }
 }
 </script>
@@ -32,10 +39,17 @@ export default {
   width: 100%;
   max-width: 200px;
   font-size: var(--small-font-size);
-  padding: 5px 10px;
+  
   box-shadow: 0px 0px 5px rgba(0,0,0,.5);
   display: flex;
   justify-content: space-between;
+  overflow: hidden;
+  div {
+    padding: 5px 10px;
+  }
+}
+.close {
+  cursor: pointer;
 }
 .action {
   background: var(--action);

@@ -8,7 +8,8 @@
     :required="field.required"
     :title="field.title"></text-field>
   </div>
-  <alert :msg="error" type="danger"></alert>
+  <br>
+  <alert type="danger"></alert>
   <button @click="submit()">{{button.title}}</button>
 </div>
 </template>
@@ -18,7 +19,6 @@ export default {
   data() {
     return {
       form_fields: [],
-      error: '',
     }
   },
   mounted() {
@@ -30,20 +30,25 @@ export default {
   },
   methods: {
     submit() {
+
       // validation
+      let is_valid = true;
       this.form_fields.forEach((field) => {
         if (field.required && !field.value) {
-          this.$console.alert(field.title + " required!");
-          return;
+          let msg = field.title + " required!";
+          this.$store.commit('error', msg);
+          is_valid = false;
         }
       })
 
-      // sending data
-      let data = {}
-      this.form_fields.forEach((field) => {
-        data[field.key] = field.value;
-      });
-      this.$emit('submit', data);
+      if (is_valid) {
+        // sending data
+        let data = {}
+        this.form_fields.forEach((field) => {
+          data[field.key] = field.value;
+        });
+        this.$emit('submit', data);
+      }
     }
   }
 }

@@ -4,7 +4,10 @@ import Vue from 'vue';
 
 // Setting up our state variables:
 export const state = () => ({
-
+  alert: {
+    type: 'danger',
+    msg: 'hi!',
+  }
 })
 
 
@@ -14,7 +17,9 @@ export const state = () => ({
 //   this.$store.getters.getterName
 //   this.$store.getters.getterWithParamName(paramData)
 export const getters = {
-
+  alert(state) {
+    return state.alert;
+  }
 
 }
 
@@ -68,6 +73,9 @@ export const actions = {
 // Calling mutations from Vue is weird, you need to do this:
 //    this.$store.commit("mutationName", { payloadData: data })
 export const mutations = {
-
+  error(state, payload) {
+    state.alert.msg = payload;
+    state.alert.type = 'danger';
+  }
 
 }

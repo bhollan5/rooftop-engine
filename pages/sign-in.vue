@@ -65,6 +65,10 @@ export default {
           username: data.username,
           password: data.password
         }
+      }).then((response) => {
+        console.log(response);
+      }).catch((err) => {
+        console.warn(err);
       })
       return;
     }

@@ -22,6 +22,10 @@ export default ({ app }, inject) => {
       return this.messages;
     },
 
+    get_alert() {
+      return this.alert_msg;
+    },
+
     alert(msg) {
       this.alert_msg = msg
     },
