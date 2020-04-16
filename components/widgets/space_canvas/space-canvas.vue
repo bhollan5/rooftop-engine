@@ -167,7 +167,7 @@ export default {
       previous_y_click: 0,
 
       // Camera settings
-      camera_rotate_x: -12,
+      camera_rotate_x: -45,
       camera_rotate_y: 60,
       upsidedown_camera: false,
 

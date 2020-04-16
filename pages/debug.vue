@@ -132,9 +132,13 @@ export default {
 }
 .msg {
   overflow-y: scroll;
+  -ms-overflow-style: none;
 }
 .re {
   color: var(--card-text2);
   font-weight: normal;
+}
+.msg::-webkit-scrollbar {
+  display: none;
 }
 </style>

@@ -74,9 +74,13 @@ export default {
     border: solid 1px var(--card-light);
     padding: 10px;
     overflow: scroll;
+    -ms-overflow-style: none; // no scroll bar
   }
   &:hover {
     background: var(--card-light);
+  }
+  .cell::-webkit-scrollbar {
+    display: none;
   }
 }
 </style>
