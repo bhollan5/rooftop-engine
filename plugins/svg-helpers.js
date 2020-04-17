@@ -5,23 +5,73 @@ export default ({ app }, inject) => {
   inject('svg', {
 
     // For a given SVG node, this gets its children DOM elements (as opposed to attributes)
-    get_node_elements(data) {
+    //  Returns [ { key: String, data: Array, attributes: Object, path: Array, }, {...} ]
+    get_node_elements(data, path = [0]) {
+      // This will return our final product
       let elements = [];
+
       for (let key in data) {
-        // Disregard attributes
+
+        // Disregard attributes - we only want to look at elements rn. 
         if (key[0] != '@' && key != 'defs') {
-          // Pushing elements from arrays
+
+          // Pushing elements from arrays:
           if (Array.isArray(data[key])) {
-            data[key].forEach((element) => {
-              elements.push({ key: key, data: element });
+            data[key].forEach((element, index) => {
+
+              // Making a fresh copy of the path, pushing a new index for this child. 
+              let child_path = JSON.parse(JSON.stringify(path));
+              child_path.push(index);
+
+              // Pushing our element object!
+              elements.push({ 
+                key: key, 
+                path: child_path,
+                data: this.get_node_elements(element, child_path),
+                attributes: this.get_node_attributes(element),
+              });
+
             })
           // Pushing elements that are just objects:
           } else {
-            elements.push({ key: key, data: data[key] })
+            let child_path = JSON.parse(JSON.stringify(path));
+            child_path.push(0);
+            elements.push({ 
+              key: key, 
+              path: child_path,
+              data: this.get_node_elements(data[key], child_path),
+              attributes: this.get_node_attributes(data[key])
+            })
           }
         }
       }
       return elements;
+    },
+
+    // Returns an object of attributes for this node. 
+    get_node_attributes(data) {
+      let attributes = {};
+      for (let key in data) {
+        if (key[0] == '@') {
+          let attr_name = key.slice(1);
+          attributes[attr_name] = data[key];
+        }
+      }
+      return attributes;
+    },
+
+    // For a given node, this transforms it into a tree of uniform arrays.
+    element_tree(data, key) {
+      let node = {
+        children: [],
+        attributes: {},
+        key: key,
+      };
+      node.attributes = this.get_node_attributes(data);
+      node.children = this.get_node_elements(data);
+      for (let i in children) {
+        children[i].data = this.element_tree(children[i].data);
+      }
     },
 
     // All the below funcs are from here: https://goessner.net/download/prj/jsonxml/

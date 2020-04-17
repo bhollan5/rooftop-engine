@@ -101,7 +101,8 @@ export default {
 
     // Is the svg-editor open?
     svgEditorOpen() {
-      return this.$store.getters['svg/svgEditorOpen'];
+      return false //todo: delete this if we really don't need it.
+      // return this.$store.getters['svg/svgEditorOpen'];
     },
     
   },

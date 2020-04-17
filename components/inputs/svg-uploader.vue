@@ -48,7 +48,7 @@ export default {
       return this.value.length > 0;
     },
     svgEditorOpen() {
-      return this.$store.getters['svg/svgEditorOpen'];
+      return this.$store.getters['svg/svg_editor_open'];
     }
   },
 

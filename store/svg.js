@@ -7,9 +7,14 @@ import Vue from 'vue';
 
 // Setting up our state variables:
 export const state = () => ({
-  svgEditorOpen: false,
+  svg_editor_open: false,
   raw_svg_string: '',
   svg_json: {},
+  element_tree: {
+    key: 'svg',
+    attributes: {},
+    children: [],
+  }
 })
 
 
@@ -19,8 +24,8 @@ export const state = () => ({
 //   this.$store.getters.getterName
 //   this.$store.getters.getterWithParamName(paramData)
 export const getters = {
-  svgEditorOpen(state) {
-    return state.svgEditorOpen;
+  svg_editor_open(state) {
+    return state.svg_editor_open;
   },
 
   raw_svg_string(state) {
@@ -33,6 +38,10 @@ export const getters = {
 
   svg_json(state) {
     return state.svg_json;
+  },
+
+  element_tree(state) {
+    return state.element_tree;
   },
 
 
@@ -60,13 +69,13 @@ export const actions = {
 //    this.$store.commit("mutationName", { payloadData: data })
 export const mutations = {
   closeEditor(state) {
-    state.svgEditorOpen = false;
+    state.svg_editor_open = false;
   },
 
   // Loads a string in, parses json, opens editor
   load_svg_from_string(state, payload) {
     // Opening the editor!
-    state.svgEditorOpen = true ;
+    state.svg_editor_open = true ;
     // Saving the raw string!
     state.raw_svg_string = payload;
     // Parsing the string to xml
@@ -74,6 +83,12 @@ export const mutations = {
     // Parsing THAT xml into JSON.
     let svg_json = this.$svg.xml_to_json(parsed_xml, "  ");
     state.svg_json = JSON.parse(svg_json);
+
+    state.element_tree = this.$svg.get_node_elements(state.svg_json);
+  },
+
+  set_element_tree(state, payload) {
+
   },
 
   set_raw_svg_string(state, payload) {

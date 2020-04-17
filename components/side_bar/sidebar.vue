@@ -25,7 +25,8 @@
 -->
 
 <template>
-<div id="side-bar">
+<svg-editor-sidebar v-if="svg_editor_open"></svg-editor-sidebar>
+<div id="side-bar" v-else>
   <div id="side-bar-header" v-if="title">
     <div id="side-bar-title" class="small-font">{{title}}</div>
   </div>
@@ -45,6 +46,9 @@
 </template>
 
 <script>
+import svgEditorSidebar from '~/components/side_bar/svg_editor_sidebar.vue';
+
+
 export default {
   name: 'side-bar-card',
   data() {
@@ -52,6 +56,9 @@ export default {
       // If the sidebar is expanded
       expanded: true
     }
+  },
+  components: {
+    svgEditorSidebar,
   },
   mounted() {
     this.expanded = !this.min;
@@ -66,6 +73,12 @@ export default {
       type: Boolean,
       default: false,
     }
+  },
+  computed: {
+    // Is the svg-editor open?
+    svg_editor_open() {
+      return this.$store.getters['svg/svg_editor_open'];
+    },
   }
 }
 </script>

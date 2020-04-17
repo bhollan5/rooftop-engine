@@ -47,6 +47,11 @@ import rightArrowIcon from './icons/right-arrow-icon.vue';
 import upArrowIcon from './icons/up-arrow-icon.vue';
 import downArrowIcon from './icons/down-arrow-icon.vue';
 
+// debug
+import objectDisplay from './widgets/debug/object_display.vue';
+
+import layerPicker from './side_bar/layer_picker.vue';
+
 
 
 export default {
@@ -93,6 +98,9 @@ export default {
   leftArrowIcon,
   rightArrowIcon,
   upArrowIcon,
-  downArrowIcon
+  downArrowIcon,
 
+  objectDisplay,
+
+  layerPicker,
 };
