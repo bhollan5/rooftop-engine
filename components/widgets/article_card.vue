@@ -18,55 +18,67 @@
   </div>
   <!-- Pick an existing collection: -->
   <div class="card-section">
-    <button class="card-button" v-if="!view_all_articles" @click="load_articles()">
+    <button v-if="!view_all_articles" 
+      class="card-button" 
+      @click="load_articles()"
+    >
       Pick an existing article
     </button>
-    <picker :options="owner_articles" title="Pick an article you own:" v-else
-    @input="update_data('id', $event)">
+    <picker v-else
+      :options="owner_articles" 
+      title="Pick an article you own:" 
+      @input="$emit('input', { id: $event })">
     </picker>
-        {{article_draft}}
 
   </div>
 </card>
 
-<router-link class="article-thumb" 
+<router-link class="article-card" 
 v-else-if="article && article._id"
 :to="'/project/' + article.owner + '/article/' + article._id"
 tag="div">
 
   <!-- The  header of the card. -->
   <div class="article-header">
-    <div class="article-title">{{article.title}}</div>
-    <div class="byline">by <router-link to="/">Ben H</router-link></div>
-
-    <!-- The thumbnail image. 
-      It's inside the header because it's positioned relative to the bottom of the header. -->
-    <div class="thumbnail" v-html="article.thumbnail" ></div>
+    <text-field v-model="article_draft.title"
+      fontsize="h2"
+      nobox
+      :editable="editable"
+    ></text-field>
+    <hr class="article-title-underline">
+    <text-field v-model="article_draft.description"
+      textarea
+      fontsize="small"
+      nobox
+      :editable="editable"
+    ></text-field>
+    <div class="byline" v-if="0">by <router-link to="/">Ben H</router-link></div>
 
   </div>
 
-  <div class="article-card">
+  <div class="article-popup" v-if="0">
     <div class="article-description">
       {{article.description}}
     </div>
   </div>
   <!-- Article description. -->
-  
-
+  <div class="thumbnail" @click.stop >
+    <svg-uploader v-model="article_draft.thumbnail"></svg-uploader>
+  </div> 
   
 
   <!-- The action buttons on the bottom of the card. -->
-  <div class="action-container">
-    <router-link :to="'/non-fic/' + article._id + '/edit/'" tag="div" class="action-button">
-      <edit-icon class="small-icon"></edit-icon>
-      </router-link>
-    <div class="action-button" @click="deleteArticle(article)">
+  <div class="action-container" v-if="editable">
+    <div class="icon-button" @click.stop="update_article()">
+      <save-icon class="small-icon"></save-icon>
+    </div>
+    <div class="icon-button" @click.stop="deleteArticle(article)">
       <trash-icon class="small-icon"></trash-icon>
     </div>
   </div>
   
 </router-link>
-<div class="article-thumb loading" v-else>
+<div class="article-card loading" v-else>
 loading...
 </div>
 </template>
@@ -85,6 +97,7 @@ export default {
         title: '',
         id: '',
         description: '',
+        thumbnail: '',
       },
     }
   }, 
@@ -97,7 +110,8 @@ export default {
     value: Object,
     owner: {
       type: String,
-    }
+    },
+    editable: Boolean,
   },
 
   computed: {
@@ -123,8 +137,16 @@ export default {
     if (this.value.id && this.value.id != 'new') {
       console.log("Calling... with : " + this.value.id)
       this.$store.dispatch('articles/read_articles', { _id: this.value.id })
+      .then((articles) => {
+        let article = articles[0];
+        this.article_draft.title = article.title;
+        this.article_draft.description = article.description;
+        this.article_draft.id = article.id;
+        this.article_draft.thumbnail = article.thumbnail;
+      })
     } else {
-      this.update_data('id', 'new');
+      console.log("Setting id to new")
+      this.$emit('input', { id: 'new' });
     }
   },
 
@@ -147,6 +169,7 @@ export default {
 
       if (!new_article.id || !new_article.title || !new_article.owner) {
         alert("Missing id, title, or owner")
+        console.log()
         return;
       }
       console.log("Adding a new article")
@@ -155,7 +178,7 @@ export default {
       .then(() => {
         // If this is in a collection, this tells it to add the article.
         this.$emit('addarticle', new_article.id);
-        this.update_data('id', new_article.id);
+        this.$emit('input', { id: new_article.id});
       })
     },
 
@@ -175,31 +198,37 @@ export default {
       }
     },
 
-    update_data(field, new_val) {
-      let data_update = JSON.parse(JSON.stringify(this.value));
-      data_update[field] = new_val;
-      this.$emit('input', data_update);
+    update_article() {
+      this.$store.dispatch('articles/update_article', {
+        _id: this.article._id,
+        update: this.article_draft
+      })
     },
+
   }
 }
 </script>
 
 <style lang="scss">
 
-.article-thumb {
-  width: 250px;
+.article-card {
+  width: 100%;
   min-width: 250px;
   margin-bottom: 15px;
-  height: 154px;
+  height: 170px;
   position: relative;
-  border-top: solid 8px var(--card);
-  background: var(--card2);
+  background: var(--card);
   margin-right: 20px;
-  box-shadow: 0px 0px 10px rgba(0,0,0,.5); // Set blur to 2 so we can animate it
   transition-duration: .5s;
   z-index: 2;
   overflow: hidden;
   cursor: pointer;
+  padding-right: 200px;
+
+  box-shadow: 0px 0px 0px rgba(0,0,0,.5); // Set blur to 2 so we can animate it
+  &:hover {
+    box-shadow: 0px 0px 10px rgba(0,0,0,.5); // Set blur to 2 so we can animate it
+  }
 
 // todo: i want to make a little tab at the top of the files, but overflow:hidden :(
   &::after {
@@ -216,13 +245,12 @@ export default {
     position: relative;
     z-index: 11;
     top: 20px;
-    padding: 0px 10px;
+    padding: 0px 30px;
     cursor: pointer;
-    height: 100%;
     width: 100%;
   }
   // The little card peeking up
-  .article-card {
+  .article-popup {
     position: absolute;
     z-index: 11;
     top: 80px;
@@ -233,7 +261,7 @@ export default {
     padding: 0px 10px;
     transition-duration: .5s;
   }
-  &:hover .article-card {
+  &:hover .article-popup {
     top: 70px;
     opacity: 1;
   }
@@ -241,14 +269,16 @@ export default {
   // The article title 
   .article-title {
     z-index: 11;
-    font-size: var(--regular-font-size);
+    font-size: var(--h2-font-size);
     color: var(--card-text);
     font-weight: bold;
     transition-duration: .5s;
   }
-  // Move the title up when we hover over the card
-  &:hover .article-title {
-    bottom: 120px;
+
+  .article-title-underline {
+    border: solid .5px var(--card-text);
+    width: 200px;
+    margin-bottom: 12px;
   }
 
 
@@ -266,23 +296,18 @@ export default {
     line-spacing: 0px;
     line-height: 1;
     color: var(--card-text2);
+    transition-duration: .1s;
   }
 
   // Thumbnail image
   .thumbnail {
     width: 200px;
-    height: 120px;
+    height: 100%;
     position: absolute;
-    background: var(--card2);
+    background: var(--card-dark);
     right: 0px;
     bottom: 0px;
     transition-duration: .5s;
-  }
-  &:hover .thumbnail {
-    bottom: 20px;
-    height: 50px;
-    width: 100px;
-    opacity: .5;
   }
 
   // The container for the edit and delete buttons in the article cards
@@ -293,8 +318,7 @@ export default {
     bottom: -50px;  
     padding: 5px 10px;
     transition-duration: .5s;
-    .action-button {
-      cursor: pointer;
+    .icon-button {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -311,7 +335,7 @@ export default {
   }
 }
 
-.article-thumb:hover {
+.article-card:hover {
   .article-description {
     color:var(--card-text);
   }

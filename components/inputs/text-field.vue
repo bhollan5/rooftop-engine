@@ -1,7 +1,7 @@
 <template>
 <!-- The container div has padding, and displays the input background. -->
-<div class="text-field" 
-@click="$emit('click')" 
+<div class="text-field" v-if="editable"
+@click.stop="$emit('click')" 
   :class="{ 
     'has-input': hasInput, 
     'nobox': nobox, 
@@ -59,6 +59,22 @@
               'no-underline': nounderline }"
     v-on:keyup.enter="$emit('enter')"
     v-else>
+</div>
+<div class="text-field" v-else>
+  <div
+    :class="{ 
+      'icon-padding': icon,
+      'no-underline': nounderline,
+      'has-input': hasInput, 
+      'p': fontsize == 'regular',
+      'h1': fontsize == 'h1',
+      'h2': fontsize == 'h2',
+      'h3': fontsize == 'h3',
+      'small-font': fontsize == 'small',
+    }"
+  >
+    {{value}}
+  </div>
 </div>
 </template>
 
@@ -119,7 +135,7 @@ export default {
     // Makes the input display as markup text when false:
     editable: {
       type: Boolean,
-      default: false,
+      default: true,
     },
 
     //
@@ -215,7 +231,6 @@ input:not(.number), textarea {
 }
 .h2 input, .h2 textarea {
   font-size: var(--h2-font-size);
-  text-align: center;
   font-weight: bold;
 }
 .h3 input, .h3 textarea {
@@ -291,6 +306,9 @@ svg {
   position: absolute;
   bottom: 19px;
   left: 9px;
+}
+.small-font, .small-font input, .small-font textarea {
+  font-size: var(--small-font-size);
 }
 .small-icon svg {
   width: var(--small-font-size);

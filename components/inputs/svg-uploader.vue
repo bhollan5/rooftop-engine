@@ -6,9 +6,17 @@
 <div class="image-uploader" @change="uploadFile($event)" 
   enctype="multipart/form-data" @click="openSVGInput()">
     
+  <!-- The file uploader + image display! -->
   <input type="file" accept="image/svg" :ref="'fileInput' + id" style="display: none;">
   <p v-if="!value">+ Upload SVG</p>
   <div v-html="value" v-else class="svg-image"></div>
+
+  <!-- The edit button, to open the SVG in the editor. -->
+  <div class="icon-button" 
+    v-if="value"
+    @click.stop="open_editor(value)">
+    <edit-icon></edit-icon>
+  </div>
 
 </div>
 </template>
@@ -63,13 +71,16 @@ export default {
 
     // Called when a file is uploaded
     uploadFile(event) {
+      console.log("File data: ");
+      console.log(event);
+      console.warn(typeof(event));
       let _file = event.target.files[0];
       let fileName = _file.name;
 
-      // Reading the file's contents as text
+      // Reading the file's contents into a string:
       this.readFileContent(_file).then(fileContent => {
 
-        this.$store.commit("svg/openEditor", fileContent);
+        this.$store.commit("svg/load_svg_from_string", fileContent);
         this.$emit('input', fileContent); // Grab this data from the parent with @upload="x"
 
         // When this is true, we watch to see when the editor closes, and grab
@@ -80,9 +91,13 @@ export default {
 
     },
 
+    open_editor(svg_content) {
+      this.$store.commit("svg/load_svg_from_string", svg_content);
+    },
+
     // Updating based on changes in the editor
     getFileFromEditor() {
-      let newFile = this.$store.getters['svg/rawSvgData'];
+      let newFile = this.$store.getters['svg/raw_svg_string'];
       this.$emit('input', newFile);
     },
 
@@ -106,9 +121,23 @@ export default {
 <style scoped lang="scss">
 .image-uploader {
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 100%;
+  position: relative;
 }
 p {
   font-size: var(--small-font-size);
   text-align: center;
+}
+
+.icon-button {
+  position: absolute;
+  bottom: 0px;
+  left: 10px;
+  width: 20px;
+  box-shadow: 0px 0px 10px black;
+
 }
 </style>

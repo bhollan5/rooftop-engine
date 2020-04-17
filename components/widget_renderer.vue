@@ -42,7 +42,7 @@
       @input="update_data({ content: $event })"
     ></text-field>
 
-    <!-- Tabs: -->
+    <!-- Tabs: 
     <div class="tab-container" v-else-if="widget.type == 'tabs'">
       <div class="tabs" >
         <text-field class="tab" 
@@ -55,36 +55,18 @@
         </text-field>
         <div class="tab add-tab" @click="addTab(widget)">+ Add Tab</div>
       </div>
-    </div>
+    </div> -->
 
-    <!-- section title: -->
-    <section-title v-else-if="widget.type == 'section-title'" 
-      :editable="editable"
-      :value="widget" 
-      @input="update_data(index, $event)">
-    </section-title>
 
-    <!-- subsection title: -->
-    <subsection-title v-else-if="widget.type == 'subsection-title'" 
+    <article-card v-else-if="widget.component == 'article-card'" 
       :editable="editable"
+      :owner="owner"
       :value="widget" 
-      @input="update_data(index, $event)">
-    </subsection-title>
-    
-    <!-- Paragraphs: -->
-    <paragraph v-else-if="widget.type == 'paragraph'" 
-      :editable="editable"
-      :value="widget" 
-      @input="emit_update($event.path, index, $event.new_val)">
-    </paragraph>
-
-    <article-card v-else-if="widget.type == 'article'" :editable="editable"
-    :owner="owner"
-    :value="widget" @input="update_data(index, $event)">
+      @input="update_data($event)">
     </article-card>
 
     <collection v-else-if="widget.type == 'collection'" :editable="editable"
-    :owner="owner"
+    :owner="id"
     :value="widget" @input="emit_update($event.path, index, $event.new_val)">
     </collection>
 

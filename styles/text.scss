@@ -26,9 +26,8 @@ h1, .h1-input input {
 }
 
 // Subtitles – much smaller
-h2, .h2-input input{
-  text-align: center;
-  font-weight: normal;
+h2, .h2, .h2-input input{
+  font-weight: bold;
   font-size: var(--h2-font-size);
 }
 .body h2, .body .h2-input input {

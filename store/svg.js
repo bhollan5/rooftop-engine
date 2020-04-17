@@ -8,7 +8,8 @@ import Vue from 'vue';
 // Setting up our state variables:
 export const state = () => ({
   svgEditorOpen: false,
-  rawSvgData: {},
+  raw_svg_string: '',
+  svg_json: {},
 })
 
 
@@ -22,9 +23,18 @@ export const getters = {
     return state.svgEditorOpen;
   },
 
-  rawSvgData(state) {
-    return state.rawSvgData;
+  raw_svg_string(state) {
+    return state.raw_svg_string;
   },
+
+  svg_string(state) {
+    return state.raw_svg_string;
+  },
+
+  svg_json(state) {
+    return state.svg_json;
+  },
+
 
 
 
@@ -53,13 +63,21 @@ export const mutations = {
     state.svgEditorOpen = false;
   },
 
-  openEditor(state, payload) {
-    state.svgEditorOpen = true;
-    state.rawSvgData = payload;
+  // Loads a string in, parses json, opens editor
+  load_svg_from_string(state, payload) {
+    // Opening the editor!
+    state.svgEditorOpen = true ;
+    // Saving the raw string!
+    state.raw_svg_string = payload;
+    // Parsing the string to xml
+    let parsed_xml = this.$svg.string_to_xml(payload);
+    // Parsing THAT xml into JSON.
+    let svg_json = this.$svg.xml_to_json(parsed_xml, "  ");
+    state.svg_json = JSON.parse(svg_json);
   },
 
-  setRawSvgData(state, payload) {
-    state.rawSvgData = payload;
+  set_raw_svg_string(state, payload) {
+    state.raw_svg_string = payload;
   }
 
 }

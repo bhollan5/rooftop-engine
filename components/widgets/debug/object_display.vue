@@ -13,7 +13,7 @@
 
   <!-- The fields in that object: -->
   <div v-for="(value, key) in object" v-if="expanded"
-    :style="{ 'margin-left': depth * 10 + 'px'}"
+    :style="{ 'margin-left': depth * 5 + 'px'}"
   >
 
     <!-- Display for strings: -->
@@ -63,6 +63,9 @@ export default {
 </script>
 
 <style lang="scss">
+.object-display {
+  font-size: var(--small-font-size);
+}
 .minimizer {
   width: 15px;
   text-align: center;

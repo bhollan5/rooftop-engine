@@ -70,3 +70,16 @@ button {
     }
   }
 }
+
+// Container for text colored icons that light up when you hover
+.icon-button {
+  svg {
+    fill: var(--bg-text2);
+    --icon: var(--bg-text2);
+    cursor: pointer;
+    &:hover:not(.disabled) {
+      fill: var(--bg-text);
+      --icon: var(--bg-text);
+    }
+  }
+}

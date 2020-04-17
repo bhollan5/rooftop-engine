@@ -39,7 +39,7 @@ export const state = () => ({
       description: 'A subheader.',
       config: {
         component: 'text-field',
-        fontsize: 'smallfont',
+        fontsize: 'small',
         bottom: 10,
       }
     }, {
@@ -86,6 +86,17 @@ export const state = () => ({
         bottom: 10,
       }
     }, {
+      name: 'article',
+      icon: 'art',
+      bold: true,
+      title: 'Article',
+      description: 'A link to an article.',
+      config: {
+        component: 'article-card',
+        _id: 'new',
+        bottom: 10,
+      }
+    }, {
       name: 'image',
       icon: 'image-icon',
       bold: false,
@@ -106,6 +117,11 @@ export const state = () => ({
   // Side bar widgets:
   side_bar_widgets: [],
 
+  page_data: {
+    owner: '',
+    id: '', 
+  }
+
   
   
 })
@@ -120,6 +136,11 @@ export const state = () => ({
 //
 
 export const getters = {
+
+  // Gets the page data
+  page_data(state) {
+    return state.page_data;
+  },
 
   // Gets the body widgets
   body_data(state) {
@@ -167,6 +188,9 @@ export const actions = {
         let page = response.data[0];
         console.log(" 📦 Loaded a page from " + collection_name + "!");
         
+        // Loading in the name, id, owner, etc
+        commit('load_page_data', page);
+
         // Copying the body data locally:
         if (page.body_data){
           commit('clear_body_data');
@@ -259,6 +283,11 @@ export const mutations = {
 
   add_body_widget(state, payload) {
     state.body_data.push(payload);
+  },
+
+  load_page_data(state, payload) {
+    state.page_data.owner = payload.owner;
+    state.page_data.id = payload._id;
   }
 
 }

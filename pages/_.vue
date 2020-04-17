@@ -55,6 +55,7 @@
         :editable="editable"
         :selected="selected_widget == widget_i"
         @click="selected_widget = widget_i"
+        :owner="page_data.id"
 
         :key="'body-widget' + widget_i"
 
@@ -66,11 +67,12 @@
       <!-- Add widget button: -->
       <button v-if="editable" @click="add_widget()">+ Add section</button>
     
+      <div class="body-content-padding" style="height: 200px;"></div>
       
     </div><!-- End body -->
 
     <div class="footer-floating-icons" @click="toggle_footer()"
-      :style="{ bottom: (footer_height + 80) + 'px'}">
+      :style="{ bottom: footer_height + 'px'}">
       <up-arrow-icon v-if="footer_height < 10"></up-arrow-icon>
       <down-arrow-icon v-else></down-arrow-icon>
     </div>
@@ -145,7 +147,7 @@ export default {
       new_field_name: '',
 
       // Show footer:
-      footer_height: 300,
+      footer_height: 0,
       show_side_bar: true,
 
       // An array of strings for each element in the route.
@@ -170,6 +172,10 @@ export default {
 
   computed: {
 
+    page_data() {
+      let page_data = this.$store.getters['page/page_data'];
+      return page_data;
+    },
 
     body_data() {
       let body_data = this.$store.getters['page/body_data'];
@@ -312,8 +318,10 @@ export default {
 
 
 .body-floating-icons, .footer-floating-icons {
-  position: absolute;
-  width: 20px;
+  position: sticky;
+  width: 30px;
+  padding-left: 10px;
+  padding-top: 10px;
   svg {
     fill: var(--bg-text2);
     --icon: var(--bg-text2);
@@ -326,7 +334,7 @@ export default {
 }
 .body-floating-icons {
   left: 10px;
-  top: 10px;
+  top: 0px;
 }
 .footer-floating-icons {
   left: 10px;
@@ -342,6 +350,7 @@ export default {
   width: 100%;
   bottom: 0px;
   background: var(--card2);
+  z-index: 50;
 }
 .disabled {
   opacity: .5;

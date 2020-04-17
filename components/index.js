@@ -18,6 +18,8 @@ import lineBreak from './widgets/aesthetic/line-break.vue';
 import collection from './widgets/collection.vue';
 import articleCard from '@/components/widgets/article_card.vue';
 
+import svgRender from '@/components/widgets/svg/svg_render.vue';
+
 // Sidebar:
 import sideBar from './side_bar/sidebar.vue';
 import card from './side_bar/card.vue';
@@ -64,6 +66,8 @@ export default {
   lineBreak,
   collection,
   articleCard,
+
+  svgRender,
 
   // sidebar:
   sideBar,

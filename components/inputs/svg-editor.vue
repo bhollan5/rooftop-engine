@@ -7,11 +7,15 @@
       <!-- Our recursive layer display component.
         The v-for shows it only 1. once it's loaded, and 2. if it's not a text layer. -->
       <svg-layer v-for="(node, node_i) in xmlDoc.documentElement.childNodes" 
-        v-if="node.nodeName != '#text'" :layer="node" 
+        v-if="node.nodeName != '#text' && 0" :layer="node" 
         :key="'layer' + node_i" @layerselect="selectedLayer = $event" ></svg-layer>
+      <object-display :object="svg_json"></object-display>
     </div>
 
-    <div id="svg-canvas" v-html="svgString" v-if="1">
+    <div id="svg-canvas" v-html="svgString" v-if="0">
+    </div>
+    <div id="svg-canvas" v-else>
+      <svg-render :data="svg_json.svg" tag="svg"></svg-render>
     </div>
   </div>
   <div id="layer-examiner">
@@ -65,7 +69,7 @@
     </div>-->
 
     <text-field v-model="svgString" :title="'Full svg string:'" :placeholder="'No svg string!'" 
-        readonly></text-field>
+      readonly></text-field>
 
   </div>
 
@@ -74,6 +78,7 @@
 
 <script>
 import svgLayer from '~/components/inputs/svg-layer.vue';
+import objectDisplay from '~/components/widgets/debug/object_display.vue';
 
 export default {
   data() {
@@ -88,7 +93,8 @@ export default {
     }
   },
   components: {
-    svgLayer
+    svgLayer,
+    objectDisplay
   },
   computed: {
 
@@ -111,6 +117,11 @@ export default {
       let serializer = new XMLSerializer();
       let str = serializer.serializeToString(this.xmlDoc);
       return str;
+    },
+
+    // JSON of the SVG's XML
+    svg_json() {
+      return this.$store.getters['svg/svg_json'];
     },
 
     // Formatting data to look at the layer style
@@ -141,7 +152,7 @@ export default {
   },
   mounted() {
     // Grabbing the svgString from the store (it was passed from components/inputs/svg-uploader.vue)
-    let rawSvgString = this.$store.getters['svg/rawSvgData'];
+    let rawSvgString = this.$store.getters['svg/raw_svg_string'];
 
     // Making a DOMParser to parse the string into an XML doc
     let parser = new DOMParser();
@@ -163,7 +174,7 @@ export default {
       }
       let xmlString = this.xml2string(xmlDoc);
       this.updateObjFromString(xmlString);
-      this.$store.commit("svg/setRawSvgData", xmlString)
+      this.$store.commit("svg/set_raw_svg_string", xmlString)
     },
 
     // Iterate thru the dom, make necessary changes
@@ -238,6 +249,7 @@ export default {
   position: fixed; 
   z-index: 302;
   left: 50%;
+  width: 500px;
   top: 100px;
   transform: translatex(-50%);
   overflow-y: scroll;
