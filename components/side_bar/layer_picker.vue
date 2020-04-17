@@ -3,7 +3,9 @@
   <div class="layer" v-for="(layer, layer_i) in layers"
     :style="{'padding-left': depth * 2 + 'px'}">
 
-    <div class="layer-info" @click="$emit('input', path)">
+    <div class="layer-info" @click="$emit('input', path)"
+      :class="{ selected: is_selected }"
+    >
       {{layer.key}}
       <div @click.stop="expanded = !expanded" class="icon-button">
         <down-arrow-icon v-if="!expanded"></down-arrow-icon>
@@ -47,6 +49,11 @@ export default {
       default: 0,
     },
   },
+  computed: {
+    is_selected() {
+      return JSON.stringify(this.value) == JSON.stringify(this.path);
+    },
+  },
   data() {
     return {
       expanded: false,
@@ -81,6 +88,9 @@ export default {
   height: 20px;
   &:hover {
     background: var(--card-light);
+  }
+  &.selected {
+    background: var(--card-lighter);
   }
 }
 .icon-button {
