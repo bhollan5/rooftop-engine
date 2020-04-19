@@ -165,8 +165,8 @@ import servicesDecor from '~/components/static/link-decor/services-decor.vue';
 import merchDecor from '~/components/static/link-decor/merch-decor.vue';
 
 // Theme picker components:
-import designHighlights from '~/components/style_guide/design-highlights.vue';
-import designHighlightExample from '~/components/style_guide/design-highlight-example.vue';
+import designHighlights from '~/components/static/style_guide/design-highlights.vue';
+import designHighlightExample from '~/components/static/style_guide/design-highlight-example.vue';
 
 import simplePalette from '~/components/widgets/simple-palette/simple-palette.vue';
 

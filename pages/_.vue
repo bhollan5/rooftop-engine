@@ -105,7 +105,6 @@
 <script>
 import Vue from 'vue';
 
-import pageBody from '~/components/body/page_body.vue';
 import widgetRenderer from '~/components/widget_renderer.vue';
 
 
