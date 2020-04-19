@@ -173,7 +173,6 @@ $tablet-bp: 400px;
   height: 50px;
   width: 100%;
   display: flex;
-  position: fixed;
   justify-content: space-between;
   box-shadow: 0px 0px 5px rgba(0,0,0,.7);
   z-index: 200;

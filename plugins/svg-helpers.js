@@ -5,8 +5,8 @@ export default ({ app }, inject) => {
   inject('svg', {
 
     // For a given SVG node, this gets its children DOM elements (as opposed to attributes)
-    //  Returns [ { key: String, data: Array, attributes: Object, path: Array, }, {...} ]
-    get_node_elements(data, path = [0]) {
+    //  Returns [ { key: String, data: Array, attributes: Object, depth: Number, index: Number }, {...} ]
+    get_node_elements(data, depth = 0) {
       // This will return our final product
       let elements = [];
 
@@ -19,27 +19,23 @@ export default ({ app }, inject) => {
           if (Array.isArray(data[key])) {
             data[key].forEach((element, index) => {
 
-              // Making a fresh copy of the path, pushing a new index for this child. 
-              let child_path = JSON.parse(JSON.stringify(path));
-              child_path.push(index);
-
               // Pushing our element object!
               elements.push({ 
                 key: key, 
-                path: child_path,
-                data: this.get_node_elements(element, child_path),
+                depth: depth,
+                index: index,
+                data: this.get_node_elements(element, (depth + 1)),
                 attributes: this.get_node_attributes(element),
               });
 
             })
           // Pushing elements that are just objects:
           } else {
-            let child_path = JSON.parse(JSON.stringify(path));
-            child_path.push(0);
             elements.push({ 
               key: key, 
-              path: child_path,
-              data: this.get_node_elements(data[key], child_path),
+              depth: depth,
+              index: 0,
+              data: this.get_node_elements(data[key], (depth + 1)),
               attributes: this.get_node_attributes(data[key])
             })
           }

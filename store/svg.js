@@ -44,6 +44,18 @@ export const getters = {
     return state.element_tree;
   },
 
+  // Returns a node in the tree specified by the path
+  element_by_path: (state) => (path) => {
+    console.log("Path: ", path);
+    let el_pointer = state.element_tree;
+    console.log("el_ptr: ", el_pointer);
+
+    for (let i in path) {
+      el_pointer = el_pointer[path[i]].data;
+    }
+    return el_pointer;
+  },
+
 
 
 

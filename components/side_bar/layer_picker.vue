@@ -6,10 +6,10 @@
     <div class="layer-info" @click="$emit('input', path)"
       :class="{ selected: is_selected }"
     >
-      {{layer.key}}
+      {{layer.key}} - {{layer.depth}}
       <div @click.stop="expanded = !expanded" class="icon-button">
-        <down-arrow-icon v-if="!expanded"></down-arrow-icon>
-        <up-arrow-icon v-else></up-arrow-icon>
+        <left-arrow-icon v-if="!expanded"></left-arrow-icon>
+        <down-arrow-icon v-else></down-arrow-icon>
       </div>
     </div>
 
@@ -56,7 +56,7 @@ export default {
   },
   data() {
     return {
-      expanded: false,
+      expanded: true,
     }
   },
   methods: {
@@ -73,6 +73,8 @@ export default {
 <style lang="scss" scoped>
 .layers {
   font-size: var(--small-font-size);
+  max-height: 300px;
+  overflow-y: scroll;
 }
 .layer {
   width: 100%;
@@ -86,6 +88,8 @@ export default {
   background: var(--card);
   width: 100%;
   height: 20px;
+  padding: 5px;
+
   &:hover {
     background: var(--card-light);
   }
@@ -97,5 +101,6 @@ export default {
   width: 12px;
   height: 12px;
   margin-left: 5px;
+  marg-in-right: 20px;
 }
 </style>

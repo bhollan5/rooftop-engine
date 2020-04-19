@@ -5,12 +5,16 @@
   </div>
 
   <div id="side-bar-content">
-    <card title="Layer picker:">
+    <card title="Layer picker:" nopadding>
       <layer-picker :layers="all_elements" v-model="selected_layer"></layer-picker>
       <object-display :object="all_elements" v-if="0"></object-display>
     </card>
     <card title="Layer attributes:">
-      {{selected_layer}}
+      <div class="small-font">
+        {{selected_layer}}
+        <br>
+        {{selected_element.attributes}}
+      </div>
     </card>
   </div>
   <!-- Cards here -->
@@ -36,21 +40,12 @@ export default {
     }
   },
   computed: {
-    // JSON of the SVG's XML
-    svg_json() {
-      return this.$store.getters['svg/svg_json'];
+    selected_element() {
+      return this.$store.getters['svg/element_by_path'](this.selected_layer);
     },
 
-    /* Composes elements like this:
-      [
-        {
-          key: String,
-          attributes: Object,
-          children: Array of objects
-        }, 
-        ...
-      ]
-    */
+    // all_elements looks like this:
+    //    [ { key: String, attributes: Object, children: Array of objects }, {...} ]
     all_elements() {
       return this.$store.getters['svg/element_tree'];
       //return this.$svg.get_node_elements(this.svg_json);
