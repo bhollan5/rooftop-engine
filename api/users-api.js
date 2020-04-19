@@ -5,8 +5,6 @@ let crypto = require('crypto');  // comes as a default in npm
 let uniqueValidator = require('mongoose-unique-validator'); // npm installed
 let jwt = require('jsonwebtoken');  // npm installed, but not used! todo: uninstall
 
-let secret = require('../config').secret; // in the ./config file, which you may need to  add
-
 // Using this tutorial a lot on this file: https://thinkster.io/tutorials/node-json-api/creating-the-user-model 
 
 
@@ -61,20 +59,6 @@ module.exports = function(app, mongoose){
     console.log(" 🔏 Stored hash & salt for new password!")
   };
 
-  // Making a JSON Web Token to authenticate that this server should be able to sign people in!
-  // More: https://en.wikipedia.org/wiki/JSON_Web_Token
-  userSchema.methods.generateJWT = function() {
-    let today = new Date();
-    // Setting our auth to expire in 60 days:
-    let exp = new Date(today);
-    exp.setDate(today.getDate() + 60);
-    // Returning our signed JWT, along with the secret from ./config
-    return jwt.sign({
-      id: this._id,
-      username: this.username,
-      exp: parseInt(exp.getTime() / 1000),
-    }, secret);
-  };
 
   let User = mongoose.model('Users', userSchema);
 
