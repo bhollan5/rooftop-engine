@@ -156,13 +156,13 @@
 
 <script>
 // importing the logo svg:
-import logo from '~/components/logo.vue';
+import logo from '~/components/static/logo.vue';
 
 // Decoration for the desktop menu:
-import mediaDecor from '~/components/header/link-decor/media-decor.vue';
-import nonficDecor from '~/components/header/link-decor/non-fic-decor.vue';
-import servicesDecor from '~/components/header/link-decor/services-decor.vue';
-import merchDecor from '~/components/header/link-decor/merch-decor.vue';
+import mediaDecor from '~/components/static/link-decor/media-decor.vue';
+import nonficDecor from '~/components/static/link-decor/non-fic-decor.vue';
+import servicesDecor from '~/components/static/link-decor/services-decor.vue';
+import merchDecor from '~/components/static/link-decor/merch-decor.vue';
 
 // Theme picker components:
 import designHighlights from '~/components/style_guide/design-highlights.vue';

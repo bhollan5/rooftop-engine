@@ -2,55 +2,55 @@
 
 
 // Inputs: 
-import textField from './inputs/text-field.vue';
-import checkbox from './inputs/check-box.vue';
-import colorPicker from './inputs/color-picker.vue';
-import svgUploader from './inputs/svg-uploader.vue';
-import dropdown from './inputs/dropdown.vue';
-import colorPalette from './inputs/color-palette.vue';
-import slider from './inputs/slider.vue';
-import picker from './inputs/picker.vue';
-import formField from './inputs/form-field';
-import alert from './inputs/alert.vue';
+import textField from './widgets/inputs/text-field.vue';
+import checkbox from './widgets/inputs/check-box.vue';
+import colorPicker from './widgets/inputs/color-picker.vue';
+import svgUploader from './widgets/inputs/svg-uploader.vue';
+import dropdown from './widgets/inputs/dropdown.vue';
+import colorPalette from './widgets/inputs/color-palette.vue';
+import slider from './widgets/inputs/slider.vue';
+import picker from './widgets/inputs/picker.vue';
+import formField from './widgets/inputs/form-field';
+import alert from './widgets/inputs/alert.vue';
 
 // Widgets:
-import lineBreak from './widgets/aesthetic/line-break.vue';
-import collection from './widgets/collection.vue';
-import articleCard from '@/components/widgets/article_card.vue';
+import lineBreak from './widgets/svg/line-break.vue';
+import collection from './widgets/links/collection.vue';
+import articleCard from '@/components/widgets/links/article_card.vue';
 
 import svgRender from '@/components/widgets/svg/svg_render.vue';
 
 // Sidebar:
-import sideBar from './side_bar/sidebar.vue';
-import card from './side_bar/card.vue';
+import sideBar from './layout_components/sidebar.vue';
+import card from './widgets/card.vue';
 
 // Icons:
 //   We import SVGs as .vue files so we can modify them with CSS, for theming.
 //   To understand why: https://css-tricks.com/using-svg/ 
-import checkIcon from './icons/check-icon.vue';
-import editIcon from './icons/edit-icon.vue';
-import expandIcon from './icons/expand-icon.vue';
-import gearIcon from './icons/gear-icon.vue';
-import hamburgerIcon from './icons/hamburger-icon.vue';
-import imageIcon from './icons/image-icon.vue';
-import mediaIcon from './icons/media-icon.vue';
-import merchIcon from './icons/merch-icon.vue';
-import nonficIcon from './icons/nonfic-icon.vue';
-import personIcon from './icons/person-icon.vue';
-import searchIcon from './icons/search-icon.vue';
-import servicesIcon from './icons/services-icon.vue';
-import trashIcon from './icons/trash-icon.vue';
-import saveIcon from './icons/save-icon.vue';
-import viewIcon from './icons/view-icon.vue';
-import leftArrowIcon from './icons/left-arrow-icon.vue';
-import rightArrowIcon from './icons/right-arrow-icon.vue';
-import upArrowIcon from './icons/up-arrow-icon.vue';
-import downArrowIcon from './icons/down-arrow-icon.vue';
+import checkIcon from './widgets/icons/check-icon.vue';
+import editIcon from './widgets/icons/edit-icon.vue';
+import expandIcon from './widgets/icons/expand-icon.vue';
+import gearIcon from './widgets/icons/gear-icon.vue';
+import hamburgerIcon from './widgets/icons/hamburger-icon.vue';
+import imageIcon from './widgets/icons/image-icon.vue';
+import mediaIcon from './widgets/icons/media-icon.vue';
+import merchIcon from './widgets/icons/merch-icon.vue';
+import nonficIcon from './widgets/icons/nonfic-icon.vue';
+import personIcon from './widgets/icons/person-icon.vue';
+import searchIcon from './widgets/icons/search-icon.vue';
+import servicesIcon from './widgets/icons/services-icon.vue';
+import trashIcon from './widgets/icons/trash-icon.vue';
+import saveIcon from './widgets/icons/save-icon.vue';
+import viewIcon from './widgets/icons/view-icon.vue';
+import leftArrowIcon from './widgets/icons/left-arrow-icon.vue';
+import rightArrowIcon from './widgets/icons/right-arrow-icon.vue';
+import upArrowIcon from './widgets/icons/up-arrow-icon.vue';
+import downArrowIcon from './widgets/icons/down-arrow-icon.vue';
 
 // debug
 import objectDisplay from './widgets/debug/object_display.vue';
 
-import layerPicker from './side_bar/layer_picker.vue';
+import layerPicker from './widgets/layer_picker.vue';
 
 
 

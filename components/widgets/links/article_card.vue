@@ -84,8 +84,6 @@ loading...
 </template>
 
 <script>
-import editIcon from '@/components/icons/edit-icon.vue';
-import trashIcon from '@/components/icons/trash-icon.vue';
 
 
 export default {
@@ -101,11 +99,6 @@ export default {
       },
     }
   }, 
-  components: {
-    editIcon,
-    trashIcon
-  },
-
   props: {
     value: Object,
     owner: {

@@ -62,9 +62,6 @@
 <script>
 import Vue from 'vue';
 
-// Icons:
-import expandIcon from '@/components/icons/expand-icon.vue';
-
 export default {
   data() {
     return {
@@ -80,9 +77,6 @@ export default {
     Vue.set(this.hsl, 2, this.value[2])
   },
 
-  components: {
-    expandIcon
-  },
 
   props: {
     // Color name:

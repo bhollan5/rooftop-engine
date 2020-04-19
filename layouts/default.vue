@@ -68,11 +68,8 @@
 <script>
 
 // Importing the header:
-import siteHeader from '~/components/header/header.vue';
-import userMenu from '~/components/user_menu/user_menu.vue';
-
-// Popup svg editor:
-import svgEditor from '~/components/inputs/svg-editor.vue';
+import siteHeader from '~/components/layout_components/header.vue';
+import userMenu from '~/components/layout_components/user_menu.vue';
 
 export default {
   components: {
@@ -83,8 +80,6 @@ export default {
     // User menu:
     userMenu,
 
-    // svg editor
-    svgEditor
   },
   data() {
     return {
