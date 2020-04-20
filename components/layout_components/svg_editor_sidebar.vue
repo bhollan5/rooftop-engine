@@ -7,14 +7,17 @@
       <div class="small-font">
         {{selected_layer}}
         <br>
-        {{selected_element.attributes}}
+        {{selected_layer.style}}
       </div>
     </card>
 
     <card title="Layer picker:" nopadding>
-      <layer-picker :layers="all_elements" v-model="selected_layer"></layer-picker>
-      <object-display :object="all_elements" v-if="0"></object-display>
+      <svg-layer v-for="(node, node_i) in xml_doc.documentElement.childNodes" 
+        v-if="node.nodeName != '#text'" :layer="node" 
+        :key="'layer' + node_i" @layerselect="selected_layer = $event" >
+      </svg-layer>
     </card>
+    
     
   </div>
   <!-- Cards here -->
@@ -29,6 +32,8 @@
 </template>
 
 <script>
+import svgLayer from '~/components/layout_components/svg-layer.vue';
+
 export default {
   name: 'svg-editor-side-bar',
   mounted() {
@@ -36,20 +41,24 @@ export default {
   },
   data() {
     return {
-      selected_layer: [0]
+      selected_layer: 0,
     }
+  },
+  components: {
+    svgLayer,
   },
   computed: {
     selected_element() {
       return [];//this.$store.getters['svg/element_by_path'](this.selected_layer);
     },
 
-    // all_elements looks like this:
-    //    [ { key: String, attributes: Object, children: Array of objects }, {...} ]
-    all_elements() {
-      return [];//this.$store.getters['svg/element_tree'];
-      //return this.$svg.get_node_elements(this.svg_json);
+    xml_doc() {
+      return this.$store.getters['page/svg_editor/xml_doc'];
     },
+
+    all_elements() {
+      let all_elements = this.xml_doc.documentElement.childNodes;
+    }
   }
 }
 </script>

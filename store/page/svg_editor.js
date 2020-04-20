@@ -33,7 +33,9 @@ export const state = () => ({
 
 export const getters = {
 
-
+  xml_doc(state) {
+    return state.xml_doc;
+  },
 }
 
 
