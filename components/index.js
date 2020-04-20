@@ -22,7 +22,7 @@ import svgRender from '@/components/widgets/svg/svg_render.vue';
 
 // Sidebar:
 import sideBar from './layout_components/sidebar.vue';
-import card from './widgets/card.vue';
+import card from './widgets/side_bar/card.vue';
 
 // Icons:
 //   We import SVGs as .vue files so we can modify them with CSS, for theming.

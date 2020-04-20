@@ -70,7 +70,8 @@ export default {
   computed: {
     // Is the svg-editor open?
     svg_editor_open() {
-      return this.$store.getters['svg/svg_editor_open'];
+      let editor_state = this.$store.getters['page/editor_state'];
+      return (editor_state == 'svg-editor');
     },
   }
 }

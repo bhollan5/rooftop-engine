@@ -9,8 +9,7 @@
   <side-bar v-if="show_side_bar && body_data">
   
     <!-- Always-present document details: -->
-    <card :title="route[0] + '/' + route[1]" class="small-font">
-    </card>
+    <document-details></document-details>
 
     <!-- Dynamic card widgets for different modes: -->
     <card title="Edit widget fields:" v-if="body_data && body_data[selected_widget]">
@@ -25,6 +24,8 @@
       <text-field title="New field name" v-model="new_field_name"></text-field>
       <button @click="update_widget_data(new_field_name, '')">Add Field</button>
     </card>
+
+    
 
   </side-bar>
   </transition>
@@ -118,12 +119,15 @@ import Vue from 'vue';
 import widgetRenderer from '~/components/widget_renderer.vue';
 import objectDisplay from '~/components/widgets/debug/object_display.vue';
 
+import documentDetails from '~/components/widgets/side_bar/document_details.vue';
+
 export default {
   name: 'page-render',
 
   components: {
     objectDisplay,
     widgetRenderer,
+    documentDetails,
   },
 
   data() {

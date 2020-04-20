@@ -20,102 +20,14 @@ export const state = () => ({
   // This has data for the locally rendered page! 
   //    This is NOT in sync with any database. 
 
-  widget_templates: [{
-      name: 'header',
-      icon: 'H1',
-      bold: true,
-      title: 'Page Header',
-      description: 'The title of the page.',
-      config: {
-        component: 'text-field',
-        fontsize: 'h1',
-        bottom: 0,
-      }
-    }, {
-      name: 'subheader',
-      icon: 'sub',
-      bold: true,
-      title: 'Page Subheader',
-      description: 'A subheader.',
-      config: {
-        component: 'text-field',
-        fontsize: 'small',
-        bottom: 10,
-      }
-    }, {
-      name: 'section-title',
-      icon: '1.',
-      bold: true,
-      title: 'Section Title',
-      description: 'Describes bigger sections.',
-      config: {
-        component: 'text-field',
-        fontsize: 'h2',
-        bottom: 10,
-      }
-    }, {
-      name: 'subsection-title',
-      icon: '1.1.',
-      bold: true,
-      title: 'Subsection Title',
-      description: 'Segments ideas.',
-      config: {
-        component: 'text-field',
-        fontsize: 'h3',
-        bottom: 10,
-      }
-    }, {
-      name: 'paragraph',
-      icon: 'Aa',
-      bold: true,
-      title: 'Paragraph',
-      description: 'For writing text.',
-      config: {
-        component: 'text-field',
-        fontsize: 'regular',
-        bottom: 10,
-      }
-    }, {
-      name: 'line-break',
-      icon: '___',
-      bold: true,
-      title: 'Line Break',
-      description: 'Break it up!',
-      config: {
-        component: 'hr',
-        bottom: 10,
-      }
-    }, {
-      name: 'article',
-      icon: 'art',
-      bold: true,
-      title: 'Article',
-      description: 'A link to an article.',
-      config: {
-        component: 'article-card',
-        _id: 'new',
-        bottom: 10,
-      }
-    }, {
-      name: 'image',
-      icon: 'image-icon',
-      bold: false,
-      title: 'Image',
-      description: 'Add an image!'
-    }, {
-      name: 'collection',
-      icon: 'col',
-      bold: false,
-      title: 'Collection',
-      description: 'A collection of documents.'
-    },
-  ],
-  
-
   // Body widgets:
   body_data: [],
+
   // Side bar widgets:
-  side_bar_data: [],
+  side_bar_data: [{
+    component: 'page-details',
+    
+  }],
 
   page_data: {
     owner: '',
@@ -150,10 +62,6 @@ export const getters = {
   // Gets the page data
   page_data(state) {
     return state.page_data;
-  },
-
-  editor_state(state) {
-    return state.local_data.editor_state;
   },
 
   // Gets the body widgets
@@ -237,11 +145,6 @@ export const actions = {
 
   },
 
-  // Takes an SVG string
-  open_svg_editor({commit}, payload) {
-    commit('change_editor_state', 'svg-editor');
-  },
-
 }
 
 
@@ -253,11 +156,6 @@ export const actions = {
 //    this.$store.commit("mutationName", { payloadData: data })
 export const mutations = {
 
-  change_editor_state(state, payload) {
-    state.local_data.editor_state = payload;
-  },
-
-  // Deleting currently loaded page data:
   clear_body_data(state, payload) {
     state.body_data = [];
   },

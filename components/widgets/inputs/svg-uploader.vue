@@ -3,7 +3,7 @@
   <svg-uploader v-model="mySvgVariable"></svg-uploader>
 -->
 <template>
-<div class="image-uploader" @change="uploadFile($event)" 
+<div class="image-uploader" @change="upload_file($event)" 
   enctype="multipart/form-data" @click="openSVGInput()">
     
   <!-- The file uploader + image display! -->
@@ -70,7 +70,7 @@ export default {
     },
 
     // Called when a file is uploaded
-    uploadFile(event) {
+    upload_file(event) {
       console.log("File data: ");
       console.log(event);
       console.warn(typeof(event));
@@ -80,8 +80,10 @@ export default {
       // Reading the file's contents into a string:
       this.readFileContent(_file).then(fileContent => {
 
-        this.$store.commit("svg/load_svg_from_string", fileContent);
-        this.$emit('input', fileContent); // Grab this data from the parent with @upload="x"
+        this.$store.dispatch('page/svg_editor/load_svg', fileContent);
+
+        // this.$store.commit("svg/load_svg_from_string", fileContent);
+        // this.$emit('input', fileContent); // Grab this data from the parent with @upload="x"
 
         // When this is true, we watch to see when the editor closes, and grab
         // the contents when it closes
@@ -92,7 +94,8 @@ export default {
     },
 
     open_editor(svg_content) {
-      this.$store.commit("svg/load_svg_from_string", svg_content);
+      this.$store.dispatch('page/svg_editor/load_svg', svg_content);
+      // this.$store.commit("svg/load_svg_from_string", svg_content);
     },
 
     // Updating based on changes in the editor
