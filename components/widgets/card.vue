@@ -100,7 +100,7 @@ export default {
   // The top of the card, with a title and minimizing symbols
   .card-header {
     background: var(--card2);
-    padding: 10px 10px;
+    padding: 2px 10px;
     font-size: var(--small-font-size);
     display: flex;
     justify-content: space-between;
@@ -120,9 +120,6 @@ export default {
         color: var(--card-text);
       }
     }
-  }
-  &.expanded .card-header {
-    color: var(--card-text);
   }
 
   // The content of the card, filled out in <slot></slot>

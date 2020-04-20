@@ -27,9 +27,6 @@
 <template>
 <svg-editor-sidebar v-if="svg_editor_open"></svg-editor-sidebar>
 <div id="side-bar" v-else>
-  <div id="side-bar-header" v-if="title">
-    <div id="side-bar-title" class="small-font">{{title}}</div>
-  </div>
 
   <div id="side-bar-content">
     <slot></slot>
@@ -64,10 +61,6 @@ export default {
     this.expanded = !this.min;
   },
   props: {
-    title: {
-      type: String,
-      default: 'Side bar card',
-    },
     // initializes the card minimized
     min: {
       type: Boolean,
@@ -102,31 +95,6 @@ $tablet-bp: 400px;
 
   @media only screen and (max-width: $desktop-bp) {
     display: none;
-  }
-  
-  // The sidebar header has the title and article ID
-  #side-bar-header {
-    padding: 10px;
-    background: var(--card2);
-    position: relative;
-
-    // Contains the article ID
-    .id-container {
-      display: flex;
-      align-items: center;
-      h4 {
-        font-size: var(--small-font-size);
-        width: 25px;
-      }
-      .text-field, .text-field input {
-        font-size: var(--small-font-size);
-        // padding: 2px;
-      }
-    }
-
-    .thumbnail {
-      width: 100px;
-    }
   }
   
   #side-bar-content {

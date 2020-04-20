@@ -8,8 +8,8 @@ export default ({ app }, inject) => {
 
     // Booleans indicating whether or not to show various subjects
     subject_filter: {
-      projects: true,
-      themes: true,
+      projects: false,
+      themes: false,
       
     },
 

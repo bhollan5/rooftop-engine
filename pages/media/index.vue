@@ -30,7 +30,7 @@ export default {
   computed: {
     // Getting the article array from the store. 
     articles() { 
-      return this.$store.getters['articles/all_articles'];
+      return this.$store.getters['db/articles/all_articles'];
     }
   },
 
@@ -42,13 +42,13 @@ export default {
   methods: {
     // Deploy this to refresh the articles. 
     getArticles() {
-      this.$store.dispatch("articles/readArticles")
+      this.$store.dispatch("db/articles/readArticles")
     },
 
     //
     deleteArticle(article) {
       if (confirm('Are you sure you want to delete "' + article.articleTitle + '"?')) {
-        this.$store.dispatch("articles/deleteArticle", {
+        this.$store.dispatch("db/articles/deleteArticle", {
           _id: article._id
         })
       }

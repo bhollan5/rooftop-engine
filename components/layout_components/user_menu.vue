@@ -75,7 +75,7 @@ export default {
       
     })
     if (this.$auth.loggedIn){
-      this.$store.dispatch('projects/read_projects', { owner: this.$auth.user.username })
+      this.$store.dispatch('db/projects/read_projects', { owner: this.$auth.user.username })
     }
     
   },

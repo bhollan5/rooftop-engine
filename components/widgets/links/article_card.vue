@@ -109,10 +109,10 @@ export default {
 
   computed: {
     article() {
-      return this.$store.getters['articles/article_query']('_id', this.value.id)[0]
+      return this.$store.getters['db/articles/article_query']('_id', this.value.id)[0]
     },
     owner_articles() {
-      let owner_articles = this.$store.getters['articles/article_query']('owner', this.owner);
+      let owner_articles = this.$store.getters['db/articles/article_query']('owner', this.owner);
       let formatted_options = [];
       owner_articles.forEach((article) => {
         formatted_options.push({ 
@@ -129,7 +129,7 @@ export default {
   mounted() {
     if (this.value.id && this.value.id != 'new') {
       console.log("Calling... with : " + this.value.id)
-      this.$store.dispatch('articles/read_articles', { _id: this.value.id })
+      this.$store.dispatch('db/articles/read_articles', { _id: this.value.id })
       .then((articles) => {
         let article = articles[0];
         this.article_draft.title = article.title;
@@ -167,7 +167,7 @@ export default {
       }
       console.log("Adding a new article")
       console.log(new_article)
-      this.$store.dispatch("articles/create_article", new_article)
+      this.$store.dispatch("db/articles/create_article", new_article)
       .then(() => {
         // If this is in a collection, this tells it to add the article.
         this.$emit('addarticle', new_article.id);
@@ -177,7 +177,7 @@ export default {
 
     load_articles() {
       this.view_all_articles = true;
-      this.$store.dispatch('articles/read_articles', {
+      this.$store.dispatch('db/articles/read_articles', {
         owner: this.owner
       });
     },
@@ -185,14 +185,14 @@ export default {
     // Deleting an article
     deleteArticle(article) {
       if (confirm('Are you sure you want to delete "' + article.articleTitle + '"?')) {
-        this.$store.dispatch("articles/deleteArticle", {
+        this.$store.dispatch("db/articles/deleteArticle", {
           _id: article._id
         })
       }
     },
 
     update_article() {
-      this.$store.dispatch('articles/update_article', {
+      this.$store.dispatch('db/articles/update_article', {
         _id: this.article._id,
         update: this.article_draft
       })

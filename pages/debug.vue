@@ -95,7 +95,7 @@ export default {
   },
   methods: {
     load_articles() {
-      this.$store.dispatch('articles/read_articles', {})
+      this.$store.dispatch('db/articles/read_articles', {})
     },
     load_users() {
       this.$store.dispatch('users/read_users', {})

@@ -51,13 +51,13 @@
 <script>
 
 // Logo 
-import logo from '~/components/static/logo.vue';
+import logo from '~/components/static_components/logo.vue';
 
 // Link decorations:
-import mediaDecor from '~/components/static/link-decor/media-decor.vue';
-import nonficDecor from '~/components/static/link-decor/non-fic-decor.vue';
-import servicesDecor from '~/components/static/link-decor/services-decor.vue';
-import merchDecor from '~/components/static/link-decor/merch-decor.vue';
+import mediaDecor from '~/components/static_components/link-decor/media-decor.vue';
+import nonficDecor from '~/components/static_components/link-decor/non-fic-decor.vue';
+import servicesDecor from '~/components/static_components/link-decor/services-decor.vue';
+import merchDecor from '~/components/static_components/link-decor/merch-decor.vue';
 
 
 // Our vue component
@@ -120,7 +120,7 @@ export default {
     this.$store.dispatch('themes/readAllThemes');
     // For the project list:
     if (this.$auth.loggedIn){
-      this.$store.dispatch('projects/read_projects', { owner: this.$auth.user.username })
+      this.$store.dispatch('db/projects/read_projects', { owner: this.$auth.user.username })
     }
     
   },

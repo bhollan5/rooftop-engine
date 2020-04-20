@@ -156,17 +156,17 @@
 
 <script>
 // importing the logo svg:
-import logo from '~/components/static/logo.vue';
+import logo from '~/components/static_components/logo.vue';
 
 // Decoration for the desktop menu:
-import mediaDecor from '~/components/static/link-decor/media-decor.vue';
-import nonficDecor from '~/components/static/link-decor/non-fic-decor.vue';
-import servicesDecor from '~/components/static/link-decor/services-decor.vue';
-import merchDecor from '~/components/static/link-decor/merch-decor.vue';
+import mediaDecor from '~/components/static_components/link-decor/media-decor.vue';
+import nonficDecor from '~/components/static_components/link-decor/non-fic-decor.vue';
+import servicesDecor from '~/components/static_components/link-decor/services-decor.vue';
+import merchDecor from '~/components/static_components/link-decor/merch-decor.vue';
 
 // Theme picker components:
-import designHighlights from '~/components/static/style_guide/design-highlights.vue';
-import designHighlightExample from '~/components/static/style_guide/design-highlight-example.vue';
+import designHighlights from '~/components/static_components/style_guide/design-highlights.vue';
+import designHighlightExample from '~/components/static_components/style_guide/design-highlight-example.vue';
 
 import simplePalette from '~/components/widgets/simple-palette/simple-palette.vue';
 
@@ -224,7 +224,7 @@ export default {
   mounted() {
     this.resetTheme();
 
-    //this.$store.dispatch("articles/read_articles");
+    //this.$store.dispatch("db/articles/read_articles");
 
   },
 

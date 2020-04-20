@@ -54,7 +54,7 @@ export default {
     // Deleting an article
     deleteArticle(article) {
       if (confirm('Are you sure you want to delete "' + article.articleTitle + '"?')) {
-        this.$store.dispatch("articles/deleteArticle", {
+        this.$store.dispatch("db/articles/deleteArticle", {
           _id: article._id
         })
       }

@@ -61,7 +61,7 @@ export const getters = {
     collections_with_data.forEach((collection, col_i) => {
       collection.collectionData.forEach((item, item_i) => {
         
-        let item_data = rootGetters['articles/articleById'](item);
+        let item_data = rootGetters['db/articles/articleById'](item);
         if (!item_data) {
           collection.loading = true;
         } else {
@@ -74,7 +74,7 @@ export const getters = {
   },
 
   collectionOfall_articles(state, getters, rootState, rootGetters) {
-    let all_articles = rootGetters['articles/all_articles'];
+    let all_articles = rootGetters['db/articles/all_articles'];
     let allArticleCollection = {
       _id: 'all-articles',
       collectionDescription: "This displays all published articles",
@@ -160,7 +160,7 @@ export const actions = {
         
         all_collections.forEach((collection) => {
           if (collection.collectionData.length){
-            dispatch('articles/readArticlesByQuery', collection.collectionData, {root: true});
+            dispatch('db/articles/readArticlesByQuery', collection.collectionData, {root: true});
           }
 
           // dispatch('getCollectionArticle', collection);
@@ -188,7 +188,7 @@ export const actions = {
       articleQuery.$or.push({_id: item});
     })
     
-    dispatch('articles/readArticlesByQuery', articleQuery, {root: true});
+    dispatch('db/articles/readArticlesByQuery', articleQuery, {root: true});
   },
 
   // Updating a collection by id.
