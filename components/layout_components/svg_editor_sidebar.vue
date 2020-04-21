@@ -3,18 +3,36 @@
 
   <div id="side-bar-content">
 
-    <card title="Layer details:">
+    <!-- Always-present document details: -->
+    <document-details></document-details>
+
+    <!-- Layer details:       -->
+    <card title="Layer details:" v-if="selected_layer">
       <div class="small-font">
-        {{selected_layer}}
+        Selected layer: {{selected_layer.nodeName}}
         <br>
-        {{selected_layer.style}}
+        <object-editor 
+          :object="selected_layer_attributes" 
+          @input="update_attr($event.value, $event.field)"
+          @click="new_attr = $event">
+        </object-editor>
+
+        <div class="flex-container space-between">
+          <text-field v-model="new_attr" title="new attribute"></text-field>
+          <text-field v-model="new_val" title="new val"></text-field>
+        </div>
+        <button @click="update_attr(new_val, new_attr)">Update attributes</button>
       </div>
     </card>
 
+    <!-- Layer picker: -->
     <card title="Layer picker:" nopadding>
       <svg-layer v-for="(node, node_i) in xml_doc.documentElement.childNodes" 
-        v-if="node.nodeName != '#text'" :layer="node" 
-        :key="'layer' + node_i" @layerselect="selected_layer = $event" >
+        v-if="node.nodeName != '#text'" 
+        :path="[node_i]" 
+        :selected="selected_layer_path"
+        :key="'layer' + node_i" 
+        @layerselect="select_layer($event)" >
       </svg-layer>
     </card>
     
@@ -32,6 +50,7 @@
 </template>
 
 <script>
+import documentDetails from '~/components/widgets/side_bar/document_details.vue';
 import svgLayer from '~/components/layout_components/svg-layer.vue';
 
 export default {
@@ -41,13 +60,33 @@ export default {
   },
   data() {
     return {
-      selected_layer: 0,
+      new_attr: '',
+      new_val: '',
     }
   },
   components: {
     svgLayer,
+    documentDetails
   },
   computed: {
+    selected_layer() {
+      return this.$store.getters['page/svg_editor/selected_layer'];
+    },
+
+    selected_layer_path() {
+      return this.$store.getters['page/svg_editor/selected_layer_path'];
+    },
+
+    selected_layer_attributes() {
+      let selected_layer_attributes = {};
+      for (let i in this.selected_layer.attributes) {
+        let field = this.selected_layer.attributes[i].name;
+        let value = this.selected_layer.attributes[i].value;
+        selected_layer_attributes[field] = value;
+      }
+      return selected_layer_attributes;
+    },
+
     selected_element() {
       return [];//this.$store.getters['svg/element_by_path'](this.selected_layer);
     },
@@ -58,7 +97,22 @@ export default {
 
     all_elements() {
       let all_elements = this.xml_doc.documentElement.childNodes;
+    },
+
+
+  },
+  methods: {
+    update_attr(value, field) {
+      this.$store.commit('page/svg_editor/update_node', {
+        path: this.selected_layer_path,
+        field: field,
+        value: value
+      });
+    },
+
+    select_layer(path) {
+      this.$store.commit('page/svg_editor/select_layer', path);
     }
-  }
+  },
 }
 </script>

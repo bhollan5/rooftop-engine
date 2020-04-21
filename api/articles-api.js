@@ -33,8 +33,6 @@ module.exports = function(app, mongoose){
   // Read a collection by query:
   app.get('/read-articles', (req, res) => {
     console.log("\n 🗣 Called to query articles!")
-    console.log(":)")
-    console.log(req.query)
 
     Article.find(req.query, function (err, result) {
       if (err) return console.error(err);

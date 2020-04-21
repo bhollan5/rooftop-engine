@@ -193,7 +193,7 @@ export default {
   padding: 0px 0px;
 }
 .card .text-field {
-  padding-bottom: 10px;
+  padding-bottom: 5px;
 }
 
 .title {
@@ -225,7 +225,7 @@ input:not(.number), textarea {
   box-shadow: 0px 0px var(--box-shading) rgba(0,0,0,.2);
 }
 
-.h1 input, .h1 textarea {
+.h1 input, .h1 textarea, .h1 {
   font-weight: bold;
   font-size: var(--h1-font-size);
 }

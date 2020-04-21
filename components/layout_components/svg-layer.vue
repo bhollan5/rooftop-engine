@@ -1,11 +1,10 @@
 <template>
-<div class="layer" >
+<div class="layer" v-if="layer">
 
-  <div class="layer-info" @click="logInfo()">
-  
-    <div class="expander" v-if="hasChildren" @click="expanded = !expanded">
-      <span v-if="!expanded">▶</span>
-      <span v-else>▼</span>
+  <div class="layer-info" @click="select_layer()" :class="{'selected': is_selected}">
+    <div class="expander icon-button" v-if="hasChildren" @click="expanded = !expanded">
+      <span v-if="!expanded"><right-arrow-icon></right-arrow-icon></span>
+      <span v-else><down-arrow-icon></down-arrow-icon></span>
     </div>
 
     <div class="layer-thumb" v-if="0">
@@ -28,8 +27,11 @@
   </div>
 
   <svg-layer v-for="(childnode, node_i) in layer.childNodes" 
-              v-if="expanded && hasChildren && childnode.nodeName != '#text'" 
-    @layerselect="$emit('layerselect', $event)" :layer="childnode" :key="'sublayer' + node_i"></svg-layer>
+    v-if="expanded && hasChildren && childnode.nodeName != '#text'" 
+    @layerselect="$emit('layerselect', $event)" 
+    :path="new_path(node_i)" 
+    :selected="selected"
+    :key="'sublayer' + node_i"></svg-layer>
 
 </div>
 </template>
@@ -45,9 +47,12 @@ export default {
     }
   },
   props: {
-    layer: {
-
-    }
+    path: { 
+      type: Array,
+      default: [],
+    },
+    // Currently selected node path
+    selected: Array,
   },
   components: {
     svgLayer,
@@ -55,6 +60,25 @@ export default {
   mounted() {
   },
   computed: {
+
+    // Checking if the current path is equal to the selection
+    is_selected() {
+      if (!this.selected || this.selected.length != this.path.length) {
+        return false;
+      }
+      for (let i in this.path) {
+        if (!this.selected[i] || this.selected[i] != this.path[i]) {
+          return false;
+        }
+      }
+      return true;
+    },
+
+    // Getting the layer xml node from the store
+    layer() {
+      return this.$store.getters['page/svg_editor/xml_node'](this.path);
+    },
+
     svgString() {
       let serializer = new XMLSerializer();
       let str = serializer.serializeToString(this.layer);
@@ -65,9 +89,14 @@ export default {
     }
   },
   methods: {
-    logInfo() {
-      console.log(this.layer.getAttribute("style"))
-      this.$emit('layerselect', this.layer)
+    select_layer() {
+      this.$emit('layerselect', this.path)
+    },
+
+    new_path(new_index) {
+      let new_path = JSON.parse(JSON.stringify(this.path));
+      new_path.push(new_index);
+      return new_path;
     }
   }
 }
@@ -90,6 +119,9 @@ export default {
   &:hover {
     background: var(--card2);
   }
+  &.selected {
+    background: var(--card-light);
+  }
 }
 .layer-thumb {
   background: var(--bg);
@@ -103,15 +135,10 @@ export default {
 }
 
 .expander {
-  width:  20px;
+  width:  15px;
+  height: 15px;
   font-size: 10px;
-  cursor: pointer;
-  background: var(--card2);
-  border-radius: 50%;
-  text-align: center;
-  padding: 4px 2px 2px 4px;
   margin-right: 10px;
-  color: var(--card-text2);
 }
 
 svg g {

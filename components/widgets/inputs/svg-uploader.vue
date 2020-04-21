@@ -9,11 +9,12 @@
   <!-- The file uploader + image display! -->
   <input type="file" accept="image/svg" :ref="'fileInput' + id" style="display: none;">
   <p v-if="!value">+ Upload SVG</p>
-  <div v-html="value" v-else class="svg-image"></div>
+  <div v-html="value" v-else-if="!open_in_editor" class="svg-image"></div>
+  <div v-html="svg_draft" v-else class="svg-image"></div>
 
   <!-- The edit button, to open the SVG in the editor. -->
   <div class="icon-button" 
-    v-if="value"
+    v-if="value && !open_in_editor"
     @click.stop="open_editor(value)">
     <edit-icon></edit-icon>
   </div>
@@ -27,7 +28,7 @@ export default {
   data() {
     return {
       svgData: '',
-      openInEditor: false, // Indicates if we're waiting on the editor. 
+      open_in_editor: false, // Indicates if we're waiting on the editor. 
     }
   },
 
@@ -48,15 +49,21 @@ export default {
       return this.value.length > 0;
     },
     svgEditorOpen() {
-      return this.$store.getters['svg/svg_editor_open'];
-    }
+      let editor_state = this.$store.getters['page/editor_state'];
+      return (editor_state == 'svg-editor');
+    },
+
+    // The live updating svg_draft
+    svg_draft() {
+      return this.$store.getters['page/svg_editor/edit_svg_string'];
+    },
   },
 
   watch: {
     // When a file is open in the editor, we wait for it to close, then snag it's file.
     svgEditorOpen() {
-      if (this.openInEditor && !this.svgEditorOpen) {
-        this.openInEditor = false,
+      if (this.open_in_editor && !this.svgEditorOpen) {
+        this.open_in_editor = false,
         this.getFileFromEditor();
       }
     }
@@ -87,20 +94,20 @@ export default {
 
         // When this is true, we watch to see when the editor closes, and grab
         // the contents when it closes
-        this.openInEditor = true; 
+        this.open_in_editor = true; 
 
       }).catch(error => console.log(error))
 
     },
 
     open_editor(svg_content) {
+      this.open_in_editor = true;
       this.$store.dispatch('page/svg_editor/load_svg', svg_content);
-      // this.$store.commit("svg/load_svg_from_string", svg_content);
     },
 
     // Updating based on changes in the editor
     getFileFromEditor() {
-      let newFile = this.$store.getters['svg/raw_svg_string'];
+      let newFile = this.$store.getters['page/svg_editor/svg_string'];
       this.$emit('input', newFile);
     },
 

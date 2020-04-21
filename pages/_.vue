@@ -61,7 +61,6 @@
 
     <!-- 600px column page body -->
     <div class="body">
-      
       <!-- Rendering all body widgets:  -->
       <widget-renderer v-for="(widget, widget_i) in body_data"
         :editable="editable"
@@ -101,7 +100,11 @@
     <div class="footer card flex-container" 
       :style="{ height: footer_height + 'px'}">
 
-      <div style="width: 400px">
+      <div style="width: 400px;padding:5px;">
+        <object-display :object="body_data"
+          title="body_data"></object-display>
+      </div>
+      <div style="width: 400px;padding:5px;">
         <object-display :object="body_data"
           title="body_data"></object-display>
       </div>
@@ -179,7 +182,7 @@ export default {
     },
 
     body_data() {
-      let body_data = this.$store.getters['page/body_data'];
+      let body_data = this.$store.getters['page/body/body_data'];
       return body_data;
     },
 

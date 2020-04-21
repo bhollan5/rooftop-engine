@@ -200,12 +200,12 @@ export const actions = {
 
     // Copying the body data locally:
     if (loaded_page.body_data){
-      commit('clear_body_data');
+      commit('page/body/clear_body_data', null, {root: true});
       loaded_page.body_data.forEach((widget, index) => {
-        commit('set_body_widget', {
+        commit('page/body/set_body_widget', {
           widget: widget,
           index: index
-        });
+        }, {root: true});
       });
     }
 

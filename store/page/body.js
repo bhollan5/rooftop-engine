@@ -22,29 +22,6 @@ export const state = () => ({
 
   // Body widgets:
   body_data: [],
-
-  // Side bar widgets:
-  side_bar_data: [{
-    component: 'page-details',
-    
-  }],
-
-  page_data: {
-    owner: '',
-    id: '', 
-  },
-
-  manifest: {
-    collection: '',
-    doc_id: '',
-    owner: '',
-  },
-
-  local_data: {
-    editor_state: 'body-editor',   // Other states: 'view', 'svg-editor', 'space-canvas', 'custom'
-  },
-
-  
   
 })
 
@@ -59,28 +36,15 @@ export const state = () => ({
 
 export const getters = {
 
-  // Gets the page data
-  page_data(state) {
-    return state.page_data;
-  },
-
-  // Gets the body widgets
+  // Gets all body widgets:
   body_data(state) {
     return state.body_data;
   },
 
-  // Gets the side bar widgets
-  side_bar_data(state) {
-    return state.side_bar_data;
-  },
-
+  // Gets a body widget by index:
   body_widget: (state) => (widget_index) => {
     return state.body_data[widget_index];
   },
-
-  widget_templates(state) {
-    return state.widget_templates;
-  }
 
 }
 
@@ -92,58 +56,6 @@ export const getters = {
 // Call actions in vue like this:
 //  this.$store.dispatch('actionName', {playloadData: data });
 export const actions = {
-
-
-  // Takes a collection_name and doc_id
-  read_page({commit, rootGetters}, payload) {
-    
-    // Ex: If payload.collection_name == 'project', the path is 'db/projects/project_query'
-    let page_path = 'db/' + payload.collection_name + 's/' + payload.collection_name + '_query';
-    let page_query = rootGetters[page_path]({ _id: payload.doc_id });
-    let loaded_page = page_query[0];
-    console.log(loaded_page);
-
-    // Loading in the name, id, owner, etc
-    commit('load_page_data', loaded_page);
-
-    // Copying the body data locally:
-    if (loaded_page.body_data){
-      commit('clear_body_data');
-      loaded_page.body_data.forEach((widget, index) => {
-        commit('set_body_widget', {
-          widget: widget,
-          index: index
-        });
-      });
-    }
-
-  },
-
-
-  // Updating a doc by id in the DB. // TODO
-  update_doc({commit}, payload) {
-    let collection_name = payload.collection_name;
-    let doc_id = payload.doc_id;
-    let update_obj = payload.update;
-
-    console.log(" 🗣 Calling the API to update doc %c" +  doc_id, "color:magenta;")
-    console.log(update_obj)
-
-    // Getting the api route -
-    //   Ex: if collection_name is 'project', this will get '/api/read-projects'
-    let api_url = '/api/update-' + collection_name;
-
-    // Getting the article from the database.
-    return axios.post(api_url, {
-      _id: doc_id,
-      update: update_obj
-    }).then((response) => {
-      console.log(" 🖌 Updated the doc %c" +  doc_id, "color:magenta;");
-    }).catch ((error) => {
-      console.warn(error);
-    });
-
-  },
 
 }
 

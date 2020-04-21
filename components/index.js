@@ -52,6 +52,8 @@ import objectDisplay from './widgets/debug/object_display.vue';
 
 import layerPicker from './widgets/layer_picker.vue';
 
+import objectEditor from './widgets/inputs/object_editor.vue';
+
 
 
 export default {
@@ -103,4 +105,6 @@ export default {
   objectDisplay,
 
   layerPicker,
+
+  objectEditor,
 };

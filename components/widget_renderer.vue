@@ -136,7 +136,7 @@ export default {
   computed: {
 
     widget() {
-      return this.$store.getters['page/body_widget'](this.index);
+      return this.$store.getters['page/body/body_widget'](this.index);
     },
 
     // We don't display the "add section" button if this page is a parent,
@@ -171,7 +171,7 @@ export default {
     // Updating the widget's fields in the store
     update_data(new_widget) {
       // Pass to the store
-      this.$store.commit('page/set_body_widget', {
+      this.$store.commit('page/body/set_body_widget', {
         index: this.index,
         widget: new_widget
       });
