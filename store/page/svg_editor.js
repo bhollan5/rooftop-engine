@@ -35,12 +35,15 @@ export const state = () => ({
 
 export const getters = {
 
+  // Get the entire SVG as an XML DOM doc. 
+  // https://www.w3schools.com/xml/dom_intro.asp
   xml_doc(state) {
     let parser = new DOMParser();
     let xml_doc = parser.parseFromString(state.svg_string, "text/xml");
     return xml_doc;
   },
 
+  // Get a specific node, by a specified path thru the tree
   xml_node: (state) => (path) => {
 
     let parser = new DOMParser();
@@ -76,6 +79,35 @@ export const getters = {
       node_pointer = node_pointer.childNodes[path_index];
     }
     return node_pointer;
+  },
+
+  svg_colors(state) {
+    let parser = new DOMParser();
+    let xml_doc = parser.parseFromString(state.svg_string, "text/xml");
+
+    let colors = {};
+    let color_arr = []
+    let color_search = function(node) {
+      if (node.attributes && node.getAttribute('style')) {
+        let node_style = node.getAttribute('style');
+        let style_tuples = node_style.split(';');
+        for (let j in style_tuples) {
+          let tuple = style_tuples[j].split(':');
+          if (tuple[0] == 'fill' || tuple[0] == 'stroke') {
+            if (color_arr.indexOf(tuple[1]) == -1) {
+              color_arr.push(tuple[1]);
+              colors['c' + color_arr.length] = tuple[1];
+            }
+            
+          }
+        }
+      }
+      for (let i in node.childNodes) {
+        color_search(node.childNodes[i]);
+      }
+    }
+    color_search(xml_doc.documentElement);
+    return colors;
   },
 
   // This gets the current draft of the string

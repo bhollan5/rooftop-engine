@@ -6,6 +6,10 @@
     <!-- Always-present document details: -->
     <document-details></document-details>
 
+    <card title="Replace colors:">
+      <color-palette :colors="svg_colors" :fields="svg_color_fields"></color-palette>
+    </card>
+
     <!-- Layer details:       -->
     <card title="Layer details:" v-if="selected_layer">
       <div class="small-font">
@@ -69,6 +73,17 @@ export default {
     documentDetails
   },
   computed: {
+    svg_colors() {
+      return this.$store.getters['page/svg_editor/svg_colors'];
+    },
+    svg_color_fields() {
+      let fields = [];
+      for (let field in this.svg_colors) {
+        fields.push(field);
+      }
+      return fields;
+    },
+
     selected_layer() {
       return this.$store.getters['page/svg_editor/selected_layer'];
     },

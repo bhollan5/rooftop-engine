@@ -67,6 +67,9 @@ export default ({ app }, inject) => {
 
     // Takes a hsl array for color, and an optional offset array.
     hsl_to_css(color, offset) {
+      if (typeof(color) == 'string') {
+        return color;
+      }
       if (!offset) {
         offset = [0,0,0];
       }
