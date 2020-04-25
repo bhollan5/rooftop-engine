@@ -38,6 +38,7 @@ export default {
     '~/plugins/console-handler.js',    // gives us $console
     '~/plugins/theme-helpers.js',     // gives us $theme
     '~/plugins/svg-helpers.js',     // gives us $svg
+    '~/plugins/datatype_page.js',
   ],
   /*
   ** Nuxt.js dev-modules

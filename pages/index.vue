@@ -4,7 +4,7 @@
 
     <!-- The "landing promo" is the banner spread at the top of the landing page. -->
     <div class="full-page">
-      <space-canvas></space-canvas>
+      <space-canvas v-if="0"></space-canvas>
 
       <!-- -->
       

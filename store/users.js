@@ -76,7 +76,8 @@ export const actions = {
       username: payload.username,
       current_theme: payload.current_theme,
       email: payload.email,
-      password: payload.password
+      password: payload.password,
+      page: this.$page.new_page()
     })
     .then((response) => {
       console.log(" 💾 Successfully created a user: " + payload.username + "!");

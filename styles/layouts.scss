@@ -15,7 +15,7 @@ To use:
 @import '@/styles/style_components/project-display.scss';
 
 // Any root level components should probably have this. 
-.content {
+#content {
   background: var(--bg);
   color: var(--bg-text);
   display: flex;

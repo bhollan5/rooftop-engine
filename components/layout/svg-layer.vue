@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import svgLayer from '~/components/layout_components/svg-layer.vue';
+import svgLayer from '~/components/layout/svg-layer.vue';
 
 export default {
   name: 'svg-layer',

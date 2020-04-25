@@ -27,12 +27,6 @@
   </transition>
 
 
-  <!--                    -->
-<!--       svg editor:      -->
-  <!--                    -->
-
-  <svg-editor v-if="svgEditorOpen"></svg-editor>
-
 
   <!-- This is where other pages get inserted: -->
   <nuxt />
@@ -68,8 +62,8 @@
 <script>
 
 // Importing the header:
-import siteHeader from '~/components/layout_components/header.vue';
-import userMenu from '~/components/layout_components/user_menu.vue';
+import siteHeader from '~/components/layout/the_header.vue';
+import userMenu from '~/components/layout/the_user_menu.vue';
 
 export default {
   components: {

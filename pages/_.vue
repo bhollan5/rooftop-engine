@@ -1,12 +1,11 @@
 <template>
 <!-- The 'content' is the body, side bar, and footer. -->
-<div class="content">
+<the-content>
 
   <!--                                                                      -->
   <!-- First up: The side bar, which pops up from the left when it's shown! -->
   <!--                                                                      -->
-  <transition name="left-popup">
-  <side-bar v-if="show_side_bar && body_data">
+  <template #sidebar>
   
     <!-- Always-present document details: -->
     <document-details></document-details>
@@ -25,64 +24,57 @@
       <button @click="update_widget_data(new_field_name, '')">Add Field</button>
     </card>
 
-    
+  </template>
 
-  </side-bar>
-  </transition>
-
-
-  <!--                     -->
-  <!-- Page body & footer: -->
-  <!--                     -->
-  <div class="body-container">
   
-    <!-- Floating top left icons: -->
-    <div class="body-floating-icons">
+  <!-- Floating top left icons: -->
+  <template #floatingicons>
 
-      <!-- Collapse the side bar: -->
-      <div @click="show_side_bar = !show_side_bar">
-        <left-arrow-icon v-if="show_side_bar"></left-arrow-icon>
-        <right-arrow-icon v-else></right-arrow-icon>
-      </div>
-      
-      <!-- Toggle edit mode:      -->
-      <div @click="editable = !editable">
-        <view-icon v-if="editable" ></view-icon>
-        <edit-icon v-else></edit-icon>
-      </div>
-
-      <!-- Save the document:     -->
-      <div @click="save_doc()">
-        <save-icon :class="{ 'disabled': saving || !unsaved_changes }">
-        </save-icon>
-      </div>
-
-    </div>  <!-- End floating icons -->
-
-    <!-- 600px column page body -->
-    <div class="body">
-      <!-- Rendering all body widgets:  -->
-      <widget-renderer v-for="(widget, widget_i) in body_data"
-        :editable="editable"
-        :selected="selected_widget == widget_i"
-        @click="selected_widget = widget_i"
-        :owner="page_data.id"
-
-        :key="'body-widget' + widget_i"
-
-        :collection="collection_name"
-        :source="'body_data'"
-        :index="widget_i"
-      >
-      </widget-renderer>
-
-      <!-- Add widget button: -->
-      <button v-if="editable" @click="add_widget()">+ Add section</button>
+    <!-- Collapse the side bar: -->
+    <div @click="show_side_bar = !show_side_bar">
+      <left-arrow-icon v-if="show_side_bar"></left-arrow-icon>
+      <right-arrow-icon v-else></right-arrow-icon>
+    </div>
     
-      <!-- Padding at the bottom of the page, for more intuitive scrolling: -->
-      <div class="body-content-padding" style="height: 200px;"></div>
+    <!-- Toggle edit mode:      -->
+    <div @click="editable = !editable">
+      <view-icon v-if="editable" ></view-icon>
+      <edit-icon v-else></edit-icon>
+    </div>
+
+    <!-- Save the document:     -->
+    <div @click="save_doc()">
+      <save-icon :class="{ 'disabled': saving || !unsaved_changes }">
+      </save-icon>
+    </div>
+
+  </template>  <!-- End floating icons -->
+
+  <!-- Content body: -->
+  <template #body>
+
+    <!-- Rendering all body widgets:  -->
+    <widget-renderer v-for="(widget, widget_i) in body_data"
+      :editable="editable"
+      :selected="selected_widget == widget_i"
+      @click="selected_widget = widget_i"
+      :owner="page_data.id"
+
+      :key="'body-widget' + widget_i"
+
+      :collection="collection_name"
+      :source="'body_data'"
+      :index="widget_i"
+    >
+    </widget-renderer>
+
+    <!-- Add widget button: -->
+    <button v-if="editable" @click="add_widget()">+ Add section</button>
+
+    <!-- Padding at the bottom of the page, for more intuitive scrolling: -->
+    <div class="body-content-padding" style="height: 200px;"></div>
       
-    </div><!-- End body -->
+  </template><!-- End body -->
 
 
     <!--               -->
@@ -91,9 +83,12 @@
 
     <!-- The floating icons, to toggle the footer: -->
     <div class="footer-floating-icons" @click="toggle_footer()"
+      v-if="0"
       :style="{ bottom: footer_height + 'px'}">
-      <up-arrow-icon v-if="footer_height < 10"></up-arrow-icon>
-      <down-arrow-icon v-else></down-arrow-icon>
+      <div @click="toggle_footer()">
+        <up-arrow-icon v-if="footer_height < 10"></up-arrow-icon>
+        <down-arrow-icon v-else></down-arrow-icon>
+      </div>
     </div>
 
     <!-- Footer: -->
@@ -110,10 +105,9 @@
       </div>
     </div>
 
-  </div>
   
 
-</div>
+</the-content>
 </template>
 
 <script>
@@ -197,9 +191,27 @@ export default {
   mounted() {
 
     //        - - - Route handling: - - -
-    // If there's an even number of elements in the route, we're looking at a document.
-    if (this.route.length % 2 == 0) {
-      this.collection_name = this.route[this.route.length - 2];
+    
+    // TODO: Handle aliases here
+
+    // TODO: Handle quick links here
+
+    if (this.route.length == 1) {
+      this.$router.push('/404');
+    }
+
+
+    // For routes with more than one parameter, the expected structure is this:
+    // rooftop-media.org / state / collection / document / folder_1 / … / folder_n / document 
+    else if (this.route.length > 1) {
+
+      this.page_state = this.route[0];
+      let valid_page_states = ['view', 'edit', 'svg-editor', 'space-editor', 'metaedit'];
+      if (valid_page_states.indexOf(this.page_state) == -1) {
+        console.warn("Not a valid page state!")
+      }
+
+      this.collection_name = this.route[1];
       this.doc_id = this.route[this.route.length - 1];
       this.load_page()
 
@@ -283,7 +295,8 @@ export default {
     load_page() {
 
       // If the collection isn't one of the queryable tables, go to 404. 
-      if (this.collection_name != 'project' && this.collection_name != 'article') {
+      let valid_collection_names = ['project', 'article', 'user'];
+      if (valid_collection_names.indexOf(this.collection_name) == -1) {
         this.$router.push('/404');
         return;
       }

@@ -92,7 +92,7 @@ export default {
     // User projects
     user_projects() {
       if (this.$auth.loggedIn) {
-        return this.$store.getters['projects/get_user_projects'](this.$auth.user.username);
+        return this.$store.getters['db/projects/get_user_projects'](this.$auth.user.username);
       }
       return [];
     },

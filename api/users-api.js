@@ -36,6 +36,9 @@ module.exports = function(app, mongoose){
     bio: String,
     image: String,
     current_theme: String,
+
+    page: Object,
+
     hash: String,
     salt: String
   }, {timestamps: true});
@@ -66,10 +69,13 @@ module.exports = function(app, mongoose){
   // Creating a new user:
   app.post('/create-user', (req, res) => {
     console.log("\n 🗣 Called to add a user!")
+    console.log("User's page:");
+    console.log(req.body.page);
     let newUser = new User({
       display_name: req.body.display_name,
       username: req.body.username,
       email: req.body.email,
+      page: req.body.page,
       bio: '',
       image: '',
     });

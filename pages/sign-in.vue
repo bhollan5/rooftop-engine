@@ -1,5 +1,5 @@
 <template>
-<div class="content" id="sign-in">
+<div id="content">
     <div class="body">
     <h1>Sign In</h1>
     <line-break class="line-break"></line-break><br>
@@ -77,7 +77,7 @@ export default {
 </script>
 
 <style lang="scss">
-#sign-in {
+#content {
   display: flex;
   flex-direction: column;
   align-items: center;

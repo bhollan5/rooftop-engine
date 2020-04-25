@@ -1,6 +1,7 @@
 <template>
-<div class="content" id="sign-up">
-  <div class="body">
+<the-content>
+  <template #body>
+
     <h1>Add Account</h1>
     <line-break class="line-break"></line-break>
     <br>
@@ -38,8 +39,9 @@
       <p>If you have an account, try  <router-link to="/sign-in"> signing in</router-link>!</p>
       <br><br><br><br>
     </div>
-  </div>
-</div>
+
+  </template>
+</the-content>
 </template>
 
 <script>
@@ -65,6 +67,8 @@ export default {
   methods: {
     // Sign up
     add_account() {
+
+      // Validation
       if (!this.username) {
         alert("No uusername found!");
         return;

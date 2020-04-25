@@ -1,6 +1,12 @@
 // Used to import all our global components at once. 
 
 
+// Layout components
+import theContent from './layout/the_content.vue';
+import theSidebar from './layout/the_sidebar.vue';
+
+
+
 // Inputs: 
 import textField from './widgets/inputs/text-field.vue';
 import checkbox from './widgets/inputs/check-box.vue';
@@ -21,7 +27,6 @@ import articleCard from '@/components/widgets/links/article_card.vue';
 import svgRender from '@/components/widgets/svg/svg_render.vue';
 
 // Sidebar:
-import sideBar from './layout_components/sidebar.vue';
 import card from './widgets/side_bar/card.vue';
 
 // Icons:
@@ -57,6 +62,10 @@ import objectEditor from './widgets/inputs/object_editor.vue';
 
 
 export default {
+
+  // Layout
+  theContent,
+
   // Inputs
   colorPicker,
   textField,
@@ -77,7 +86,7 @@ export default {
   svgRender,
 
   // sidebar:
-  sideBar,
+  theSidebar,
   card,
 
 
