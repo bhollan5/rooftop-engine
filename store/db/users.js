@@ -14,6 +14,8 @@ import axios from 'axios';
 // We need this for Vue.set()
 import Vue from 'vue';
 
+import {Document} from '~/modules/globals.js';
+
 // Setting up our state variables:
 export const state = () => ({
 
@@ -71,13 +73,27 @@ export const actions = {
   // Creating a new user:
   create_user({commit}, payload) {
 
+    console.warn("Called!");
+
+    let doc_data = {
+      display_name: payload.display_name,
+      username: payload.username,
+      current_theme: payload.current_theme,
+      email: payload.email,
+    }
+
+    console.log("Here's what an object looks like:");
+    console.log(new Document('user', doc_data))
+
+    return;
+
     axios.post("/api/create-user", {
       display_name: payload.display_name,
       username: payload.username,
       current_theme: payload.current_theme,
       email: payload.email,
       password: payload.password,
-      page: this.$page.new_page()
+      page: Page.new_page('user')
     })
     .then((response) => {
       console.log(" 💾 Successfully created a user: " + payload.username + "!");

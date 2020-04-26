@@ -1,9 +1,8 @@
-import PageTemplate from './datatypes/PageTemplate';
-import Widget from './datatypes/Widget.js';
-
+import {Widget} from './datatypes/Widget.js';
+import {Document} from './datatypes/Document.js';
 
 
 export {
-  PageTemplate,
+  Document,
   Widget
 }

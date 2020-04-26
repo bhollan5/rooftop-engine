@@ -120,7 +120,6 @@ import objectDisplay from '~/components/widgets/debug/object_display.vue';
 
 import documentDetails from '~/components/widgets/side_bar/document_details.vue';
 
-import {PageTemplate} from '~/modules/globals.js';
 
 export default {
   name: 'page-render',
@@ -194,8 +193,6 @@ export default {
 
   mounted() {
 
-    console.warn("Called mount")
-    console.log(PageTemplate.get_page_template({ id: 'user' }));
 
     //        - - - Route handling: - - -
     

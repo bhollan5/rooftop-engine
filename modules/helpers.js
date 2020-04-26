@@ -9,3 +9,7 @@ export function query_array_of_objects(array_of_objects, query_object) {
     return true;
   });
 }
+
+export function validate_type(object, type) {
+  return (typeof(object) == type);
+}
