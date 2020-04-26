@@ -54,6 +54,8 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/auth',
+
+    '~/modules/PageTemplate',
   ],
   /*
   ** Auth module configuration
