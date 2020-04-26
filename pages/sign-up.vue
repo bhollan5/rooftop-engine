@@ -70,13 +70,13 @@ export default {
 
       // Validation
       if (!this.username) {
-        alert("No uusername found!");
+        alert("No username found!");
         return;
       } else if (!this.user_pass) {
         alert("No password found!");
         return;
       }
-      this.$store.dispatch('users/create_user', {
+      this.$store.dispatch('db/users/create_user', {
         display_name: this.display_name,
         current_theme: this.current_theme,
         username: this.username,

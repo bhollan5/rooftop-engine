@@ -53,6 +53,8 @@
   <!-- Content body: -->
   <template #body>
 
+    
+
     <!-- Rendering all body widgets:  -->
     <widget-renderer v-for="(widget, widget_i) in body_data"
       :editable="editable"
@@ -190,12 +192,15 @@ export default {
 
   mounted() {
 
+    console.log(this.$PageTemplate.get_page_template({ id: 'user' }));
+
     //        - - - Route handling: - - -
     
     // TODO: Handle aliases here
 
     // TODO: Handle quick links here
 
+    // If there's just one argument + it isn't an alias or quick link, it's nothin'. l
     if (this.route.length == 1) {
       this.$router.push('/404');
     }
@@ -301,22 +306,12 @@ export default {
         return;
       }
 
-      // Loading in the page by page ID. 
-      this.$store.dispatch('db/read_docs', {
-        collection_name: this.collection_name,
-        query: { 
-          _id: this.doc_id 
-        }
-      }).then((docs) => {
-        // Once the project is loaded from the database, we have to copy it into the page display.
-        this.$store.dispatch('page/read_page', {
-          collection_name: this.collection_name,
-          doc_id: this.doc_id
-        });
-      });
-      
-      console.log("load_page called. ")
 
+      this.$store.dispatch('page/read_page', {
+        collection_name: this.collection_name,
+        doc_id: this.doc_id
+      })
+      
     },
 
     // Updating a widget's field in the store.

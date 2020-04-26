@@ -185,9 +185,20 @@ export const getters = {
 //  this.$store.dispatch('actionName', {playloadData: data });
 export const actions = {
 
+  // Calls a db store module to load in a page, then updates the page draft.
+  read_page({dispatch}, payload) {
+
+    // Ex: If payload.collection_name == 'user', the path is 'db/users/read_users'
+    let action_name = 'db/' + payload.collection_name + 's/read_' + payload.collection_name + 's';
+    dispatch(action_name, {
+      
+    }, {root: true});
+    
+
+  },
 
   // Takes a collection_name and doc_id
-  read_page({commit, rootGetters}, payload) {
+  _read_page({commit, rootGetters}, payload) {
     
     // Ex: If payload.collection_name == 'project', the path is 'db/projects/project_query'
     let page_path = 'db/' + payload.collection_name + 's/' + payload.collection_name + '_query';

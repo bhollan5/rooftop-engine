@@ -36,9 +36,11 @@ export default {
   plugins: [
     '~/plugins/global-components.js', // gives us global components!
     '~/plugins/console-handler.js',    // gives us $console
-    '~/plugins/theme-helpers.js',     // gives us $theme
+    '~/plugins/datatype_theme.js',     // gives us $theme
     '~/plugins/svg-helpers.js',     // gives us $svg
-    '~/plugins/datatype_page.js',
+    '~/plugins/datatypes/Page.js',
+    '~/plugins/datatypes/PageTemplate.js',
+    '~/plugins/datatypes/Patterns.js',
   ],
   /*
   ** Nuxt.js dev-modules

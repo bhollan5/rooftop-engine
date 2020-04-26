@@ -103,7 +103,7 @@ export default {
       this.$store.commit("themes/setThemeColor", theme);
       // If we're logged in, we need to update the user's current theme in the DB, too!
       if (this.$auth.loggedIn) {
-        this.$store.dispatch('users/update_user', {
+        this.$store.dispatch('db/users/update_user', {
           _id: this.$auth.user._id,
           update: {
             current_theme: this.theme_id
