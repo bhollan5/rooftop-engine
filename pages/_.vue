@@ -307,7 +307,7 @@ export default {
       }
 
 
-      this.$store.dispatch('page/read_page', {
+      this.$store.dispatch('page/read_page_doc', {
         collection_name: this.collection_name,
         doc_id: this.doc_id
       })

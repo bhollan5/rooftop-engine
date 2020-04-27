@@ -56,6 +56,13 @@ export const getters = {
 // Call actions in vue like this:
 //  this.$store.dispatch('actionName', {playloadData: data });
 export const actions = {
+  
+  set_body_data({commit}, payload) {
+    let body_data = payload;
+    body_data.forEach((widget) => {
+      commit('add_body_widget', widget)
+    })
+  }
 
 }
 

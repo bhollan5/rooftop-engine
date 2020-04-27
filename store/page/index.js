@@ -17,101 +17,6 @@ import Vue from 'vue';
 // Setting up our state variables:
 export const state = () => ({
 
-  // This has data for the locally rendered page! 
-  //    This is NOT in sync with any database. 
-
-  widget_templates: [{
-      name: 'header',
-      icon: 'H1',
-      bold: true,
-      title: 'Page Header',
-      description: 'The title of the page.',
-      config: {
-        component: 'text-field',
-        fontsize: 'h1',
-        bottom: 0,
-      }
-    }, {
-      name: 'subheader',
-      icon: 'sub',
-      bold: true,
-      title: 'Page Subheader',
-      description: 'A subheader.',
-      config: {
-        component: 'text-field',
-        fontsize: 'small',
-        bottom: 10,
-      }
-    }, {
-      name: 'section-title',
-      icon: '1.',
-      bold: true,
-      title: 'Section Title',
-      description: 'Describes bigger sections.',
-      config: {
-        component: 'text-field',
-        fontsize: 'h2',
-        bottom: 10,
-      }
-    }, {
-      name: 'subsection-title',
-      icon: '1.1.',
-      bold: true,
-      title: 'Subsection Title',
-      description: 'Segments ideas.',
-      config: {
-        component: 'text-field',
-        fontsize: 'h3',
-        bottom: 10,
-      }
-    }, {
-      name: 'paragraph',
-      icon: 'Aa',
-      bold: true,
-      title: 'Paragraph',
-      description: 'For writing text.',
-      config: {
-        component: 'text-field',
-        fontsize: 'regular',
-        bottom: 10,
-      }
-    }, {
-      name: 'line-break',
-      icon: '___',
-      bold: true,
-      title: 'Line Break',
-      description: 'Break it up!',
-      config: {
-        component: 'hr',
-        bottom: 10,
-      }
-    }, {
-      name: 'article',
-      icon: 'art',
-      bold: true,
-      title: 'Article',
-      description: 'A link to an article.',
-      config: {
-        component: 'article-card',
-        _id: 'new',
-        bottom: 10,
-      }
-    }, {
-      name: 'image',
-      icon: 'image-icon',
-      bold: false,
-      title: 'Image',
-      description: 'Add an image!'
-    }, {
-      name: 'collection',
-      icon: 'col',
-      bold: false,
-      title: 'Collection',
-      description: 'A collection of documents.'
-    },
-  ],
-  
-
   // Body widgets:
   body_data: [],
   // Side bar widgets:
@@ -185,42 +90,36 @@ export const getters = {
 //  this.$store.dispatch('actionName', {playloadData: data });
 export const actions = {
 
-  // Calls a db store module to load in a page, then updates the page draft.
-  read_page({dispatch}, payload) {
+  // This function calls /db/read_[collection]s in the store
+  // Then, it dispatches /copy_page_draft to snag a fresh, editable copy.
+  read_page_doc({dispatch}, payload) {
 
-    // Ex: If payload.collection_name == 'user', the path is 'db/users/read_users'
-    let action_name = 'db/' + payload.collection_name + 's/read_' + payload.collection_name + 's';
-    dispatch(action_name, {
-      
-    }, {root: true});
-    
-
-  },
-
-  // Takes a collection_name and doc_id
-  _read_page({commit, rootGetters}, payload) {
-    
-    // Ex: If payload.collection_name == 'project', the path is 'db/projects/project_query'
-    let page_path = 'db/' + payload.collection_name + 's/' + payload.collection_name + '_query';
-    let page_query = rootGetters[page_path]({ _id: payload.doc_id });
-    let loaded_page = page_query[0];
-    console.log(loaded_page);
-
-    // Loading in the name, id, owner, etc
-    commit('load_page_data', loaded_page);
-
-    // Copying the body data locally:
-    if (loaded_page.body_data){
-      commit('page/body/clear_body_data', null, {root: true});
-      loaded_page.body_data.forEach((widget, index) => {
-        commit('page/body/set_body_widget', {
-          widget: widget,
-          index: index
-        }, {root: true});
-      });
-    }
+    // Ex: If payload.collection_name == 'user', the path is 'db/users/read_user'
+    let action_name = 'db/' + payload.collection_name + 's/read_' + payload.collection_name;
+    dispatch(action_name, payload.doc_id, {root: true})
+    .then(() => {
+      console.log("Hm? 🔥")
+      dispatch('update_page_draft', {
+        collection_name: payload.collection_name,
+        doc_id: payload.doc_id
+      })
+    })
 
   },
+
+  update_page_draft({rootGetters, dispatch}, payload) {
+
+    // Ex: If payload.collection_name == 'user', the path is 'db/users/get_user'
+    let getter_name = 'db/' + payload.collection_name + 's/get_' + payload.collection_name;
+    let page = rootGetters[getter_name](payload.doc_id);
+
+    let body_data = page.body_data;
+    console.warn(body_data);
+    dispatch('page/body/set_body_data', body_data, {root: true});
+    
+  },
+
+
 
 
   // Updating a doc by id in the DB. // TODO

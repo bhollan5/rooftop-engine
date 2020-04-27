@@ -19,8 +19,8 @@ import {Document} from '~/modules/globals.js';
 // Setting up our state variables:
 export const state = () => ({
 
-  // The user currently logged  in
-  current_user: {},
+  // Note: We don't store a variable called "current_user" here. 
+  //   To get the current user, user this.$auth.user.
 
   // User data:
   users: [],
@@ -38,12 +38,16 @@ export const state = () => ({
 
 export const getters = {
 
-  current_user(state) {
-    return state.current_user;
-  },
-
   all_users(state) {
     return state.users;
+  },
+
+  get_user: (state) => (username) => {
+    let matching_users = state.users.filter( function(user) {
+      console.log(user);
+      return (user.username == username);
+    });
+    return matching_users[0];
   },
 
   // This notation is the same as 
@@ -75,17 +79,10 @@ export const actions = {
 
     console.warn("Called!");
 
-    let doc_data = {
-      display_name: payload.display_name,
-      username: payload.username,
-      current_theme: payload.current_theme,
-      email: payload.email,
-    }
-
+    
     console.log("Here's what an object looks like:");
-    console.log(new Document('user', doc_data))
-
-    return;
+    console.log(new Document('user'))
+    let document = new Document('user');
 
     axios.post("/api/create-user", {
       display_name: payload.display_name,
@@ -93,7 +90,7 @@ export const actions = {
       current_theme: payload.current_theme,
       email: payload.email,
       password: payload.password,
-      page: Page.new_page('user')
+      body_data: document.body_data
     })
     .then((response) => {
       console.log(" 💾 Successfully created a user: " + payload.username + "!");
@@ -107,11 +104,34 @@ export const actions = {
 
       // Moving the user to the correct page.
       this.$router.push({
-        path: '/'
+        path: '/view/users/' + payload.username
       });
     }, (error) => {
       console.warn("Error creating user:")
       console.warn(error.response.data);
+    });
+
+  },
+
+  // Reading users by query:
+  read_user({commit}, payload) {
+    console.log(" 🗣 Called to read a user by username.");
+
+    return axios.get("/api/query-users", { params: {username: payload} })
+    .then((response) => {
+      if (response.data.length) {
+        console.log(" 💾 Successfully loaded a user!");
+        
+        for (let i in response.data) {
+          commit('set_user', response.data[i]);
+        }
+
+      } else {
+        console.log(" ⛔️ No users loaded.")
+      }
+      
+    }, (error) => {
+      console.warn(error);
     });
 
   },
@@ -133,7 +153,6 @@ export const actions = {
       } else {
         console.log(" ⛔️ No users loaded.")
       }
-      console.log(response.data);
       
     }, (error) => {
       console.warn(error);

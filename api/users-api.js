@@ -37,7 +37,7 @@ module.exports = function(app, mongoose){
     image: String,
     current_theme: String,
 
-    page: Object,
+    body_data: Array,
 
     hash: String,
     salt: String
@@ -75,7 +75,7 @@ module.exports = function(app, mongoose){
       display_name: req.body.display_name,
       username: req.body.username,
       email: req.body.email,
-      page: req.body.page,
+      body_data: req.body.body_data,
       bio: '',
       image: '',
     });
