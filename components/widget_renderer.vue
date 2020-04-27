@@ -35,19 +35,19 @@
 
     <!-- Decorative -->
 
-    <line-break v-if="widget.component == 'line-break'" color="var(--bg-text2)"></line-break>
+    <line-break v-if="widget.component_id == 'line-break'" color="var(--bg-text2)"></line-break>
     <hr v-if="widget.component == 'hr'" style="border: solid 1px var(--bg-text2);"></hr>
     
 
     <!-- Text -->
 
-    <text-field v-if="widget.component == 'text-field'"
+    <text-field v-if="widget.component_id == 'text-field'"
       :editable="editable"
-      :value="widget.content"
+      :value="widget_props.value"
       
-      :fontsize="widget.fontsize"
+      :fontsize="widget_props.fontsize"
       nobox
-      @input="update_data({ content: $event })"
+      @input="update_data( 'value', $event )"
     ></text-field>
 
     <!-- Tabs: 
@@ -139,6 +139,39 @@ export default {
       return this.$store.getters['page/body/body_widget'](this.index);
     },
 
+    doc_data() {
+      return this.$store.getters['page/doc_data'];
+    },
+
+    // widget_props() connects props with the values from various prop sources.
+    /* Ex: If 'widget.prop+config' looks like this: 
+      { value: { connection_type: 'doc_data', field: 'display_name' }, ... }
+      widget_props will return this:
+      { value: this.doc_data.display_name, ... }
+    */
+    widget_props() {
+
+      let widget_props = {};
+      let prop_config = this.widget.prop_config; // For the shorter name
+
+      for (let prop_field in prop_config) {
+        
+        let connection_type = prop_config[prop_field].connection_type;
+        let source_field = prop_config[prop_field].field;
+
+        if (connection_type == 'static_data') {
+          widget_props[prop_field] = this.widget.static_data[source_field];
+
+        } else if (connection_type == 'doc_data') {
+          widget_props[prop_field] = this.doc_data[source_field];
+        }
+      }
+      return widget_props;
+
+    },
+
+
+
     // We don't display the "add section" button if this page is a parent,
     // because the add section button will go in the child element:
     isParent() { 
@@ -169,7 +202,22 @@ export default {
     },
 
     // Updating the widget's fields in the store
-    update_data(new_widget) {
+    update_data(prop_field, value) {
+
+      let connection_type = this.widget.prop_config[prop_field].connection_type;
+      let source_field = this.widget.prop_config[prop_field].field;
+
+      let update_obj = {}
+      update_obj[source_field] = value;
+
+      if (connection_type == 'static_data') {
+        // todo 
+      } else if (connection_type == 'doc_data') {
+        
+        this.$store.commit('page/update_doc_data', update_obj)
+      }
+
+      return;
       // Pass to the store
       this.$store.commit('page/body/set_body_widget', {
         index: this.index,

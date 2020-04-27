@@ -82,15 +82,17 @@ export const actions = {
     
     console.log("Here's what an object looks like:");
     console.log(new Document('user'))
+    
     let document = new Document('user');
 
     axios.post("/api/create-user", {
-      display_name: payload.display_name,
       username: payload.username,
+      password: payload.password,
+      display_name: payload.display_name,
       current_theme: payload.current_theme,
       email: payload.email,
-      password: payload.password,
-      body_data: document.body_data
+      
+      body_data: document.body_data,
     })
     .then((response) => {
       console.log(" 💾 Successfully created a user: " + payload.username + "!");
@@ -166,7 +168,7 @@ export const actions = {
     console.log(payload)
     // Calling to the DB.
     return axios.post("/api/update-user", {
-      _id: payload._id,
+      username: payload._id,
       update: payload.update
     }).then((response) => {
       console.log(" 🖌 Updated the user %c" +  payload._id, "color:magenta;");

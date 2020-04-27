@@ -17,12 +17,7 @@ import Vue from 'vue';
 // Setting up our state variables:
 export const state = () => ({
 
-  // Body widgets:
-  body_data: [],
-  // Side bar widgets:
-  side_bar_data: [],
-
-  page_data: {
+  doc_data: {
     owner: '',
     id: '', 
   },
@@ -53,8 +48,8 @@ export const state = () => ({
 export const getters = {
 
   // Gets the page data
-  page_data(state) {
-    return state.page_data;
+  doc_data(state) {
+    return state.doc_data;
   },
 
   editor_state(state) {
@@ -98,7 +93,6 @@ export const actions = {
     let action_name = 'db/' + payload.collection_name + 's/read_' + payload.collection_name;
     dispatch(action_name, payload.doc_id, {root: true})
     .then(() => {
-      console.log("Hm? 🔥")
       dispatch('update_page_draft', {
         collection_name: payload.collection_name,
         doc_id: payload.doc_id
@@ -107,15 +101,31 @@ export const actions = {
 
   },
 
-  update_page_draft({rootGetters, dispatch}, payload) {
+  // Payload: 
+  //   collection_name: String
+  //   doc_id: String 
+  // 
+  update_page_draft({rootGetters, dispatch, commit}, payload) {
 
     // Ex: If payload.collection_name == 'user', the path is 'db/users/get_user'
     let getter_name = 'db/' + payload.collection_name + 's/get_' + payload.collection_name;
-    let page = rootGetters[getter_name](payload.doc_id);
+    let doc = rootGetters[getter_name](payload.doc_id);
 
-    let body_data = page.body_data;
-    console.warn(body_data);
+    // The body_data is an array of widgets defining the content of the page's body.
+    let body_data = doc.body_data;
     dispatch('page/body/set_body_data', body_data, {root: true});
+
+    // The doc_data grabs all the fields in the root of the document that are mutable
+    let doc_data = {};
+    let not_doc_data = ['body_data', 'static_data', 'salt', 'hash']
+    for (let field in doc) {
+      if (doc.hasOwnProperty(field)) {
+        if (not_doc_data.indexOf(field) == -1) {
+          doc_data[field] = doc[field];
+        }
+      }
+    }
+    commit('load_doc_data', doc_data);
     
   },
 
@@ -123,7 +133,7 @@ export const actions = {
 
 
   // Updating a doc by id in the DB. // TODO
-  update_doc({commit}, payload) {
+  update_doc({dispatch, commit}, payload) {
     let collection_name = payload.collection_name;
     let doc_id = payload.doc_id;
     let update_obj = payload.update;
@@ -131,10 +141,15 @@ export const actions = {
     console.log(" 🗣 Calling the API to update doc %c" +  doc_id, "color:magenta;")
     console.log(update_obj)
 
-    // Getting the api route -
-    //   Ex: if collection_name is 'project', this will get '/api/read-projects'
-    let api_url = '/api/update-' + collection_name;
+    // ex: db/users/update_user
+    let store_path = 'db/' + collection_name + 's/update_' + collection_name;
 
+    dispatch(store_path, {
+      _id: doc_id,
+      update: update_obj,
+    }, {root: true});
+
+    return;
     // Getting the article from the database.
     return axios.post(api_url, {
       _id: doc_id,
@@ -197,9 +212,22 @@ export const mutations = {
     state.body_data.push(payload);
   },
 
-  load_page_data(state, payload) {
-    state.page_data.owner = payload.owner;
-    state.page_data.id = payload._id;
+  load_doc_data(state, payload) {
+    for (let field in payload) {
+      Vue.set(state.doc_data, field, payload[field])
+    }
+  },
+
+  update_doc_data(state, payload) {
+
+    // Update should just be an object w updated field
+    let update = payload;
+
+    for (let field in update) {
+      if (update.hasOwnProperty(field)) {
+        Vue.set(state.doc_data, field, update[field])
+      }
+    }
   }
 
 }

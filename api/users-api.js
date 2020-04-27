@@ -94,10 +94,11 @@ module.exports = function(app, mongoose){
   app.post('/update-user', (req, res) => {
 
     console.log("\n 🗣 Called to update a user!")
-    let _id = req.body._id;         // The id of the doc we're calling
+    let username = req.body.username;         // The id of the doc we're calling
     let update = req.body.update;   // The updated fields
+    console.log(update)
     
-    User.updateOne({_id: _id}, update, (result) => {
+    User.updateOne({username: username}, update, (result) => {
       console.log(" ⬆️ Updated an user!")
       res.send(result);
     })

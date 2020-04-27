@@ -60,7 +60,7 @@
       :editable="editable"
       :selected="selected_widget == widget_i"
       @click="selected_widget = widget_i"
-      :owner="page_data.id"
+      :owner="doc_data.id"
 
       :key="'body-widget' + widget_i"
 
@@ -173,9 +173,9 @@ export default {
 
   computed: {
 
-    page_data() {
-      let page_data = this.$store.getters['page/page_data'];
-      return page_data;
+    doc_data() {
+      let doc_data = this.$store.getters['page/doc_data'];
+      return doc_data;
     },
 
     body_data() {
@@ -278,12 +278,17 @@ export default {
 
     save_doc() {
       this.saving = true;
+
+      let update_object = {
+        body_data: this.body_data,
+        ...this.doc_data
+      }
+
+
       this.$store.dispatch('page/update_doc', {
         doc_id: this.doc_id,
         collection_name: this.collection_name,
-        update: {
-          body_data: this.body_data
-        }
+        update: update_object,
       })
       return;
       // this.$store.dispatch(this.collection_name + 's/update_' + this.collection_name, {

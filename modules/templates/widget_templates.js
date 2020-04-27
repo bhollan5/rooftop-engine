@@ -10,9 +10,18 @@ export default [
     widget: {
       component_id: 'text-field',
       prop_config: {
-        fontsize: 'static_data',
-        bottom: 'static_data',
-        display_name: 'doc_data',
+        fontsize: {
+          connection_type: 'static_data',
+          field: 'fontsize'
+        },
+        bottom: {
+          connection_type: 'static_data',
+          field: 'bottom'
+        },
+        value: {
+          connection_type: 'doc_data',
+          field: 'display_name'
+        },
       },
       static_data: {
         fontsize: 'h1',
