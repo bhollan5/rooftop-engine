@@ -16,7 +16,7 @@ module.exports = function(app, mongoose){
 
   // Defining our mongoose schema for a given user:
   let userSchema = new mongoose.Schema({
-    username: {
+    id: {
       type: String, 
       lowercase: true, 
       unique: true, // Only available bc of our plugin
@@ -34,7 +34,7 @@ module.exports = function(app, mongoose){
     },
     display_name: String,
     bio: String,
-    image: String,
+    pfp: String,
     current_theme: String,
 
     body_data: Array,
@@ -44,7 +44,7 @@ module.exports = function(app, mongoose){
   }, {timestamps: true});
 
   // Adding our imported library to this schema, so we can use the 'unique' validator
-  userSchema.plugin(uniqueValidator, { message: ' is already taken as a username!' });
+  userSchema.plugin(uniqueValidator, { message: ' is already taken as a id!' });
 
   // Adding a hashing function for user's passwords:
   userSchema.methods.setPassword = function(password){
@@ -73,11 +73,11 @@ module.exports = function(app, mongoose){
     console.log(req.body.page);
     let newUser = new User({
       display_name: req.body.display_name,
-      username: req.body.username,
+      id: req.body.id,
       email: req.body.email,
       body_data: req.body.body_data,
       bio: '',
-      image: '',
+      pfp: '',
     });
     newUser.setPassword(req.body.password);
     newUser.save(function (err, result) {
@@ -94,11 +94,11 @@ module.exports = function(app, mongoose){
   app.post('/update-user', (req, res) => {
 
     console.log("\n 🗣 Called to update a user!")
-    let username = req.body.username;         // The id of the doc we're calling
+    let id = req.body.id;         // The id of the doc we're calling
     let update = req.body.update;   // The updated fields
     console.log(update)
     
-    User.updateOne({username: username}, update, (result) => {
+    User.updateOne({id: id}, update, (result) => {
       console.log(" ⬆️ Updated an user!")
       res.send(result);
     })
@@ -110,9 +110,9 @@ module.exports = function(app, mongoose){
     console.log("\n 🗣 Called to log a user in!")
 
     // Finding the user
-    let username = req.body.username;
-    console.log("Searching username:", username);
-    User.find({ username: username }, (err, result) => {
+    let id = req.body.id;
+    console.log("Searching id:", id);
+    User.find({ id: id }, (err, result) => {
       let found_user = result[0];
 
       // Handling if no user was found:
@@ -121,7 +121,7 @@ module.exports = function(app, mongoose){
         res.send(result);
         return [];
       } else {
-        console.log("Found user: " + found_user.username);
+        console.log("Found user: " + found_user.id);
       }
 
       // Validating & returning pass
@@ -164,7 +164,7 @@ module.exports = function(app, mongoose){
         res.send(result);
         return [];
       } else {
-        console.log("Found user: " + found_user.username);
+        console.log("Found user: " + found_user.id);
         res.send({
           user: found_user 
         });

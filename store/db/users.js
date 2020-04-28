@@ -42,10 +42,10 @@ export const getters = {
     return state.users;
   },
 
-  get_user: (state) => (username) => {
+  get_user: (state) => (id) => {
     let matching_users = state.users.filter( function(user) {
       console.log(user);
-      return (user.username == username);
+      return (user.id == id);
     });
     return matching_users[0];
   },
@@ -86,7 +86,7 @@ export const actions = {
     let document = new Document('user');
 
     axios.post("/api/create-user", {
-      username: payload.username,
+      id: payload.id,
       password: payload.password,
       display_name: payload.display_name,
       current_theme: payload.current_theme,
@@ -95,18 +95,18 @@ export const actions = {
       body_data: document.body_data,
     })
     .then((response) => {
-      console.log(" 💾 Successfully created a user: " + payload.username + "!");
+      console.log(" 💾 Successfully created a user: " + payload.id + "!");
 
       this.$auth.loginWith('local', {
         data: {
-          username: payload.username,
+          id: payload.id,
           password: payload.password,
         }
       })
 
       // Moving the user to the correct page.
       this.$router.push({
-        path: '/view/users/' + payload.username
+        path: '/view/users/' + payload.id
       });
     }, (error) => {
       console.warn("Error creating user:")
@@ -117,9 +117,9 @@ export const actions = {
 
   // Reading users by query:
   read_user({commit}, payload) {
-    console.log(" 🗣 Called to read a user by username.");
+    console.log(" 🗣 Called to read a user by id.");
 
-    return axios.get("/api/query-users", { params: {username: payload} })
+    return axios.get("/api/query-users", { params: {id: payload} })
     .then((response) => {
       if (response.data.length) {
         console.log(" 💾 Successfully loaded a user!");
@@ -168,7 +168,7 @@ export const actions = {
     console.log(payload)
     // Calling to the DB.
     return axios.post("/api/update-user", {
-      username: payload._id,
+      id: payload._id,
       update: payload.update
     }).then((response) => {
       console.log(" 🖌 Updated the user %c" +  payload._id, "color:magenta;");
@@ -183,7 +183,7 @@ export const actions = {
     console.log(payload);
     axios.get("/api/read-user-auth", {
       params: {
-        username: payload.username,
+        id: payload.id,
         password: payload.password
       }
     })
@@ -197,7 +197,7 @@ export const actions = {
   
       commit('set_current_user', {
         display_name: payload.display_name,
-        username: payload.username,
+        id: payload.id,
         email: payload.email,
       })
 

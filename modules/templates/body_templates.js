@@ -1,10 +1,16 @@
-import {Widget} from '~/modules/datatypes/Widget.js';
+import {ElementTemplate} from '~/modules/datatypes/ElementTemplate.js';
 
 export default [{
   id: 'user',
   body_data: [
-    new Widget('header'),
-    new Widget('subheader'),
+    new ElementTemplate('header', 
+    { 
+      value: {
+        connection_type: 'doc_data',
+        field: 'display_name'
+      },
+    }),
+    new ElementTemplate('subheader'),
   ],
   
 }]

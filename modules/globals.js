@@ -1,8 +1,8 @@
-import {Widget} from './datatypes/Widget.js';
+import {ElementTemplate} from './datatypes/ElementTemplate.js';
 import {Document} from './datatypes/Document.js';
 
 
 export {
   Document,
-  Widget
+  ElementTemplate
 }

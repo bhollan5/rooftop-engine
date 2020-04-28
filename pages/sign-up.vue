@@ -79,7 +79,7 @@ export default {
       this.$store.dispatch('db/users/create_user', {
         display_name: this.display_name,
         current_theme: this.current_theme,
-        username: this.username,
+        id: this.username,
         email: this.email,
         password: this.user_pass,
       })

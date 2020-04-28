@@ -50,21 +50,6 @@
       @input="update_data( 'value', $event )"
     ></text-field>
 
-    <!-- Tabs: 
-    <div class="tab-container" v-else-if="widget.type == 'tabs'">
-      <div class="tabs" >
-        <text-field class="tab" 
-          v-for="(tab, tabindex) in widget.tabs" 
-          :class="{ 'bold': widget.selectedTab == tabindex}" 
-          nobox 
-          @click="widget.selectedTab = tabindex" 
-          v-model="tab.name" 
-          :key="'tab-' + tabindex">
-        </text-field>
-        <div class="tab add-tab" @click="addTab(widget)">+ Add Tab</div>
-      </div>
-    </div> -->
-
 
     <article-card v-else-if="widget.component == 'article-card'" 
       :editable="editable"

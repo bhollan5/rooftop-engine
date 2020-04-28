@@ -7,16 +7,20 @@
     </button>
 
     <!-- User info - pfp, display name, username -->
-    <div id="user-info" v-if="$auth.loggedIn">
+    <router-link tag="div" 
+      :to="'/view/user/' + $auth.user.id"
+      id="user-info"
+      v-if="$auth.loggedIn"
+    >
 
       <div class="user-info-text">
         <div>{{$auth.user.display_name}}</div>
-        <div class="secondary">@{{$auth.user.username}}</div>
+        <div class="secondary">@{{$auth.user.id}}</div>
       </div>
       <div class="user-icon">
         <img src="@/assets/misc/frog-pic.svg">
       </div>
-    </div>
+    </router-link>
     <!-- Sign-in button, if the user isn't logged in. -->
     <router-link to="/sign-in" tag="div" class="login-button" v-else>
       Sign In
@@ -150,6 +154,7 @@ export default {
     // User icon and text
     #user-info {
       display: flex;
+      cursor: pointer;
       .user-info-text {
         text-align: right;
         margin-right: 10px;

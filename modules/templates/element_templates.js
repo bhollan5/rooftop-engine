@@ -7,7 +7,7 @@ export default [
     title: 'Page Header',
     description: 'The title of the page.',
     
-    widget: {
+    element: {
       component_id: 'text-field',
       prop_config: {
         fontsize: {
@@ -36,12 +36,21 @@ export default [
     title: 'Page Subheader',
     description: 'A subheader.',
     
-    widget: {
+    element: {
       component_id: 'text-field',
       prop_config: {
-        fontsize: 'local_data',
-        bottom: 'local_data',
-        display_name: 'doc_data',
+        fontsize: {
+          connection_type: 'static_data',
+          field: 'fontsize'
+        },
+        bottom: {
+          connection_type: 'static_data',
+          field: 'bottom'
+        },
+        value: {
+          connection_type: 'doc_data',
+          field: 'id'
+        },
       },
       static_data: {
         fontsize: 'small',
