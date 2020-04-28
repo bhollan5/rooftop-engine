@@ -6,7 +6,7 @@
   <div class="element-type-selector">
     <h5>Section type:</h5>
     <!-- v-for list of the section type options: -->
-    <div class="element-type-option" v-for="template in widget_templates"
+    <div class="element-type-option" v-for="template in element_templates"
       :class="{'selected-element-type': 
         value.type == template.name}" @click="$emit('input', template.config)">
       <div class="element-type-icon"
@@ -30,6 +30,8 @@
 
 <script>
 
+import element_templates from '~/modules/templates/element_templates.js';
+
 export default {
 
   props: {
@@ -41,12 +43,11 @@ export default {
     }
   },
   computed: {
-    widget_templates() {
-      return this.$store.getters['page/widget_templates'];
-    }
+
   },
   data() {
     return {
+      element_templates: element_templates,
       // Storing data for different section types.
       // This is mostly just to save html space w/ a v-for
       

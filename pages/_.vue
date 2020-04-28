@@ -71,7 +71,7 @@
     </widget-renderer>
 
     <!-- Add widget button: -->
-    <button v-if="editable" @click="add_widget()">+ Add section</button>
+    <button v-if="editable" @click="add_element()">+ Add element</button>
 
     <!-- Padding at the bottom of the page, for more intuitive scrolling: -->
     <div class="body-content-padding" style="height: 200px;"></div>
@@ -330,8 +330,8 @@ export default {
       });
     },
 
-    add_widget() {
-      this.$store.commit('page/add_body_widget', {
+    add_element() {
+      this.$store.commit('page/body/add_body_widget', {
         component: 'new',
         content: ''
       });

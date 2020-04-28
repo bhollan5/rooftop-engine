@@ -5,6 +5,8 @@ let crypto = require('crypto');  // comes as a default in npm
 let uniqueValidator = require('mongoose-unique-validator'); // npm installed
 let jwt = require('jsonwebtoken');  // npm installed, but not used! todo: uninstall
 
+let ObjectID = require('mongodb').ObjectID; // for comparing with object id's
+
 // Using this tutorial a lot on this file: https://thinkster.io/tutorials/node-json-api/creating-the-user-model 
 
 
@@ -94,12 +96,14 @@ module.exports = function(app, mongoose){
   app.post('/update-user', (req, res) => {
 
     console.log("\n 🗣 Called to update a user!")
-    let id = req.body.id;         // The id of the doc we're calling
+    let _id = req.body._id;         // The id of the doc we're calling
     let update = req.body.update;   // The updated fields
     console.log(update)
+    console.log(_id);
     
-    User.updateOne({id: id}, update, (result) => {
+    User.updateOne({_id: ObjectID(_id)}, update, (result) => {
       console.log(" ⬆️ Updated an user!")
+      console.log(result)
       res.send(result);
     })
 

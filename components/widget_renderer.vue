@@ -141,14 +141,17 @@ export default {
 
       for (let prop_field in prop_config) {
         
-        let connection_type = prop_config[prop_field].connection_type;
-        let source_field = prop_config[prop_field].field;
+        if (typeof(prop_config[prop_field]) == 'string' || typeof(prop_config[prop_field]) == 'number') {
+          widget_props[prop_field] = prop_config[prop_field];
 
-        if (connection_type == 'static_data') {
-          widget_props[prop_field] = this.widget.static_data[source_field];
+        } else if (typeof(prop_config[prop_field]) == 'object'){
+        
+          let connection_type = prop_config[prop_field].connection_type;
+          let source_field = prop_config[prop_field].field;
+          if (connection_type == 'doc_data') {
+            widget_props[prop_field] = this.doc_data[source_field];
+          }
 
-        } else if (connection_type == 'doc_data') {
-          widget_props[prop_field] = this.doc_data[source_field];
         }
       }
       return widget_props;

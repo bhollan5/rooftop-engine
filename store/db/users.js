@@ -106,7 +106,7 @@ export const actions = {
 
       // Moving the user to the correct page.
       this.$router.push({
-        path: '/view/users/' + payload.id
+        path: '/view/user/' + payload.id
       });
     }, (error) => {
       console.warn("Error creating user:")
@@ -168,7 +168,7 @@ export const actions = {
     console.log(payload)
     // Calling to the DB.
     return axios.post("/api/update-user", {
-      id: payload._id,
+      _id: payload._id,
       update: payload.update
     }).then((response) => {
       console.log(" 🖌 Updated the user %c" +  payload._id, "color:magenta;");

@@ -10,22 +10,12 @@ export default [
     element: {
       component_id: 'text-field',
       prop_config: {
-        fontsize: {
-          connection_type: 'static_data',
-          field: 'fontsize'
-        },
-        bottom: {
-          connection_type: 'static_data',
-          field: 'bottom'
-        },
+        fontsize: 'h1',
+        bottom: 0,
         value: {
           connection_type: 'doc_data',
           field: 'display_name'
         },
-      },
-      static_data: {
-        fontsize: 'h1',
-        bottom: 0,
       },
       local_data: {}
     }
@@ -39,22 +29,12 @@ export default [
     element: {
       component_id: 'text-field',
       prop_config: {
-        fontsize: {
-          connection_type: 'static_data',
-          field: 'fontsize'
-        },
-        bottom: {
-          connection_type: 'static_data',
-          field: 'bottom'
-        },
+        fontsize: 'small',
+        bottom: 0,
         value: {
           connection_type: 'doc_data',
           field: 'id'
         },
-      },
-      static_data: {
-        fontsize: 'small',
-        bottom: 0,
       },
       local_data: {}
     }
