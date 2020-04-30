@@ -78,6 +78,11 @@
     <div class="image-section" v-else-if="widget.type == 'image'">
       <svg-uploader v-model="widget.content" :ref="'svg_uploader_'"></svg-uploader>
     </div>
+
+    <element-editor v-if="selected"
+      :value="widget" 
+      @input="add_element($event)"
+    ></element-editor>
 </div>
 </template>
 
@@ -86,6 +91,8 @@
 
 // Widgets:
 import newWidget from '@/components/widgets/new_widget.vue';
+import elementEditor from '@/components/widgets/element_editor.vue';
+
 
 import objectEditor from '@/components/widgets/side_bar/object_editor.vue';
 
@@ -94,7 +101,7 @@ import collection from '@/components/widgets/links/collection.vue';
 export default {
   name: 'widget-renderer',
   components: {
-
+    elementEditor,
     newWidget,
     objectEditor,
     collection,
@@ -278,6 +285,7 @@ export default {
 // The v-for generated widget containers
 .widget-container {
   position: relative;
+  width: 100%;
   transition-duration: .2s;
   margin-bottom: 5px;
 }

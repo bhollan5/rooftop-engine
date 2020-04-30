@@ -87,6 +87,7 @@
 
     <!-- Add widget button: -->
     <button v-if="editable" @click="add_element()">+ Add element</button>
+    
 
     <!-- Padding at the bottom of the page, for more intuitive scrolling: -->
     <div class="body-content-padding" style="height: 200px;"></div>
