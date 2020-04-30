@@ -8,9 +8,18 @@
   src: url('../assets/fonts/CrimsonText-Regular.ttf');
 }
 
+@font-face {
+  font-family: inconsolata;
+  src: url('../assets/fonts/Inconsolata-Variable.ttf');
+}
+
 html {
   font-family: crimsonText, serif;
   font-size: var(--regular-font-size);
+}
+
+.card {
+  font-family: inconsolata;
 }
 
 // Headers:
