@@ -10,6 +10,10 @@ import element_templates from '~/modules/templates/element_templates.js';
 //      - prop_config:    Object
 export function Element(_template_id, _prop_config) {
 
+  if (!_template_id) {
+    _template_id = 'new';
+  }
+
   let element = query_array_of_objects(element_templates, {id: _template_id})[0];
 
   if (!element) {

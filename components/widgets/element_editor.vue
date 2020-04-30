@@ -9,7 +9,7 @@
     <div class="element-type-option" 
       v-for="template in ELEMENT_TEMPLATES"
       :class="{'selected-element-type': selected_template.id == template.id}" 
-      @click="selected_template = template"
+      @click="select_template(template)"
     >
 
       <div 
@@ -80,10 +80,21 @@ export default {
       
     }
   },
+
+  mounted() {
+    // When the editor starts we make sure the draft is up to date. 
+    this.$emit('reset');
+  },
+
   methods: {
     // Creating a new element!
     create_element(element) {
       this.$emit('input', element);
+    },
+
+    select_template(template) {
+      this.selected_template = template;
+      this.$emit('updateDraft', template.element);
     }
   }
 }

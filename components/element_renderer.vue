@@ -1,5 +1,5 @@
 <template>
-<div class="widget-container" 
+<container class="widget-container" 
   :class="{
     'editable': editable,
     'selected-widget': selected
@@ -79,11 +79,14 @@
       <svg-uploader v-model="widget.content" :ref="'svg_uploader_'"></svg-uploader>
     </div>
 
-    <element-editor v-if="selected"
+    <element-editor v-if="selected && editTemplate"
       :value="widget" 
+      @reset="reset_draft()"
+      @updateDraft="update_draft($event)"
       @input="add_element($event)"
     ></element-editor>
-</div>
+
+</container>
 </template>
 
 <script>
@@ -116,6 +119,10 @@ export default {
     selected: {
       type: Boolean
     },
+    // Whether we're editing the template of the current selection.
+    editTemplate: {
+      type: Boolean,
+    },
     // editable content? 
     editable: {
       type: Boolean,
@@ -129,10 +136,22 @@ export default {
     index: Number,
   },
 
+  data() {
+    return {
+
+      draftElement: {} // When editTemplate is true, we display this instead of the actual element.
+      
+    }
+  },
+
   computed: {
 
     widget() {
-      return this.$store.getters['page/body/body_widget'](this.index);
+      if (!this.editTemplate){
+        return this.$store.getters['page/body/body_widget'](this.index);
+      } else {
+        return this.draftElement;
+      }
     },
 
     doc_data() {
@@ -183,20 +202,22 @@ export default {
     }
   },
 
-  data() {
-    return {
-
-      selected_widget: -1, // the widget clicked on last
-      editElement: -1, // This indicates the index of the element being edited
-      
-    }
-  },
+  
 
 
   methods: {
+
+    //
+    update_draft(new_draft) {
+      this.draftElement = new_draft;
+    },
+    reset_draft() {
+      let saved_widget = this.$store.getters['page/body/body_widget'](this.index);
+      this.draftElement = saved_widget;
+    },
+
     // When the user clicks on a widget
     select_widget(index) {
-      this.selected_widget = index;
       this.$emit('widgetselect', index);
     },
 

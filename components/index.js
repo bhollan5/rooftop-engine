@@ -4,6 +4,7 @@
 // Layout components
 import theContent from './layout/the_content.vue';
 import theSidebar from './layout/the_sidebar.vue';
+import container from './layout/container.vue';
 
 
 
@@ -61,10 +62,12 @@ import objectEditor from './widgets/inputs/object_editor.vue';
 
 
 
+
 export default {
 
   // Layout
   theContent,
+  container,
 
   // Inputs
   colorPicker,

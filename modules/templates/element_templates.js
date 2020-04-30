@@ -1,6 +1,15 @@
 
 export default [
   {
+    id: 'new',
+    icon: '✨',
+    title: 'New',
+    description: 'An empty element.',
+    element: {
+      component_id: 'new'
+    }
+  },
+  {
     id: 'header',
     icon: 'H1',
     bold: true,

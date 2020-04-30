@@ -9,6 +9,7 @@
   
     <!-- Always-present document details: -->
     <document-details></document-details>
+    
 
     <!-- Dynamic card widgets for different modes: -->
     <card title="Widget doc data:" v-if="body_data && body_data[selected_element]">
@@ -68,11 +69,12 @@
   <!-- Content body: -->
   <template #body>
 
-    
+    <checkbox v-model="edit_template"></checkbox> {{edit_template}}
 
     <!-- Rendering all body widgets:  -->
     <element-renderer v-for="(widget, widget_i) in body_data"
       :editable="editable"
+      :editTemplate="edit_template"
       :selected="selected_element == widget_i"
       @click="selected_element = widget_i"
       :owner="doc_data.id"
@@ -175,7 +177,8 @@ export default {
       // And the id of that document:
       doc_id: '',
 
-      selected_element: -1,
+      selected_element: -1,   // The index of the currently selected el.
+      edit_template: false,   // Whether we have the template editor open
 
       // If the document has unsaved changes
       unsaved_changes: false,
