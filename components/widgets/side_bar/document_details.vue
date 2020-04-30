@@ -1,19 +1,25 @@
 <template>
 <!-- Always-present document details: -->
 <card :title="'Document details!'" class="small-font">
-  Editor state: <b>{{editor_state}}</b>
   <dropdown 
+    title="Editor State:"
     :options="state_options" 
     @input="change_state($event)"
     :value='editor_state'>
   </dropdown>
-  <br><br>
+  <br>
+  <object-editor :object="data" @input="update_doc_data($event)"></object-editor>
 </card>
 </template>
 
 <script>
 export default {
   name: 'doc-details',
+
+  props: {
+    data: Object,
+  },
+
   data() {
     return {
       state_options: [
@@ -35,6 +41,10 @@ export default {
       console.log(new_state)
       this.$store.commit('page/change_editor_state', new_state);
     },
+
+    update_doc_data(update_obj) {
+      this.$store.commit('page/update_doc_data', update_obj);
+    }
   }
 }
 </script>

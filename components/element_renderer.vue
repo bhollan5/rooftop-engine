@@ -97,7 +97,6 @@ import newWidget from '@/components/widgets/new_widget.vue';
 import elementEditor from '@/components/widgets/element_editor.vue';
 
 
-import objectEditor from '@/components/widgets/side_bar/object_editor.vue';
 
 import collection from '@/components/widgets/links/collection.vue';
 
@@ -106,7 +105,6 @@ export default {
   components: {
     elementEditor,
     newWidget,
-    objectEditor,
     collection,
   },
 

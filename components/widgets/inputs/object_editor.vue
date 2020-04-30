@@ -1,50 +1,43 @@
 <template>
-<!-- A shallow object editor. -->
-<div class="object-editor">
-
-  <!-- Fields in the object: -->
-  <div v-for="(value, key) in object" class="field-container">
-
-    <text-field v-if="typeof(value) == 'string'" nopadding
-      :value="value" 
-      @input="$emit('input', { value: $event, field: key })"
-      :title="key">
-    </text-field>
-
-  </div>
+<!-- Generic object editor component. Use:
   
+  <object-editor 
+    :object="my_object" 
+    @input="handle_update($event)">
+  </object-editor>
+
+ -->
+<div style="display: flex; flex-flow: row wrap;justify-content:space-between;">
+  <div v-for="(value, field) in object" class="object-editor-field">
+    <text-field :key="field"
+      v-if="typeof(value) == 'string'"
+      :title="field + ':'" 
+      :value="value"
+      @input="update_field($event, field)">
+    </text-field>
+    <div v-else>{{field}} : {{value}}</div>
+  </div>
 </div>
 </template>
 
 <script>
-
 export default {
   name: 'object-editor',
   props: {
-    object: Object,
+    object: Object
   },
-  data() {
-    return {
-      expanded: true,
+  methods: {
+    update_field(value, field) {
+      let update_obj = {};
+      update_obj[field] = value;
+      this.$emit('input', update_obj)
     }
-  },
-  components: {
-    
   }
 }
 </script>
 
 <style lang="scss">
-.object-display {
-  font-size: var(--small-font-size);
-}
-.minimizer {
-  width: 15px;
-  text-align: center;
-  color: var(--card-text2);
-  cursor: pointer;
-  &:hover {
-    color: var(--card-text);
-  }
+.object-editor-field {
+  width: 45%;
 }
 </style>

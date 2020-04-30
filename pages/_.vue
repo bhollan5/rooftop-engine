@@ -8,11 +8,12 @@
   <template #sidebar>
   
     <!-- Always-present document details: -->
-    <document-details></document-details>
+    <document-details :data="doc_data">
+    </document-details>
     
 
     <!-- Dynamic card widgets for different modes: -->
-    <card title="Widget doc data:" v-if="body_data && body_data[selected_element]">
+    <card title="Widget doc data:" v-if="body_data && body_data[selected_element]" min>
       <text-field v-for="(value, field) in body_data[selected_element]" 
         :key="field"
         v-if="typeof(value) == 'string'"
@@ -24,8 +25,11 @@
       <text-field title="New field name" v-model="new_field_name"></text-field>
       <button @click="update_widget_data(new_field_name, '')">Add Field</button>
     </card>
+    <card title="Widget doc data:" v-else min>
+      <div>No widget selected.</div>
+    </card>
 
-    <card title="Widget prop config:" v-if="body_data && body_data[selected_element]">
+    <card title="Widget prop config:" v-if="body_data && body_data[selected_element]" min>
       <div v-for="(value, field) in body_data[selected_element].prop_config">
         {{field }} - {{value}}
         <text-field 
@@ -38,6 +42,17 @@
       <br>
       <text-field title="New field name" v-model="new_field_name"></text-field>
       <button @click="update_widget_data(new_field_name, '')">Add Field</button>
+    </card>
+    <card title="Widget prop config:" v-else min>
+      <div>No widget selected.</div>
+    </card>
+
+    <card title="Element list:" v-if="body_data">
+      <div>[component] - [template]</div><br>
+      <div v-for="element in body_data" class="">
+        {{ element.component_id }} - {{ element.template_id }}
+      </div>
+      <br>
     </card>
 
   </template>

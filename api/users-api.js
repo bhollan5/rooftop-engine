@@ -98,7 +98,6 @@ module.exports = function(app, mongoose){
     let _id = req.body._id;         // The id of the doc we're calling
     let update = req.body.update;   // The updated fields
     console.log(update)
-    console.log(_id);
     
     User.updateOne({_id: ObjectID(_id)}, update, (result) => {
       console.log(" ⬆️ Updated an user!")

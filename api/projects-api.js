@@ -24,7 +24,6 @@ module.exports = function(app, mongoose){
   // Creating a new project:
   app.post('/create-project', (req, res) => {
     console.log("body:")
-    console.log(req.body);
 
     let newProject = new Project(req.body);
     newProject.save(function (err, result) {

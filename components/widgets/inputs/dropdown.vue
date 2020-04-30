@@ -102,7 +102,7 @@ export default {
 // The entire component:
 .dropdown {
   position: relative;
-  width: 100%;  
+  // width: 100%;  
   min-height: 30px;
   margin: 10px 0px;
   
@@ -111,23 +111,19 @@ export default {
 
 .chosen-option {
   z-index: 2;
-  width: 100%;
-  min-width: 100px;
-  padding: 2px;
-  min-height: 30px;
-  padding-left: 4px;
+  padding: 2px 10px 2px 4px;
   border-radius: 5px;
   font-size: var(--small-font-size);
   cursor: pointer;
 
   background: var(--input);
-  display: flex;
+  display: inline-flex;
   align-items: center;
 
   // Dropdown icon:
   svg {
-    height: 14px;
-    width: 14px;
+    height: 12px;
+    width: 12px;
     margin: 0px 5px;
     fill: var(--input-text2);
     stroke: var(--input-text2);
@@ -152,8 +148,8 @@ export default {
 
   .option {
     position: relative;
-    height: 24px;
-    padding: 4px 5px 8px 36px;
+    height: 20px;
+    padding: 2px 5px 8px 36px;
     cursor: pointer;
 
     font-size: var(--small-font-size);

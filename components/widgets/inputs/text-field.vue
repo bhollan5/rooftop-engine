@@ -245,20 +245,20 @@ input:not(.number), textarea {
 input, textarea, .card input, .card textarea {
   border: none;
   &:focus {
-    border-bottom: solid 2px var(--c1);
+    border-bottom: solid 1px var(--c1);
   }
   &.no-underline {
-    border-bottom: solid 2px rgba(0,0,0,0);
+    border-bottom: solid 1px rgba(0,0,0,0);
     &:focus {
-      border-bottom: solid 2px var(--c1);
+      border-bottom: solid 1px var(--c1);
     }
   }
 }
 input, textarea {
-  border-bottom: solid 2px var(--input-text2);
+  border-bottom: solid 1px var(--input-text2);
 }
 .card input, .card textarea {
-  border-bottom: solid 2px var(--card-text2);
+  border-bottom: solid 1px var(--card-text2);
 }
 
 // Placeholder
