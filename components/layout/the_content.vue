@@ -48,6 +48,14 @@ export default {
 </script>
 
 <style lang="scss">
+.content-footer {
+  position: fixed;
+  font-size: var(--small-font-size);
+  width: 100%;
+  bottom: 300px;
+  background: var(--card2);
+  z-index: 50;
+}
 .body-floating-icons, .footer-floating-icons {
   position: sticky;
   width: 30px;

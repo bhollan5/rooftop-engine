@@ -17,7 +17,7 @@ export default [
           field: 'display_name'
         },
       },
-      local_data: {}
+      element_data: {}
     }
   }, {
     id: 'subheader',
@@ -36,7 +36,7 @@ export default [
           field: 'id'
         },
       },
-      local_data: {}
+      element_data: {}
     }
   }, {
     id: 'section-title',
@@ -44,10 +44,19 @@ export default [
     bold: true,
     title: 'Section Title',
     description: 'Describes bigger sections.',
-    config: {
-      component: 'text-field',
-      fontsize: 'h2',
-      bottom: 10,
+    element: {
+      component_id: 'text-field',
+      prop_config: {
+        fontsize: 'small',
+        bottom: 0,
+        value: {
+          connection_type: 'element_data',
+          field: 'value'
+        },
+      },
+      element_data: {
+        value: '',
+      }
     }
   }, {
     id: 'subsection-title',
@@ -102,7 +111,20 @@ export default [
     id: 'collection',
     icon: 'col',
     bold: false,
-    title: 'Collection',
-    description: 'A collection of documents.'
+    title: 'Organization',
+    description: 'A collection of documents.',
+
+    element: {
+      component_id: 'collection',
+      prop_config: {
+        fontsize: 'small',
+        bottom: 0,
+        owner: {
+          connection_type: 'doc_data',
+          field: 'id'
+        },
+      },
+      local_data: {}
+    }
   },
 ];

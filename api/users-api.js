@@ -72,7 +72,6 @@ module.exports = function(app, mongoose){
   app.post('/create-user', (req, res) => {
     console.log("\n 🗣 Called to add a user!")
     console.log("User's page:");
-    console.log(req.body.page);
     let newUser = new User({
       display_name: req.body.display_name,
       id: req.body.id,
@@ -136,7 +135,6 @@ module.exports = function(app, mongoose){
         10000, 
         512, 
         'sha512').toString('hex');
-      console.log("Do we get here?");
       if (pass_hash == found_user.hash) {
         console.log("Logged in!");
         res.send({

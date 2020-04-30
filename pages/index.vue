@@ -3,12 +3,12 @@
   <div class="content">
 
     <!-- The "landing promo" is the banner spread at the top of the landing page. -->
-    <div class="full-page">
+    <the-content>
       <space-canvas v-if="0"></space-canvas>
 
       <!-- -->
       
-    </div>
+    </the-content>
   </div>
 </template>
 

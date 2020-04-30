@@ -27,9 +27,9 @@
     <!--                                    -->
 
     <!-- Utility (will not show up when the page is viewed )-->
-    <new-widget v-else-if="widget.component == 'new'"
+    <new-widget v-else-if="widget.component_id == 'new'"
       :value="widget" 
-      @input="update_data($event)">
+      @input="add_element($event)">
     </new-widget>
 
 
@@ -58,9 +58,10 @@
       @input="update_data($event)">
     </article-card>
 
-    <collection v-else-if="widget.type == 'collection'" :editable="editable"
-    :owner="id"
-    :value="widget" @input="emit_update($event.path, index, $event.new_val)">
+    <collection v-else-if="widget.component_id == 'collection'" 
+      :editable="editable"
+      :value="widget" 
+      @input="emit_update($event.path, index, $event.new_val)">
     </collection>
 
     <!-- Images: -->
@@ -88,12 +89,15 @@ import newWidget from '@/components/widgets/new_widget.vue';
 
 import objectEditor from '@/components/widgets/side_bar/object_editor.vue';
 
+import collection from '@/components/widgets/links/collection.vue';
+
 export default {
   name: 'widget-renderer',
   components: {
 
     newWidget,
     objectEditor,
+    collection,
   },
 
   props: {
@@ -189,7 +193,7 @@ export default {
       this.$emit('widgetselect', index);
     },
 
-    // Updating the widget's fields in the store
+    // Updating an element's fields in the store. 
     update_data(prop_field, value) {
 
       let connection_type = this.widget.prop_config[prop_field].connection_type;
@@ -210,6 +214,15 @@ export default {
       this.$store.commit('page/body/set_body_widget', {
         index: this.index,
         widget: new_widget
+      });
+    },
+
+    // Replaces the 'new-widget' component with a truly new widget. 
+    add_element(element) {
+      
+      this.$store.commit('page/body/set_body_widget', {
+        index: this.index,
+        widget: element
       });
     },
 
@@ -244,28 +257,6 @@ export default {
       this.$refs['fileInput'][0].click()
     },
 
-    // Adds a tab section
-    addTab(tabElement) {
-      
-      tabElement.tabs.push({
-        "name": "New Tab",
-        "content": [
-            {
-                "type": "section-title",
-                "content": ""
-            },
-            {
-                "type": "subsection-title",
-                "index": "1.1",
-                "content": ""
-            },
-            {
-                "type": "paragraph",
-                "content": ""
-            }
-        ]
-      });
-    }
 
   },
 

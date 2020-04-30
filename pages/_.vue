@@ -11,14 +11,29 @@
     <document-details></document-details>
 
     <!-- Dynamic card widgets for different modes: -->
-    <card title="Edit widget fields:" v-if="body_data && body_data[selected_widget]">
-      <text-field v-for="(value, field) in body_data[selected_widget]" 
+    <card title="Widget doc data:" v-if="body_data && body_data[selected_element]">
+      <text-field v-for="(value, field) in body_data[selected_element]" 
         :key="field"
         v-if="typeof(value) == 'string'"
         :title="field + ':'" 
-        :value="body_data[selected_widget][field]"
+        :value="body_data[selected_element][field]"
         @input="update_widget_data(field, $event)">
       </text-field>
+      <br>
+      <text-field title="New field name" v-model="new_field_name"></text-field>
+      <button @click="update_widget_data(new_field_name, '')">Add Field</button>
+    </card>
+
+    <card title="Widget prop config:" v-if="body_data && body_data[selected_element]">
+      <div v-for="(value, field) in body_data[selected_element].prop_config">
+        {{field }} - {{value}}
+        <text-field 
+          v-if="typeof(value) == 'string'"
+          :title="field + ':'" 
+          :value="body_data[selected_element].prop_config[field]"
+          @input="update_widget_data(field, $event)">
+        </text-field>
+      </div>
       <br>
       <text-field title="New field name" v-model="new_field_name"></text-field>
       <button @click="update_widget_data(new_field_name, '')">Add Field</button>
@@ -56,10 +71,10 @@
     
 
     <!-- Rendering all body widgets:  -->
-    <widget-renderer v-for="(widget, widget_i) in body_data"
+    <element-renderer v-for="(widget, widget_i) in body_data"
       :editable="editable"
-      :selected="selected_widget == widget_i"
-      @click="selected_widget = widget_i"
+      :selected="selected_element == widget_i"
+      @click="selected_element = widget_i"
       :owner="doc_data.id"
 
       :key="'body-widget' + widget_i"
@@ -68,7 +83,7 @@
       :source="'body_data'"
       :index="widget_i"
     >
-    </widget-renderer>
+    </element-renderer>
 
     <!-- Add widget button: -->
     <button v-if="editable" @click="add_element()">+ Add element</button>
@@ -85,7 +100,6 @@
 
     <!-- The floating icons, to toggle the footer: -->
     <div class="footer-floating-icons" @click="toggle_footer()"
-      v-if="0"
       :style="{ bottom: footer_height + 'px'}">
       <div @click="toggle_footer()">
         <up-arrow-icon v-if="footer_height < 10"></up-arrow-icon>
@@ -94,6 +108,7 @@
     </div>
 
     <!-- Footer: -->
+    <template #footer>
     <div class="footer card flex-container" 
       :style="{ height: footer_height + 'px'}">
 
@@ -106,6 +121,7 @@
           title="body_data"></object-display>
       </div>
     </div>
+    </template>
 
   
 
@@ -115,7 +131,7 @@
 <script>
 
 import Vue from 'vue';
-import widgetRenderer from '~/components/widget_renderer.vue';
+import elementRenderer from '~/components/element_renderer.vue';
 import objectDisplay from '~/components/widgets/debug/object_display.vue';
 
 import documentDetails from '~/components/widgets/side_bar/document_details.vue';
@@ -126,7 +142,7 @@ export default {
 
   components: {
     objectDisplay,
-    widgetRenderer,
+    elementRenderer,
     documentDetails,
   },
 
@@ -142,13 +158,11 @@ export default {
 
       editable: true,
 
-
-
       // Lets us add fields to widgets
       new_field_name: '',
 
       // Show footer:
-      footer_height: 0,
+      footer_height: 300,
       show_side_bar: true,
 
       // An array of strings for each element in the route.
@@ -160,7 +174,7 @@ export default {
       // And the id of that document:
       doc_id: '',
 
-      selected_widget: -1,
+      selected_element: -1,
 
       // If the document has unsaved changes
       unsaved_changes: false,
@@ -264,7 +278,7 @@ export default {
   methods: {
     // Adding a field to a widget
     add_field() {
-      Vue.set(this.document_draft.body_data[this.selected_widget], this.new_field_name, "Value")
+      Vue.set(this.document_draft.body_data[this.selected_element], this.new_field_name, "Value")
       this.new_field_name = '';
     },
 
@@ -325,17 +339,17 @@ export default {
       widget_update[field] = new_value;
       // Pass to the store
       this.$store.commit('page/set_body_widget', {
-        index: this.selected_widget,
+        index: this.selected_element,
         widget: widget_update
       });
     },
 
     add_element() {
       this.$store.commit('page/body/add_body_widget', {
-        component: 'new',
+        component_id: 'new',
         content: ''
       });
-      this.selected_widget = this.body_data.length - 1;
+      this.selected_element = this.body_data.length - 1;
     },
 
   }
@@ -377,6 +391,7 @@ export default {
   font-size: var(--small-font-size);
   width: 100%;
   bottom: 0px;
+  height: 100px;
   background: var(--card2);
   z-index: 50;
 }

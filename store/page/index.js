@@ -23,7 +23,7 @@ export const state = () => ({
   },
 
   manifest: {
-    collection: '',
+    collection_name: '',
     doc_id: '',
     owner: '',
   },
@@ -87,7 +87,10 @@ export const actions = {
 
   // This function calls /db/read_[collection]s in the store
   // Then, it dispatches /copy_page_draft to snag a fresh, editable copy.
-  read_page_doc({dispatch}, payload) {
+  read_page_doc({dispatch, commit}, payload) {
+
+    commit('set_current_collection_name', payload.collection_name);
+    commit('set_current_doc_id', payload.doc_id);
 
     // Ex: If payload.collection_name == 'user', the path is 'db/users/read_user'
     let action_name = 'db/' + payload.collection_name + 's/read_' + payload.collection_name;
@@ -177,6 +180,13 @@ export const actions = {
 // Calling mutations from Vue is weird, you need to do this:
 //    this.$store.commit("mutationName", { payloadData: data })
 export const mutations = {
+
+  set_current_collection_name(state, payload) {
+    state.manifest.collection_name = payload;
+  },
+  set_current_doc_id(state, payload) {
+    state.manifest.doc_id = payload;
+  },
 
   change_editor_state(state, payload) {
     state.local_data.editor_state = payload;

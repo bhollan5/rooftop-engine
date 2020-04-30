@@ -2,27 +2,44 @@
 <!-- Popup shown when the gear button is clicked: -->
 <div class="edit-element-interface">
 
-  <!-- Input type selector: -->
+  <!-- Element template selector: -->
   <div class="element-type-selector">
-    <h5>Section type:</h5>
+    <h5>Element template: </h5>
     <!-- v-for list of the section type options: -->
-    <div class="element-type-option" v-for="template in element_templates"
-      :class="{'selected-element-type': 
-        value.type == template.name}" @click="$emit('input', template.config)">
-      <div class="element-type-icon"
-      :class="{bold: template.bold}">
-        <image-icon v-if="template.name == 'image'"></image-icon>
+    <div class="element-type-option" 
+      v-for="template in ELEMENT_TEMPLATES"
+      :class="{'selected-element-type': selected_template.id == template.id}" 
+      @click="selected_template = template"
+    >
+
+      <div 
+        class="element-type-icon"
+        :class="{bold: template.bold}"
+      >
+        <image-icon v-if="template.id == 'image'"></image-icon>
         <span v-else>{{template.icon}}</span>
       </div>
+
       <div class="option-description">
         <p class="bold">{{template.title}}</p>
         <p class="small-font">{{template.description}}</p>
       </div>
+
     </div>
   </div>
 
-  <div class="element-size-selector">
-    <h5>Size:</h5>
+  <!-- Config section -->
+  <div class="small-font padding">
+    <div>Config <span v-if="selected_template.id">for yr <b>{{selected_template.title}}</b>:</span></div>
+    <div class="component-details">
+      Component: {{ component_info.title }}
+    </div>
+    <div class="element-template-details">
+      selected_template: 
+    </div>
+    <div class="element-config">
+
+    </div>
   </div>
 
 </div>
@@ -31,6 +48,8 @@
 <script>
 
 import element_templates from '~/modules/templates/element_templates.js';
+import component_templates from '~/modules/templates/component_templates.js';
+import { query_array_of_objects } from '~/modules/helpers.js';
 
 export default {
 
@@ -43,17 +62,32 @@ export default {
     }
   },
   computed: {
-
+    component_info() {
+      console.warn('recalc')
+      let search_id = this.selected_template.element.component_id;
+      console.warn(search_id)
+      let matching_components = query_array_of_objects(this.COMPONENT_TEMPLATES, {id: search_id});
+      console.log(matching_components)
+      return matching_components[0];
+    }
   },
   data() {
     return {
-      element_templates: element_templates,
-      // Storing data for different section types.
-      // This is mostly just to save html space w/ a v-for
+
+      // Static list of element template options:
+      ELEMENT_TEMPLATES: element_templates,
+      COMPONENT_TEMPLATES: component_templates,
+
+      // The currently selected template id:
+      selected_template: { id: '', element: {}, },
       
     }
   },
   methods: {
+    // Creating a new element!
+    create_element(element) {
+      this.$emit('input', element);
+    }
   }
 }
 
@@ -126,14 +160,14 @@ export default {
   }
 
   &:hover {
-    filter: brightness(130%);
+    filter: brightness(115%);
     .option-description {
       color: var(--card-text);
     }
   }
   // For the currently selected element option:
   &.selected-element-type {
-    filter: brightness(120%);
+    filter: brightness(130%);
     color: var(--card-text);
     .option-description {
       color: var(--card-text);

@@ -1,11 +1,13 @@
-export default {
-  'text-field': {
-    static_props: {
+export default [
+  {
+    id: 'text-field',
+    title: 'Text Field',
+    template_props: {
       fontsize: 'string',
       placeholder: 'string',
     },
-    dynamic_props: {
+    config_props: {
       value: 'string'
     }
   }
-};
+];

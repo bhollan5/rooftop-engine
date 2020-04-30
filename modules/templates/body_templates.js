@@ -1,16 +1,16 @@
-import {ElementTemplate} from '~/modules/datatypes/ElementTemplate.js';
+import {Element} from '~/modules/datatypes/Element.js';
 
 export default [{
   id: 'user',
   body_data: [
-    new ElementTemplate('header', 
+    new Element('header', 
     { 
       value: {
         connection_type: 'doc_data',
         field: 'display_name'
       },
     }),
-    new ElementTemplate('subheader'),
+    new Element('subheader'),
   ],
   
 }]
