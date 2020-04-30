@@ -9,6 +9,7 @@
   
     <!-- Always-present document details: -->
     <document-details :data="doc_data">
+      <checkbox v-model="edit_template" title="Edit template"></checkbox>
     </document-details>
     
 
@@ -90,7 +91,7 @@
   <!-- Content body: -->
   <template #body>
 
-    <checkbox v-model="edit_template"></checkbox> {{edit_template}}
+    
 
     <!-- Rendering all body widgets:  -->
     <element-renderer v-for="(widget, widget_i) in body_data"

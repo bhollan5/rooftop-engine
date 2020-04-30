@@ -1,6 +1,9 @@
 <template>
 <!-- Popup shown when the gear button is clicked: -->
-<div id="element-editor">
+<container id="element-editor"
+  :padding="[0,0,0,0]"
+  :depth="3"
+>
 
   <!-- Element template selector: -->
   <div class="element-type-selector">
@@ -29,7 +32,32 @@
   </div>
 
   <!-- Config section -->
-  <div class="small-font padding">
+  <div class="small-font">
+
+    <card title="Element config:">
+      <div>
+        Template: <b>{{selected_template.title}}</b>
+      </div>
+      <div v-if="component_info">
+        Component: <b>{{ component_info.title }}</b>
+      </div>
+
+      <div>
+        <div>Prop config:</div>
+        <div v-for="(value, field) in selected_template.element.prop_config">
+          Prop name: <b>{{field}}</b>
+          <dropdown title="Connection type:" 
+            :options="['Static', 'Element', 'Document', 'Database']"
+            :value="pretty_connection_type(value)">
+          </dropdown>
+          <text-field title="field" 
+            nopadding
+            v-if="pretty_connection_type(value) != 'Static'"
+            :value="value.field"></text-field>
+        </div>
+      </div>
+
+    </card>
     <div>Config <span v-if="selected_template.id">for yr <b>{{selected_template.title}}</b>:</span></div>
     <div class="component-details" v-if="component_info">
       Component: {{ component_info.title }}
@@ -42,7 +70,7 @@
     </div>
   </div>
 
-</div>
+</container>
 </template>
 
 <script>
@@ -59,6 +87,9 @@ export default {
     },
     editable: {
       type: Boolean
+    },
+    propValues:{ 
+      type: Object
     }
   },
   computed: {
@@ -95,7 +126,17 @@ export default {
     select_template(template) {
       this.selected_template = template;
       this.$emit('updateDraft', template.element);
-    }
+    },
+
+    pretty_connection_type(connection_obj) {
+      if (typeof(connection_obj) != 'object') {
+        return 'Static';
+      } else if (connection_obj.connection_type == 'doc_data') {
+        return 'Document'
+      } else {
+        return 'Element'
+      }
+    },
   }
 }
 

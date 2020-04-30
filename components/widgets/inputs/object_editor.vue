@@ -13,6 +13,7 @@
       v-if="typeof(value) == 'string'"
       :title="field + ':'" 
       :value="value"
+      nopadding
       @input="update_field($event, field)">
     </text-field>
     <div v-else>{{field}} : {{value}}</div>

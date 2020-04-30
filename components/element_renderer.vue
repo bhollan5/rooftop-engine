@@ -43,9 +43,9 @@
 
     <text-field v-if="widget.component_id == 'text-field'"
       :editable="editable"
-      :value="widget_props.value"
+      :value="element_props.value"
       
-      :fontsize="widget_props.fontsize"
+      :fontsize="element_props.fontsize"
       nobox
       @input="update_data( 'value', $event )"
     ></text-field>
@@ -81,6 +81,7 @@
 
     <element-editor v-if="selected && editTemplate"
       :value="widget" 
+      :propValues="element_props"
       @reset="reset_draft()"
       @updateDraft="update_draft($event)"
       @input="add_element($event)"
@@ -145,10 +146,10 @@ export default {
   computed: {
 
     widget() {
-      if (!this.editTemplate){
-        return this.$store.getters['page/body/body_widget'](this.index);
-      } else {
+      if (this.editTemplate && this.selected){
         return this.draftElement;
+      } else {
+        return this.$store.getters['page/body/body_widget'](this.index);
       }
     },
 
@@ -156,33 +157,33 @@ export default {
       return this.$store.getters['page/doc_data'];
     },
 
-    // widget_props() connects props with the values from various prop sources.
+    // element_props() connects props with the values from various prop sources.
     /* Ex: If 'widget.prop+config' looks like this: 
       { value: { connection_type: 'doc_data', field: 'display_name' }, ... }
-      widget_props will return this:
+      element_props will return this:
       { value: this.doc_data.display_name, ... }
     */
-    widget_props() {
+    element_props() {
 
-      let widget_props = {};
+      let element_props = {};
       let prop_config = this.widget.prop_config; // For the shorter name
 
       for (let prop_field in prop_config) {
         
         if (typeof(prop_config[prop_field]) == 'string' || typeof(prop_config[prop_field]) == 'number') {
-          widget_props[prop_field] = prop_config[prop_field];
+          element_props[prop_field] = prop_config[prop_field];
 
         } else if (typeof(prop_config[prop_field]) == 'object'){
         
           let connection_type = prop_config[prop_field].connection_type;
           let source_field = prop_config[prop_field].field;
           if (connection_type == 'doc_data') {
-            widget_props[prop_field] = this.doc_data[source_field];
+            element_props[prop_field] = this.doc_data[source_field];
           }
 
         }
       }
-      return widget_props;
+      return element_props;
 
     },
 

@@ -6,7 +6,7 @@
     :options="state_options" 
     @input="change_state($event)"
     :value='editor_state'>
-  </dropdown>
+  </dropdown><slot></slot>
   <br>
   <object-editor :object="data" @input="update_doc_data($event)"></object-editor>
 </card>
