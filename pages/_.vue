@@ -47,11 +47,17 @@
       <div>No widget selected.</div>
     </card>
 
+    <!-- Layer list: -->
     <card title="Element list:" v-if="body_data">
       <div>[component] - [template]</div><br>
-      <div v-for="element in body_data" class="">
-        {{ element.component_id }} - {{ element.template_id }}
-      </div>
+      <layer-picker
+        :layers="body_data" 
+        layerTitleKey="template_id"
+        :value="[selected_element]"
+        @input="select_element($event[0])"
+      >
+      
+      </layer-picker>
       <br>
     </card>
 
@@ -91,7 +97,7 @@
       :editable="editable"
       :editTemplate="edit_template"
       :selected="selected_element == widget_i"
-      @click="selected_element = widget_i"
+      @click="select_element(widget_i)"
       :owner="doc_data.id"
 
       :key="'body-widget' + widget_i"
@@ -370,6 +376,11 @@ export default {
       });
       this.selected_element = this.body_data.length - 1;
     },
+
+    select_element(index) {
+      this.selected_element = index;
+      this.edit_template = true;
+    }
 
   }
 }
