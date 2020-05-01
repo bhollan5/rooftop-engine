@@ -79,7 +79,7 @@ module.exports = function(app, mongoose){
       "_id": ObjectID(_id)
     }, (err, result) => {
       if (err) {
-        console.log(err);
+        //console.log(err);
         res.send(err)
       }
       console.log(" ⛔️ Deleted an article!")

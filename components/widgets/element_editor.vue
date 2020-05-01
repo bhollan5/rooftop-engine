@@ -75,8 +75,8 @@
 
 <script>
 
-import element_templates from '~/modules/templates/element_templates.js';
-import component_templates from '~/modules/templates/component_templates.js';
+import element_templates from '~/modules/datatypes/Element/element_templates.js';
+import component_templates from '~/modules/datatypes/ComponentInfo/component_templates.js';
 import { query_array_of_objects } from '~/modules/helpers.js';
 
 export default {

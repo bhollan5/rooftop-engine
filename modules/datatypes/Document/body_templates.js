@@ -1,4 +1,4 @@
-import {Element} from '~/modules/datatypes/Element.js';
+import {Element} from '~/modules/datatypes/Element/Element.js';
 
 export default [{
   id: 'user',

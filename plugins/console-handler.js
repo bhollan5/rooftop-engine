@@ -37,7 +37,7 @@ export default ({ app }, inject) => {
         message: msg,
         re: re,
       });
-      if (this.log_messages) { console.log(msg) };
+      //if (this.log_messages) { console.log(msg) };
     },
     test: function() {
       console.warn("Wow this worked??");

@@ -1,5 +1,5 @@
 import { query_array_of_objects } from '~/modules/helpers.js';
-import element_templates from '~/modules/templates/element_templates.js';
+import element_templates from '~/modules/datatypes/Element/element_templates.js';
 
 // The object class for our custom datatype, element!
 //   element attributes:

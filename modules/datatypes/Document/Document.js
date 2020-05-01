@@ -1,6 +1,6 @@
 import { query_array_of_objects } from '~/modules/helpers.js';
 
-import body_templates from '~/modules/templates/body_templates.js';
+import body_templates from './body_templates.js';
 
 
 export function Document(template_id) {
