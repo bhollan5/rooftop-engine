@@ -36,6 +36,13 @@ export const state = () => ({
 
 export const getters = {
 
+  element(state) {
+    return new Element({
+      template_id: state.template_id,
+      prop_config: state.prop_config,
+      container: state.container
+    })
+  },
 
 }
 
@@ -48,8 +55,9 @@ export const getters = {
 //  this.$store.dispatch('actionName', {playloadData: data });
 export const actions = {
   
-  select_element({commit}, payload) {
-    
+  select_template({commit}, payload) {
+    let found_el = new Element(payload);
+    commit('load_selected_element', new Element(payload));
   }
 
 }
@@ -63,7 +71,6 @@ export const actions = {
 //    this.$store.commit("mutationName", { payloadData: data })
 export const mutations = {
   load_selected_element(state, payload) {
-
     state.template_id = payload.template_id;
     state.prop_config = payload.prop_config;
     state.container = payload.container

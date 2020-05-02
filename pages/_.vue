@@ -369,7 +369,6 @@ export default {
     },
 
     select_element(index) {
-      console.log(this.body_data[index]);
       this.$store.commit(
         'draft_doc/body/draft_element/load_selected_element', 
         this.body_data[index],

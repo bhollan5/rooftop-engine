@@ -12,14 +12,16 @@
   <!-- Element template selector: -->
   <!--<div class="element-type-selector">-->
   <container class="scroll-y inconsolata">
+
     <template #header>
       <div class="card padding">Element template:</div>
     </template>
+
     <!-- v-for list of the section type options: -->
     <div class="element-type-option" 
       v-for="template in ELEMENT_TEMPLATES"
-      :class="{'selected-element-type': selected_template.id == template.id}" 
-      @click="select_template(template)"
+      :class="{'selected-element-type': element.template_id == template.id}" 
+      @click.stop="select_template(template)"
     >
 
       <div 
@@ -50,7 +52,7 @@
       <div>
 
         <div class="b">Prop config:</div>
-        <div v-for="(value, field) in selected_template.element.prop_config" class="flex-container align-center">
+        <div v-for="(value, field) in element.prop_config" class="flex-container align-center">
           <b>{{field}}: &nbsp;</b>
           <dropdown title="Type:" 
             :options="['Static', 'Element', 'Document', 'Database']"
@@ -104,7 +106,8 @@ export default {
   computed: {
 
     element() {
-      return {}
+      let el = this.$store.getters['draft_doc/body/draft_element/element'];
+      return el;
     },
 
     component_info() {
@@ -143,9 +146,11 @@ export default {
       this.$emit('input', element);
     },
 
+    // Updating the draft element when you select a template
     select_template(template) {
-      this.selected_template = template;
-      this.$emit('updateDraft', template.element);
+      this.$store.dispatch(
+        'draft_doc/body/draft_element/select_template', template.id,
+      )
     },
 
     pretty_connection_type(connection_obj) {

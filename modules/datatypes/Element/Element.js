@@ -7,10 +7,16 @@ import element_templates from '~/modules/datatypes/Element/element_templates.js'
 //      - component_id:   String
 //      - local_data:     Array
 //      - prop_config:    Object
-export function Element(_template_id="new", _prop_config) {
+export function Element(payload) {
 
-  if (typeof(_template_id) == 'string') {
-    this.create_from_template(_template_id);
+  if (typeof(payload) == 'string') {
+    this.create_from_template(payload);
+
+  } else if (typeof(payload) == 'object') {
+    this.template_id = payload.template_id;
+    this.component_id = payload.component_id;
+    this.prop_config = payload.prop_config;
+    this.container = payload.container;
   }
     
   
@@ -46,8 +52,8 @@ Element.prototype.create_from_template = function(template_id) {
 
   let element = element_template.element;
   this.component_id = element.component_id;
-  this.template_id = element.id;
+  this.template_id = element_template.id;
   this.prop_config = element.prop_config;
   this.local_data = element.local_data;
-  this.static_data = element.static_data
+  this.static_data = element.static_data;
 }
