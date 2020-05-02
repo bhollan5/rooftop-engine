@@ -2,8 +2,28 @@ import { Color } from "./Color";
 
 
 export let named_colors = [
-  new Color(0,0,20,'darkgray'),
-  new Color(0,0,30,'gray'),
-  new Color(0,0,70,'lightgray'),
-  new Color(0,0,90,'white'),
+  {
+    h: 0,
+    s: 0,
+    l: 20,
+    name: 'darkgray'
+  },
+  {
+    h: 0,
+    s: 0,
+    l: 30,
+    name: 'gray'
+  },
+  {
+    h: 0,
+    s: 0,
+    l: 70,
+    name: 'lightgray'
+  },
+  {
+    h: 0,
+    s: 0,
+    l: 90,
+    name: 'white'
+  },
 ]

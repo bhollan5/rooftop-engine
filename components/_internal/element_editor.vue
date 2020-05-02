@@ -67,18 +67,8 @@
 
     </card>
 
-    <card title="Container config">
-      <div>Container info:</div>
-      <div class="component-details" v-if="component_info">
-        Component: {{ component_info.title }}
-      </div>
-      <div class="element-template-details">
-        selected_template: 
-      </div>
-      <div class="element-config">
-
-      </div>
-    </card>
+    <container-editor></container-editor>
+    
   </container>
 
 </container>

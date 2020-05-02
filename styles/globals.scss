@@ -135,15 +135,8 @@ html {
 }
 
 .color-thumbnail {
-  width: 15px;
-  height: 15px;
-  margin: 5px;
   transition: .1s;
-  box-shadow: 0px 0px 3px black;
   cursor: pointer;
-  &:hover {
-    box-shadow: 0px 0px 5px white;
-  }
 }
 
 .card {

@@ -13,17 +13,15 @@ import { query_array_of_objects } from '~/modules/helpers.js';
 //      - name:   String
 
 
-export function ColorScheme(obj_or_template_id) {
-  if (!this.create_from_template) {
-    return;
-  }
+export function ColorScheme(payload) {
+
   // If it was initialized with a string, that string is a template id. 
-  if (typeof(obj_or_template_id) == 'string') {
-    return this.create_from_template(obj_or_template_id)
+  if (typeof(payload) == 'string') {
+    this.create_from_template(payload)
 
   // If it was initialized with an object, that object is config for the Material. 
-  } else if (typeof(obj_or_template_id) == 'object') {
-    this.create_from_object(obj_or_template_id);
+  } else if (typeof(payload) == 'object') {
+    this.create_from_object(payload);
   }
 
   this._is_dark = false;
@@ -32,11 +30,16 @@ export function ColorScheme(obj_or_template_id) {
 
 
 ColorScheme.prototype.create_from_template = function(template_id) {
-  return query_array_of_objects(color_schemes, template_id)[0];
+  let scheme = query_array_of_objects(color_schemes, {id: template_id})[0];
+  if (scheme) {
+    this.name = scheme.name;
+    this.bg = scheme.bg;
+    this.text = scheme.text;
+    this.ill = scheme.ill;
+  }
 }
 
 ColorScheme.prototype.create_from_object = function(material_obj) {
-  console.warn("Do this work")
   this.color_scheme = material_obj.color_scheme || new ColorScheme('dark');
   this.start_depth = material_obj.start_depth || 0;
   this.name = material_obj.name || 'New Material';

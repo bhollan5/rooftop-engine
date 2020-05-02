@@ -11,6 +11,9 @@ import links from './links/_globals';
 import data_display from './data_display/_globals';
 
 
+import editor_cards from './editor_cards/_globals';
+
+
 // Layout components
 import theContent from './_the_layout/the_content.vue';
 import theSidebar from './_the_layout/the_sidebar.vue';
@@ -31,5 +34,6 @@ export default {
   ...space_canvas,
   ...links,
   ...data_display,
+  ...editor_cards,
 
 };
