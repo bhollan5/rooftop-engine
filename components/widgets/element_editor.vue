@@ -8,14 +8,12 @@
   }"
 
 >
-  <template #header>
-  </template>
 
   <!-- Element template selector: -->
   <!--<div class="element-type-selector">-->
   <container class="scroll-y inconsolata">
     <template #header>
-      Element template:
+      <div class="card padding">Element template:</div>
     </template>
     <!-- v-for list of the section type options: -->
     <div class="element-type-option" 
@@ -45,15 +43,16 @@
   <container style="width: 60%;">
 
     <card title="Element config:" :width="'100%'">
-      <div v-if="component_info">
+      <div v-if="component_info && 0">
         Component: <b>{{ component_info.title }}</b>
       </div>
 
       <div>
-        <div>Prop config:</div>
-        <div v-for="(value, field) in selected_template.element.prop_config">
-          Prop name: <b>{{field}}</b>
-          <dropdown title="Connection type:" 
+
+        <div class="b">Prop config:</div>
+        <div v-for="(value, field) in selected_template.element.prop_config" class="flex-container align-center">
+          <b>{{field}}: &nbsp;</b>
+          <dropdown title="Type:" 
             :options="['Static', 'Element', 'Document', 'Database']"
             :value="pretty_connection_type(value)">
           </dropdown>
@@ -195,8 +194,8 @@ export default {
   .element-type-icon {
     width: 35px;
     height: 35px;
-    border-radius: 5px;
-    border: 1px solid var(--input-text2);
+    box-shadow: inset 0px 0px 5px black;
+    font-family: crimsonText;
     background: var(--input);
     display: flex; 
     align-items: center;
@@ -229,9 +228,6 @@ export default {
     color: var(--card-text);
     .option-description {
       color: var(--card-text);
-    }
-    .element-type-icon {
-      border: 1px solid var(--input-text);
     }
   }
 }
