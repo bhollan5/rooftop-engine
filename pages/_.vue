@@ -187,7 +187,7 @@ export default {
       new_field_name: '',
 
       // Show footer:
-      footer_height: 300,
+      footer_height: 0,
       show_side_bar: true,
 
       // An array of strings for each element in the route.

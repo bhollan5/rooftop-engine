@@ -1,16 +1,12 @@
 <template>
 <div class="container" 
-  :style="{
-    padding: padding_css,
-    'box-shadow': box_shadow_css,
-    background: material.color_scheme.bg.get_css_string(offset)
-  }"
-  :class="[ 'depth-' + depth ]"
+  :style="get_material_string()"
+  :class="[ 'depth-' + depth, ]"
   @click="$emit('click', $event)"
 >
 
-  <div class="container-header">
-    <slot name="container-header" />
+  <div class="container-header dark">
+    <slot name="header" />
   </div>
   
   <slot></slot>
@@ -19,7 +15,7 @@
 
 <script>
 
-import {Material, ColorScheme, Color} from '~/modules/globals.js';
+import {Material, ColorScheme, Color, Container} from '~/modules/globals.js';
 
 export default {
   name: 'container',
@@ -35,14 +31,14 @@ export default {
         return [10, 0, 10, 0]
       }
     },
+    display: {
+      type: String,
+      default: "block",
+    },
     // A Material object
-    material: {
+    _container: {
       default()  {
-        let bg_color = new Color('darkgray');
-        let light_color = new Color('white');
-        let color_scheme = new ColorScheme(bg_color, light_color);
-        console.log(color_scheme);
-        return new Material(color_scheme);
+        return new Container('card');
       }
     },
     // An array indicating color offset
@@ -72,11 +68,23 @@ export default {
       let box_string = '0px 0px ' + this.depth * 5 + 'px black';
       return box_string;
     }
+  },
+
+  methods: {
+    get_material_string() {
+      if (typeof(this.material) == 'object') {
+        return this.material.get_css_obj();
+      } else {
+        return {}
+      }
+    }
   }
 }
 
 </script>
 
 <style lang="scss" scoped>
-
+.dark {
+  background: var(--dark);
+}
 </style>

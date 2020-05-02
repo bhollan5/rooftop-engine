@@ -410,4 +410,5 @@ export default {
 input:active, input:hover {
   background: var(--input);
 }
+
 </style>

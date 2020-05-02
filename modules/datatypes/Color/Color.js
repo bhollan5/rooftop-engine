@@ -1,36 +1,49 @@
 
 
 // The object class for our custom Color datatype.
-//   element attributes:
+//
+//   Attributes:
 //      - h:      Num (0 - 360)
 //      - s:      Num (0 - 100)
 //      - l:      Num (0 - 100)
 //      - name:   String
+//
+//  Methods:
+//      void create_from_template(String)
+//      void create_random_color()
+//      string get_css_string()
 
-import {named_colors} from '~/modules/datatypes/Color/named_colors.js';
+import {named_colors} from '~/modules/datatypes/Color/some_colors.js';
 import { query_array_of_objects } from '~/modules/helpers.js';
 
 
 
-export function Color(h,s,l,name) {
+export function Color(payload) {
 
   // If the first argument is a string, try to find a named color. 
-  if (typeof(h) == 'string') {
-    let named_color = query_array_of_objects(named_colors, {name: h})[0]
-    return named_color;
+  if (typeof(payload) == 'string') {
+    return this.create_from_template(payload);
+
+  } else if (payload === undefined ) {
+    return this.create_random_color();
   }
 
-
-  if (h === undefined || s === undefined || l === undefined) {
-    h = Math.floor(Math.random() * 360);
-    s = Math.floor(Math.random() * 100)
-    l = Math.floor(Math.random() * 100)
-  }
-  this.h = h;
-  this.s = s;
-  this.l = l;
-  this.name = name;
 }
+
+
+// Constructors:
+Color.prototype.create_from_template = function (template_id) {
+  let named_color = query_array_of_objects(named_colors, {name: template_id})[0]
+  return named_color;
+};
+
+Color.prototype.create_random_color = function () {
+  this.h = Math.floor(Math.random() * 360);
+  this.s = Math.floor(Math.random() * 100);
+  this.l = Math.floor(Math.random() * 100);
+  this.name = 'random';
+};
+
 
 // Takes an optional offset array.
 // Snagged this layout for modules from here btw:

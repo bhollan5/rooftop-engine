@@ -14,6 +14,9 @@ $tablet-bp: 400px;
 @import '@/styles/svg-classes.scss';
 @import '@/styles/transitions.scss';
 
+@import '@/styles/classes.scss';
+@import '@/styles/material_classes.scss';
+
 
 // Global vars:
 :root {
@@ -55,27 +58,7 @@ html {
 
 
 
-// Small, single-attribute classes:
-.centered {
-  text-align: center;
-}
 
-// Flex container classes:
-.flex-container {
-  display: flex;
-}
-.space-around {
-  justify-content: space-around;
-}
-.space-between {
-  justify-content: space-between;
-}
-.align-center {
-  align-items: center;
-}
-.row-wrap {
-  flex-flow: row wrap;
-}
 
 // Easy margin classes
 .margins {

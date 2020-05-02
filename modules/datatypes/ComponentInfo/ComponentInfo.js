@@ -1,5 +1,5 @@
 import { query_array_of_objects } from '~/modules/helpers.js';
-import component_templates from '~/modules/datatypes/ComponentInfo/component_templates.js';
+import component_templates from '~/modules/datatypes/ComponentInfo/all_component_info.js';
 
 // The object class for an object with a component's info. 
 //      - id:               String

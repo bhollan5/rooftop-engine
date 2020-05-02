@@ -1,13 +1,22 @@
 <template>
 <!-- Popup shown when the gear button is clicked: -->
-<container id="element-editor"
+<container id="element-editor" class="flex-container"
   :padding="[0,0,0,0]"
   :depth="3"
+  :style="{
+    font: 'Inconsolata'
+  }"
+
 >
+  <template #header>
+  </template>
 
   <!-- Element template selector: -->
-  <div class="element-type-selector">
-    <h5>Element template: </h5>
+  <!--<div class="element-type-selector">-->
+  <container class="scroll-y inconsolata">
+    <template #header>
+      Element template:
+    </template>
     <!-- v-for list of the section type options: -->
     <div class="element-type-option" 
       v-for="template in ELEMENT_TEMPLATES"
@@ -29,15 +38,13 @@
       </div>
 
     </div>
-  </div>
+  </container>
+  <!--</div>-->
 
   <!-- Config section -->
-  <div class="small-font">
+  <container style="width: 60%;">
 
-    <card title="Element config:">
-      <div>
-        Template: <b>{{selected_template.title}}</b>
-      </div>
+    <card title="Element config:" :width="'100%'">
       <div v-if="component_info">
         Component: <b>{{ component_info.title }}</b>
       </div>
@@ -58,17 +65,20 @@
       </div>
 
     </card>
-    <div>Config <span v-if="selected_template.id">for yr <b>{{selected_template.title}}</b>:</span></div>
-    <div class="component-details" v-if="component_info">
-      Component: {{ component_info.title }}
-    </div>
-    <div class="element-template-details">
-      selected_template: 
-    </div>
-    <div class="element-config">
 
-    </div>
-  </div>
+    <card title="Container config">
+      <div>Container info:</div>
+      <div class="component-details" v-if="component_info">
+        Component: {{ component_info.title }}
+      </div>
+      <div class="element-template-details">
+        selected_template: 
+      </div>
+      <div class="element-config">
+
+      </div>
+    </card>
+  </container>
 
 </container>
 </template>
@@ -76,7 +86,7 @@
 <script>
 
 import element_templates from '~/modules/datatypes/Element/element_templates.js';
-import component_templates from '~/modules/datatypes/ComponentInfo/component_templates.js';
+import component_templates from '~/modules/datatypes/ComponentInfo/all_component_info.js';
 import { query_array_of_objects } from '~/modules/helpers.js';
 
 export default {
@@ -147,9 +157,8 @@ export default {
 // This is for the interface that pops up when you press the gear icon. 
 #element-editor {
   position: absolute;
-  display: flex;
   width: 100%;
-  height: 200px;
+  height: 300px;
   animation: fadein linear .2s;
   background: var(--card);
   box-shadow: 0px 0px 5px rgba(0,0,0,.5);
