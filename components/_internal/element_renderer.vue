@@ -94,19 +94,17 @@
 
 
 // Widgets:
-import newWidget from '@/components/widgets/new_widget.vue';
-import elementEditor from '@/components/widgets/element_editor.vue';
+import newWidget from '@/components/containers/new_widget.vue';
+import elementEditor from '@/components/_internal/element_editor.vue';
 
 
 
-import collection from '@/components/widgets/links/collection.vue';
 
 export default {
   name: 'widget-renderer',
   components: {
     elementEditor,
     newWidget,
-    collection,
   },
 
   props: {

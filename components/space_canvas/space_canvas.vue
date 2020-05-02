@@ -136,17 +136,15 @@
 </template>
 
 <script>
-import cube from '@/components/widgets/space_canvas/geometry/cube.vue';
-import plane from '@/components/widgets/space_canvas/geometry/plane.vue';
+import cube from '@/components/space_canvas/geometry/cube.vue';
+import plane from '@/components/space_canvas/geometry/plane.vue';
 
-import simplePalette from '~/components/widgets/simple-palette/simple-palette.vue';
 
 
 export default {
   components: {
     cube,
     plane,
-    simplePalette,
   },
 
   data() { 

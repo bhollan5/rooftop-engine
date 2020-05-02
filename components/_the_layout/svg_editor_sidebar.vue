@@ -54,8 +54,8 @@
 </template>
 
 <script>
-import documentDetails from '~/components/widgets/side_bar/document_details.vue';
-import svgLayer from '~/components/layout/svg-layer.vue';
+import documentDetails from '~/components/editor_cards/document_details.vue';
+import svgLayer from '~/components/_the_layout/svg-layer.vue';
 
 export default {
   name: 'svg-editor-side-bar',

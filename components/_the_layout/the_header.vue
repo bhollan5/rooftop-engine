@@ -51,13 +51,13 @@
 <script>
 
 // Logo 
-import logo from '~/components/static_components/logo.vue';
+import logo from '~/components/_internal/logo.vue';
 
 // Link decorations:
-import mediaDecor from '~/components/static_components/link-decor/media-decor.vue';
-import nonficDecor from '~/components/static_components/link-decor/non-fic-decor.vue';
-import servicesDecor from '~/components/static_components/link-decor/services-decor.vue';
-import merchDecor from '~/components/static_components/link-decor/merch-decor.vue';
+import mediaDecor from '~/components/_internal/link-decor/media-decor.vue';
+import nonficDecor from '~/components/_internal/link-decor/non-fic-decor.vue';
+import servicesDecor from '~/components/_internal/link-decor/services-decor.vue';
+import merchDecor from '~/components/_internal/link-decor/merch-decor.vue';
 
 
 // Our vue component

@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import simpleScheme from '@/components/widgets/simple-palette/simple-scheme.vue';
+import simpleScheme from '@/components/data_pickers/simple-scheme.vue';
 
 export default {
 

@@ -156,19 +156,19 @@
 
 <script>
 // importing the logo svg:
-import logo from '~/components/static_components/logo.vue';
+import logo from '~/components/_internal/logo.vue';
 
 // Decoration for the desktop menu:
-import mediaDecor from '~/components/static_components/link-decor/media-decor.vue';
-import nonficDecor from '~/components/static_components/link-decor/non-fic-decor.vue';
-import servicesDecor from '~/components/static_components/link-decor/services-decor.vue';
-import merchDecor from '~/components/static_components/link-decor/merch-decor.vue';
+import mediaDecor from '~/components/_internal/link-decor/media-decor.vue';
+import nonficDecor from '~/components/_internal/link-decor/non-fic-decor.vue';
+import servicesDecor from '~/components/_internal/link-decor/services-decor.vue';
+import merchDecor from '~/components/_internal/link-decor/merch-decor.vue';
 
 // Theme picker components:
-import designHighlights from '~/components/static_components/style_guide/design-highlights.vue';
-import designHighlightExample from '~/components/static_components/style_guide/design-highlight-example.vue';
+import designHighlights from '~/components/_internal/style_guide/design-highlights.vue';
+import designHighlightExample from '~/components/_internal/style_guide/design-highlight-example.vue';
 
-import simplePalette from '~/components/widgets/simple-palette/simple-palette.vue';
+import simplePalette from '~/components/data_pickers/simple-palette.vue';
 
 
 // Our vue component:

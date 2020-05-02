@@ -1,3 +1,5 @@
+import {Color} from '~/modules/globals.js';
+
 
 export default [
   {
@@ -6,7 +8,7 @@ export default [
     title: 'New',
     description: 'An empty element.',
     element: {
-      component_id: 'new'
+      component_id: 'new',
     }
   },
   {

@@ -62,8 +62,8 @@
 <script>
 
 // Importing the header:
-import siteHeader from '~/components/layout/the_header.vue';
-import userMenu from '~/components/layout/the_user_menu.vue';
+import siteHeader from '~/components/_the_layout/the_header.vue';
+import userMenu from '~/components/_the_layout/the_user_menu.vue';
 
 export default {
   components: {

@@ -63,7 +63,7 @@
 
 <script>
 import tableWidget from '@/components/widgets/table-widget.vue';
-import databaseDisplay from '@/components/widgets/debug/database_display.vue';
+import databaseDisplay from '@/components//data_display/database_display.vue';
 
 
 export default {

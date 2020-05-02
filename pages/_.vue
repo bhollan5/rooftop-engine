@@ -156,10 +156,10 @@
 <script>
 
 import Vue from 'vue';
-import elementRenderer from '~/components/element_renderer.vue';
-import objectDisplay from '~/components/widgets/debug/object_display.vue';
+import elementRenderer from '~/components/_internal/element_renderer.vue';
+import objectDisplay from '~/components//data_display/object_display.vue';
 
-import documentDetails from '~/components/widgets/side_bar/document_details.vue';
+import documentDetails from '~/components/editor_cards/document_details.vue';
 
 
 export default {

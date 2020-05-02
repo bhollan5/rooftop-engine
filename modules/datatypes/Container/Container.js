@@ -26,7 +26,6 @@ export function Container(payload) {
   }
 
   return {}
-  this._is_dark = false;
 
 }
 

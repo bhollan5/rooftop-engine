@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import svgEditorSidebar from '~/components/layout/svg_editor_sidebar.vue';
+import svgEditorSidebar from '~/components/_the_layout/svg_editor_sidebar.vue';
 
 
 export default {
