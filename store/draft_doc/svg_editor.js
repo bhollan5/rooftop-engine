@@ -156,7 +156,7 @@ export const actions = {
 
   load_svg({ commit }, payload) {
     commit('load_svg_string', payload);
-    commit('page/change_editor_state', 'svg-editor', {root: true});
+    commit('draft_doc/change_editor_state', 'svg-editor', {root: true});
   },
 
 }

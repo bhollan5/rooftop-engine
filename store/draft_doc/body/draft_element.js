@@ -1,4 +1,17 @@
+// Info about modules: https://nuxtjs.org/guide/vuex-store/#modules-mode
 
+//   Contents:
+// ==========================
+//   - Imports
+//   - State 
+//   - Getters
+//   - Actions   (called with "$store.dispatch()")
+//   - Mutations (used in the store with "commit()")
+
+// For database calls:
+import axios from 'axios';
+
+import {Element, Container} from '~/modules/globals.js';
 
 // For Vue.set()
 import Vue from 'vue';
@@ -6,7 +19,9 @@ import Vue from 'vue';
 // Setting up our state variables:
 export const state = () => ({
 
-  prop_config: {}
+  template_id: '',
+  prop_config: {},
+  container: {},
   
 })
 
@@ -21,9 +36,6 @@ export const state = () => ({
 
 export const getters = {
 
-  prop_config(state) {
-    return state.prop_config;
-  },
 
 }
 
@@ -36,10 +48,8 @@ export const getters = {
 //  this.$store.dispatch('actionName', {playloadData: data });
 export const actions = {
   
-  set_prop_config({commit}, payload) {
-    console.warn("payload for page/connections/set_prop_config:")
-    console.log(payload)
-    commit('set_prop_config', payload);
+  select_element({commit}, payload) {
+    
   }
 
 }
@@ -52,9 +62,10 @@ export const actions = {
 // Calling mutations from Vue is weird, you need to do this:
 //    this.$store.commit("mutationName", { payloadData: data })
 export const mutations = {
+  load_selected_element(state, payload) {
 
-  set_prop_config(state, payload) {
-    state.prop_config = payload;
-  },
-
+    state.template_id = payload.template_id;
+    state.prop_config = payload.prop_config;
+    state.container = payload.container
+  }
 }

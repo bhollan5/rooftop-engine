@@ -149,12 +149,12 @@ export default {
       if (this.editTemplate && this.selected){
         return this.draftElement;
       } else {
-        return this.$store.getters['page/body/body_widget'](this.index);
+        return this.$store.getters['draft_doc/body/body_widget'](this.index);
       }
     },
 
     doc_data() {
-      return this.$store.getters['page/doc_data'];
+      return this.$store.getters['draft_doc/doc_data'];
     },
 
     // element_props() connects props with the values from various prop sources.
@@ -211,7 +211,7 @@ export default {
       this.draftElement = new_draft;
     },
     reset_draft() {
-      let saved_widget = this.$store.getters['page/body/body_widget'](this.index);
+      let saved_widget = this.$store.getters['draft_doc/body/body_widget'](this.index);
       this.draftElement = saved_widget;
     },
 
@@ -233,12 +233,12 @@ export default {
         // todo 
       } else if (connection_type == 'doc_data') {
         
-        this.$store.commit('page/update_doc_data', update_obj)
+        this.$store.commit('draft_doc/update_doc_data', update_obj)
       }
 
       return;
       // Pass to the store
-      this.$store.commit('page/body/set_body_widget', {
+      this.$store.commit('draft_doc/body/set_body_widget', {
         index: this.index,
         widget: new_widget
       });
@@ -247,7 +247,7 @@ export default {
     // Replaces the 'new-widget' component with a truly new widget. 
     add_element(element) {
       
-      this.$store.commit('page/body/set_body_widget', {
+      this.$store.commit('draft_doc/body/set_body_widget', {
         index: this.index,
         widget: element
       });

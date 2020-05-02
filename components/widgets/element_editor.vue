@@ -42,7 +42,7 @@
   <!-- Config section -->
   <container style="width: 60%;">
 
-    <card title="Element config:" :width="'100%'">
+    <card title="Element config:" :width="'100%'" min>
       <div v-if="component_info && 0">
         Component: <b>{{ component_info.title }}</b>
       </div>
@@ -102,6 +102,11 @@ export default {
     }
   },
   computed: {
+
+    element() {
+      return {}
+    },
+
     component_info() {
       let search_id = this.selected_template.element.component_id;
       let matching_components = query_array_of_objects(this.COMPONENT_TEMPLATES, {id: search_id});
@@ -127,6 +132,12 @@ export default {
   },
 
   methods: {
+
+    reset_draft() {
+      
+    },
+
+
     // Creating a new element!
     create_element(element) {
       this.$emit('input', element);

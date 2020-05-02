@@ -1,12 +1,17 @@
 // Info about modules: https://nuxtjs.org/guide/vuex-store/#modules-mode
 
-//   Contents:
-// ==========================
-//   - Imports
-//   - State 
+/*   Contents:
+============================
+     > Imports:
+      - Axios (API calls)
+      - Vue   ()
+     > State 
+      - 
 //   - Getters
 //   - Actions   (called with "$store.dispatch()")
 //   - Mutations (used in the store with "commit()")
+
+*/
 
 // For database calls:
 import axios from 'axios';
@@ -116,7 +121,7 @@ export const actions = {
 
     // The body_data is an array of widgets defining the content of the page's body.
     let body_data = doc.body_data;
-    dispatch('page/body/set_body_data', body_data, {root: true});
+    dispatch('draft_doc/body/set_body_data', body_data, {root: true});
 
     // The doc_data grabs all the fields in the root of the document that are mutable
     let doc_data = {};

@@ -76,7 +76,7 @@ export default {
 
     // Getting the layer xml node from the store
     layer() {
-      return this.$store.getters['page/svg_editor/xml_node'](this.path);
+      return this.$store.getters['draft_doc/svg_editor/xml_node'](this.path);
     },
 
     svgString() {

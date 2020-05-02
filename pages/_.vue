@@ -110,7 +110,7 @@
     </element-renderer>
 
     <!-- Add widget button: -->
-    <button v-if="editable" @click="add_element()">+ Add element</button>
+    <button v-if="editable && !edit_template" @click="add_element()">+ Add element</button>
     
 
     <!-- Padding at the bottom of the page, for more intuitive scrolling: -->
@@ -214,17 +214,17 @@ export default {
   computed: {
 
     doc_data() {
-      let doc_data = this.$store.getters['page/doc_data'];
+      let doc_data = this.$store.getters['draft_doc/doc_data'];
       return doc_data;
     },
 
     body_data() {
-      let body_data = this.$store.getters['page/body/body_data'];
+      let body_data = this.$store.getters['draft_doc/body/body_data'];
       return body_data;
     },
 
     side_bar_data() {
-      let side_bar_data = this.$store.getters['page/side_bar_data'];
+      let side_bar_data = this.$store.getters['draft_doc/side_bar_data'];
       return body_data;
     },
 
@@ -325,21 +325,11 @@ export default {
       }
 
 
-      this.$store.dispatch('page/update_doc', {
+      this.$store.dispatch('draft_doc/update_doc', {
         doc_id: this.doc_id,
         collection_name: this.collection_name,
         update: update_object,
       })
-      return;
-      // this.$store.dispatch(this.collection_name + 's/update_' + this.collection_name, {
-      //   _id: this.doc_id,
-      //   update: {
-      //     body_data: this.document_draft.body_data,
-      //   }
-      // }).then(() => {
-      //   this.unsaved_changes = false;
-      //   this.saving = false;
-      // })
     },
 
     load_page() {
@@ -352,7 +342,7 @@ export default {
       }
 
 
-      this.$store.dispatch('page/read_page_doc', {
+      this.$store.dispatch('draft_doc/read_page_doc', {
         collection_name: this.collection_name,
         doc_id: this.doc_id
       })
@@ -364,14 +354,14 @@ export default {
       let widget_update = {};
       widget_update[field] = new_value;
       // Pass to the store
-      this.$store.commit('page/set_body_widget', {
+      this.$store.commit('draft_doc/set_body_widget', {
         index: this.selected_element,
         widget: widget_update
       });
     },
 
     add_element() {
-      this.$store.commit('page/body/add_body_widget', {
+      this.$store.commit('draft_doc/body/add_body_widget', {
         component_id: 'new',
         content: ''
       });
@@ -379,6 +369,11 @@ export default {
     },
 
     select_element(index) {
+      console.log(this.body_data[index]);
+      this.$store.commit(
+        'draft_doc/body/draft_element/load_selected_element', 
+        this.body_data[index],
+      )
       this.selected_element = index;
       this.edit_template = true;
     }

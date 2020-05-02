@@ -99,7 +99,6 @@ export default {
   mounted() {
     console.log("got themes")
     if (this.$auth.loggedIn) {
-      console.log("Hi?")
 
       this.$store.dispatch('themes/read_themes', { _id: this.$auth.user.current_theme }).then(() => {
         // Getting the data for the user's theme:

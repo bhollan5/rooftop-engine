@@ -74,7 +74,7 @@ export default {
   },
   computed: {
     svg_colors() {
-      return this.$store.getters['page/svg_editor/svg_colors'];
+      return this.$store.getters['draft_doc/svg_editor/svg_colors'];
     },
     svg_color_fields() {
       let fields = [];
@@ -85,11 +85,11 @@ export default {
     },
 
     selected_layer() {
-      return this.$store.getters['page/svg_editor/selected_layer'];
+      return this.$store.getters['draft_doc/svg_editor/selected_layer'];
     },
 
     selected_layer_path() {
-      return this.$store.getters['page/svg_editor/selected_layer_path'];
+      return this.$store.getters['draft_doc/svg_editor/selected_layer_path'];
     },
 
     selected_layer_attributes() {
@@ -107,7 +107,7 @@ export default {
     },
 
     xml_doc() {
-      return this.$store.getters['page/svg_editor/xml_doc'];
+      return this.$store.getters['draft_doc/svg_editor/xml_doc'];
     },
 
     all_elements() {
@@ -118,7 +118,7 @@ export default {
   },
   methods: {
     update_attr(value, field) {
-      this.$store.commit('page/svg_editor/update_node', {
+      this.$store.commit('draft_doc/svg_editor/update_node', {
         path: this.selected_layer_path,
         field: field,
         value: value
@@ -126,7 +126,7 @@ export default {
     },
 
     select_layer(path) {
-      this.$store.commit('page/svg_editor/select_layer', path);
+      this.$store.commit('draft_doc/svg_editor/select_layer', path);
     }
   },
 }
