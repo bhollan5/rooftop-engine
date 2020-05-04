@@ -1,38 +1,36 @@
 <template>
-<container :startDepth="5" >
-  <div class="color-scheme padding">
+<container :startDepth="2" display="flex">
 
-    <div class="scheme-info">
-      <div class="scheme-name b">{{scheme.name}}:</div>
-      <div class="secondary">Dark Mode</div>
-      <div class="secondary">Contrast</div>
-    </div>
-
-    <div class="scheme-color-container">
-      <div class="bg-color flex-container">
-        <color-thumbnail v-if="scheme.bg"
-          v-for="(color, color_i) in scheme.bg[0].get_shades()" 
-          :key="color_i" 
-          :color="color"
-        />
-      </div>
-      <div class="flex-container">
-        <color-thumbnail v-if="scheme.text"
-          v-for="(color, color_i) in scheme.text[0].get_shades()" 
-          :key="color_i" 
-          :color="color"
-        />
-      </div>
-      <div class="flex-container">
-        <color-thumbnail v-if="scheme.ill"
-          v-for="(color, color_i) in scheme.ill[0].get_shades()" 
-          :key="color_i" 
-          :color="color"
-        />
-      </div>
-    </div>
-    
+  <div class="scheme-info">
+    <div class="scheme-name b">{{scheme.name}}:</div>
+    <div class="secondary">Dark Mode</div>
+    <div class="secondary">Contrast</div>
   </div>
+
+  <div class="scheme-color-container">
+    <div class="bg-color flex-container">
+      <color-thumbnail v-if="scheme.bg"
+        v-for="(color, color_i) in scheme.bg[0].get_shades()" 
+        :key="color_i" 
+        :color="color"
+      />
+    </div>
+    <div class="flex-container">
+      <color-thumbnail v-if="scheme.text"
+        v-for="(color, color_i) in scheme.text[0].get_shades()" 
+        :key="color_i" 
+        :color="color"
+      />
+    </div>
+    <div class="flex-container">
+      <color-thumbnail v-if="scheme.ill"
+        v-for="(color, color_i) in scheme.ill[0].get_shades()" 
+        :key="color_i" 
+        :color="color"
+      />
+    </div>
+  </div>
+    
 </container>
 </template>
 

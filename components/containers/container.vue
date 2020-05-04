@@ -1,6 +1,6 @@
 <template>
 <div class="container" 
-  :style="get_material_string()"
+  :style="get_css()"
   :class="[ 'depth-' + depth, ]"
   @click="$emit('click', $event)"
 >
@@ -35,6 +35,34 @@ export default {
       type: String,
       default: "block",
     },
+    //
+    height: {
+      type: Number
+    }, 
+    width: {
+      type: Number
+    },
+    w_unit: {
+      type: String,
+      default: 'px',
+    },
+    h_unit: {
+      type: String,
+      default: 'px',
+    },
+    display: {
+      type: String,
+      default: 'block',
+    },
+    overflowy: {
+      type: String,
+      default: 'visible',
+    },
+    overflowx: {
+      type: String,
+      default: 'visible',
+    },
+    //
     // A Material object
     _container: {
       default()  {
@@ -71,12 +99,17 @@ export default {
   },
 
   methods: {
-    get_material_string() {
-      if (typeof(this.material) == 'object') {
-        return this.material.get_css_obj();
-      } else {
-        return {}
-      }
+    get_css() {
+      let css_obj = {
+        padding: this.padding_css,
+        'box-shadow': this.box_shadow_css,
+        width: this.width + this.w_unit,
+        height: this.height + this.h_unit,
+        display: this.display,
+        'overflow-x': this.overflowx,
+        'overflow-y': this.overflowy,
+      };
+      return css_obj;
     }
   }
 }
@@ -84,6 +117,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.container {
+  transition-duration: .5s;
+}
 .dark {
   background: var(--dark);
 }

@@ -1,11 +1,8 @@
 <template>
 <!-- Popup shown when the gear button is clicked: -->
-<window id="element-editor" display="flex"
+<container id="element-editor" display="flex"
   :padding="[0,0,0,0]"
   :depth="3"
-  :title="'Element: '"
-  :flex="true"
-  width="100%"
   :style="{
     font: 'Inconsolata'
   }"
@@ -45,7 +42,7 @@
   <!--</div>-->
 
   <!-- Config section -->
-  <container style="width: 60%;" v-if="0">
+  <container style="width: 60%;">
 
     <card title="Element config:" :width="'100%'" min>
       <div v-if="component_info && 0">
@@ -74,7 +71,7 @@
     
   </container>
 
-</window>
+</container>
 </template>
 
 <script>
