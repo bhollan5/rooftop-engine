@@ -19,7 +19,7 @@
 
 <template>
 
-<div class="window">
+<container class="window">
   
   <!-- The window header, with the window's title, and the minimize option -->
   <div class="window-header">
@@ -33,7 +33,7 @@
 
   <!-- The window body: -->
   <div class="window-body">
-    <slot>...</slot>
+    <slot name="body">...</slot>
   </div>
 
   <div class="window-footer">
@@ -42,7 +42,7 @@
     </button>
   </div>
 
-</div>
+</container>
 </template>
 
 <script>
@@ -80,11 +80,11 @@ export default {
 .window-body {
   display: flex;
   width: 100%; // TODO: Delete this class!!!
-  padding: 0px 10px;
+  padding: 0px 0px;
   overflow-y: scroll;
   min-height: 100px;
   min-width: 200px;
-  height: 100%;
+  height: calc(100% - 30px);
 }
 
 .window-header {

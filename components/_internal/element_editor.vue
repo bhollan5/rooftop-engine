@@ -12,67 +12,74 @@
 
 >
 
-  <!-- Element template selector: -->
-  <!--<div class="element-type-selector">-->
-  <side-icon-menu class="scroll-y inconsolata">
+  <template #body>
+    <!-- Element template selector: -->
+    <!--<div class="element-type-selector">-->
+    <side-icon-menu class="scroll-y inconsolata">
 
-    <template #header>
-      <div class="card padding">Element template:</div>
-    </template>
+      <template #header>
+        <div class="card padding">Element template:</div>
+      </template>
 
-    <!-- v-for list of the section type options: -->
-    <div class="element-type-option" 
-      v-for="template in ELEMENT_TEMPLATES"
-      :class="{'selected-element-type': element.template_id == template.id}" 
-      @click.stop="select_template(template)"
-    >
-
-      <div 
-        class="element-type-icon"
-        :class="{bold: template.bold}"
+      <!-- v-for list of the section type options: -->
+      <div class="element-type-option" 
+        v-for="template in ELEMENT_TEMPLATES"
+        :class="{'selected-element-type': element.template_id == template.id}" 
+        @click.stop="select_template(template)"
       >
-        <image-icon v-if="template.id == 'image'"></image-icon>
-        <span v-else>{{template.icon}}</span>
-      </div>
 
-      <div class="option-description">
-        <p class="bold">{{template.title}}</p>
-        <p class="small-font">{{template.description}}</p>
-      </div>
-
-    </div>
-  </side-icon-menu>
-  <!--</div>-->
-
-  <!-- Config section -->
-  <container style="width: 60%;" v-if="0">
-
-    <card title="Element config:" :width="'100%'" min>
-      <div v-if="component_info && 0">
-        Component: <b>{{ component_info.title }}</b>
-      </div>
-
-      <div>
-
-        <div class="b">Prop config:</div>
-        <div v-for="(value, field) in element.prop_config" class="flex-container align-center">
-          <b>{{field}}: &nbsp;</b>
-          <dropdown title="Type:" 
-            :options="['Static', 'Element', 'Document', 'Database']"
-            :value="pretty_connection_type(value)">
-          </dropdown>
-          <text-field title="field" 
-            nopadding
-            v-if="pretty_connection_type(value) != 'Static'"
-            :value="value.field"></text-field>
+        <div 
+          class="element-type-icon"
+          :class="{bold: template.bold}"
+        >
+          <image-icon v-if="template.id == 'image'"></image-icon>
+          <span v-else>{{template.icon}}</span>
         </div>
+
+        <div class="option-description">
+          <p class="bold">{{template.title}}</p>
+          <p class="small-font">{{template.description}}</p>
+        </div>
+
       </div>
+    </side-icon-menu>
+    <!--</div>-->
 
-    </card>
+    <!-- Config section -->
+    <container style="width: 60%;" v-if="0">
 
-    <container-editor></container-editor>
+      <card title="Element config:" :width="'100%'" min>
+        <div v-if="component_info && 0">
+          Component: <b>{{ component_info.title }}</b>
+        </div>
+
+        <div>
+
+          <div class="b">Prop config:</div>
+          <div v-for="(value, field) in element.prop_config" class="flex-container align-center">
+            <b>{{field}}: &nbsp;</b>
+            <dropdown title="Type:" 
+              :options="['Static', 'Element', 'Document', 'Database']"
+              :value="pretty_connection_type(value)">
+            </dropdown>
+            <text-field title="field" 
+              nopadding
+              v-if="pretty_connection_type(value) != 'Static'"
+              :value="value.field"></text-field>
+          </div>
+        </div>
+
+      </card>
+
+      <container-editor></container-editor>
+      
+    </container>
+
+    <tab-container>
     
-  </container>
+    </tab-container>
+
+  </template>
 
 </window>
 </template>
@@ -166,14 +173,10 @@ export default {
 #element-editor {
   position: absolute;
   width: 100%;
-  height: 300px;
+  height: 400px;
   animation: fadein linear .2s;
-  background: var(--card);
   box-shadow: 0px 0px 5px rgba(0,0,0,.5);
   z-index: 11;
-  h5 {
-    padding: 5px;
-  }
 }
 @keyframes fadein {
   from {
