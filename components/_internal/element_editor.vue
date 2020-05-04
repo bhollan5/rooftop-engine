@@ -71,12 +71,23 @@
 
       </card>
 
-      <container-editor></container-editor>
+      
       
     </container>
 
     <tab-container>
-    
+      <template #General>
+        hey
+      </template>
+      <template #Content>
+        wow
+      </template>
+      <template #Style>
+        
+        <div class="secondary small-font">Size: </div>
+        <size-editor></size-editor>
+
+      </template>
     </tab-container>
 
   </template>

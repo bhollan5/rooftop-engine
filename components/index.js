@@ -11,7 +11,7 @@ import links from './links/_globals';
 import data_display from './data_display/_globals';
 
 
-import editor_cards from './editor_cards/_globals';
+import object_editors from './object_editors/_globals';
 
 
 // Layout components
@@ -34,6 +34,6 @@ export default {
   ...space_canvas,
   ...links,
   ...data_display,
-  ...editor_cards,
+  ...object_editors,
 
 };

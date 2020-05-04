@@ -12,7 +12,7 @@
   </div>
 
   <div class="tab-content">
-
+    <slot :name="tabs[active_tab]"/>
   </div>
 
 </container>
@@ -38,7 +38,7 @@ export default {
 
   data() {
     return {
-      active_tab: 0,
+      active_tab: 2,
     }
   },
 
