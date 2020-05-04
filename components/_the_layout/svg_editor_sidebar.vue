@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import documentDetails from '~/components/editor_cards/document_details.vue';
+import documentDetails from '~/components/object_editors/document_details.vue';
 import svgLayer from '~/components/_the_layout/svg-layer.vue';
 
 export default {
