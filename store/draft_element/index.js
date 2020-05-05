@@ -11,7 +11,7 @@
 // For database calls:
 import axios from 'axios';
 
-import {Element, Container} from '~/modules/globals.js';
+import {Element, Container, ElementStyle } from '~/modules/globals.js';
 
 // For Vue.set()
 import Vue from 'vue';
@@ -20,9 +20,13 @@ import Vue from 'vue';
 export const state = () => ({
 
   template_id: '',
+
   prop_config: {},
-  container: {},
-  
+
+  element_style: {},    // Will be a ElementStyling object 
+
+
+
 })
 
 
@@ -44,6 +48,14 @@ export const getters = {
     })
   },
 
+  element_style(state) {
+    return state.element_style;
+  },
+
+  element_size(state) {
+    return state.element_style.size;
+  },
+
 }
 
 
@@ -54,11 +66,15 @@ export const getters = {
 // Call actions in vue like this:
 //  this.$store.dispatch('actionName', {playloadData: data });
 export const actions = {
+
+  save({commit}, payload) {
+    
+  },
   
   select_template({commit}, payload) {
     let found_el = new Element(payload);
     commit('load_selected_element', new Element(payload));
-  }
+  },
 
 }
 
@@ -73,6 +89,6 @@ export const mutations = {
   load_selected_element(state, payload) {
     state.template_id = payload.template_id;
     state.prop_config = payload.prop_config;
-    state.container = payload.container
+    state.element_style = new ElementStyle();
   }
 }

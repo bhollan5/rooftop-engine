@@ -96,7 +96,7 @@ export default {
   computed: {
 
     element() {
-      let el = this.$store.getters['draft_doc/body/draft_element/element'];
+      let el = this.$store.getters['draft_element/element'];
       return el;
     },
 
@@ -139,7 +139,7 @@ export default {
     // Updating the draft element when you select a template
     select_template(template) {
       this.$store.dispatch(
-        'draft_doc/body/draft_element/select_template', template.id,
+        'draft_element/select_template', template.id,
       )
     },
 

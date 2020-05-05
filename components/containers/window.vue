@@ -37,9 +37,7 @@
   </div>
 
   <div class="window-footer">
-    <button class="window-button">
-      <slot name="button">Button content</slot>
-    </button>
+    <slot name="footer"></slot>
   </div>
 
 </container>

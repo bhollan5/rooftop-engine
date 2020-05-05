@@ -37,7 +37,7 @@ export const getters = {
 export const actions = {
   
   set_prop_config({commit}, payload) {
-    console.warn("payload for draft_doc/connections/set_prop_config:")
+    console.warn("payload for draft_document/connections/set_prop_config:")
     console.log(payload)
     commit('set_prop_config', payload);
   }

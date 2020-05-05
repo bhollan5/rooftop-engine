@@ -79,6 +79,9 @@
       <svg-uploader v-model="widget.content" :ref="'svg_uploader_'"></svg-uploader>
     </div>
 
+    <div class="secondary small-font">el draft style: {{element_style}}</div>
+    <div class="secondary small-font">this el style: {{widget.style}}</div>
+
     <element-editor v-if="selected && editTemplate"
       :value="widget" 
       :propValues="element_props"
@@ -147,12 +150,16 @@ export default {
       if (this.editTemplate && this.selected){
         return this.draftElement;
       } else {
-        return this.$store.getters['draft_doc/body/body_widget'](this.index);
+        return this.$store.getters['draft_body/body_widget'](this.index);
       }
     },
 
+    element_style() {
+      return this.$store.getters['draft_element/element_style'];
+    },
+
     doc_data() {
-      return this.$store.getters['draft_doc/doc_data'];
+      return this.$store.getters['draft_document/doc_data'];
     },
 
     // element_props() connects props with the values from various prop sources.
@@ -209,7 +216,7 @@ export default {
       this.draftElement = new_draft;
     },
     reset_draft() {
-      let saved_widget = this.$store.getters['draft_doc/body/body_widget'](this.index);
+      let saved_widget = this.$store.getters['draft_body/body_widget'](this.index);
       this.draftElement = saved_widget;
     },
 
@@ -231,12 +238,12 @@ export default {
         // todo 
       } else if (connection_type == 'doc_data') {
         
-        this.$store.commit('draft_doc/update_doc_data', update_obj)
+        this.$store.commit('draft_document/update_doc_data', update_obj)
       }
 
       return;
       // Pass to the store
-      this.$store.commit('draft_doc/body/set_body_widget', {
+      this.$store.commit('draft_body/set_body_widget', {
         index: this.index,
         widget: new_widget
       });
@@ -245,7 +252,7 @@ export default {
     // Replaces the 'new-widget' component with a truly new widget. 
     add_element(element) {
       
-      this.$store.commit('draft_doc/body/set_body_widget', {
+      this.$store.commit('draft_body/set_body_widget', {
         index: this.index,
         widget: element
       });
@@ -293,17 +300,9 @@ export default {
 <style lang="scss" scoped>
 // Note that this style isn't scoped, since it needs to reach inside components?
 
-// Content contains all the inputs:
-.body {
-  width: 100%;
-  max-width: 600px;
-  align-content:flex-start;
-}
-
 // The v-for generated widget containers
 .widget-container {
   position: relative;
-  width: 100%;
   transition-duration: .2s;
   margin-bottom: 5px;
 }
@@ -334,79 +333,5 @@ export default {
 }
 
 
-
-
-.tab-container {
-
-}
-.tabs {
-  display: flex;
-  margin-top: 50px;
-  border-bottom: solid 2px var(--bg-text2);
-  margin-bottom: 20px;
-
-  .tab {
-    font-size: var(--small-font-size);
-    width: 150px;
-    padding: 0px;
-    text-align: center;
-    position: relative;
-    cursor: pointer;
-    margin-top: -2px;
-    transform: translatey(2px); // This offset lets the border-bottoms line up
-    input {
-      text-align: center;
-      padding: 10px 0px;
-      margin: 0px;
-    }
-  }
-  .add-tab {
-    color: var(--bg-text2);
-    font-size: var(--small-font-size);
-    &:hover {
-      
-      color: var(--bg-text);
-    }
-  }
-}
-.tab-content {
-
-}
-
-
-
-
-// For sections containing images:
-.image-section {
-  cursor: pointer;
-  width: 100%;
-  min-height: 100px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding: 10px;
-  p {
-    cursor: pointer;
-  }
-  &:hover {
-    background: var(--input);
-  }
-  .image-uploader {
-    width: 100%;
-    height: 100%;
-  }
-}
-
-// Add section button:
-#add-section-button {
-  margin-top: 20px;
-  width: 100%;
-  padding: 10px;
-}
-
-input:active, input:hover {
-  background: var(--input);
-}
 
 </style>

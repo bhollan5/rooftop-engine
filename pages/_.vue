@@ -214,17 +214,17 @@ export default {
   computed: {
 
     doc_data() {
-      let doc_data = this.$store.getters['draft_doc/doc_data'];
+      let doc_data = this.$store.getters['draft_document/doc_data'];
       return doc_data;
     },
 
     body_data() {
-      let body_data = this.$store.getters['draft_doc/body/body_data'];
+      let body_data = this.$store.getters['draft_body/body_data'];
       return body_data;
     },
 
     side_bar_data() {
-      let side_bar_data = this.$store.getters['draft_doc/side_bar_data'];
+      let side_bar_data = this.$store.getters['draft_document/side_bar_data'];
       return body_data;
     },
 
@@ -256,9 +256,10 @@ export default {
         console.warn("Not a valid page state!")
       }
 
-      this.collection_name = this.route[1];
-      this.doc_id = this.route[this.route.length - 1];
-      this.load_page()
+      
+      let collection_name = this.route[1];
+      let doc_id = this.route[this.route.length - 1]
+      this.load_page(collection_name, doc_id);
 
     // If there's an odd number of elements in the route, we're looking at a collection. 
     } else {
@@ -325,14 +326,16 @@ export default {
       }
 
 
-      this.$store.dispatch('draft_doc/update_doc', {
+      this.$store.dispatch('draft_document/update_doc', {
         doc_id: this.doc_id,
         collection_name: this.collection_name,
         update: update_object,
       })
     },
 
-    load_page() {
+    load_page(collection_name, doc_id) {
+      this.collection_name = collection_name;
+      this.doc_id = doc_id;
 
       // If the collection isn't one of the queryable tables, go to 404. 
       let valid_collection_names = ['project', 'article', 'user'];
@@ -342,7 +345,7 @@ export default {
       }
 
 
-      this.$store.dispatch('draft_doc/read_page_doc', {
+      this.$store.dispatch('draft_document/read_page_doc', {
         collection_name: this.collection_name,
         doc_id: this.doc_id
       })
@@ -354,14 +357,14 @@ export default {
       let widget_update = {};
       widget_update[field] = new_value;
       // Pass to the store
-      this.$store.commit('draft_doc/set_body_widget', {
+      this.$store.commit('draft_document/set_body_widget', {
         index: this.selected_element,
         widget: widget_update
       });
     },
 
     add_element() {
-      this.$store.commit('draft_doc/body/add_body_widget', {
+      this.$store.commit('draft_body/add_body_widget', {
         component_id: 'new',
         content: ''
       });
@@ -370,7 +373,7 @@ export default {
 
     select_element(index) {
       this.$store.commit(
-        'draft_doc/body/draft_element/load_selected_element', 
+        'draft_element/load_selected_element', 
         this.body_data[index],
       )
       this.selected_element = index;

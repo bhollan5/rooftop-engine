@@ -4,9 +4,9 @@ import {ComponentInfo} from './datatypes/ComponentInfo/ComponentInfo.js';
 
 import {LengthUnit} from './datatypes/LengthUnit/LengthUnit';
 
-import {Size} from './datatypes/element_style/Size/Size';
+import {Size} from './datatypes/ElementStyle/Size/Size';
 
-
+import {ElementStyle} from './datatypes/ElementStyle/ElementStyle'
 
 
 // Styling
@@ -29,5 +29,7 @@ export {
 
   LengthUnit,
   Size,
+
+  ElementStyle,
   
 }

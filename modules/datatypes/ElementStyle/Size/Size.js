@@ -32,6 +32,5 @@ export function Size(payload) {
 // Constructors:
 //
 Size.prototype.new_default = function (color_obj) {
-  console.log("Hi!!!");
   this.width = new LengthUnit();
 };

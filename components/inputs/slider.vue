@@ -160,7 +160,7 @@ export default {
 
 .slider-bar {
   width: calc(100% - 120px);
-  height: 6px;
+  height: 4px;
   background: var(--input-dark);
   position: relative;
 

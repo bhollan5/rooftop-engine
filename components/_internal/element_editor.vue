@@ -9,7 +9,6 @@
   :style="{
     font: 'Inconsolata'
   }"
-
 >
 
   <template #body>
@@ -92,6 +91,13 @@
 
   </template>
 
+  <template #footer>
+    <button class="window-button"
+      @click="save_element()">
+      Save!
+    </button>
+  </template>
+
 </window>
 </template>
 
@@ -117,7 +123,7 @@ export default {
   computed: {
 
     element() {
-      let el = this.$store.getters['draft_doc/body/draft_element/element'];
+      let el = this.$store.getters['draft_element/element'];
       return el;
     },
 
@@ -147,6 +153,12 @@ export default {
 
   methods: {
 
+    save_element() {
+      console.log("🔥 Called");
+      this.$store.dispatch('draft_element/save');
+    },
+
+
     reset_draft() {
       
     },
@@ -160,7 +172,7 @@ export default {
     // Updating the draft element when you select a template
     select_template(template) {
       this.$store.dispatch(
-        'draft_doc/body/draft_element/select_template', template.id,
+        'draft_element/select_template', template.id,
       )
     },
 
@@ -173,6 +185,7 @@ export default {
         return 'Element'
       }
     },
+
   }
 }
 

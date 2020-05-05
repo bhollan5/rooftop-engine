@@ -49,13 +49,13 @@ export default {
       return this.value.length > 0;
     },
     svgEditorOpen() {
-      let editor_state = this.$store.getters['draft_doc/editor_state'];
+      let editor_state = this.$store.getters['draft_document/editor_state'];
       return (editor_state == 'svg-editor');
     },
 
     // The live updating svg_draft
     svg_draft() {
-      return this.$store.getters['draft_doc/svg_editor/edit_svg_string'];
+      return this.$store.getters['draft_document/svg_editor/edit_svg_string'];
     },
   },
 
@@ -87,7 +87,7 @@ export default {
       // Reading the file's contents into a string:
       this.readFileContent(_file).then(fileContent => {
 
-        this.$store.dispatch('draft_doc/svg_editor/load_svg', fileContent);
+        this.$store.dispatch('draft_document/svg_editor/load_svg', fileContent);
 
         // this.$store.commit("svg/load_svg_from_string", fileContent);
         // this.$emit('input', fileContent); // Grab this data from the parent with @upload="x"
@@ -102,12 +102,12 @@ export default {
 
     open_editor(svg_content) {
       this.open_in_editor = true;
-      this.$store.dispatch('draft_doc/svg_editor/load_svg', svg_content);
+      this.$store.dispatch('draft_document/svg_editor/load_svg', svg_content);
     },
 
     // Updating based on changes in the editor
     getFileFromEditor() {
-      let newFile = this.$store.getters['draft_doc/svg_editor/svg_string'];
+      let newFile = this.$store.getters['draft_document/svg_editor/svg_string'];
       this.$emit('input', newFile);
     },
 

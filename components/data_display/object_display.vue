@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import objectDisplay from '~/components//data_display/object_display.vue';
+import objectDisplay from '~/components/data_display/object_display.vue';
 
 export default {
   name: 'object-display',

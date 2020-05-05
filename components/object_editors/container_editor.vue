@@ -32,7 +32,7 @@ export default {
 
   computed: {
     editor_state() {
-      return this.$store.getters['draft_doc/editor_state'];
+      return this.$store.getters['draft_document/editor_state'];
     },
   },
 
@@ -40,11 +40,11 @@ export default {
     change_state(new_state) {
       console.log("Changing to " + new_state)
       console.log(new_state)
-      this.$store.commit('draft_doc/change_editor_state', new_state);
+      this.$store.commit('draft_document/change_editor_state', new_state);
     },
 
     update_doc_data(update_obj) {
-      this.$store.commit('draft_doc/update_doc_data', update_obj);
+      this.$store.commit('draft_document/update_doc_data', update_obj);
     }
   }
 }
