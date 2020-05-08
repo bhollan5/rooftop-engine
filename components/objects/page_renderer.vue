@@ -1,12 +1,11 @@
 <template>
 <div>
   <!-- Rendering all body widgets:  -->
-  <element-renderer v-if="0" v-for="(widget, widget_i) in elements"
+  <element-renderer v-for="(widget, widget_i) in elements"
     :editable="editable"
     :editTemplate="edit_template"
     :selected="selected_element == widget_i"
     @click="select_element(widget_i)"
-    :owner="doc_data.id"
 
     :key="'body-widget' + widget_i"
 
@@ -17,7 +16,7 @@
   </element-renderer>
 
   <div id="debug-page-display">
-    hi
+    hi{{elements}}
   </div>
 
   <!-- Add widget button: -->
@@ -76,7 +75,7 @@ export default {
   computed: {
 
     elements() {
-      let elements = this.$store.getters['draft/page/elements'];
+      let elements = this.$store.getters['drafts/page/elements'];
       return elements;
     },
 
@@ -89,7 +88,7 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch('drafts/page/save');
+    this.$store.dispatch('drafts/page/load');
     // this.custom_routing();
   },
 

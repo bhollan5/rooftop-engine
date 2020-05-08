@@ -139,7 +139,7 @@
 <script>
 
 import Vue from 'vue';
-import elementRenderer from '~/components/_internal/element_renderer.vue';
+import elementRenderer from '~/components/objects/element_renderer.vue';
 import objectDisplay from '~/components//data_display/object_display.vue';
 
 import documentDetails from '~/components/object_editors/document_details.vue';

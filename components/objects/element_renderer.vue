@@ -1,47 +1,19 @@
 <template>
-<container class="widget-container" 
-  :class="{
-    'editable': editable,
-    'selected-widget': selected
-  }"
-  v-if="widget"
-  :style="{
-    'margin-top': (widget.top || 0) + 'px',
-    'margin-bottom': (widget.bottom || 0) + 'px',
-  }"
+<container class="element-renderer"
   @click="$emit('click')"
 >
 
-    <!--                                    -->
-    <!-- Header/card widget components:     -->
-    <!--                                    -->
-
-    <object-editor v-if="widget.component == 'object-editor'"
-      :value="widget"
-      @input="update_data($event)">
-    </object-editor>
-
-
-    <!--                                    -->
-    <!-- Body widget components:            -->
-    <!--                                    -->
+  El: {{element}}
 
     <!-- Utility (will not show up when the page is viewed )-->
-    <new-widget v-else-if="widget.component_id == 'new'"
-      :value="widget" 
+    <new-element v-if="element.component_id == 'new'"
+      :value="element" 
       @input="add_element($event)">
-    </new-widget>
-
-
-    <!-- Decorative -->
-
-    <line-break v-if="widget.component_id == 'line-break'" color="var(--bg-text2)"></line-break>
-    <hr v-if="widget.component == 'hr'" style="border: solid 1px var(--bg-text2);"></hr>
-    
+    </new-element>
 
     <!-- Text -->
 
-    <text-field v-if="widget.component_id == 'text-field'"
+    <text-field v-if="element.component_id == 'text-field'"
       :editable="editable"
       :value="element_props.value"
       
@@ -50,40 +22,8 @@
       @input="update_data( 'value', $event )"
     ></text-field>
 
-
-    <article-card v-else-if="widget.component == 'article-card'" 
-      :editable="editable"
-      :owner="owner"
-      :value="widget" 
-      @input="update_data($event)">
-    </article-card>
-
-    <collection v-else-if="widget.component_id == 'collection'" 
-      :editable="editable"
-      :value="widget" 
-      @input="emit_update($event.path, index, $event.new_val)">
-    </collection>
-
-    <!-- Images: -->
-    <!--
-    <div class="image-section" v-else-if="widget.type == 'image'" @change="uploadFile($event, index)" enctype="multipart/form-data"
-          @click="openSVGInput(index)">
-        
-      <input type="file" accept="image/svg" ref="fileInput" style="display: none;">
-      <p v-if="!widget.content">+ Upload an Image</p>
-      <div v-html="widget.content" v-else></div>
-
-    </div>-->
-    
-    <div class="image-section" v-else-if="widget.type == 'image'">
-      <svg-uploader v-model="widget.content" :ref="'svg_uploader_'"></svg-uploader>
-    </div>
-
-    <div class="secondary small-font">el draft style: {{element_style}}</div>
-    <div class="secondary small-font">this el style: {{widget.style}}</div>
-
     <element-editor v-if="selected && editTemplate"
-      :value="widget" 
+      :value="element" 
       :propValues="element_props"
       @reset="reset_draft()"
       @updateDraft="update_draft($event)"
@@ -146,11 +86,11 @@ export default {
 
   computed: {
 
-    widget() {
+    element() {
       if (this.editTemplate && this.selected){
         return this.draftElement;
       } else {
-        return this.$store.getters['draft_body/body_widget'](this.index);
+        return this.$store.getters['drafts/page/element'](this.index);
       }
     },
 
@@ -159,11 +99,11 @@ export default {
     },
 
     doc_data() {
-      return this.$store.getters['draft_document/doc_data'];
+      return this.$store.getters['drafts/pages/elements'];
     },
 
     // element_props() connects props with the values from various prop sources.
-    /* Ex: If 'widget.prop+config' looks like this: 
+    /* Ex: If 'element.prop+config' looks like this: 
       { value: { connection_type: 'doc_data', field: 'display_name' }, ... }
       element_props will return this:
       { value: this.doc_data.display_name, ... }
@@ -171,7 +111,7 @@ export default {
     element_props() {
 
       let element_props = {};
-      let prop_config = this.widget.prop_config; // For the shorter name
+      let prop_config = this.element.prop_config; // For the shorter name
 
       for (let prop_field in prop_config) {
         
@@ -183,7 +123,7 @@ export default {
           let connection_type = prop_config[prop_field].connection_type;
           let source_field = prop_config[prop_field].field;
           if (connection_type == 'doc_data') {
-            element_props[prop_field] = this.doc_data[source_field];
+            //element_props[prop_field] = this.doc_data[source_field];
           }
 
         }
@@ -216,20 +156,20 @@ export default {
       this.draftElement = new_draft;
     },
     reset_draft() {
-      let saved_widget = this.$store.getters['draft_body/body_widget'](this.index);
-      this.draftElement = saved_widget;
+      let saved_element = this.$store.getters['draft_body/body_element'](this.index);
+      this.draftElement = saved_element;
     },
 
-    // When the user clicks on a widget
-    select_widget(index) {
-      this.$emit('widgetselect', index);
+    // When the user clicks on a element
+    select_element(index) {
+      this.$emit('elementselect', index);
     },
 
     // Updating an element's fields in the store. 
     update_data(prop_field, value) {
 
-      let connection_type = this.widget.prop_config[prop_field].connection_type;
-      let source_field = this.widget.prop_config[prop_field].field;
+      let connection_type = this.element.prop_config[prop_field].connection_type;
+      let source_field = this.element.prop_config[prop_field].field;
 
       let update_obj = {}
       update_obj[source_field] = value;
@@ -243,18 +183,18 @@ export default {
 
       return;
       // Pass to the store
-      this.$store.commit('draft_body/set_body_widget', {
+      this.$store.commit('draft_body/set_body_element', {
         index: this.index,
-        widget: new_widget
+        element: new_element
       });
     },
 
-    // Replaces the 'new-widget' component with a truly new widget. 
+    // Replaces the 'new-element' component with a truly new element. 
     add_element(element) {
       
-      this.$store.commit('draft_body/set_body_widget', {
+      this.$store.commit('draft_body/set_body_element', {
         index: this.index,
-        widget: element
+        element: element
       });
     },
 
@@ -300,16 +240,16 @@ export default {
 <style lang="scss" scoped>
 // Note that this style isn't scoped, since it needs to reach inside components?
 
-// The v-for generated widget containers
-.widget-container {
+// The v-for generated element containers
+.element-container {
   position: relative;
   transition-duration: .2s;
   margin-bottom: 5px;
 }
 
-// The two selection light indicators to the sides of widgets. 
+// The two selection light indicators to the sides of elements. 
 // Styling:
-.widget-container.editable::before, .widget-container.editable::after {
+.element-container.editable::before, .element-container.editable::after {
   content: '';
   height: 15px;
   width: 15px;
@@ -321,14 +261,14 @@ export default {
   transition-duration: .4s;
   background: var(--card);
 }
-.widget-container.selected-widget::after, .widget-container.selected-widget::before {
+.element-container.selected-element::after, .element-container.selected-element::before {
   background: var(--c1);
 }
 // Positions:
-.widget-container.editable::before {
+.element-container.editable::before {
   left: -20px;
 }
-.widget-container.editable::after {
+.element-container.editable::after {
   right: -20px;
 }
 

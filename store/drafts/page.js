@@ -37,7 +37,14 @@ export const state = () => ({
 //
 
 export const getters = {
+  elements(state) {
+    console.log(state.elements);
+    return state.elements;
+  },
 
+  element: (state) => (element_index) => {
+    return state.elements[element_index];
+  },
 }
 
 
@@ -54,6 +61,9 @@ export const actions = {
     let new_page = new Page();
     console.warn("ooo here's new page");
     console.log(new_page);
+    for (let i in new_page.elements) {
+      commit('load_element', new_page.elements[i]);
+    }
   },
 
   save({commit}, payload) {
@@ -76,5 +86,8 @@ export const actions = {
 // Calling mutations from Vue is weird, you need to do this:
 //    this.$store.commit("mutationName", { payloadData: data })
 export const mutations = {
-
+  load_element(state, payload) {
+    console.log("🧠", payload)
+    state.elements.push(payload);
+  }
 }
