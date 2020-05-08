@@ -76,7 +76,7 @@ export default {
         alert("No password found!");
         return;
       }
-      this.$store.dispatch('db/users/create_user', {
+      this.$store.dispatch('db/users/create', {
         display_name: this.display_name,
         current_theme: this.current_theme,
         id: this.username,

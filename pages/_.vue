@@ -93,24 +93,7 @@
 
     
 
-    <!-- Rendering all body widgets:  -->
-    <element-renderer v-for="(widget, widget_i) in body_data"
-      :editable="editable"
-      :editTemplate="edit_template"
-      :selected="selected_element == widget_i"
-      @click="select_element(widget_i)"
-      :owner="doc_data.id"
-
-      :key="'body-widget' + widget_i"
-
-      :collection="collection_name"
-      :source="'body_data'"
-      :index="widget_i"
-    >
-    </element-renderer>
-
-    <!-- Add widget button: -->
-    <button v-if="editable && !edit_template" @click="add_element()">+ Add element</button>
+    
     
 
     <!-- Padding at the bottom of the page, for more intuitive scrolling: -->
@@ -218,9 +201,9 @@ export default {
       return doc_data;
     },
 
-    body_data() {
-      let body_data = this.$store.getters['draft_body/body_data'];
-      return body_data;
+    elements() {
+      let elements = this.$store.getters['draft/page/elements'];
+      return elements;
     },
 
     side_bar_data() {
@@ -240,23 +223,24 @@ export default {
 
     // TODO: Handle quick links here
 
-    // If there's just one argument + it isn't an alias or quick link, it's nothin'. l
+    // If there's just one argument + it isn't an alias or quick link, it's nothin'. 
     if (this.route.length == 1) {
       this.$router.push('/404');
     }
 
 
     // For routes with more than one parameter, the expected structure is this:
-    // rooftop-media.org / state / collection / document / folder_1 / … / folder_n / document 
+    // rooftop-media.org / page_state / collection / document / folder_1 / … / folder_n / document 
     else if (this.route.length > 1) {
 
+      // Handling page_state:
       this.page_state = this.route[0];
       let valid_page_states = ['view', 'edit', 'svg-editor', 'space-editor', 'metaedit'];
       if (valid_page_states.indexOf(this.page_state) == -1) {
         console.warn("Not a valid page state!")
       }
 
-      
+      // Handling 
       let collection_name = this.route[1];
       let doc_id = this.route[this.route.length - 1]
       this.load_page(collection_name, doc_id);

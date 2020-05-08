@@ -1,5 +1,5 @@
 import {Element} from './datatypes/Element/Element.js';
-import {Document} from './datatypes/Document/Document.js';
+import {Page} from './datatypes/Page/Page.js';
 import {ComponentInfo} from './datatypes/ComponentInfo/ComponentInfo.js';
 
 import {LengthUnit} from './datatypes/LengthUnit/LengthUnit';
@@ -17,7 +17,7 @@ import {Container} from './datatypes/Container/Container.js';
 
 
 export {
-  Document,
+  Page,
   Element,
   ComponentInfo,
 

@@ -13,6 +13,9 @@ import data_display from './data_display/_globals';
 
 import object_editors from './object_editors/_globals';
 
+import objects from './objects/_globals';
+
+
 
 // Layout components
 import theContent from './_the_layout/the_content.vue';
@@ -35,5 +38,7 @@ export default {
   ...links,
   ...data_display,
   ...object_editors,
+
+  ...objects,
 
 };

@@ -30,6 +30,9 @@ const collectionsRoutes = require('./collections-api.js');
 const userRoutes = require('./users-api.js');
 const projectRoutes = require('./projects-api.js');
 
+const pages_api = require('./pages/pages_api.js');
+
+
 
 //    Setting up Express:
 
@@ -87,6 +90,7 @@ function (err, client) {
   collectionsRoutes(app, mongoose);
   userRoutes(app, mongoose);
   projectRoutes(app, mongoose);
+  pages_api(app, mongoose);
 
   // // See all routes, for debugging
   // app._router.stack.forEach(function(r){

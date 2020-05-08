@@ -19,12 +19,8 @@ import {Page} from '~/modules/globals.js';
 // Setting up our state variables:
 export const state = () => ({
 
-  // Note: We don't store a variable called "current_user" here. 
-  //   To get the current user, user this.$auth.user.
+  pages: [],
 
-  // User data:
-  users: [],
-  
 })
 
 
@@ -38,30 +34,18 @@ export const state = () => ({
 
 export const getters = {
 
-  all_users(state) {
-    return state.users;
+  all_pages(state) {
+    return state.pages;
   },
 
-  get_user: (state) => (id) => {
-    let matching_users = state.users.filter( function(user) {
-      console.log(user);
-      return (user.id == id);
+  page_by_id: (state) => (id) => {
+    let matching_pages = state.pages.filter( function(page) {
+      console.log(page);
+      return (page.id == id);
     });
-    return matching_users[0];
+    return matching_pages[0];
   },
 
-  // This notation is the same as 
-  //  getterName() { return function (articleId) { ... } }
-  articleById: (state) => (articleId) => {
-    // This filter format is how we can query an array of objs. 
-    return state.articles[articleId];
-
-  },
-
-  // Gets all loaded articles (probably just for debugging.)
-  all_articles(state) {
-    return state.articles;
-  },
 
 }
 
@@ -74,47 +58,13 @@ export const getters = {
 //  this.$store.dispatch('actionName', {playloadData: data });
 export const actions = {
 
-  // Creating a new user:
   create({commit}, payload) {
-
-    console.warn(" 📤 users/create called in the store");
-
-    
-    console.log("Here's what an object looks like:");
-
-    axios.post("/api/create-user", {
-      id: payload.id,
-      password: payload.password,
-      display_name: payload.display_name,
-      current_theme: payload.current_theme,
-      email: payload.email,
-      
-      body_data: document.body_data,
-    })
-    .then((response) => {
-      console.log(" 💾 Successfully created a user: " + payload.id + "!");
-
-      this.$auth.loginWith('local', {
-        data: {
-          id: payload.id,
-          password: payload.password,
-        }
-      })
-
-      // Moving the user to the correct page.
-      this.$router.push({
-        path: '/view/user/' + payload.id
-      });
-    }, (error) => {
-      console.warn("Error creating user:")
-      console.warn(error.response.data);
-    });
-
+    return axios.get("/api/pages/create", payload)
   },
 
-  // Reading users by query:
-  read_user({commit}, payload) {
-    console.log(" 🗣 Called to read a user by id.");
+  // Reading pages by query:
+  read_by_id({commit}, payload) {
+    console.log(" 📥 Called to read a page by id.");
 
     return axios.get("/api/query-users", { params: {id: payload} })
     .then((response) => {

@@ -1,6 +1,3 @@
-// Info about this layout: https://nuxtjs.org/guide/vuex-store/
-
-import Vue from 'vue';
 
 // Setting up our state variables:
 export const state = () => ({
@@ -14,10 +11,7 @@ export const state = () => ({
 //   this.$store.getters.getterName
 //   this.$store.getters.getterWithParamName(paramData)
 export const getters = {
-  alert(state) {
-    return state.alert;
-  }
-
+  
 }
 
 
@@ -28,11 +22,7 @@ export const getters = {
 // Call actions in vue like this:
 //  this.$store.dispatch('actionName', {playloadData: data });
 export const actions = {
-
-  // TODO: This should probably be middleware. 
-  custom_routing(payload) {
-    console.log("hey :) ");
-  }
+  
 }
 
 
