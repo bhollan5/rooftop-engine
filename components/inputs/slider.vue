@@ -54,8 +54,14 @@ export default {
     },
 
     // min/max:
-    min: Number,
-    max: Number,
+    min: {
+      type: Number,
+      default: 0,
+    },
+    max: {
+      type: Number,
+      default: 100,
+    },
 
     title: {
       type: String,

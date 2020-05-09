@@ -75,8 +75,7 @@ export const actions = {
   load({commit}, payload) {
     let new_element = new Element();
     commit('load_element', new_element);
-  },
-  
+  },  
 
 }
 
@@ -92,5 +91,18 @@ export const mutations = {
     state.template_id = payload.template_id;
     state.prop_config = payload.prop_config;
     state.size = new Size();
-  }
+  },
+
+  update(state, payload) {
+    console.log("drafts/element/update payload:");
+    console.log(payload);
+    for (let field in payload) {
+      console.log(state.size[field])
+      if (state.size[field]) {
+        state.size[field].value = payload[field];
+        console.log(state[field]);
+      }
+    }
+  },
+
 }
