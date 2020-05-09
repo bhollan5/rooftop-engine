@@ -33,4 +33,20 @@ export function Size(payload) {
 //
 Size.prototype.new_default = function (color_obj) {
   this.width = new LengthUnit();
+  this.height = new LengthUnit();
+  this.min_width =  new LengthUnit();
+  this.min_height = new LengthUnit();
+  this.padding = []
+};
+
+Size.prototype.to_css_obj = function() {
+  return {
+    width: this.width.to_string(),
+    height: this.height.to_string(),
+  }
+};
+
+Size.prototype.to_string = function() {
+  let css_str = this.width.to_string();
+  
 };

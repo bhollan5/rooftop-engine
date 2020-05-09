@@ -11,7 +11,7 @@
 // For database calls:
 import axios from 'axios';
 
-import {Element, Container, ElementStyle } from '~/modules/globals.js';
+import {Element, Container, Size } from '~/modules/globals.js';
 
 // For Vue.set()
 import Vue from 'vue';
@@ -21,6 +21,7 @@ export const state = () => ({
 
   template_id: '',
 
+  size: null,
   prop_config: {},
 
   element_style: {},    // Will be a ElementStyling object 
@@ -52,8 +53,8 @@ export const getters = {
     return state.element_style;
   },
 
-  element_size(state) {
-    return state.element_style.size;
+  size(state) {
+    return state.size;
   },
 
 }
@@ -70,11 +71,12 @@ export const actions = {
   save({commit}, payload) {
     
   },
-  
-  select_template({commit}, payload) {
-    let found_el = new Element(payload);
-    commit('load_selected_element', new Element(payload));
+
+  load({commit}, payload) {
+    let new_element = new Element();
+    commit('load_element', new_element);
   },
+  
 
 }
 
@@ -86,9 +88,9 @@ export const actions = {
 // Calling mutations from Vue is weird, you need to do this:
 //    this.$store.commit("mutationName", { payloadData: data })
 export const mutations = {
-  load_selected_element(state, payload) {
+  load_element(state, payload) {
     state.template_id = payload.template_id;
     state.prop_config = payload.prop_config;
-    state.element_style = new ElementStyle();
+    state.size = new Size();
   }
 }

@@ -21,7 +21,7 @@
       </template>
 
       <!-- v-for list of the section type options: -->
-      <div class="element-type-option" 
+      <div class="element-type-option" v-if="0"
         v-for="template in ELEMENT_TEMPLATES"
         :class="{'selected-element-type': element.template_id == template.id}" 
         @click.stop="select_template(template)"
@@ -123,9 +123,10 @@ export default {
   computed: {
 
     element() {
-      let el = this.$store.getters['draft_element/element'];
+      let el = this.$store.getters['drafts/element/element'];
       return el;
     },
+
 
     component_info() {
       let search_id = this.selected_template.element.component_id;

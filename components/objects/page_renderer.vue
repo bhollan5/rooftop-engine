@@ -15,9 +15,6 @@
   >
   </element-renderer>
 
-  <div id="debug-page-display">
-    hi{{elements}}
-  </div>
 
   <!-- Add widget button: -->
   <button v-if="editable && !edit_template" @click="add_element()">+ Add element</button>
@@ -60,8 +57,8 @@ export default {
       // And the id of that document:
       doc_id: '',
 
-      selected_element: -1,   // The index of the currently selected el.
-      edit_template: false,   // Whether we have the template editor open
+      selected_element: 0,   // The index of the currently selected el.
+      edit_template: true,   // Whether we have the template editor open
 
       // If the document has unsaved changes
       unsaved_changes: false,
@@ -190,6 +187,7 @@ export default {
     },
 
     select_element(index) {
+      return; //todo: fix;
       this.$store.commit(
         'draft_element/load_selected_element', 
         this.body_data[index],
@@ -250,10 +248,5 @@ export default {
 }
 
 
-
-#debug-page-display {
-  background: var(--card);
-  color: var(--card-text);
-}
 
 </style>

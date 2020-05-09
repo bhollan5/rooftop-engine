@@ -10,8 +10,9 @@ import space_canvas from './space_canvas/_globals';
 import links from './links/_globals';
 import data_display from './data_display/_globals';
 
+import simple_object_editors from './simple_object_editors/_globals';
 
-import object_editors from './object_editors/_globals';
+import object_editors from './attribute_object_editors/_globals';
 
 import objects from './objects/_globals';
 
@@ -40,5 +41,7 @@ export default {
   ...object_editors,
 
   ...objects,
+
+  ...simple_object_editors,
 
 };

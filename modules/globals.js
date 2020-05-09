@@ -4,7 +4,7 @@ import {ComponentInfo} from './datatypes/ComponentInfo/ComponentInfo.js';
 
 import {LengthUnit} from './datatypes/LengthUnit/LengthUnit';
 
-import {Size} from './datatypes/ElementStyle/Size/Size';
+import {Size} from './datatypes/Element/Size/Size';
 
 import {ElementStyle} from './datatypes/ElementStyle/ElementStyle'
 

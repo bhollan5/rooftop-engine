@@ -37,6 +37,14 @@ export function LengthUnit(value=100, unit="px") {
 //
 // Methods:
 //
-LengthUnit.prototype.new_default = function (color_obj) {
+LengthUnit.prototype.new_default = function () {
   
+};
+
+LengthUnit.prototype.to_string = function () {
+  if (this.type == 'auto') {
+    return 'auto';
+  } else {
+    return this.value + this.unit;
+  }
 };

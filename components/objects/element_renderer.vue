@@ -1,9 +1,10 @@
 <template>
-<container class="element-renderer"
+<container class="element-container editable"
+  :style="element_style_object"
   @click="$emit('click')"
 >
 
-  El: {{element}}
+  ❖ {{element_style_object}}
 
     <!-- Utility (will not show up when the page is viewed )-->
     <new-element v-if="element.component_id == 'new'"
@@ -40,6 +41,8 @@
 import newWidget from '@/components/containers/new_widget.vue';
 import elementEditor from '@/components/_internal/element_editor.vue';
 
+import {Size} from '~/modules/globals';
+
 
 
 
@@ -66,7 +69,7 @@ export default {
     // editable content? 
     editable: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     // Toggles visual boxes around inputs
     noboxes: {
@@ -84,6 +87,10 @@ export default {
     }
   },
 
+  mounted() {
+    this.$store.dispatch('drafts/element/load');
+  },
+
   computed: {
 
     element() {
@@ -94,8 +101,15 @@ export default {
       }
     },
 
-    element_style() {
-      return this.$store.getters['draft_element/element_style'];
+    element_style_object() {
+      let size = this.$store.getters['drafts/element/size'];
+      if (!size) { 
+        size = new Size();
+      }
+      let style_object = {
+        ...size.to_css_obj(),
+      };
+      return style_object;
     },
 
     doc_data() {
@@ -156,7 +170,7 @@ export default {
       this.draftElement = new_draft;
     },
     reset_draft() {
-      let saved_element = this.$store.getters['draft_body/body_element'](this.index);
+      let saved_element = this.$store.getters['drafts/page/element'](this.index);
       this.draftElement = saved_element;
     },
 
@@ -242,6 +256,7 @@ export default {
 
 // The v-for generated element containers
 .element-container {
+  border: solid 1px red;
   position: relative;
   transition-duration: .2s;
   margin-bottom: 5px;

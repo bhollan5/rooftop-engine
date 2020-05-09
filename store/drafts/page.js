@@ -38,7 +38,6 @@ export const state = () => ({
 
 export const getters = {
   elements(state) {
-    console.log(state.elements);
     return state.elements;
   },
 
@@ -59,8 +58,6 @@ export const actions = {
   // Loads a page in from the database, then copies a draft. 
   load({commit, dispatch}, payload) {
     let new_page = new Page();
-    console.warn("ooo here's new page");
-    console.log(new_page);
     for (let i in new_page.elements) {
       commit('load_element', new_page.elements[i]);
     }

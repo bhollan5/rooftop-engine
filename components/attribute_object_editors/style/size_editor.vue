@@ -1,11 +1,12 @@
 <template>
 <container class="small-font" :width="300">
   
-  <slider title="Width:" 
+  <slider title="Width:" v-if="0"
     :min="0" 
     :max="100" 
     :value="8">
   </slider>
+  <length-unit-editor></length-unit-editor>
 
   <div>Draft el size: {{draft_el_size}}</div>
   <br><br>
@@ -22,7 +23,7 @@ export default {
 
   computed: {
     size() {
-      return new Size()
+      return this.$store.getters['drafts/element/size'];
     },
     draft_el_style() {
       return this.$store.getters['draft_element/element_style'];
