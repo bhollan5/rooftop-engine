@@ -11,7 +11,7 @@
 //      - padding, margin:  [LengthUnit,LengthUnit,LengthUnit,LengthUnit]
 //
 
-import {LengthUnit} from '~/modules/globals';
+import {LengthUnit} from '~/modules/datatypes/LengthUnit/LengthUnit.js';
 
 
 export function Size(payload) {
@@ -37,6 +37,7 @@ Size.prototype.new_default = function (color_obj) {
   this.min_width =  new LengthUnit();
   this.min_height = new LengthUnit();
   this.padding = []
+  return this;
 };
 
 Size.prototype.to_css_obj = function() {

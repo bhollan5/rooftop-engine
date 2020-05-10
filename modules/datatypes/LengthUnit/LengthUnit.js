@@ -31,6 +31,7 @@ export function LengthUnit(value=100, unit="px") {
   }
 
   this.unit = unit;
+  return this;
 
 }
 
@@ -38,7 +39,7 @@ export function LengthUnit(value=100, unit="px") {
 // Methods:
 //
 LengthUnit.prototype.new_default = function () {
-  
+  return this;
 };
 
 LengthUnit.prototype.to_string = function () {

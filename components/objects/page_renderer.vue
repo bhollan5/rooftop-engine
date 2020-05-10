@@ -15,18 +15,31 @@
   >
   </element-renderer>
 
-
   <!-- Add widget button: -->
-  <button v-if="editable && !edit_template" @click="add_element()">+ Add element</button>
+  <button v-if="editable && edit_template" @click="add_element()">+ Add element</button>
+
+  <!-- Popup element editor: -->
+  <element-editor v-if="edit_template"
+    :value="elements[selected_element]" 
+    @updateDraft="update_draft($event)"
+    @input="add_element($event)"
+  ></element-editor>
+
+
+  
 </div>
 </template>
 
 <script>
+import elementEditor from '@/components/objects/editors/element_editor.vue';
+
+import {Element} from '~/modules/globals.js';
 
 export default {
   name: 'page-render',
 
   components: {
+    elementEditor,
   },
 
   data() {
@@ -179,18 +192,14 @@ export default {
     },
 
     add_element() {
-      this.$store.commit('draft_body/add_body_widget', {
-        component_id: 'new',
-        content: ''
-      });
-      this.selected_element = this.body_data.length - 1;
+      this.$store.commit('drafts/page/add_element', new Element());
+      this.selected_element = this.elements.length - 1;
     },
 
     select_element(index) {
-      return; //todo: fix;
-      this.$store.commit(
-        'draft_element/load_selected_element', 
-        this.body_data[index],
+      let selected_el = this.$store.getters['drafts/page/element'](index);
+      this.$store.commit('drafts/element/load_element', 
+        selected_el,
       )
       this.selected_element = index;
       this.edit_template = true;

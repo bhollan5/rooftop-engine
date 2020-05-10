@@ -9,6 +9,7 @@
 
 <script>
 export default {
+  name: 'new-el',
   props: {
     editable: {
       type: Boolean

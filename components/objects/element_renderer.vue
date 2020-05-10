@@ -1,10 +1,12 @@
 <template>
 <container class="element-container editable"
-  :style="element_style_object"
+  v-if="element"
+  :style="element.to_css_obj()"
+  :class="{'selected-element': selected}"
   @click="$emit('click')"
 >
 
-  ❖ {{element_style_object}}
+  ❖ {{element.to_css_obj()}}
 
     <!-- Utility (will not show up when the page is viewed )-->
     <new-element v-if="element.component_id == 'new'"
@@ -23,14 +25,6 @@
       @input="update_data( 'value', $event )"
     ></text-field>
 
-    <element-editor v-if="selected && editTemplate"
-      :value="element" 
-      :propValues="element_props"
-      @reset="reset_draft()"
-      @updateDraft="update_draft($event)"
-      @input="add_element($event)"
-    ></element-editor>
-
 </container>
 </template>
 
@@ -39,7 +33,6 @@
 
 // Widgets:
 import newWidget from '@/components/containers/new_widget.vue';
-import elementEditor from '@/components/_internal/element_editor.vue';
 
 import {Size} from '~/modules/globals';
 
@@ -47,9 +40,8 @@ import {Size} from '~/modules/globals';
 
 
 export default {
-  name: 'widget-renderer',
+  name: 'element-renderer',
   components: {
-    elementEditor,
     newWidget,
   },
 
@@ -60,7 +52,8 @@ export default {
     },
     // Illuminate the lights next to this component?
     selected: {
-      type: Boolean
+      type: Boolean,
+      default: false,
     },
     // Whether we're editing the template of the current selection.
     editTemplate: {
@@ -93,23 +86,21 @@ export default {
 
   computed: {
 
-    element() {
-      if (this.editTemplate && this.selected){
-        return this.draftElement;
-      } else {
-        return this.$store.getters['drafts/page/element'](this.index);
-      }
+    draft_page_element() {
+      return this.$store.getters['drafts/page/element'](this.index);
     },
 
-    element_style_object() {
-      let size = this.$store.getters['drafts/element/size'];
-      if (!size) { 
-        size = new Size();
+    draft_element() {
+      return this.$store.getters['drafts/page/element'](this.index);
+    },
+
+    element() {
+      if (this.editTemplate && this.selected){
+        console.log("Element == draftElement");
+        return this.draft_element;
+      } else {
+        return this.draft_page_element;
       }
-      let style_object = {
-        ...size.to_css_obj(),
-      };
-      return style_object;
     },
 
     doc_data() {

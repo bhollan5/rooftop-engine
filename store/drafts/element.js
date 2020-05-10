@@ -21,7 +21,7 @@ export const state = () => ({
 
   template_id: '',
 
-  size: null,
+  box_size: null,
   prop_config: {},
 
   element_style: {},    // Will be a ElementStyling object 
@@ -53,8 +53,8 @@ export const getters = {
     return state.element_style;
   },
 
-  size(state) {
-    return state.size;
+  box_size(state) {
+    return state.box_size;
   },
 
 }
@@ -90,19 +90,21 @@ export const mutations = {
   load_element(state, payload) {
     state.template_id = payload.template_id;
     state.prop_config = payload.prop_config;
-    state.size = new Size();
+    state.box_size = payload.box_size;
   },
 
-  update(state, payload) {
+  update_size(state, payload) {
     console.log("drafts/element/update payload:");
     console.log(payload);
+
     for (let field in payload) {
-      console.log(state.size[field])
-      if (state.size[field]) {
-        state.size[field].value = payload[field];
-        console.log(state[field]);
+      console.log(state.box_size[field])
+      if (state.box_size[field]) {
+        state.box_size[field].value = payload[field];
+        console.log(state.box_size[field]);
       }
     }
+    
   },
 
 }

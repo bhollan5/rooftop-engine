@@ -1,5 +1,5 @@
-import {Color} from '~/modules/globals.js';
 
+import {Size} from '~/modules/datatypes/Element/Size/Size.js';
 
 export default [
   {
@@ -19,15 +19,14 @@ export default [
     description: 'The title of the page.',
     
     element: {
-      component_id: 'text-field',
-      prop_config: {
-        fontsize: 'h1',
-        bottom: 0,
-        value: {
-          connection_type: 'doc_data',
-          field: 'display_name'
-        },
-      },
+      id: 'header',
+      name: 'Header',
+      local_data: {},
+      index: 0,
+      parent_el: null,
+      component: 'text-field',
+      box_size: new Size(),
+
       element_data: {}
     }
   }, {

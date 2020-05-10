@@ -2,7 +2,7 @@ import {Element} from './datatypes/Element/Element.js';
 import {Page} from './datatypes/Page/Page.js';
 import {ComponentInfo} from './datatypes/ComponentInfo/ComponentInfo.js';
 
-import {LengthUnit} from './datatypes/LengthUnit/LengthUnit';
+import {LengthUnit} from './datatypes/LengthUnit/LengthUnit.js';
 
 import {Size} from './datatypes/Element/Size/Size';
 

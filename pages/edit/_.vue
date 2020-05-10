@@ -6,7 +6,7 @@
   <!-- First up: The side bar, which pops up from the left when it's shown! -->
   <!--                                                                      -->
   <template #sidebar>
-
+    <page-details/>
   </template>
 
   

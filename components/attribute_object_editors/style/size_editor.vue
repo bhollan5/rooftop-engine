@@ -1,14 +1,12 @@
 <template>
-<container class="small-font" :width="300">
+<container class="small-font" :width="300" v-if="size">
   
-  <slider title="Width:" v-if="0"
-    :min="0" 
-    :max="100" 
-    :value="8">
-  </slider>
-  <length-unit-editor></length-unit-editor>
+  <length-unit-editor 
+    :lengthUnit="size.width"
+    @input="update($event)">
+  </length-unit-editor>
 
-  <div>Draft el size: {{draft_el_size}}</div>
+  <div>Draft el size: {{size}}</div>
   <br><br>
 
 </container>
@@ -23,14 +21,8 @@ export default {
 
   computed: {
     size() {
-      return this.$store.getters['drafts/element/size'];
+      return this.$store.getters['drafts/element/box_size'];
     },
-    draft_el_style() {
-      return this.$store.getters['draft_element/element_style'];
-    },
-    draft_el_size() {
-      return this.$store.getters['draft_element/element_size'];
-    }
   },
 
   data() {
@@ -38,6 +30,15 @@ export default {
 
     }
   },
+
+  methods: {
+    update(new_val) {
+      console.log(new_val);
+      this.$store.commit('drafts/element/update_size', {
+        width: new_val,
+      })
+    }
+  }
 }
 </script>
 

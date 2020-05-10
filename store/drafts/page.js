@@ -16,7 +16,7 @@
 // For database calls:
 import axios from 'axios';
 
-import {Page} from '~/modules/globals';
+import {Page, Element} from '~/modules/globals';
 
 // Setting up our state variables:
 export const state = () => ({
@@ -44,6 +44,13 @@ export const getters = {
   element: (state) => (element_index) => {
     return state.elements[element_index];
   },
+
+  local_data(state) {
+    return {
+      name: state.name,
+      id: state.id,
+    }
+  }
 }
 
 
@@ -84,7 +91,11 @@ export const actions = {
 //    this.$store.commit("mutationName", { payloadData: data })
 export const mutations = {
   load_element(state, payload) {
-    console.log("🧠", payload)
     state.elements.push(payload);
-  }
+  },
+
+  add_element(state, payload) {
+    state.elements.push(payload);
+  },
+
 }
