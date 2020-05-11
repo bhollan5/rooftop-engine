@@ -83,6 +83,7 @@
       </template>
       <template #Style>
         
+        
         <div class="secondary small-font">Size: </div>
         <size-editor></size-editor>
 

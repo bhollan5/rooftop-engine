@@ -94,14 +94,10 @@ export const mutations = {
   },
 
   update_size(state, payload) {
-    console.log("drafts/element/update payload:");
-    console.log(payload);
 
     for (let field in payload) {
-      console.log(state.box_size[field])
       if (state.box_size[field]) {
         state.box_size[field].value = payload[field];
-        console.log(state.box_size[field]);
       }
     }
     

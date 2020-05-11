@@ -95,7 +95,7 @@ export default {
     },
 
     element() {
-      if (this.editTemplate && this.selected){
+      if (this.selected){
         console.log("Element == draftElement");
         return this.draft_element;
       } else {

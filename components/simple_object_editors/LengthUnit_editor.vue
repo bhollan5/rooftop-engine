@@ -1,6 +1,5 @@
 <template>
 <div v-if="lengthUnit">
-  {{lengthUnit}}
   <slider :value="lengthUnit.value" 
     :title="lengthUnit.name"
     @input="$emit('input', $event)">

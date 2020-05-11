@@ -52,9 +52,9 @@ module.exports = function(app, mongoose){
   });
 
   // Update a user. Takes an object with query information
-  app.post('/update-user', (req, res) => {
+  app.post('/pages/save', (req, res) => {
 
-    console.log("\n 🗣 Called to update a user!")
+    console.log("\n 🗣 Called to save a page!")
     let _id = req.body._id;         // The id of the doc we're calling
     let update = req.body.update;   // The updated fields
     console.log(update)

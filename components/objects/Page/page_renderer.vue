@@ -70,7 +70,7 @@ export default {
       // And the id of that document:
       doc_id: '',
 
-      selected_element: 0,   // The index of the currently selected el.
+      selected_element: -1,   // The index of the currently selected el.
       edit_template: true,   // Whether we have the template editor open
 
       // If the document has unsaved changes
@@ -98,8 +98,12 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch('drafts/page/load');
-    // this.custom_routing();
+    this.$store.dispatch('drafts/page/load').then(() => {
+      // Wait til the elements load, then open up the first one!
+      this.select_element(0);
+    })
+    
+    
   },
 
   destroyed() {

@@ -12,7 +12,11 @@
   
   <!-- Floating top left icons: -->
   <template #floatingicons>
-
+    <!-- Save the document:     -->
+    <div @click="save()">
+      <save-icon :class="{ 'disabled': saving || !unsaved_changes }">
+      </save-icon>
+    </div>
   </template>  <!-- End floating icons -->
 
   <!-- Content body: -->
@@ -81,7 +85,9 @@ export default {
   },
 
   methods: {
-    
+    save() {
+
+    }
   }
 }
 </script>

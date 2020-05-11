@@ -1,8 +1,8 @@
 
 
 // Inputs: 
-import PageRenderer from './page_renderer.vue';
-import ElementRenderer from './element_renderer.vue';
+import PageRenderer from './Page/page_renderer.vue';
+import ElementRenderer from './Element/element_renderer.vue';
 
 import PageDetails from './editors/page_details.vue';
 

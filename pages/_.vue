@@ -139,7 +139,6 @@
 <script>
 
 import Vue from 'vue';
-import elementRenderer from '~/components/objects/element_renderer.vue';
 import objectDisplay from '~/components/data_display/object_display.vue';
 
 import documentDetails from '~/components/objects/document_details.vue';
@@ -150,7 +149,6 @@ export default {
 
   components: {
     objectDisplay,
-    elementRenderer,
     documentDetails,
   },
 
