@@ -14,9 +14,6 @@ export const state = () => ({
 //   this.$store.getters.getterName
 //   this.$store.getters.getterWithParamName(paramData)
 export const getters = {
-  alert(state) {
-    return state.alert;
-  }
 
 }
 
