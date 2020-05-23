@@ -1,6 +1,4 @@
-import { query_array_of_objects } from '~/modules/helpers.js';
-import element_templates from '~/modules/datatypes/Element/element_templates.js';
-import {Size} from '~/modules/datatypes/Element/Size/Size.js';
+
 
 
 // The object class for our custom datatype, element!
@@ -10,17 +8,6 @@ import {Size} from '~/modules/datatypes/Element/Size/Size.js';
 //      - local_data:     Array
 //      - prop_config:    Object
 export function Element(payload) {
-  this.box_size = new Size();
-  if (typeof(payload) == 'string') {
-    this.create_from_template(payload);
-
-  } else if (typeof(payload) == 'object') {
-    this.template_id = payload.template_id;
-    this.component_id = payload.component_id;
-    this.prop_config = payload.prop_config;
-    this.container = payload.container;
-  }
-  
 }
 
 

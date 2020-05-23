@@ -17,13 +17,11 @@ import Vue from 'vue';
 // Setting up our state variables:
 export const state = () => ({
 
-  template_id: '',
+  input_mode: false, // This is true when user input is needed! (Inside a command.)
 
-  box_size: null,
-  prop_config: {},
+  lines: [],        // a logged list.
 
-  element_style: {},    // Will be a ElementStyling object 
-
+  user_input: '',        // a temporary var used to send user input. 
 
 
 })
@@ -38,22 +36,18 @@ export const state = () => ({
 //
 
 export const getters = {
-
-  element(state) {
-    return new Element({
-      template_id: state.template_id,
-      prop_config: state.prop_config,
-      container: state.container
-    })
+  // The list of output lines. 
+  lines(state) {
+    return state.lines;
   },
-
-  element_style(state) {
-    return state.element_style;
+  // Whether the CLI is in write mode. 
+  input_mode(state) {
+    return state.input_mode;
   },
-
-  box_size(state) {
-    return state.box_size;
-  },
+  // The drafted user input. 
+  user_input(state) {
+    return state.user_input;
+  }
 
 }
 
@@ -66,14 +60,74 @@ export const getters = {
 //  this.$store.dispatch('actionName', {playloadData: data });
 export const actions = {
 
-  save({commit}, payload) {
-    
+  //    ⍿  Actions:
+
+  // Takes a string, parses it as a command, and runs it!
+  run_command({ commit, dispatch }, payload) {
+
+    commit('add_line', 'guest@~/dustzone$ ' + payload); // logging the command
+
+    // Splitting the input string into an array that looks like this: [command, arg1, arg2, ... ]
+    let command_args = payload.split( ' ' );
+
+    // Getting rid of the first 'command' string in the array, and moving it to a new variable. 
+    let command = command_args.shift();
+
+    // Checking if the command is known:
+    if (['create'].indexOf(command) == -1) {
+      dispatch('output', "That's not a command I know :/"); 
+      return;
+    }
+
+    // Calling the action:
+    dispatch(
+      'here/actions/' + command + '/default', 
+      command_args,
+      { root: true }
+    );
+
   },
 
-  load({commit}, payload) {
-    let new_element = new Element();
-    commit('load_element', new_element);
-  },  
+  //    ◎ Outputs:
+
+  // Displays text on the screen. 
+  output({commit, dispatch}, payload) {
+    commit('add_line', payload); // logging the output
+  },
+
+
+
+  //    ⍿ Inputs:
+
+  // Displays text on the screen. 
+  input({commit, getters}, payload) {
+    commit('input_mode', true);
+
+    // This waits for user input, and then returns that input value. 
+    return new Promise((resolve, reject) => {
+      // This loops until we switch out of write mode. 
+      setInterval(() => {
+        if (!getters['input_mode']) {
+          let user_input = getters['user_input'];
+          resolve(user_input);
+          return;
+        }
+      }, 10)
+    })
+
+  },
+
+  // When a user enters text into an input
+  enter_input({commit}, payload) {
+    commit('set_user_input', payload);
+    commit('input_mode', false);
+    commit('add_line', '? ' + payload); // logging the input
+  },
+
+
+
+
+ 
 
 }
 
@@ -85,20 +139,15 @@ export const actions = {
 // Calling mutations from Vue is weird, you need to do this:
 //    this.$store.commit("mutationName", { payloadData: data })
 export const mutations = {
-  load_element(state, payload) {
-    state.template_id = payload.template_id;
-    state.prop_config = payload.prop_config;
-    state.box_size = payload.box_size;
+  add_line(state, payload) {
+    state.lines.push( payload );
   },
 
-  update_size(state, payload) {
-
-    for (let field in payload) {
-      if (state.box_size[field]) {
-        state.box_size[field].value = payload[field];
-      }
-    }
-    
+  input_mode(state, payload) {
+    state.input_mode = payload;
   },
 
+  set_user_input(state, payload) {
+    state.user_input = payload;
+  }
 }

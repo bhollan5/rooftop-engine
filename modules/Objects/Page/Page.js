@@ -1,5 +1,4 @@
 import { query_array_of_objects } from '~/modules/helpers.js';
-import {Element} from '~/modules/globals';
 
 export function Page(template_id) {
 
