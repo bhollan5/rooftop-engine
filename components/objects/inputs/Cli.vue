@@ -24,18 +24,23 @@ export default {
   data() {
     return {
 
-      draft_line: 'create entity_type',   // For the text that's currently being typed. 
+      draft_line: 'create prototype',   // For the text that's currently being typed. 
 
     }
   },
 
   computed: {
+
+    /* A boolean, indicating if we're waiting for input */
     input_mode() {
       return this.$store.getters['here/objects/cli/input_mode'];
     },
+
+    /* An array of strings(?) */
     lines() {
       return this.$store.getters['here/objects/cli/lines'];
-    }
+    },
+
   },
 
   methods: {
@@ -96,14 +101,14 @@ input, .cli-text {
   background: none;
 
   border: none;
-  color: hsl(0,0%, 50%);
-  border-bottom: solid 0px hsl(0,0%, 50%);
+  color: hsl(0,0%, 10%);
+  border-bottom: solid 0px hsl(0,0%, 10%);
   outline: none;
   transition-duration: .2s;
 
   &:focus {
-    color: hsl(0,0%, 30%);
-    border-bottom: solid 2px hsl(0,0%, 70%);
+    color: hsl(0,0%, 10%);
+    border-bottom: solid 2px hsl(0,0%, 10%);
   }
 
 }

@@ -1,22 +1,33 @@
 <template>
+<!-- 
+
+  ☞  This is the Default Layout!
+      |
+      ├⇢ Represents the user's POV & controls. 
+      |    The "subjective" POV. 
+      |
+      ├⇢ Displaying Rooftop Essentials:
+      |   ├⇢ RT logo
+      |   └⇢ Command line
+      |
+      └⇢ Also can display custom User elements
+
+-->
 <div class="page">
   <div id="the-header-bar">
     <cli></cli>
   </div>
-  <compass v-if="show_compass"></compass>
   <nuxt />
 </div>
 </template>
 
 <script>
-import compass from '@/components/abstractions/compass';
 import cli from '@/components/objects/inputs/cli';
 
 export default {
-  name: 'perspective',
+  name: 'subjective-perspective',
 
   components: {
-    compass,
     cli,
   },
   data() {

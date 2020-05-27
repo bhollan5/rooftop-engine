@@ -40,32 +40,40 @@ export const getters = {
 //  this.$store.dispatch('actionName', {playloadData: data });
 export const actions = {
 
-  // This gets called when you enter the cli command 'create arg1 arg2...' 
-  //  The payload is an array of the arguments from the command: [arg1, arg2, ...]
-  default({commit, dispatch}, payload) {
+  /*  -- Payload:
+    prototype_id: string
+    doc_id: string
+  */
+  read_doc({commit, dispatch}, payload) {
 
-    let create_args = payload;
-    let object_type = create_args.shift();
+    let prototype_id = payload.prototype_id;
+    let doc_id = payload.doc_id;
+    
+    return axios.get("/api/read_doc", { 
+      params: {
+        prototype_id: prototype_id,
+        doc_id: doc_id
+      } 
+    })
+    .then((response) => {
+      if (response.data.length) {
+        console.log(" ⎔ ⇢ Queried your doc!");
+        console.log(response.data);
+        
+        // for (let i in response.data) {
+        //   commit('set_user', response.data[i]);
+        // }
 
-    // Checking if the command exists:
-    if (['entity_type'].indexOf(object_type) == -1) {
-      dispatch('here/objects/cli/output', "That's not a command I know :/", {root: true}); 
-      return;
-    }
-    dispatch(object_type, create_args)
+      } else {
+        console.log(" ⛔️ No users loaded.")
+      }
+      
+    }, (error) => {
+      console.warn(error);
+    });
 
   },
 
-  // 
-  entity_type({commit, dispatch}, payload) {
-    console.log('Hello!');
-
-    dispatch('here/objects/cli/prompt', 'Entity id?', {root: true} )
-    .then((response) => {
-      console.warn(response);
-      dispatch('here/objects/cli/output', 'Entity id?', {root: true} )
-    })
-  }
 
 }
 

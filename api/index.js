@@ -1,45 +1,73 @@
-// To initialize express in nuxt: 
-// https://medium.com/@mitsuyawatanabe/how-to-start-express-project-in-nuxt-2-x-d3406c92a8ca
-// https://www.reddit.com/r/vuejs/comments/aayav5/any_examplestutorial_on_a_nuxt_app_with/
+
+
+/*
+
+  ╦═════════════════════════════════════════════╦
+  ⇢ Welcome to the Express server, aka the API! ⇠
+  ╚═════════════════════════════════════════════╝	
+
+            ═════ What this is: ═════
+
+        This is a normal Javascript file 
+            that runs on the server. 
+  
+      This script uses this npm package: 
+                 > ExpressJS <
+
+             ExpressJS lets us host 
+      a program called an "API" on the server. 
+   
+        The API is like a "network port",
+     to let the server talk to other computers.
+
+*/
+
+
 
 console.log(" 🌈🏠 Initializing Rooftop server...")
-//console.log("Yr env is: " +  process.env.NODE_ENV)
+// console.log("Yr env is: " +  process.env.NODE_ENV)
+
+
 
 const fs = require('fs');               // GridFS lets Mongo upload files
-const mongodb = require('mongodb');     // The MongoDB library
+
+/* We use a database program called MongoDB */
+const mongodb = require('mongodb');     // Importing the MongoDB npm library
+
+/* Mongoose is a program to make mongodb 
+  "object oriented", which is a better way
+  to organize  data. */
 let mongoose = require('mongoose');     // Mongoose gives us object oriented tools, like schema defining
 
+/* This is a data structure that lets us
+   define a "schema" for a database. */
+const Schema = mongoose.Schema;         
+
+/* Idk what this does */
 mongoose.set('useCreateIndex', true); // Resolves a deprecation issue.
 
-
+/* Lets us run the API */
 let express = require('express');       // The Express library
 
+/* Ehhh not sure we need this */
 let ObjectID = mongodb.ObjectID;        // This tool lets us convert object id's to be queryable
 
-// // Disabling this for now, since we're not uploading any files yet. 
-// let multer  = require('multer');        // Lets us route new images we're uploading
-// let uploadObj = multer({                // This object references the path we want to use
-//   dest: './uploads/' 
-// })
-
-// This is where we import all our other local files. These files are then called 
-// down below, at the bottom of the file. 
-const articlesRoutes = require('./articles-api.js');
-const themesRoutes = require('./themes-api.js');
-const collectionsRoutes = require('./collections-api.js');
-const userRoutes = require('./users-api.js');
-const projectRoutes = require('./projects-api.js');
-
-const pages_api = require('./pages/pages_api.js');
+/* Imports to other api files. 
+   We run these imports at the bottom of this file. 
+   (Maybe there's a better way to do this?) */
+const routes = require('./routes.js');
 
 
 
-//    Setting up Express:
 
-// Creating our Express instance:
-const app = express()                           
-// Telling Nuxt to access the API with /api/ routes
+/*    Setting up Express:   */
+
+/* Creating our Express object instance: */
+const app = express()         
+
+/* Telling Nuxt to access the API with /api/ routes */
 module.exports = { path: '/api', handler: app } 
+
 // Enabling CORS:
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -85,12 +113,31 @@ function (err, client) {
   app.use(express.json());
 
   // Initializing the article routes
-  articlesRoutes(app, mongoose);
-  themesRoutes(app, mongoose);
-  collectionsRoutes(app, mongoose);
-  userRoutes(app, mongoose);
-  projectRoutes(app, mongoose);
-  pages_api(app, mongoose);
+  console.log("⇢ Hope these routes go well");
+  routes(app, mongoose);
+
+  // Defining our mongoose schema for a given collection:
+  /*
+  let location_schema = new mongoose.Schema({
+    name: String,
+    id: String,
+    root_element: { type: Schema.Types.ObjectId, ref: 'Element' },
+  });
+
+  let Location = mongoose.model('Location', location_schema);
+  */
+
+
+  // Creating a new collection:
+  /*
+  app.post('/create-collection', (req, res) => {
+    let newCollection = new Collection(req.body);
+    newCollection.save(function (err, result) {
+      if (err) return console.error(err);
+      console.log(' 💾 Saved a new collection to the database!');
+      res.send(result)
+    });
+  })*/
 
   // // See all routes, for debugging
   // app._router.stack.forEach(function(r){
