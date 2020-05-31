@@ -11,20 +11,10 @@
 // For database calls:
 import axios from 'axios';
 
-// For Vue.set()
-import Vue from 'vue';
+import * as object_dictionary from '~/modules/globals.js';
 
 // Setting up our state variables:
 export const state = () => ({
-
-  template_id: '',
-
-  box_size: null,
-  prop_config: {},
-
-  element_style: {},    // Will be a ElementStyling object 
-
-
 
 })
 
@@ -39,22 +29,6 @@ export const state = () => ({
 
 export const getters = {
 
-  element(state) {
-    return new Element({
-      template_id: state.template_id,
-      prop_config: state.prop_config,
-      container: state.container
-    })
-  },
-
-  element_style(state) {
-    return state.element_style;
-  },
-
-  box_size(state) {
-    return state.box_size;
-  },
-
 }
 
 
@@ -66,14 +40,37 @@ export const getters = {
 //  this.$store.dispatch('actionName', {playloadData: data });
 export const actions = {
 
-  save({commit}, payload) {
-    
+  /*
+    Default option:
+    Called when you enter the cli command 'create arg1 arg2...' 
+  //  The payload is an array of the arguments from the command: [arg1, arg2, ...]
+  */
+  default({commit, dispatch}, payload) {
+
+    // Loading in our array
+    let create_args = payload;
+    let object_type = create_args.shift();
+
+    // Checking if the command exists:
+    if (['prototype'].indexOf(object_type) == -1) {
+      dispatch('here/objects/cli/output', "That's not a command I know :/", {root: true}); 
+      return;
+    }
+    dispatch(object_type, create_args)
+
   },
 
-  load({commit}, payload) {
-    let new_element = new Element();
-    commit('load_element', new_element);
-  },  
+  // 
+  prototype({commit, dispatch}, payload) {
+    console.log('Creating new prototype');
+
+    dispatch('here/objects/cli/input', 'Entity id?', {root: true} )
+    .then((response) => {
+      console.warn(response);
+      dispatch('here/objects/cli/output', 'Entity id?', {root: true} )
+    })
+  },
+
 
 }
 
@@ -85,6 +82,5 @@ export const actions = {
 // Calling mutations from Vue is weird, you need to do this:
 //    this.$store.commit("mutationName", { payloadData: data })
 export const mutations = {
-
 
 }

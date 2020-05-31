@@ -1,9 +1,9 @@
 <template>
 <!-- 
 
-  ☞  This is the Page Renderer!
+  ☞  This is the Viewer!
       |
-      ├⇢ Represents our camera to the objective world, at a given location.
+      ├⇢ Represents our camera, viewing whatever the route indicates.
       |
       ├⇢ Our perspective is made of two parts: 
       |    1. The system we're accessing
@@ -17,16 +17,15 @@
       └⇢ Pass the reference to the document's file into an Element tag, with props!
 
 -->
-<div id="page-renderer">
-  <component is="p">
-  
-  </component>
+<div id="viewer">
+  <program/>
+  <object/>
 </div>
 </template>
 
 <script>
 export default {
-  name: 'perspective-of-the-world',
+  name: 'bridge', // like from star trek
 
   data() {
     return {
@@ -34,6 +33,9 @@ export default {
       /* An array of strings for each element in the route.
            so '/projects/rooftop-website' will return ['projects', 'rooftop-website'] */
       route: this.$route.params.pathMatch.split('/'),
+
+      data: [],
+
 
     }
   },
@@ -45,12 +47,15 @@ export default {
   // Page kernel. 
   mounted() {
     console.log(this.route);
-    this.$store.dispatch('focus/page/load_route', this.route);
+    // this.$store.dispatch('focus/page/load_route', this.route);
   }
 
 }
 </script>
 
 <style lang="scss" scoped>
-
+#viewer {
+  height: 100%;
+  width: 100%;
+}
 </style>

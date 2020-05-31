@@ -7,7 +7,7 @@
 
   <div class="cli-line">
     <div class="cli-text">
-      guest@~/dustzone$
+      guest@~/$
     </div>
 
     <input v-model="draft_line" autofocus 
@@ -24,7 +24,7 @@ export default {
   data() {
     return {
 
-      draft_line: 'create prototype',   // For the text that's currently being typed. 
+      draft_line: 'load vocab location',   // For the text that's currently being typed. 
 
     }
   },
@@ -45,6 +45,7 @@ export default {
 
   methods: {
 
+    //
     enter() {
       if (this.input_mode) {
         this.enter_input();
@@ -56,7 +57,7 @@ export default {
     // Adds the currently drafted line, then clears the drafts. 
     enter_input() {
       this.$store.dispatch(                        // Runs the current line. 
-        'here/objects/cli/enter_input', 
+        'here/systems/cli/enter_input', 
         this.draft_line
       );         
       this.draft_line = '';               // Clears the line (this doesn't wait for the dispatch to finish.)
@@ -65,8 +66,15 @@ export default {
 
     // Adds the currently drafted line, then clears the drafts. 
     add_line() {
+      console.log(" %c⍟ CLI.vue - %cCalling %clocal/actions/run%c: %c" + this.draft_line,
+        "color: #70FFFF",
+        "color: white",
+        "color: #EAD686",
+        "color: white",
+        "color: #C3A2FF",
+      );
       this.$store.dispatch(                        // Runs the current line. 
-        'here/objects/cli/run_command', 
+        'local/actions/run/default', 
         this.draft_line
       );         
       this.draft_line = '';               // Clears the line (this doesn't wait for the dispatch to finish.)

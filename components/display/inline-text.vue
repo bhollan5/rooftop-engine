@@ -10,7 +10,7 @@
 
 -->
 <span class="text">
-  {{ text_content }}
+  <slot />
 </span>
 
 </template>
@@ -20,13 +20,7 @@
 export default {
   name: 'some-text',
 
-  computed: {
-
-    text_content() {
-      return 'hi!';
-    },
-
-  }
+  
 
 }
 

@@ -13,7 +13,7 @@
       └⇢ Also can display custom User elements
 
 -->
-<div class="page">
+<div id="page">
   <div id="the-header-bar">
     <cli></cli>
   </div>
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import cli from '@/components/objects/inputs/cli';
+import cli from '@/components/programs/cli';
 
 export default {
   name: 'subjective-perspective',
@@ -55,8 +55,9 @@ export default {
 <style lang="scss">
 
 // @import '@/styles/globals.scss';
-.page {
+#page {
   height: 100%;
+  min-height: 100vh;
   width: 100%;
 }
 html, body {
@@ -76,6 +77,7 @@ html, body {
 
 #the-header-bar {
   height: 70px;
+  position: absolute;
 }
 
 #header-bar-logo {

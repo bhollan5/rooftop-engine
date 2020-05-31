@@ -40,37 +40,39 @@ export const getters = {
 //  this.$store.dispatch('actionName', {playloadData: data });
 export const actions = {
 
-  /*  -- Payload:
-    prototype_id: string
-    doc_id: string
+  /*
+    Called like:
+    $ run create arg1 arg2... 
+  //  The payload is an array of the arguments from the command: [arg1, arg2, ...]
   */
-  read_doc({commit, dispatch}, payload) {
+  default({commit, dispatch}, payload) {
 
-    let prototype_id = payload.prototype_id;
-    let doc_id = payload.doc_id;
+    // Splitting the input string into an array that looks like this: [command, arg1, arg2, ... ]
+    let command_args = payload.split( ' ' );
+
+    // Getting rid of the first 'command' string in the array, and moving it to a new variable. 
+    let command = command_args.shift();
+
+    // Checking if the command is known:
+    if (['create', 'load'].indexOf(command) == -1) {
+      dispatch('output', "That's not a command I know :/"); 
+      return;
+    }
+
+    console.log(" %c⍀ local/actions/run - %cRunning: %c" + command + " %c " + command_args.toString(),
+      "color: #70FFFF",
+      "color: white",
+      "color: #EAD686",
+      "color: #C3A2FF",
+    );
     
-    return axios.get("/api/read_doc", { 
-      params: {
-        prototype_id: prototype_id,
-        doc_id: doc_id
-      } 
-    })
-    .then((response) => {
-      if (response.data.length) {
-        console.log(" ⎔ ⇢ Queried your doc!");
-        console.log(response.data);
-        
-        // for (let i in response.data) {
-        //   commit('set_user', response.data[i]);
-        // }
 
-      } else {
-        console.log(" ⛔️ No users loaded.")
-      }
-      
-    }, (error) => {
-      console.warn(error);
-    });
+    // Calling the action:
+    dispatch(
+      'local/actions/' + command + '/default', 
+      command_args,
+      { root: true }
+    );
 
   },
 

@@ -1,8 +1,8 @@
 <template>
-<div class="entity-renderer">
-  <component :is=""
+<div class="object-renderer">
+  <component :is="'p'"
 
-  >
+  />
 </div>
 </template>
 

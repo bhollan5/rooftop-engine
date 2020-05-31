@@ -55,7 +55,7 @@ let ObjectID = mongodb.ObjectID;        // This tool lets us convert object id's
 /* Imports to other api files. 
    We run these imports at the bottom of this file. 
    (Maybe there's a better way to do this?) */
-const routes = require('./routes.js');
+const vocab = require('./vocab.js');
 
 
 
@@ -112,33 +112,14 @@ function (err, client) {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
 
-  // Initializing the article routes
+  // Running the imported files, which define collection routes:
   console.log("⇢ Hope these routes go well");
-  routes(app, mongoose);
-
-  // Defining our mongoose schema for a given collection:
-  /*
-  let location_schema = new mongoose.Schema({
-    name: String,
-    id: String,
-    root_element: { type: Schema.Types.ObjectId, ref: 'Element' },
-  });
-
-  let Location = mongoose.model('Location', location_schema);
-  */
+  vocab(app, mongoose);
 
 
-  // Creating a new collection:
-  /*
-  app.post('/create-collection', (req, res) => {
-    let newCollection = new Collection(req.body);
-    newCollection.save(function (err, result) {
-      if (err) return console.error(err);
-      console.log(' 💾 Saved a new collection to the database!');
-      res.send(result)
-    });
-  })*/
 
+
+  
   // // See all routes, for debugging
   // app._router.stack.forEach(function(r){
   //   if (r.route && r.route.path){

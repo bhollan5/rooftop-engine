@@ -1,8 +1,8 @@
 
 
-import box from './box.vue';
+import renderObject from './render-object.vue';
 
 
 export default {
-  box,
+  renderObject,
 };
