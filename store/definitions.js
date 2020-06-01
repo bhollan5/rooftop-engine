@@ -15,7 +15,27 @@ import * as object_dictionary from '~/modules/globals.js';
 
 // Setting up our state variables:
 export const state = () => ({
-  vocab: [],
+  
+  primitive: [
+    { base: 'primitive', category: 'object', 
+    word: 'string', structure: 'singleton' },
+    { base: 'primitive', category: 'object', 
+    word: 'number', structure: 'singleton' },
+  ],
+  system: [],
+  data: [],
+  files: [],
+
+  
+  meta: [{
+    base: 'meta',
+    category: 'vocab',
+    word: 'vocab',
+    structure: {
+      base: 'string', //
+    }
+  }],
+  
 })
 
 
@@ -28,7 +48,9 @@ export const state = () => ({
 //
 
 export const getters = {
-
+  meta(state, payload) {
+    let meta_object
+  }
 }
 
 

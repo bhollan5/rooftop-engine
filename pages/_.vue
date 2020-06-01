@@ -1,25 +1,18 @@
 <template>
 <!-- 
 
-  ☞  This is the Viewer!
+  ☞  This is the Bridge!
       |
-      ├⇢ Represents our camera, viewing whatever the route indicates.
+      ├⇢ It represents our command center
+      |     & viewport.
       |
-      ├⇢ Our perspective is made of two parts: 
-      |    1. The system we're accessing
-      |    2. Our "focus" - the element of that system we're engaging with.
-      |
-      ├⇢ Load the url:
-      |    rooftop-media.org / collection_id / doc_id / path/to/focus/el
-      |
-      ├⇢ To be "renderable", a document must reference an Element. 
-      |
-      └⇢ Pass the reference to the document's file into an Element tag, with props!
+      └⇢ The Bridge's data can be found in:
+            store/bridge.js
 
 -->
-<div id="viewer">
-  <program/>
-  <object/>
+<div id="bridge">
+  <program id="p"/>
+  {{memory}}
 </div>
 </template>
 
@@ -29,25 +22,38 @@ export default {
 
   data() {
     return {
-
-      /* An array of strings for each element in the route.
-           so '/projects/rooftop-website' will return ['projects', 'rooftop-website'] */
+      // Getting the route array: 
       route: this.$route.params.pathMatch.split('/'),
-
-      data: [],
-
-
     }
   },
   
   computed: {
-    
+    programs() {
+      return 1; //this.$store.getters['bridge/']
+    },
+    memory() {
+      return this.$store.getters['bridge/memory']
+    }
   },
 
-  // Page kernel. 
+  // Bridge kernel. 
   mounted() {
     console.log(this.route);
-    // this.$store.dispatch('focus/page/load_route', this.route);
+
+    this.call_store('bridge/write', {});
+
+
+  },
+  
+  methods: {
+    /* Calling store processes. */
+    call_store(action_path, payload) {
+      this.$store.dispatch('logic/run', {
+        path: action_path, 
+        value: payload
+      });
+    },
+
   }
 
 }

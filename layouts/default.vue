@@ -15,20 +15,18 @@
 -->
 <div id="page">
   <div id="the-header-bar">
-    <cli></cli>
+
   </div>
   <nuxt />
 </div>
 </template>
 
 <script>
-import cli from '@/components/programs/cli';
 
 export default {
   name: 'subjective-perspective',
 
   components: {
-    cli,
   },
   data() {
     return {
