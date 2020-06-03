@@ -3,7 +3,9 @@
   :style="frame_style"
 >
 
-  <input v-model="text_input">
+  <input v-model="text_input" 
+    ref="listener"
+    v-on:keyup.enter="user_input('enter')">
 
   <component v-if="0"
     v-for="component_ref in render_data"
@@ -35,8 +37,10 @@ export default {
 
       /*        WORK/USED:      */
       memory: [],         // Local data for this process
+
       render_data: [],    // references to all objects that should be rendered
-      input_listener: '', // Command run when users type. 
+
+      listeners: [],
 
       /*        Planned:      */
       text_input: 'hello world!', 
@@ -44,21 +48,23 @@ export default {
 
       
       events: [],         // Input this program might recieve
-      instructions: [],   // Actions in reponse to input
+      methods: [],        // Sets of instructions that can be called w/ arguments
       
     }
   },
 
   /* Handles launching a program */
   mounted() {
-    this.run('create command_draft _');
-    this.run('render command_draft')
-    this.run('listen "write command_draft"');
+    // this.run('create command_draft _');
+    // this.run('render command_draft');
+    // this.run('listen text_input "write command_draft"');
+    // this.run('listen enter "run @command_draft"');
   },
 
+  //
   watch: {
     text_input(new_val) {
-      this.run(this.input_listener + ' %' + new_val + '%', '%');
+      this.user_input('text_input', new_val);
     }
   },
 
@@ -81,11 +87,12 @@ export default {
 
   methods: {
     /* METHODS:
-      run(string)
-      write(key,val)
+      run(string, esc_char)
+      write(key, val)
       render(key)
+      listen(command_str)
       read(key)
-      create()
+      create(key, value)
     */
 
     /*  ⏣ Called with a string input. */
@@ -103,10 +110,23 @@ export default {
       }
       // And we can add quoted strings here.
       for (let i = 1; i < quote_separated.length; i += 2) {
-        args.push(quote_separated[i]);
+        if (quote_separated[i]) { args.push(quote_separated[i]) }
       }
       let command_id = args.shift();
+
+      // Replacing references. todo: abstract, probably.
+      for (let i in args) {
+        if (args[i][0] == '@') {
+          args[i] = this.read(args[i].substring(1));
+        }
+      }
+      
       this[command_id](args[0], args[1]);
+    },
+
+    // Starting another program. 
+    start(type, name) {
+
     },
 
     // Updating a process variable. 
@@ -123,8 +143,26 @@ export default {
       this.render_data.push(key);
     },
 
-    listen(command_string) {
+    user_input(key, value) {
+      let command = '';
+      for (let i in this.listeners) {
+        if (this.listeners[i].key == key) {
+          command = this.listeners[i].value;
+        }
+      }
+      this.run(command + ' %' + value + '%', '%');
+    },
+
+    listen(key, command_string) {
+      this.listeners.push({
+        key: key, 
+        value: command_string
+      })
       this.input_listener = command_string;
+    },
+
+    enter() {
+      this.run(this.enter_listener + ' %' + new_val + '%', '%');
     },
 
     /*             Read:             */
@@ -159,13 +197,6 @@ export default {
 
       this.memory.push(new_obj);
     },
-
-
-
-    
-
-    
-
 
   }
 
