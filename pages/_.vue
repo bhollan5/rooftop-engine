@@ -1,7 +1,7 @@
 <template>
 <!-- 
 
-  ☞  This is the Bridge!
+  ☞  This is the user's Viewport. 
       |
       ├⇢ It represents our command center
       |     & viewport.
@@ -11,8 +11,11 @@
 
 -->
 <div id="bridge">
+  <!--<input v-model="draft_command" 
+    v-on:keyup.enter="run_command(draft_command)">-->
+
   <program id="p"/>
-  {{memory}}
+
 </div>
 </template>
 
@@ -24,6 +27,8 @@ export default {
     return {
       // Getting the route array: 
       route: this.$route.params.pathMatch.split('/'),
+
+      draft_command: '',
     }
   },
   
@@ -40,19 +45,12 @@ export default {
   mounted() {
     console.log(this.route);
 
-    this.call_store('bridge/write', {});
+    // this.call_store('bridge/write', {});
 
 
   },
   
   methods: {
-    /* Calling store processes. */
-    call_store(action_path, payload) {
-      this.$store.dispatch('logic/run', {
-        path: action_path, 
-        value: payload
-      });
-    },
 
   }
 

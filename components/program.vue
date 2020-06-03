@@ -2,12 +2,21 @@
 <div class="program frame"
   :style="frame_style"
 >
-  hi
-  <component 
-    v-for="component_ref in render"
+
+  <input v-model="text_input">
+
+  <component v-if="0"
+    v-for="component_ref in render_data"
     :key="component_ref"
     :is="memory[component_ref].type"
   ></component>
+
+  {{memory}}
+  <p v-for="key in render_data">
+    {{read(key)}}
+  </p>
+  
+
 
 </div>
 </template>
@@ -23,13 +32,13 @@ export default {
   data() {
     return {
 
-      status: 1,
+      text_input: 'output "hello world!"', 
+      frame: [],          // Styles to the program's frame.
 
-      vocab: [],          // Symbols this program knows
+
       memory: [],         // Local data for this process
 
-      frame: [],          // Applies frame styles to a div via a computed function.
-      render: [],         // references to all objects that should be rendered
+      render_data: [],         // references to all objects that should be rendered
       
       events: [],         // Input this program might recieve
       instructions: [],   // Actions in reponse to input
@@ -39,23 +48,15 @@ export default {
 
   /* Handles launching a program */
   mounted() {
+    this.run('create command_draft _');
+    this.run('render command_draft')
 
-    this.call_method('create', 'frame/flex-box', {
-      data: {
-        display: 'flex',
-        border: 'solid 2px pink',
-        
-      },
-      id: 1
-    });
+  },
 
+  watch: {
+    text_input(new_val) {
 
-    // this.$store.dispatch('actions/')
-    this.call_method('create', 'object/box', {
-      id: 1,
-      display: [2],
-    });
-
+    }
   },
 
   
@@ -77,39 +78,63 @@ export default {
 
   methods: {
 
-    /* */
-    call_method(method_id, arg1, arg2, arg3, arg4) {
-      this[method_id](arg1, arg2, arg3, arg4);
+    /*  ⏣ Called with a string input. */
+    run(command_string) {
+      let command_args = command_string.split(' ');
+      let command_id = command_args.shift();
+      this[command_id](command_args[0], command_args[1]);
     },
 
-    /* Calling store processes. */
-    call_process() {
+    set(key, value) {
 
     },
+
+    // Updating or adding a process variable. 
+    write(key, value) {
+      let was_updated = false;
+      this.memory.forEach((item) => {
+        if (item.id == key) {
+          item.value = value;
+          was_updated = true;
+        }
+      });
+      return was_updated;
+    },
+
+
+    /* render: */
+    render(key) {
+      this.render_data.push(key);
+    },
+
+    /*             Read:             */
+    read(key, callback) {
+      
+      for (let i in this.memory) {
+        if (this.memory[i].key == key) {
+          return this.memory[i].value;
+        }
+      }
+      return false;
+    },
+
 
     /*             Create:                */
     /*   > Adds to local program data <   */
     /*                                    */
-    create(object_path, value) {
-
-      // Interpreting the route:
-      let segmented_path = object_path.split('/');
-      let base = segmented_path.shift();
-      let type = segmented_path.shift();
-      let id = segmented_path.shift();
+    create(key, value) {
+      console.log(value);
 
       //  Simple validation 
-      let id_taken = this.query({id: id}).length > 1;
-      if (id_taken) {
-        console.warn("Id " + id + " taken!")
+      let key_taken = this.read(key);
+      if (key_taken) {
+        console.warn("Key " + key + " taken!")
       }
 
       //  Creating the data obj 
       let new_obj = {
-        base: base,
-        type: type,
+        key: key,
         value: value,
-        id: id || this.memory.length + 1,
       };
 
       this.memory.push(new_obj);
@@ -124,14 +149,7 @@ export default {
     },
     
 
-    /*             Query:             */
-    /*       In: A query object,      */
-    /*    Result: Output all matches. */
-    query(query_obj, callback) {
-      return this.memory.filter( (item) => {
-        return (item.id == query_obj.id);
-      });
-    },
+    
 
     
 

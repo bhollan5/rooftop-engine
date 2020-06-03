@@ -1,22 +1,14 @@
 <template>
 <!-- 
 
-  ☞  This is the Default Layout!
+  ☞  This file is the frame for pages/_.vue. 
       |
       ├⇢ Represents the user's POV & controls. 
-      |    The "subjective" POV. 
       |
-      ├⇢ Displaying Rooftop Essentials:
-      |   ├⇢ RT logo
-      |   └⇢ Command line
-      |
-      └⇢ Also can display custom User elements
+      └⇢ Loaded from store/cpu.
 
 -->
 <div id="page">
-  <div id="the-header-bar">
-
-  </div>
   <nuxt />
 </div>
 </template>
@@ -24,7 +16,7 @@
 <script>
 
 export default {
-  name: 'subjective-perspective',
+  name: 'yr-perspective',
 
   components: {
   },

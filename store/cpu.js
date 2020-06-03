@@ -1,21 +1,19 @@
 /*
 
-          ⇢ The Bridge ⇢
-  This is like the mother program. 
-  It boots when the website loads,
-  stores session data, and manages
-         component data.
+                ❖  The CPU  ❖
+    This is like the frontend's command center. 
+    It runs all commands that interact with the
+      currently displayed or manipulated data. 
 
-  */
+                                                  */
 
 
 
 /*    The bridge's state:     */
 export const state = () => ({
-  memory: [],
-  programs: [],
-  instructions: [],
-  vocab: [],
+  memory: [],       // Loaded files
+  programs: [],     // Program objects
+  instructions: [], // Strings, waiting to be executed. 
 })
 
 
@@ -41,6 +39,18 @@ export const getters = {
 /*    */
 export const actions = {
 
+  /* Runs a command based on a string 
+       in the format of:  "action_id arg1 arg2 ..." */
+  run({commit}, payload) {
+
+    let command_string = payload;
+    let command_args = command_string.split(' ');
+    let command_id = command_args.shift();
+
+
+
+  },
+
   // Input: A new data entity with an id
   write({commit}, payload) {
     commit('write_to_memory', payload);
@@ -51,19 +61,21 @@ export const actions = {
 
   },
 
-  // Input: An existing program id
-  run({commit}, payload) {
-    
-  }
+  
 
 }
 
 /*    */
 export const mutations = {
 
-  // Input: 
   write_to_memory(state, payload) {
+    /* Update an object in memory by id.
+              Payload: {
+                id: string
+                update: obj
+              }                                 */
 
+    // Seeing if the id exists already.
     let found = false;
     state.memory.forEach((item, index, memory) => {
       if (item.id == payload.id) {
@@ -72,9 +84,10 @@ export const mutations = {
       }
     })
 
+    // If the id doesn't exist, 
     if (!found) {
       state.memory.push(payload);
     }
-
   },
+
 }

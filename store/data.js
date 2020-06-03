@@ -56,7 +56,9 @@ export const getters = {
 //  this.$store.dispatch('actionName', {playloadData: data });
 export const actions = {
 
-  /*          */
+  /*     Creates a new obj instance.     
+  
+  */
   new({commit, dispatch}, payload) {
 
     let prototype_id = payload.prototype_id;

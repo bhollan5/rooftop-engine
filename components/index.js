@@ -2,9 +2,11 @@
 
 // Importing all globals:
 import program from './program.vue';
+import cli from './cli.vue';
 
 export default {
 
   program,
-
+  cli,
+  
 };
