@@ -39,7 +39,7 @@ export default {
       input_listener: '', // Command run when users type. 
 
       /*        Planned:      */
-      text_input: 'output "hello world!"', 
+      text_input: 'hello world!', 
       frame: [],          // Styles to the program's frame.
 
       
@@ -53,12 +53,12 @@ export default {
   mounted() {
     this.run('create command_draft _');
     this.run('render command_draft')
-
+    this.run('listen "write command_draft"');
   },
 
   watch: {
     text_input(new_val) {
-      this.run('write command_draft ' + new_val);
+      this.run(this.input_listener + ' %' + new_val + '%', '%');
     }
   },
 
@@ -89,16 +89,19 @@ export default {
     */
 
     /*  ⏣ Called with a string input. */
-    run(command_string) {
+    run(command_string, esc_char) {
       // Breaking up the command by what's in quotes, to capture strings
-      let quote_separated = command_string.split('"');
+      let quote_separated = command_string.split(esc_char || '"');
       let args = [];
 
       // This should give us non-quoted strings, i think
       for (let i = 0; i < quote_separated.length; i += 2) {
         let space_separated = quote_separated[i].split(' ');
-        args = args.concat(space_separated);
+        for (let i in space_separated) {
+          if (space_separated[i]) { args.push(space_separated[i]) }
+        }
       }
+      // And we can add quoted strings here.
       for (let i = 1; i < quote_separated.length; i += 2) {
         args.push(quote_separated[i]);
       }
@@ -118,6 +121,10 @@ export default {
     /* render: */
     render(key) {
       this.render_data.push(key);
+    },
+
+    listen(command_string) {
+      this.input_listener = command_string;
     },
 
     /*             Read:             */
