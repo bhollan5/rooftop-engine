@@ -32,13 +32,16 @@ export default {
   data() {
     return {
 
+
+      /*        WORK/USED:      */
+      memory: [],         // Local data for this process
+      render_data: [],    // references to all objects that should be rendered
+      input_listener: '', // Command run when users type. 
+
+      /*        Planned:      */
       text_input: 'output "hello world!"', 
       frame: [],          // Styles to the program's frame.
 
-
-      memory: [],         // Local data for this process
-
-      render_data: [],         // references to all objects that should be rendered
       
       events: [],         // Input this program might recieve
       instructions: [],   // Actions in reponse to input
@@ -55,7 +58,7 @@ export default {
 
   watch: {
     text_input(new_val) {
-
+      this.run('write command_draft ' + new_val);
     }
   },
 
@@ -77,30 +80,40 @@ export default {
   },
 
   methods: {
+    /* METHODS:
+      run(string)
+      write(key,val)
+      render(key)
+      read(key)
+      create()
+    */
 
     /*  ⏣ Called with a string input. */
     run(command_string) {
-      let command_args = command_string.split(' ');
-      let command_id = command_args.shift();
-      this[command_id](command_args[0], command_args[1]);
+      // Breaking up the command by what's in quotes, to capture strings
+      let quote_separated = command_string.split('"');
+      let args = [];
+
+      // This should give us non-quoted strings, i think
+      for (let i = 0; i < quote_separated.length; i += 2) {
+        let space_separated = quote_separated[i].split(' ');
+        args = args.concat(space_separated);
+      }
+      for (let i = 1; i < quote_separated.length; i += 2) {
+        args.push(quote_separated[i]);
+      }
+      let command_id = args.shift();
+      this[command_id](args[0], args[1]);
     },
 
-    set(key, value) {
-
-    },
-
-    // Updating or adding a process variable. 
+    // Updating a process variable. 
     write(key, value) {
-      let was_updated = false;
       this.memory.forEach((item) => {
-        if (item.id == key) {
+        if (item.key == key) {
           item.value = value;
-          was_updated = true;
         }
       });
-      return was_updated;
     },
-
 
     /* render: */
     render(key) {
@@ -141,13 +154,6 @@ export default {
     },
 
 
-    /*             Update:                */
-    /*   > Adds to local program data <   */
-    /*                                    */
-    update(id, field, value) {
-      
-    },
-    
 
     
 
