@@ -1,25 +1,31 @@
 /*
 
-                ❖  Programs  ❖
+                  ⎈  CPU  ⎈
     
-          Contains running programs, 
-                program data, & 
-             program instructions.
+          Runs internal instructions - 
+       program events, file manipulation, 
+              page display, etc. 
 
-                                            */
+                                                */
 
 
 
-/*    The bridge's state:     */
+/*    The CPU state:     */
 export const state = () => ({
 
+  /* Indicates what program_id/instance_id to display */
+  viewport: 'world/dustzone',
+  // frame tools: could indicate a different process
 
 })
 
 
 /*    */
 export const getters = {
-
+  // Gets the route of the current viewport.
+  viewport_route(state) {
+    return state.viewport;
+  },
 }
 
 

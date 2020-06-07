@@ -1,24 +1,97 @@
 /*
 
-                ❖  Programs  ❖
+                 ❖  Files  ❖
     
-          Contains running programs, 
-                program data, & 
-             program instructions.
+          Local file storage, retrieval,
+                & organization.
 
                                             */
 
 
 
-/*    The bridge's state:     */
+/*    The files's state:     */
 export const state = () => ({
 
+  /*  Objects represent renderable components.  */
+  objects: [
+    { 
+      id: 'box', name: 'Box',
+
+      base: 'object', 
+      is_abstract: true,  // Indicates that this file should be copied when rendered or changed.
+
+      subordinates: [],
+  
+      style: [ 'box-size', 'material' ],
+    },
+  ],
+
+  /*  This is a list of CSS objects.  */
+  style: [
+    {
+      id: 'box-size', name: 'Box Size',
+      data: {
+        width: '55px',
+        height: '55px',
+      }
+    },
+    {
+      id: 'material', name: 'Material',
+      data: {
+        background: 'pink',
+      }
+    }
+  ],
+
+  /*  A list of program launch/config files  */
+  programs: [
+    // Default program. Hardcoded to illustrate program structure. 
+    { 
+      program_id: 'world', program_name: 'World',
+      instance_id: 'dustzone', instance_name: 'The Dustzone',
+  
+      status: 1,   // 0 = dead, 1 = idle, 2 = running, 3 = paused,
+      instructions: [],
+  
+      objects: [ 'box' ],
+      data: [ 'box-size', 'material' ],
+  
+      display: [ 'box' ]
+    },
+  ],
+
+  /*  */
+  processes: [
+    {
+      id: 'start', 
+    }
+  ]
 
 })
 
 
 /*    */
 export const getters = {
+
+  // The only query getter we need!! (Returns an array)
+  //   collection: 'objects' | 'styles' | 'programs' | 'processes'
+  query: (state) => (collection_name, query_obj) => {
+    let results = [];
+
+    // Iterate through every element in that collection
+    for (let index in state[collection_name]) {
+      let data_to_check = state[collection_name][index];
+
+      // Iterate through each field in our query_obj
+      for (let field in query_obj) {
+        if (data_to_check[field] && data_to_check[field] == query_obj[field]) {
+          results.push(data_to_check)
+        }
+      }
+      
+    }
+    return results;
+  },
 
 }
 

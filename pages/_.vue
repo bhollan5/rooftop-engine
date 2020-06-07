@@ -12,7 +12,10 @@
 -->
 <div id="bridge">
 
-  <program id="p"/>
+  <program 
+    :program="viewport.program_id"
+    :instance="viewport.instance_id"
+  />
 
 </div>
 </template>
@@ -27,6 +30,18 @@ export default {
       route: this.$route.params.pathMatch.split('/'),
 
     }
+  },
+
+  //
+  computed: {
+    viewport() {
+      let viewport_route = this.$store.getters['cpu/viewport_route'];
+      let path = viewport_route.split('/');
+      return {
+        program_id: path[0],
+        instance_id: path[1]
+      }
+    },
   },
 
   mounted() {
