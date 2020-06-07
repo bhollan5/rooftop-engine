@@ -11,43 +11,47 @@
 
 /*    The bridge's state:     */
 export const state = () => ({
-  memory: [],       // Loaded files
-  programs: [],     // Program objects
-  instructions: [], // Strings, waiting to be executed. 
+  
 })
 
 
 /*    */
 export const getters = {
-  programs(state) {
 
-  },
-
-  memory(state) {
-    return state.memory;
-  },
-
-  // 
-  memory_query: (state) => (query_obj) => {
-    return state.memory.filter( (item) => {
-      return (item.id == query_obj.id);
-    });
-  },
 }
 
 
 /*    */
 export const actions = {
 
-  /* Runs a command based on a string 
-       in the format of:  "action_id arg1 arg2 ..." */
+  /* Runs a command based on a string */
   run({commit}, payload) {
 
-    let command_string = payload;
-    let command_args = command_string.split(' ');
-    let command_id = command_args.shift();
+    // Breaking up the command by what's in quotes, to capture strings
+    let quote_separated = payload.split(esc_char || '"');
+    let args = [];
 
+    // This loops thru non-quoted strings, i think
+    for (let i = 0; i < quote_separated.length; i += 2) {
+      let space_separated = quote_separated[i].split(' ');
+      for (let i in space_separated) {
+        if (space_separated[i]) { args.push(space_separated[i]) }
+      }
+    }
+    // And we can add quoted strings here.
+    for (let i = 1; i < quote_separated.length; i += 2) {
+      if (quote_separated[i]) { args.push(quote_separated[i]) }
+    }
+    let command_id = args.shift();
 
+    /*  // Replacing references. todo: abstract, probably.
+    for (let i in args) {
+      if (args[i][0] == '@') {
+        args[i] = this.read(args[i].substring(1));
+      }
+    }*/
+    
+    this[command_id](args[0], args[1]);
 
   },
 

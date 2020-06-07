@@ -11,8 +11,6 @@
 
 -->
 <div id="bridge">
-  <!--<input v-model="draft_command" 
-    v-on:keyup.enter="run_command(draft_command)">-->
 
   <program id="p"/>
 
@@ -28,26 +26,13 @@ export default {
       // Getting the route array: 
       route: this.$route.params.pathMatch.split('/'),
 
-      draft_command: '',
-    }
-  },
-  
-  computed: {
-    programs() {
-      return 1; //this.$store.getters['bridge/']
-    },
-    memory() {
-      return this.$store.getters['bridge/memory']
     }
   },
 
-  // Bridge kernel. 
   mounted() {
-    console.log(this.route);
 
-    // this.call_store('bridge/write', {});
-
-
+    // this.$store.dispatch('bridge/write', {});
+    
   },
   
   methods: {

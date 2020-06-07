@@ -11,16 +11,18 @@
 
 /*    The bridge's state:     */
 export const state = () => ({
-  memory: [],       // Loaded files
+  memory: [],       // Local files
   programs: [],     // Program objects
   instructions: [], // Strings, waiting to be executed. 
+
+  timer: 0,
 })
 
 
 /*    */
 export const getters = {
   programs(state) {
-
+    
   },
 
   memory(state) {
@@ -47,8 +49,21 @@ export const actions = {
     let command_args = command_string.split(' ');
     let command_id = command_args.shift();
 
+  },
 
+  // Payload: {
+  // $d = $s + $t 
+  // }
+  add({commit}, payload) {
+    
+  },
 
+  /* start cli mycli */
+  start({commit}, payload) {
+    commit('start_process', {
+      type: payload[0],
+      name: payload[1],
+    });
   },
 
   // Input: A new data entity with an id
@@ -89,5 +104,14 @@ export const mutations = {
       state.memory.push(payload);
     }
   },
+
+  write_to_process(state, payload) {
+
+    if (item.id == payload.id) {
+      memory[index] = payload;
+      found = true;
+    }
+  }
+  
 
 }
