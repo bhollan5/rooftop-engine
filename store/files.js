@@ -1,7 +1,6 @@
 /*
 
                  ❖  Files  ❖
-    
           Local file storage, retrieval,
                 & organization.
 
@@ -12,60 +11,53 @@
 /*    The files's state:     */
 export const state = () => ({
 
-  /*  Objects represent renderable components.  */
-  objects: [
+  files: [
+    // kernel files:
     { 
+      filetype: 'program', 
+      is: [], 
+      id: 'bridge', name: 'The Bridge',
+      is_abstract: false, 
+
+      input: [  ],    // Event listeners 
+      process: [  ],  // CPU actions
+      state: [  ],    // Program memory
+      output: [  ],   // display
+    },
+
+    // Some sample files, to get us started!
+    { 
+      filetype: 'element',
       id: 'box', name: 'Box',
+      is_abstract: true,
 
-      base: 'object', 
-      is_abstract: true,  // Indicates that this file should be copied when rendered or changed.
-
-      subordinates: [],
-  
-      style: [ 'box-size', 'material' ],
+      input: [ 'style', 'tag' ],              // Prop definition
+      process: [  ],                          // 
+      state: [ 'box-style.style', 'div' ],    // 
+      output: [  ],                           // 
     },
-  ],
-
-  /*  This is a list of CSS objects.  */
-  style: [
-    {
-      id: 'box-size', name: 'Box Size',
-      data: {
-        width: '55px',
-        height: '55px',
-      }
-    },
-    {
-      id: 'material', name: 'Material',
-      data: {
-        background: 'pink',
-      }
-    }
-  ],
-
-  /*  A list of program launch/config files  */
-  programs: [
-    // Default program. Hardcoded to illustrate program structure. 
     { 
-      program_id: 'world', program_name: 'World',
-      instance_id: 'dustzone', instance_name: 'The Dustzone',
-  
-      status: 1,   // 0 = dead, 1 = idle, 2 = running, 3 = paused,
-      instructions: [],
-  
-      objects: [ 'box' ],
-      data: [ 'box-size', 'material' ],
-  
-      display: [ 'box' ]
-    },
-  ],
+      filetype: 'style',
+      id: 'box-style', name: 'Box Style',
+      is_abstract: true,
 
-  /*  */
-  processes: [
-    {
-      id: 'start', 
-    }
-  ]
+      data: [ 'height', 'width', 'background' ],
+      contents: [ 'height:55px', 'width:55px', 'background:yellow' ],
+      input: [],
+      output: [],
+    },
+    { 
+      filetype: 'program',
+      id: 'dustzone', name: 'The Dustzone',
+      is_abstract: true,
+
+      data: [ 'box.object', 'box-style.style', 'material.style' ],
+      contents: [ 'box.object' ],
+      input: [],
+      output: [],
+    },
+    
+  ],
 
 })
 
@@ -74,23 +66,31 @@ export const state = () => ({
 export const getters = {
 
   // The only query getter we need!! (Returns an array)
-  //   collection: 'objects' | 'styles' | 'programs' | 'processes'
-  query: (state) => (collection_name, query_obj) => {
+  query: (state) => (query_obj) => {
     let results = [];
 
     // Iterate through every element in that collection
-    for (let index in state[collection_name]) {
-      let data_to_check = state[collection_name][index];
+    for (let i in state.files) {
+      let _file = state.files[i];
 
       // Iterate through each field in our query_obj
       for (let field in query_obj) {
-        if (data_to_check[field] && data_to_check[field] == query_obj[field]) {
-          results.push(data_to_check)
+        if (_file[field] && _file[field] == query_obj[field]) {
+          results.push(_file)
         }
       }
-      
     }
     return results;
+  },
+
+  // Pass any filename, and we'll parse it n give you that file. 
+  by_name: (state, getters) => (filename) => {
+    let _parts = filename.split('.');
+    let id = _parts.shift();
+    let filetype = _parts.shift();
+    return getters['query']({
+      filetye: filetype, id: id
+    })
   },
 
 }

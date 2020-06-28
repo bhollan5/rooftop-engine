@@ -1,9 +1,10 @@
 <template>
 <component class="object"
-  is="inline-text"
-
+  is="div"
 />
-</div>
+
+
+</component>
 </template>
 
 <script>

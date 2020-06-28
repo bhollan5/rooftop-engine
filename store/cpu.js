@@ -13,8 +13,8 @@
 /*    The CPU state:     */
 export const state = () => ({
 
-  /* Indicates what program_id/instance_id to display */
-  viewport: 'world/dustzone',
+  /* Indicates what program to display (via program id) */
+  viewport: 'dustzone',
   // frame tools: could indicate a different process
 
 })
@@ -23,7 +23,7 @@ export const state = () => ({
 /*    */
 export const getters = {
   // Gets the route of the current viewport.
-  viewport_route(state) {
+  viewport(state) {
     return state.viewport;
   },
 }

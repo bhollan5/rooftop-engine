@@ -49,7 +49,9 @@ export default {
   height: 100%;
   min-height: 100vh;
   width: 100%;
-  background: #011223;
+  // background: #011223;
+  background: url("../assets/images/desert.png");
+  background-size: cover;
   color: white;
 }
 html, body {

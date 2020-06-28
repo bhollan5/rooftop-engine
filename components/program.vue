@@ -1,6 +1,6 @@
 <template>
 <div class="program frame">
-  {{program_data}}
+  <div class=""></div>
 </div>
 </template>
 
@@ -10,24 +10,13 @@ export default {
   name: 'program', 
 
   props: {
-    // We use these in computed func's to get real objects.
-    program: String,      // Program id
-    instance: String      // Instance id
+    program: String,
   },
 
   computed: {
-
-    // Getting our progam's data
     program_data() {
-      let _results = this.$store.getters['files/query']('programs', {
-        program_id: this.program,
-        instance_id: this.instance,
-      });
-      if (_results.lengh > 1) { console.warn(_results.lengh + " programs found in program.vue.")};
-      if (_results.lengh < 1) { console.warn("No program found in program.vue.")};
-      return _results[0];
-    },
-
+      return this.$store.getters['files/by_name'](this.program);
+    }
   },
 
 }

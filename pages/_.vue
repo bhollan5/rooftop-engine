@@ -1,28 +1,22 @@
 <template>
 <!-- 
 
-  ☞  This is the user's Viewport. 
+  ☞  This is the Kernel. It loads the page & launches programs.
       |
-      ├⇢ It represents our command center
-      |     & viewport.
-      |
-      └⇢ The Bridge's data can be found in:
-            store/bridge.js
+      ├⇢ This launches the Bridge program.
+      └⇢ The kernel also handles routing.
 
 -->
-<div id="bridge">
-
-  <program 
-    :program="viewport.program_id"
-    :instance="viewport.instance_id"
-  />
+<div id="kernel">
+  
+  
 
 </div>
 </template>
 
 <script>
 export default {
-  name: 'bridge', // like from star trek
+  name: 'kernel', 
 
   data() {
     return {
@@ -35,12 +29,7 @@ export default {
   //
   computed: {
     viewport() {
-      let viewport_route = this.$store.getters['cpu/viewport_route'];
-      let path = viewport_route.split('/');
-      return {
-        program_id: path[0],
-        instance_id: path[1]
-      }
+      return this.$store.getters['cpu/viewport'];
     },
   },
 
@@ -61,5 +50,11 @@ export default {
 #viewer {
   height: 100%;
   width: 100%;
+}
+
+#kernel-header {
+  width: 100%;
+  height: 50px;
+  background: rgba(0,0,0,.5);
 }
 </style>
