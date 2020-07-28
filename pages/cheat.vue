@@ -8,11 +8,10 @@
 
 -->
 <div id="kernel">
-  <el-renderer
-    v-for="(el, index) in display"
-    :key="index"
-    :el="el"
-  />
+  <el-renderer/>
+  <div class="box">
+    $
+  </div>
   
 </div>
 </template>
@@ -26,8 +25,9 @@ export default {
     return {
       /* Getting the route array: */
       // sroute: this.$route.params.pathMatch.split('/'),
+      command: 'hi',
 
-      entities: [
+      data: [
         "key:"
       ]
 
@@ -36,8 +36,8 @@ export default {
 
   //
   computed: {
-    display() {
-      return this.$store.getters['programs/display'];
+    viewport() {
+      return this.$store.getters['cpu/viewport'];
     },
   },
 
@@ -48,7 +48,9 @@ export default {
   },
   
   methods: {
-
+    parse_command() {
+      console.log('REady to parse ' + this.command);
+    }
   }
 
 }
@@ -64,5 +66,16 @@ export default {
   width: 100%;
   height: 50px;
   background: rgba(0,0,0,.5);
+}
+
+.box {
+  width: 200px;
+  // height: 150px;
+  background: rgba(0,0,0,.4);
+  input {
+    background: none;
+    color: white;
+    border: none;
+  }
 }
 </style>

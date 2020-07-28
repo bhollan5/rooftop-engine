@@ -10,61 +10,124 @@
 
 
 
-/*    The bridge's state:     */
+/*    The state stores lists of data    */
 export const state = () => ({
+  input: [
+    
+  ],
 
+  dictionary: [
+    ["keydown[_s_]", "$input = $input + _s_"],
+  ],
+  storage: [
+    
+  ],
+
+  display: [
+    ""
+  ],
 
 })
 
 
 /*    */
 export const getters = {
+  input(state) {
+    return state.input;
+  },
+  dictionary(state) {
+    return state.dictionary;
+  },
+  storage(state) {
+    return state.storage;
+  },
+  output(state) {
+    return state.output;
+  },
+  
+  interpret: (state) => (input_text) => {
+    // Storing arguments:
+    let args = [''];
 
+    // Iterating thru the characters.
+    for (let i = 0; i < input_text.length; i++) {
+      let _char = input_text[i];
+      
+      // if _char is NOT our character:
+      if (_char != '_') {
+        args[args.length - 1] += _char;
+
+      // if _char IS a special character:
+      } else {
+        if (args[args.length - 1] == '') {
+          args[args.length - 1] = _char;
+        } else {
+          args.push(_char);
+        }
+        args.push('');
+      }
+    }
+    return args;
+  },
+
+  // display(state) {
+  //   return 0;
+  //   return state.memory.filter(el => {
+  //     return (el[0] == '<' && el[1] != '$')
+  //   })
+  // }
 }
 
 
 /*    */
 export const actions = {
 
-  /* Runs a command based on a string */
-  run({commit}, payload) {
+  //
+  input({commit, getters}, payload) {
+    let command = payload;
 
-    // Breaking up the command by what's in quotes, to capture strings
-    let quote_separated = payload.split(esc_char || '"');
-    let args = [];
+    let interpretation = getters['interpret'](command);
 
-    // This loops thru non-quoted strings, i think
-    for (let i = 0; i < quote_separated.length; i += 2) {
-      let space_separated = quote_separated[i].split(' ');
-      for (let i in space_separated) {
-        if (space_separated[i]) { args.push(space_separated[i]) }
-      }
-    }
-    // And we can add quoted strings here.
-    for (let i = 1; i < quote_separated.length; i += 2) {
-      if (quote_separated[i]) { args.push(quote_separated[i]) }
-    }
-    let command_id = args.shift();
-
-    /*  // Replacing references. todo: abstract, probably.
-    for (let i in args) {
-      if (args[i][0] == '@') {
-        args[i] = this.read(args[i].substring(1));
-      }
-    }*/
-    
-    this[command_id](args[0], args[1]);
-
+    commit('input', 'i: ' + command);
+    commit('input', 'o: ' + interpretation);
   },
 
-  // Input: A new data entity with an id
-  write({commit}, payload) {
-    commit('write_to_memory', payload);
-  },
 
-  // Input: A path to an entity in memory
-  read({commit}, payload) {
 
+  /* Parse a line */
+  run_line({commit, getters, dispatch}, payload) {
+    return;
+    // Getting the line & production rules. 
+    let line = getters['line'](payload);
+    let production_symbols = ['$', '>', '<', ':'];
+    if (!line) {
+      return;
+    }
+
+    // We're parsing this for arguments, which we'll store here.
+    let args = [''];
+
+    // Iterating thru the characters.
+    for (let i = 0; i < line.length; i++) {
+      let _char = line[i];
+      
+      // if _char is NOT a special character:
+      if (production_symbols.indexOf(_char) == -1) {
+        args[args.length - 1] += _char;
+
+      // if _char IS a special character:
+      } else {
+        if (args[args.length - 1] == '') {
+          args[args.length - 1] = _char;
+        } else {
+          args.push(_char);
+        }
+        args.push('');
+      }
+    }
+    // Adding to memory
+    commit('add_to_memory', args);
+    // Run the next line
   },
 
   
@@ -74,12 +137,22 @@ export const actions = {
 /*    */
 export const mutations = {
 
+  add_to_memory(state, payload) {
+    state.memory.push(payload);
+  },
+
+  input(state, payload) {
+    state.input.push(payload);
+  },
+
+
+
+
+
+
+
+
   write_to_memory(state, payload) {
-    /* Update an object in memory by id.
-              Payload: {
-                id: string
-                update: obj
-              }                                 */
 
     // Seeing if the id exists already.
     let found = false;
